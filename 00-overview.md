@@ -420,6 +420,22 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
   控制论          Wiener'48 ─ Kalman'60 ─ 最优控制 ─ RL/智能体
   复杂性科学      Anderson'72 ─ Santa Fe'84 ─ Scaling Law ─ 涌现系统
   AI硬件并行      晶体管'47 ─ GPU/CUDA ─ TPU ─ 大模型训练基础设施
+
+认知、生物与语言
+  神经科学        Hubel/Wiesel'62 ─ Hebb ─ 神经网络 ─ 脑启发架构
+  认知科学        Marr'82 ─ 连接主义 ─ 计算认知 ─ 多模态理解
+  心理学          Wundt ─ Behaviorism ─ 认知革命 ─ 心智模型/对齐
+  语言学          Saussure ─ Chomsky'57 ─ 分布假设 ─ NLP/大语言模型
+  进化生物学      Darwin ─ 适应度 ─ 进化算法 ─ 生成模型/探索
+
+决策、交互与社会机制
+  运筹学          Dantzig'47 ─ Bellman ─ 最优化 ─ 强化学习/规划
+  博弈论          von Neumann'44 ─ Nash'50 ─ 机制设计 ─ 多智能体/激励
+  经济学          Smith ─ 边际革命 ─ 市场设计 ─ 对齐/治理
+
+物理与哲学基础
+  统计物理        Boltzmann ─ Gibbs ─ 相变/熵 ─ 能量模型/扩散模型
+  哲学            Aristotle ─ Descartes ─ 认识论 ─ 心灵哲学/对齐问题
 ```
 
 ---
