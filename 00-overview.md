@@ -1,9 +1,9 @@
-# 从基础学科到通用人工智能：25 学科全景综述
+# 从基础学科到通用人工智能：29 学科全景综述
 
-版本：v2.1  
-日期：2026-04-08
+版本：v3.0  
+日期：2026-04-21
 
-> **摘要**：本文按 25 个基础学科重新组织人工智能的发展脉络，解释为什么现代 AI 不是单一技术路线的自然结果，而是数学、工程、认知、生物、社会科学、物理学与哲学长期汇流的产物。本文不替代专题文档，而是在全景层回答三个问题：这些学科分别解决什么问题，它们如何在历史上汇聚成现代 AI，以及它们为何在大模型与智能体时代重新变得重要。
+> **摘要**：本文按 29 个基础学科重新组织人工智能的发展脉络，解释为什么现代 AI 不是单一技术路线的自然结果，而是数学、工程、认知、生物、社会科学、物理学、哲学与伦理治理长期汇流的产物。本文不替代专题文档，而是在全景层回答三个问题：这些学科分别解决什么问题，它们如何在历史上汇聚成现代 AI，以及它们为何在大模型与智能体时代重新变得重要。
 
 > 本文是中文文档主线中的全景综述正文。专题导航请见 [文档导航](../README.md)、[专题索引](../topic-index.md) 与 [知识地图](./00-index.md)。
 
@@ -19,10 +19,11 @@
 6. [认知、生物与语言](#6-认知生物与语言)
 7. [决策、交互与社会机制](#7-决策交互与社会机制)
 8. [物理与哲学基础](#8-物理与哲学基础)
-9. [对 AI 的核心贡献](#9-对-ai-的核心贡献)
-10. [汇聚：从三次浪潮到大模型时代](#10-汇聚从三次浪潮到大模型时代)
-11. [前沿与开放问题](#11-前沿与开放问题)
-12. [推荐阅读与参考文献](#12-推荐阅读与参考文献)
+9. [社会科学与人文学科](#9-社会科学与人文学科)
+10. [对 AI 的核心贡献](#10-对-ai-的核心贡献)
+11. [汇聚：从三次浪潮到大模型时代](#11-汇聚从三次浪潮到大模型时代)
+12. [前沿与开放问题](#12-前沿与开放问题)
+13. [推荐阅读与参考文献](#13-推荐阅读与参考文献)
 
 ---
 
@@ -38,7 +39,7 @@
 
 因此，更准确的说法是：**AI 是一门汇聚型学科。**
 
-本文按 25 学科结构展开。它的目标不是代替各专题页，而是给出一张全景地图，让读者理解：
+本文按 29 学科结构展开。它的目标不是代替各专题页，而是给出一张全景地图，让读者理解：
 
 - 哪些基础学科构成了 AI 的底层语言；
 - 哪些学科负责把理论变成工程系统；
@@ -48,7 +49,7 @@
 
 ## 2. 历史脉络
 
-全文按“五组二十五学科”展开：
+全文按”六组29学科”展开：
 
 | 分组 | 学科编号 | 核心问题 |
 |---|---|---|
@@ -57,24 +58,77 @@
 | 认知、生物与语言 | 16-20 | 自然智能如何形成，以及它给 AI 提供了哪些启发与约束 |
 | 决策、交互与社会机制 | 21-23 | 多主体如何决策、互动、分配资源并形成激励结构 |
 | 物理与哲学基础 | 24-25 | 学习系统的能量、复杂性与认识边界如何被理解 |
+| 社会科学与人文学科 | 26-29 | AI如何嵌入社会结构、制度与文化，以及如何治理其影响 |
 
-如果把这条汇流线再压成几个年份锚点，可以看到更清楚的历史骨架：17 世纪的 Pascal 与 Fermat 奠定概率问题；19 世纪的 Boole、Riemann、Weierstrass 把逻辑、几何与逼近论推向现代形式；20 世纪中叶的 Turing（1936）、von Neumann（1945）、Shannon（1948）与 Wiener（1948）定义了可计算性、存储程序、信息与反馈；1986 年反向传播带来连接主义复兴；2012 年 AlexNet、2017 年 Transformer、2022 年 ChatGPT 则把这些长期积累推入大模型时代。
+这六组并不是静态分类，而是一条历史汇流线。AI 的每一次大跃迁，几乎都伴随着这六组中的多个方向同时成熟。
 
-这五组并不是静态分类，而是一条历史汇流线。AI 的每一次大跃迁，几乎都伴随着这五组中的多个方向同时成熟。
+### 2.1 关键年份锚点：从数学奠基到大模型
+
+这条汇流线可以压缩为一系列年份锚点：
+
+| 年份 | 事件 | 学科归属 | 对 AI 的影响 |
+|------|------|----------|--------------|
+| 1654 | Pascal-Fermat 通信解决赌注问题 | 概率论 | 概率计算的起点 |
+| 1763 | Bayes 论文（死后发表） | 概率论 | 贝叶斯推断基础 |
+| 1812 | Laplace《概率分析理论》 | 概率论 | 概率论系统化 |
+| 1854 | Boole《思维规律研究》 | 逻辑学 | 符号逻辑基础 |
+| 1858 | Riemann 演讲：几何基础 | 拓扑几何 | 流形概念 |
+| 1885 | Weierstrass 逼近定理 | 逼近论 | 函数表达能力理论 |
+| 1922 | Fisher《研究人员用的统计方法》 | 统计学 | 现代统计学框架 |
+| 1933 | Kolmogorov《概率论基础》 | 概率论 | 概率公理化 |
+| 1936 | Turing《可计算数》 | 计算机科学 | 可计算性理论 |
+| 1936 | Church λ演算 | 计算机科学 | 函数式计算基础 |
+| 1943 | McCulloch-Pitts 神经元模型 | 神经科学/逻辑学 | 神经网络理论起点 |
+| 1944 | von Neumann-Morgenstern《博弈论》 | 博弈论 | 现代博弈论奠基 |
+| 1945 | von Neumann EDVAC 报告 | 计算机科学 | 存储程序架构 |
+| 1948 | Shannon《通信数学理论》 | 信息论 | 信息论奠基 |
+| 1948 | Wiener《控制论》 | 控制论 | 反馈系统理论 |
+| 1949 | Hebb《行为组织》 | 神经科学 | Hebb 学习规则 |
+| 1950 | Turing《计算机器与智能》 | 哲学 | 图灵测试 |
+| 1956 | 达特茅斯会议 | 计算机科学 | AI 作为独立学科 |
+| 1957 | Chomsky《句法结构》 | 语言学 | 形式语法理论 |
+| 1959 | Minsky《AI进展报告》 | 计算机科学 | AI 早期乐观 |
+| 1962 | Hubel-Wiesel 视觉皮层研究 | 神经科学 | 层级特征提取启发 |
+| 1969 | Minsky-Papert《感知机》 | 计算机科学 | 神经网络批判 |
+| 1970 | Dantzig 线性规划算法 | 运筹学 | 优化算法基础 |
+| 1979 | Pearl 贝叶斯网络 | 概率论/AI | 不确定性推理 |
+| 1982 | Marr《视觉》 | 认知科学 | 计算视觉层次 |
+| 1986 | Rumelhart 反向传播论文 | 优化/数值分析 | 连接主义复兴 |
+| 1989 | Pearl《概率推理》 | 因果推断 | 贝叶斯网络成熟 |
+| 1995 | Pearl《因果性导论》 | 因果推断 | 因果推断框架 |
+| 1997 | Hochreiter LSTM | 优化/数值分析 | 序列建模突破 |
+| 1998 | LeCun LeNet | 神经科学/信号处理 | 卷积网络实用化 |
+| 2006 | Hinton 深度信念网络 | 统计物理/优化 | 深度学习复兴起点 |
+| 2009 | Pearl《因果性》 | 因果推断 | 因果推断系统化 |
+| 2012 | Krizhevsky AlexNet | 优化/硬件 | 深度学习突破 |
+| 2013 | Word2Vec 应用推广 | 线性代数/语言学 | 词嵌入普及 |
+| 2014 | GAN | 博弈论 | 对抗训练范式 |
+| 2015 | ResNet | 逼近论/优化 | 深度训练稳定化 |
+| 2016 | AlphaGo | 博弈论/运筹学 | 组合搜索与学习结合 |
+| 2017 | Transformer | 信息论/语言学 | 注意力架构革命 |
+| 2018 | BERT | 信息论/语言学 | 预训练语言模型 |
+| 2019 | GPT-2 | 信息论/语言学 | 大规模语言模型 |
+| 2020 | Kaplan Scaling Laws | 复杂性科学 | 规模律发现 |
+| 2022 | ChatGPT | 全部学科 | 大模型时代开启 |
+| 2023 | GPT-4 | 全部学科 | 多模态大模型 |
+| 2024 | 欧盟AI法案 | 法学/伦理 | AI 监管框架落地 |
+
+这条时间线说明：**AI 从来不是某一门学科的自然延伸，而是多条历史线索在同一时间点的交汇。**
 
 ---
 
 ## 3. 核心知识点
 
-把 25 学科压缩成一张可操作的地图，可以抓住五个判断：
+把 29 学科压缩成一张可操作的地图，可以抓住六个判断：
 
 - 数学与形式基础决定了 AI 如何表示、推断、优化与刻画结构；
 - 计算与系统工程决定了这些理论能否在真实机器上稳定、大规模地跑起来；
-- 认知、生物与语言提供了自然智能的参照系，也持续塑造“什么算智能能力”的问题设定；
+- 认知、生物与语言提供了自然智能的参照系，也持续塑造”什么算智能能力”的问题设定；
 - 决策、交互与社会机制决定了当系统进入多主体、平台化与激励约束场景后如何运作；
-- 物理与哲学基础则分别从统计系统与认识边界两个方向，解释 AI 为什么会呈现出今天的宏观行为与争议。
+- 物理与哲学基础则分别从统计系统与认识边界两个方向，解释 AI 为什么会呈现出今天的宏观行为与争议；
+- 伦理与治理决定了如何确保AI符合人类价值观、公平对待不同群体、决策可问责并受有效监管。
 
-因此，这 25 学科不是简单堆砌，而是一组从表示到系统、从个体到社会、从实现到边界的闭环。
+因此，这 29 学科不是简单堆砌，而是一组从表示到系统、从个体到社会、从实现到边界再到治理的闭环。
 
 ---
 
@@ -132,7 +186,7 @@ Shannon 在 1948 年定义熵以后，“信息”第一次获得了严格数学
 
 ### 4.6 图论
 
-图论之所以在这张 25 学科地图中单列，是因为它解决的问题与连续几何不同。Euler 对柯尼斯堡七桥问题的抽象，把“关系结构”变成了数学对象。今天它直接进入 AI 中心：
+图论之所以在这张 29 学科地图中单列，是因为它解决的问题与连续几何不同。Euler 对柯尼斯堡七桥问题的抽象，把”关系结构”变成了数学对象。今天它直接进入 AI 中心：
 
 - 知识图谱、推荐系统、社交网络、分子结构都天然是图；
 - 最短路、匹配、流等算法支撑结构化搜索与调度；
@@ -335,9 +389,11 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 
 ## 8. 物理与哲学基础
 
-这一组回答的是：学习系统的能量、相变与认识边界如何约束我们对智能的理解。它们看似离 AI 最远，但实际上负责处理最深层的问题：学习系统为什么会这样演化，我们又该如何理解“智能”。
+这一组回答的是：学习系统的能量、相变与认识边界如何约束我们对智能的理解。
 
-### 8.1 统计物理与能量模型
+**为什么把物理与哲学放在一起？** 本组看似跨度最大——统计物理属于自然科学，哲学属于人文学科——但它们共同回答同一个深层问题：**学习系统的可能性空间由什么界定？** 统计物理从能量、熵与相变角度给出物理约束，哲学从认识论与心灵问题角度给出认知约束。两者都不直接提供训练算法，而是解释”为什么AI会呈现今天的宏观行为”以及”我们应该如何理解智能本身”。它们看似离 AI 最远，但实际上负责处理最深层的问题：学习系统为什么会这样演化，我们又该如何理解”智能”。
+
+### 8.1 统计物理
 
 从 Boltzmann、Gibbs 到现代统计力学，统计物理为理解大规模系统中的分布、相变与能量景观提供了语言。它在 AI 中体现为：
 
@@ -348,7 +404,7 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 
 它尤其重要，因为现代 AI 也越来越像一个高维统计系统，而不仅是符号程序。
 
-### 8.2 哲学
+### 8.2 哲学：认识论与心灵哲学
 
 哲学持续追问两个根本问题：
 
@@ -365,32 +421,91 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 
 ---
 
-## 9. 对 AI 的核心贡献
+## 9. 社会科学与人文学科
 
-从全景层回看，这 25 学科对 AI 的核心贡献不是平行展开，而是共同塑造了四种能力：
+这一组回答的是：当AI系统开始影响数十亿人的生活，如何理解它嵌入的社会结构、制度与文化，以及如何治理其影响。这是大模型时代最紧迫的议题。
+
+### 9.1 AI伦理与治理
+
+从Asimov的机器人定律到欧盟AI法案，AI伦理已从科幻想象演变为政策实践。它横跨六大主线：
+
+- **对齐问题**：如何确保AI目标与人类价值观一致（RLHF、Constitutional AI、DPO等方法）；
+- **偏见与公平**：如何识别、度量与缓解算法偏见（统计公平、个体公平、因果公平）；
+- **可解释性**：如何让AI决策过程可理解、可审计（LIME、SHAP、内在可解释模型）；
+- **责任归属**：当AI出错时，谁负责、如何追责（算法问责、严格责任）；
+- **隐私与自主性**：AI如何影响个人隐私与自主决策（差分隐私、联邦学习）；
+- **治理与监管**：如何构建有效的AI治理体系（风险分级、红队测试、全球协调）。
+
+它的重要性在于：伦理问题不再是抽象讨论，而是直接影响模型设计、部署策略、组织流程与公共政策。
+
+### 9.2 社会学
+
+社会学为AI提供了理解"技术如何嵌入社会结构"的视角。它不研究算法本身，而是研究算法如何改变社会关系、权力结构、信息流动与分层机制。
+
+从平台社会到数字劳动，从算法治理到社会不平等，社会学揭示的是AI作为社会基础设施的宏观效应：
+
+- **社会分层与技术不平等**：AI如何加剧或缓解数字接入、算法分类、数据权力的不平等；
+- **平台社会与信息生态**：平台的分类权力、规训权力与提取权力如何塑造用户行为；
+- **数字劳动**：隐性劳动（用户数据贡献）与显性劳动（众包标注）的社会学意义；
+- **算法治理**：算法作为社会控制新机制的风险与可能。
+
+社会学让我们看到：AI不只是技术工具，更是社会权力载体。
+
+### 9.3 法学
+
+法学为AI提供了制度层面的约束框架。它不讨论技术可行性，而是讨论法律责任、权利边界、监管合规与制度设计。
+
+从AI生成内容的版权归属到自动驾驶事故的责任分配，从数据保护法的合规要求到AI法案的风险分级，法学决定的是AI可以做什么、必须做什么、禁止做什么：
+
+- **知识产权**：AI生成内容的版权归属争议，训练数据的版权合规问题；
+- **侵权责任**：AI造成损害时，开发者、部署者、用户之间的责任分配；
+- **数据保护**：GDPR等数据保护法对AI训练和部署的约束；
+- **监管合规**：欧盟AI法案、中国生成式AI管理办法等监管框架。
+
+法学是AI治理的硬约束层，决定技术边界与权利分配。
+
+### 9.4 人类学
+
+人类学为AI提供了"文化的参照系"。它不研究算法本身，而是研究AI在不同文化中的接受、排斥、适应与抵抗。
+
+当AI服务在全球部署时，人类学提醒我们：技术不是普适的，而是文化嵌入的。理解AI如何在不同社会中被理解、使用、质疑，是全球化AI治理的关键：
+
+- **文化相对主义与AI伦理**：不同文化对隐私、同意、透明度的不同理解；
+- **数字田野方法**：在虚拟空间进行人类学观察，理解AI使用的文化意义；
+- **技术接受的文化因素**：自动驾驶、面部识别在不同社会中的接受度差异；
+- **AI与文化生产**：AI生成内容的文化意义争议；
+- **全球AI的殖民性问题**：数据提取、知识殖民与文化殖民的批判视角。
+
+人类学让我们理解：AI在不同文化中有不同的命运，全球化部署需要文化适配。
+
+---
+
+## 10. 对 AI 的核心贡献
+
+从全景层回看，这 29 学科对 AI 的核心贡献不是平行展开，而是共同塑造了四种能力：
 
 - 表示能力：概率论、线性代数、图论、拓扑与几何决定模型如何把世界编码成可计算结构；
 - 学习能力：微积分、优化、信息论、逼近论与数值分析决定模型如何从数据中稳定更新；
 - 系统能力：计算机科学、控制论、复杂性科学与并行硬件决定模型如何扩展成可部署系统；
-- 智能边界与社会能力：认知科学、语言学、博弈论、经济学、哲学与因果推断决定模型如何推理、互动、对齐并被解释。
+- 智能边界与社会能力：认知科学、语言学、博弈论、经济学、哲学、AI伦理与因果推断决定模型如何推理、互动、对齐并被解释。
 
 以大语言模型和智能体系统为例，今天的性能提升从来不是单一学科的胜利，而是“表示更强 + 训练更稳 + 系统更大 + 交互更复杂”四条线同时推进的结果。
 
 ---
 
-## 10. 汇聚：从三次浪潮到大模型时代
+## 11. 汇聚：从三次浪潮到大模型时代
 
 如果把 AI 放回历史中，可以看到至少三次重要汇聚。
 
-### 10.1 第一次浪潮：符号主义与早期乐观
+### 11.1 第一次浪潮：符号主义与早期乐观
 
 1950 年代到 1970 年代，逻辑学、可计算性理论、控制论和早期认知科学共同塑造了最早的 AI 叙事。那时的核心信念是：只要把规则写清楚，机器就能表现出智能。
 
-### 10.2 第二次浪潮：统计学习与连接主义回归
+### 11.2 第二次浪潮：统计学习与连接主义回归
 
 1980 年代到 2000 年代，反向传播、概率图模型、SVM、运筹学与强化学习共同推动了新一轮复兴。核心变化是：AI 不再只靠显式规则，也开始从数据中学习。
 
-### 10.3 第三次浪潮：深度学习与大模型
+### 11.3 第三次浪潮：深度学习与大模型
 
 2010 年代以后，深度学习成为主要范式。其背后不是单一学科突破，而是多条线同时成熟：
 
@@ -399,7 +514,7 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 - 结构上：CNN、RNN、Transformer 等架构吸收了信号处理、神经科学、语言学与几何视角；
 - 系统上：复杂性科学、多智能体、对齐与经济激励问题重新进入中心。
 
-### 10.4 一张压缩时间线
+### 11.4 一张压缩时间线
 
 ```text
 数学与形式基础
@@ -436,11 +551,17 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 物理与哲学基础
   统计物理        Boltzmann ─ Gibbs ─ 相变/熵 ─ 能量模型/扩散模型
   哲学            Aristotle ─ Descartes ─ 认识论 ─ 心灵哲学/对齐问题
+
+社会科学与人文学科
+  AI伦理与治理    Asimov'50 ─ Weizenbaum'76 ─ COMPAS'16 ─ RLHF/欧盟AI法案'24
+  社会学          Marx/Weber ─ Foucault ─ Castells ─ 平台社会/算法治理
+  法学            数据法'73 ─ GDPR'16 ─ AI法案'24 ─ AI责任/版权合规
+  人类学          Boas ─ Malinowski ─ Geertz ─ 数字田野/文化相对
 ```
 
 ---
 
-## 11. 前沿与开放问题
+## 12. 前沿与开放问题
 
 如果 AGI 是可能的，它大概率不会来自单一点突破，而会来自以下几条线的继续汇聚：
 
@@ -452,38 +573,132 @@ von Neumann、Morgenstern 与 Nash 把交互式决策变成严密理论。博弈
 
 这也意味着，通向 AGI 的道路不会只是一条“更大模型”的路线，而是一套跨学科条件共同成熟的结果。规模可能是必要条件之一，但不会自动替代结构、机制、交互与目标问题。
 
-25 学科结构的意义也在于：它不是为了做更细的目录，而是为了让“AI 为什么会成为今天的 AI”这件事，在同一张知识地图上变得可见。
+29 学科结构的意义也在于：它不是为了做更细的目录，而是为了让”AI 为什么会成为今天的 AI”这件事，在同一张知识地图上变得可见。
 
 ---
 
-## 12. 推荐阅读与参考文献
+## 13. 推荐阅读与参考文献
 
-### 推荐阅读
+### 教材与推荐阅读
 
+**全局视角**：
 - Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. Pearson.
 - Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
 - Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction*. MIT Press.
-- Pearl, J. (2009). *Causality*. Cambridge University Press.
-- Marr, D. (1982). *Vision*. W. H. Freeman.
-- Bronstein, M. M., et al. (2021). Geometric deep learning: Grids, groups, graphs, geodesics, and gauges. *arXiv:2104.13478*.
+- Mitchell, T. M. (1997). *Machine Learning*. McGraw-Hill.
 
-### 参考文献
+**跨学科视角**：
+- Marr, D. (1982). *Vision: A Computational Investigation*. W. H. Freeman.
+- Pearl, J. (2009). *Causality: Models, Reasoning, and Inference*. Cambridge University Press.
+- Wiener, N. (1948). *Cybernetics: Or Control and Communication in the Animal and the Machine*. MIT Press.
+- Shannon, C. E., & Weaver, W. (1949). *The Mathematical Theory of Communication*. University of Illinois Press.
 
-- Turing, A. M. (1950). Computing machinery and intelligence. *Mind*, 59(236), 433-460.
-- Turing, A. M. (1936). On computable numbers, with an application to the Entscheidungsproblem. *Proceedings of the London Mathematical Society*, 42(2), 230-265.
+### 关键论文与经典文献
+
+#### 数学与形式基础
+
+**概率论与统计**：
+- Bayes, T. (1763). An essay towards solving a problem in the doctrine of chances. *Philosophical Transactions of the Royal Society*.
+- Laplace, P. S. (1812). *Théorie Analytique des Probabilités*. Courcier.
+- Kolmogorov, A. N. (1933). *Grundbegriffe der Wahrscheinlichkeitsrechnung*. Springer.
+- Fisher, R. A. (1922). On the mathematical foundations of theoretical statistics. *Philosophical Transactions of the Royal Society of London*.
+
+**线性代数**：
+- Strang, G. (2016). *Introduction to Linear Algebra*. Wellesley-Cambridge Press.
+- Golub, G. H., & Van Loan, C. F. (2013). *Matrix Computations*. Johns Hopkins University Press.
+
+**微积分与优化**：
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization*. Springer.
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press.
+
+**信息论**：
 - Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27, 379-423, 623-656.
-- Wiener, N. (1948). *Cybernetics*. MIT Press.
-- von Neumann, J. (1945). First draft of a report on the EDVAC.
-- von Neumann, J., & Morgenstern, O. (1944). *Theory of Games and Economic Behavior*. Princeton University Press.
-- Marr, D. (1982). *Vision*. W. H. Freeman.
-- Simon, H. A. (1962). The architecture of complexity. *Proceedings of the American Philosophical Society*, 106(6), 467-482.
-- Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning representations by back-propagating errors. *Nature*, 323, 533-536.
+- Cover, T. M., & Thomas, J. A. (2006). *Elements of Information Theory*. Wiley.
+
+**逻辑学**：
+- Boole, G. (1854). *An Investigation of the Laws of Thought*. Walton and Maberly.
+- Gödel, K. (1931). Über formal unentscheidbare Sätze. *Monatshefte für Mathematik und Physik*.
+
+**因果推断**：
 - Pearl, J. (2009). *Causality*. Cambridge University Press.
-- Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
-- LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep learning. *Nature*, 521, 436-444.
+- Rubin, D. B. (1974). Estimating causal effects of treatments in randomized and nonrandomized studies. *Journal of Educational Psychology*.
+
+#### 计算与系统工程
+
+**计算机科学**：
+- Turing, A. M. (1936). On computable numbers. *Proceedings of the London Mathematical Society*.
+- von Neumann, J. (1945). First draft of a report on the EDVAC.
+- Knuth, D. E. (1997). *The Art of Computer Programming*. Addison-Wesley.
+
+**控制论**：
+- Wiener, N. (1948). *Cybernetics*. MIT Press.
+- Kalman, R. E. (1960). A new approach to linear filtering and prediction problems. *Journal of Basic Engineering*.
+
+**复杂性科学**：
+- Simon, H. A. (1962). The architecture of complexity. *Proceedings of the American Philosophical Society*.
+- Anderson, P. W. (1972). More is different. *Science*.
+
+#### 认知、生物与语言
+
+**神经科学**：
+- McCulloch, W. S., & Pitts, W. (1943). A logical calculus of the ideas immanent in nervous activity. *Bulletin of Mathematical Biophysics*.
+- Hebb, D. O. (1949). *The Organization of Behavior*. Wiley.
+- Hubel, D. H., & Wiesel, T. N. (1962). Receptive fields, binocular interaction. *Journal of Physiology*.
+
+**认知科学**：
+- Marr, D. (1982). *Vision*. W. H. Freeman.
+- Newell, A., & Simon, H. A. (1976). Computer science as empirical inquiry. *Communications of the ACM*.
+
+**语言学**：
+- Chomsky, N. (1957). *Syntactic Structures*. Mouton.
+- Saussure, F. (1916). *Cours de Linguistique Générale*. Payot.
+
+#### 决策、交互与社会机制
+
+**博弈论**：
+- von Neumann, J., & Morgenstern, O. (1944). *Theory of Games and Economic Behavior*. Princeton University Press.
+- Nash, J. F. (1950). Equilibrium points in n-person games. *Proceedings of the National Academy of Sciences*.
+
+**运筹学**：
+- Dantzig, G. B. (1947). Linear programming. *Economic Activity Analysis*.
+- Bellman, R. (1957). *Dynamic Programming*. Princeton University Press.
+
+**经济学**：
+- Smith, A. (1776). *The Wealth of Nations*. Methuen.
+- Mas-Colell, A., Whinston, M. D., & Green, J. R. (1995). *Microeconomic Theory*. Oxford University Press.
+
+#### 物理与哲学基础
+
+**统计物理**：
+- Boltzmann, L. (1877). Über die Beziehung zwischen der zweiten Wärmetheorie. *Wiener Berichte*.
+- Gibbs, J. W. (1902). *Elementary Principles in Statistical Mechanics*. Yale University Press.
+
+**哲学**：
+- Turing, A. M. (1950). Computing machinery and intelligence. *Mind*.
+- Dennett, D. C. (1991). *Consciousness Explained*. Little, Brown.
+- Chalmers, D. J. (1996). *The Conscious Mind*. Oxford University Press.
+
+#### AI 发展里程碑
+
+- Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning representations by back-propagating errors. *Nature*.
+- LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep learning. *Nature*.
 - Vaswani, A., et al. (2017). Attention is all you need. *NeurIPS*.
-- Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction*. MIT Press.
-- Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. Pearson.
-- Bronstein, M. M., et al. (2021). Geometric deep learning: Grids, groups, graphs, geodesics, and gauges. *arXiv:2104.13478*.
-- Kaplan, J., et al. (2020). Scaling laws for neural language models. *arXiv:2001.08361*.
-- Bommasani, R., et al. (2021). On the opportunities and risks of foundation models. *arXiv:2108.07258*.
+- Brown, T. B., et al. (2020). Language models are few-shot learners. *NeurIPS*.
+- Kaplan, J., et al. (2020). Scaling laws for neural language models. *arXiv*.
+- Bommasani, R., et al. (2021). On the opportunities and risks of foundation models. *arXiv*.
+- Hoffmann, J., et al. (2022). Training compute-optimal large language models. *arXiv*.
+
+#### 社会科学与人文学科
+
+**AI伦理**：
+- Christian, B. (2020). *The Alignment Problem*. Norton.
+- Floridi, L. (2023). *The Ethics of Artificial Intelligence*. Oxford University Press.
+- Bostrom, N. (2014). *Superintelligence*. Oxford University Press.
+
+**社会学**：
+- Castells, M. (1996). *The Rise of the Network Society*. Blackwell.
+- Zuboff, S. (2019). *The Age of Surveillance Capitalism*. PublicAffairs.
+
+**法学**：
+- GDPR (2016). General Data Protection Regulation. EU Regulation 2016/679.
+- EU AI Act (2024). Regulation (EU) 2024/1689.
