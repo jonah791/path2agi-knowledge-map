@@ -7,165 +7,391 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   :root {
-    --bg: #080816;
-    --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04);
-    --border: rgba(255,255,255,0.08);
-    --text: #c8c8d4;
-    --text-dim: #8888a0;
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
     --heading: #f0f0f8;
-    --accent1: #6c63ff;
-    --accent2: #00d4ff;
-    --radius: 14px;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.8;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
   }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
   .top-bar {
     position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 24px;
-    background: rgba(8,8,22,0.85);
-    backdrop-filter: blur(12px);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
   }
-  .top-bar a {
-    color: var(--accent2); text-decoration: none;
-    font-size: 14px;
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
     display: flex; align-items: center; gap: 6px;
   }
-  .top-bar a:hover { color: #fff; }
-  .top-bar .title {
-    font-size: 14px; font-weight: 600; color: var(--heading);
-    flex: 1;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
   }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 24px;
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
   }
-  .content {
-    font-size: 0.95rem;
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
   }
-  .content h1 {
-    font-size: 1.8rem; font-weight: 700;
-    color: var(--heading);
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
   }
-  .content h2 {
-    font-size: 1.3rem; font-weight: 700;
-    color: var(--heading);
-    margin: 32px 0 12px;
-  }
-  .content h3 {
-    font-size: 1.1rem; font-weight: 600;
-    color: var(--heading);
-    margin: 24px 0 8px;
-  }
-  .content p { margin-bottom: 12px; }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
   .content blockquote {
-    border-left: 3px solid var(--accent1);
-    padding: 12px 20px;
-    margin: 16px 0;
-    background: rgba(108,99,255,0.05);
-    border-radius: 0 8px 8px 0;
-    color: var(--text-dim);
-    font-style: italic;
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
   }
   .content pre {
-    background: rgba(0,0,0,0.3);
-    padding: 16px;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 13px;
-    line-height: 1.5;
-    margin: 12px 0;
-    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
   }
-  .content code {
-    font-family: "SF Mono", "Fira Code", monospace;
-    font-size: 0.85em;
-  }
-  .content ul, .content ol { padding-left: 20px; margin-bottom: 12px; }
-  .content li { margin-bottom: 4px; }
-  .content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0;
-    font-size: 0.9rem;
-  }
-  .content th, .content td {
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    text-align: left;
-  }
-  .content th {
-    background: rgba(255,255,255,0.04);
-    color: var(--heading);
-    font-weight: 600;
-  }
-  .content a { color: var(--accent2); text-decoration: none; }
-  .content a:hover { text-decoration: underline; }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
   .content strong { color: var(--heading); }
-  .content hr {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 24px 0;
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
   }
-  .content img { max-width: 100%; border-radius: 8px; }
-  .loading {
-    text-align: center; padding: 80px 20px;
-    color: var(--text-dim);
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
   }
-  .loading .spinner {
-    width: 32px; height: 32px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent2);
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-    margin: 0 auto 16px;
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
   }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .error {
-    text-align: center; padding: 80px 20px;
-    color: #ff6b9d;
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
   }
-  .error h2 { font-size: 1.3rem; margin-bottom: 8px; }
-  .error p { color: var(--text-dim); }
-
-  /* Wiki link conversion */
-  .content a[href^="http"] { color: var(--accent2); }
-
   @media (max-width: 768px) {
-    .container { padding: 20px 16px; }
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
     .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
   }
 </style>
 </head>
 <body>
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
 <div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
   <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
   <span class="title" id="pageTitle">加载中...</span>
 </div>
-<div class="container">
-  <div id="contentArea">
-    <div class="loading">
-      <div class="spinner"></div>
-      <div>正在加载内容...</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div id="sidebarGroups"></div>
+  </nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Content -->
+  <main class="main">
+    <div id="contentArea">
+      <div class="loading"><div class="spinner"></div><div>正在加载内容...</div></div>
     </div>
-  </div>
+  </main>
+
+  <!-- TOC -->
+  <aside class="toc-sidebar" id="tocSidebar">
+    <div class="toc-label">目录</div>
+    <div id="tocList"></div>
+  </aside>
 </div>
 
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"></div></div>
+
 <script>
+const TOPICS = [
+  [1,'概率论与数理统计','01-probability-and-statistics.md',1],[2,'线性代数','02-linear-algebra.md',1],[3,'微积分与优化理论','03-calculus-and-optimization.md',1],[4,'信息论','04-information-theory.md',1],[5,'逼近论','05-approximation-theory.md',1],[6,'图论','06-graph-theory.md',1],[7,'拓扑与几何','07-topology-and-geometry.md',1],[8,'逻辑学与形式推理','08-logic.md',1],[9,'因果推断','09-causal-inference.md',1],
+  [10,'计算机科学','10-computer-science.md',2],[11,'数值分析','11-numerical-analysis.md',2],[12,'信号处理','12-signal-processing.md',2],[13,'控制论','13-cybernetics.md',2],[14,'复杂性科学','14-complexity-science.md',2],[15,'AI 计算硬件与并行计算','15-computing-hardware-and-parallel-computing.md',2],
+  [16,'神经科学','16-neuroscience.md',3],[17,'认知科学','17-cognitive-science.md',3],[18,'心理学','18-psychology.md',3],[19,'语言学','19-linguistics.md',3],[20,'进化生物学','20-evolutionary-biology.md',3],
+  [21,'运筹学','21-operations-research.md',4],[22,'博弈论','22-game-theory.md',4],[23,'经济学','23-economics.md',4],
+  [24,'统计物理','24-statistical-physics.md',5],[25,'哲学','25-philosophy.md',5],
+  [26,'AI 伦理与治理','26-ai-ethics.md',6],[27,'社会学','27-sociology.md',6],[28,'法学','28-law.md',6],[29,'人类学','29-anthropology.md',6]
+];
+const GROUPS = [
+  { name:'数学与形式基础', range:'01-09', color:'#8b7aff', icon:'∞' },
+  { name:'计算与系统工程', range:'10-15', color:'#00d4ff', icon:'⚙' },
+  { name:'认知、生物与语言', range:'16-20', color:'#6bcb77', icon:'🧠' },
+  { name:'决策、交互与社会', range:'21-23', color:'#ff6b9d', icon:'🤝' },
+  { name:'物理与哲学基础', range:'24-25', color:'#ffd93d', icon:'☆' },
+  { name:'社会科学与人文学科', range:'26-29', color:'#ff8c42', icon:'🌍' }
+];
+const GROUP_COLORS = ['#8b7aff','#00d4ff','#6bcb77','#ff6b9d','#ffd93d','#ff8c42'];
+
+// Build sidebar
+function buildSidebar(currentFile) {
+  const el = document.getElementById('sidebarGroups');
+  let html = '';
+  for (let g = 0; g < GROUPS.length; g++) {
+    const group = GROUPS[g];
+    const items = TOPICS.filter(t => t[3] === g+1);
+    html += `<div class="sidebar-group">
+      <div class="sidebar-group-header" data-group="${g}">
+        <span class="arrow">▼</span>
+        <span class="g-dot" style="background:${group.color}"></span>
+        ${group.name} <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">${group.range}</span>
+      </div>`;
+    for (const t of items) {
+      const active = t[2] === currentFile ? ' active' : '';
+      const num = String(t[0]).padStart(2,'0');
+      html += `<div class="sidebar-item${active}">
+        <span class="sn">${num}</span>
+        <a href="topic.html?file=${t[2]}">${t[1]}</a>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  el.innerHTML = html;
+
+  // Collapse groups that don't contain current topic
+  const curGroup = currentFile ? TOPICS.find(t => t[2] === currentFile)?.[3] || 0 : -1;
+  document.querySelectorAll('.sidebar-group-header').forEach(h => {
+    const g = parseInt(h.dataset.group);
+    if (g+1 !== curGroup) {
+      h.classList.add('collapsed');
+      const items = h.parentElement.querySelectorAll('.sidebar-item');
+      items.forEach(i => i.style.display = 'none');
+    }
+  });
+}
+
+// Toggle sidebar group
+document.addEventListener('click', e => {
+  const header = e.target.closest('.sidebar-group-header');
+  if (!header) return;
+  const collapsed = header.classList.toggle('collapsed');
+  const items = header.parentElement.querySelectorAll('.sidebar-item');
+  items.forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+});
+
+// Mobile sidebar
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// TOC highlight
+function updateTOC() {
+  const headings = document.querySelectorAll('.content h2, .content h3');
+  const links = document.querySelectorAll('.toc-link');
+  if (!headings.length || !links.length) return;
+  let current = '';
+  for (let i = headings.length - 1; i >= 0; i--) {
+    const rect = headings[i].getBoundingClientRect();
+    if (rect.top <= 120) { current = headings[i].id; break; }
+  }
+  links.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+}
+
+// Reading progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress-bar').style.width = Math.min(p, 100) + '%';
+  updateTOC();
+});
+
 (function() {
   const file = new URLSearchParams(window.location.search).get('file') || '';
+  const currentTopic = TOPICS.find(t => t[2] === file);
+  const idx = currentTopic ? TOPICS.indexOf(currentTopic) : -1;
+
+  buildSidebar(file);
+
   if (!file) {
     document.getElementById('contentArea').innerHTML =
       '<div class="error"><h2>未指定文件</h2><p>请在 URL 中添加 ?file=文件名 参数</p></div>';
@@ -173,45 +399,184 @@
     return;
   }
 
+  // Top nav: prev / next
+  const topNav = document.getElementById('topNav');
+  if (currentTopic) {
+    const group = GROUPS[currentTopic[3]-1];
+    const num = String(currentTopic[0]).padStart(2, '0');
+    topNav.innerHTML = `
+      <span style="color:${group.color};font-weight:600">${num}</span>
+      <span class="sep">·</span>
+      <span style="color:var(--text-dim)">${group.name}</span>
+    `;
+  }
+
   fetch(file)
-    .then(res => {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.text();
-    })
+    .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
     .then(md => {
-      // Convert wiki links [[target|text]] to markdown links [text](target.md)
-      md = md.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (m, target, text) => {
-        return `[${text}](${target.trim()}.md)`;
-      });
-      md = md.replace(/\[\[([^\]]+)\]\]/g, (m, target) => {
-        return `[${target.trim()}](${target.trim()}.md)`;
-      });
+      // Convert wiki links
+      md = md.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (m, t, txt) => `[${txt}](${t.trim()}.md)`);
+      md = md.replace(/\[\[([^\]]+)\]\]/g, (m, t) => `[${t.trim()}](${t.trim()}.md)`);
 
-      const html = marked.parse(md, { breaks: true, gfm: true });
+      // Extract YAML front matter
+      const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+      let fm = {};
+      if (fmMatch) {
+        const fmText = fmMatch[1];
+        fmText.replace(/^(\w[\w-]*):\s*(.+)$/gm, (m, k, v) => { fm[k.trim()] = v.trim(); return ''; });
+        md = md.slice(fmMatch[0].length);
+      }
 
-      // Extract title
       const titleMatch = md.match(/^#\s+(.+)/m);
       const title = titleMatch ? titleMatch[1].replace(/\*\*/g, '') : file;
       document.getElementById('pageTitle').textContent = title;
       document.title = title + ' — Path2AGI';
 
-      // Fix links
+      // Build meta
+      let metaHtml = '';
+      if (currentTopic) {
+        const g = currentTopic[3]-1;
+        const num = String(currentTopic[0]).padStart(2,'0');
+        metaHtml = `<div class="topic-meta">
+          <span><span class="dot" style="background:${GROUP_COLORS[g]}"></span> ${GROUPS[g].name}</span>
+          <span>学科 ${num}</span>
+          ${fm.category ? `<span>${fm.category}</span>` : ''}
+          ${fm.importance ? `<span>重要性: ${fm.importance}</span>` : ''}
+          ${fm.date ? `<span>更新: ${fm.date}</span>` : ''}
+        </div>`;
+      }
+
+      // Render markdown
+      const html = marked.parse(md, { breaks: true, gfm: true });
+      const rendered = metaHtml + html;
+
+      // Post-process: fix links, add IDs to headings for TOC
       const div = document.createElement('div');
-      div.innerHTML = html;
-      // Convert relative markdown links to topic.html?file= links
+      div.innerHTML = rendered;
+
+      // Add IDs to headings
+      let headingCounters = {};
+      div.querySelectorAll('h2, h3, h4').forEach(h => {
+        const text = h.textContent.trim();
+        const key = text.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/(^-|-$)/g, '');
+        headingCounters[key] = (headingCounters[key] || 0) + 1;
+        const id = headingCounters[key] > 1 ? key + '-' + headingCounters[key] : key;
+        h.id = id;
+      });
+
+      // Fix links
       div.querySelectorAll('a[href$=".md"]').forEach(a => {
         const href = a.getAttribute('href');
         if (!href.startsWith('http')) {
           a.href = 'topic.html?file=' + encodeURIComponent(href);
         }
       });
+
+      // Extract related topics from wiki links in content
+      const relatedLinks = new Set();
+      div.querySelectorAll('a[href^="topic.html?file="]').forEach(a => {
+        const href = a.getAttribute('href');
+        const name = a.textContent.trim();
+        const match = href.match(/file=(.+)/);
+        if (match) {
+          const f = decodeURIComponent(match[1]);
+          const found = TOPICS.find(t => t[2] === f);
+          if (found && found[2] !== file) relatedLinks.add(f);
+        }
+      });
+
       document.getElementById('contentArea').innerHTML = div.innerHTML;
+
+      // Build TOC
+      const tocEl = document.getElementById('tocList');
+      let tocHtml = '';
+      div.querySelectorAll('h2, h3').forEach(h => {
+        if (h.id) {
+          const tag = h.tagName.toLowerCase();
+          tocHtml += `<a href="#${h.id}" class="toc-link ${tag}">${h.textContent.replace(/<[^>]+>/g,'')}</a>`;
+        }
+      });
+      tocEl.innerHTML = tocHtml || '<span style="color:var(--text-dimmer);font-size:11px">无目录</span>';
+
+      // Add related topics section if found
+      if (relatedLinks.size > 0) {
+        const relatedSection = document.createElement('div');
+        relatedSection.className = 'related-section';
+        let rh = '<h3>相关主题</h3><div class="related-grid">';
+        for (const f of [...TOPICS].filter(t => relatedLinks.has(t[2]))) {
+          const num = String(f[0]).padStart(2,'0');
+          rh += `<a href="topic.html?file=${f[2]}" class="related-item">
+            <span class="r-num">${num}</span>
+            <span class="r-name">${f[1]}</span>
+          </a>`;
+        }
+        rh += '</div>';
+        relatedSection.innerHTML = rh;
+        document.getElementById('contentArea').appendChild(relatedSection);
+      }
+
+      // Bottom nav
+      const bottomNav = document.createElement('div');
+      bottomNav.className = 'bottom-nav';
+      let prevHtml = '', nextHtml = '';
+      if (idx > 0) {
+        const prev = TOPICS[idx - 1];
+        const pn = String(prev[0]).padStart(2,'0');
+        prevHtml = `<a href="topic.html?file=${prev[2]}"><span class="dir">← 上一篇</span><span class="name">${pn} ${prev[1]}</span></a>`;
+      } else {
+        prevHtml = '<a href="index.html"><span class="dir">← 返回</span><span class="name">知识地图</span></a>';
+      }
+      if (idx >= 0 && idx < TOPICS.length - 1) {
+        const next = TOPICS[idx + 1];
+        const nn = String(next[0]).padStart(2,'0');
+        nextHtml = `<a href="topic.html?file=${next[2]}"><span class="dir">下一篇 →</span><span class="name">${nn} ${next[1]}</span></a>`;
+      } else {
+        nextHtml = '<a href="index.html"><span class="dir">返回 →</span><span class="name">知识地图</span></a>';
+      }
+      bottomNav.innerHTML = prevHtml + nextHtml;
+      document.getElementById('contentArea').appendChild(bottomNav);
     })
     .catch(err => {
       document.getElementById('contentArea').innerHTML =
-        `<div class="error"><h2>加载失败</h2><p>无法加载文件: ${file}</p><p style="font-size:13px;color:#888">${err.message}</p><p style="margin-top:16px"><a href="index.html" style="color:#00d4ff">返回知识地图</a></p></div>`;
+        `<div class="error"><h2>加载失败</h2><p>无法加载文件: ${file}</p><p style="font-size:13px;color:#888;margin-top:8px">${err.message}</p><p style="margin-top:20px"><a href="index.html">返回知识地图</a></p></div>`;
       document.getElementById('pageTitle').textContent = '加载失败';
     });
+
+    // Build TOC drawer for mobile
+    const tocDrawer = document.getElementById('tocDrawerList');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    if (tocLinks.length > 0) {
+      let dh = '';
+      tocLinks.forEach(l => { dh += l.outerHTML; });
+      tocDrawer.innerHTML = dh;
+    }
+
+    // TOC drawer toggle
+    document.getElementById('tocToggle').addEventListener('click', function() {
+      document.getElementById('tocDrawer').classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      const drawer = document.getElementById('tocDrawer');
+      const btn = document.getElementById('tocToggle');
+      if (!drawer.contains(e.target) && !btn.contains(e.target)) {
+        drawer.classList.remove('open');
+      }
+    });
+  })
+  .catch(err => {
+    document.getElementById('contentArea').innerHTML =
+      `<div class="error"><h2>加载失败</h2><p>无法加载文件: ${file}</p><p style="font-size:13px;color:#888;margin-top:8px">${err.message}</p><p style="margin-top:20px"><a href="index.html">返回知识地图</a></p></div>`;
+    document.getElementById('pageTitle').textContent = '加载失败';
+  });
+
+  // Back to top
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('backTop');
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+  document.getElementById('backTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 })();
 </script>
 </body>

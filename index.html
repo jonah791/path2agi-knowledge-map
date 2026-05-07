@@ -436,6 +436,34 @@
   }
   .nav-links a:hover { color: var(--accent2); }
 
+  /* Search */
+  .search-box {
+    position: relative; z-index: 1;
+    max-width: 500px; margin: 0 auto 40px;
+  }
+  .search-box input {
+    width: 100%; padding: 12px 18px 12px 44px;
+    border-radius: 30px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.05);
+    color: var(--text); font-size: 14px;
+    outline: none; transition: .3s;
+    backdrop-filter: blur(4px);
+  }
+  .search-box input:focus { border-color: var(--accent2); background: rgba(255,255,255,0.08); }
+  .search-box input::placeholder { color: var(--text-dimmer); }
+  .search-box .icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: var(--text-dimmer); font-size: 16px; pointer-events: none;
+  }
+  .search-no-results {
+    text-align: center; padding: 40px; color: var(--text-dim);
+    display: none; font-size: 14px;
+  }
+
+  /* Topic highlight */
+  .topic-item.hidden { display: none; }
+  .topic-item.highlight { border-color: var(--accent2); background: rgba(0,212,255,0.06); }
+
   /* Section divider */
   .section-divider {
     text-align: center;
@@ -566,6 +594,12 @@
   <div class="container">
     <h2 class="section-title fade-in">六大学科簇</h2>
     <p class="section-sub fade-in">29 个学科按对 AI 的贡献密度组织为六组，覆盖从数学基础到社会科学与治理的完整闭环</p>
+
+    <div class="search-box fade-in">
+      <span class="icon">&#x1F50D;</span>
+      <input type="text" id="topicSearch" placeholder="搜索学科名称..." autocomplete="off">
+    </div>
+    <div class="search-no-results" id="noResults">没有匹配的学科</div>
 
     <div class="groups">
       <!-- Group 1 -->
@@ -931,7 +965,7 @@
   <div class="container">
     <h2 class="section-title fade-in">全景综述</h2>
     <p class="section-sub fade-in">29 学科全景综述的核心摘要 — AI 为什么必然是跨学科产物</p>
-    <button class="overview-toggle fade-in" id="overviewToggle">展开阅读全景综述 &darr;</button>
+    <button class="overview-toggle fade-in" id="overviewToggle">收起全景综述 &uarr;</button>
 
     <div class="collapse-content" id="overviewContent">
       <div class="overview-text">
@@ -973,6 +1007,71 @@
           <li><strong>第二次浪潮（1980-2000s）</strong>：统计学习与连接主义回归 — 反向传播、概率图模型、SVM、运筹学与强化学习</li>
           <li><strong>第三次浪潮（2010s 至今）</strong>：深度学习与大模型 — 数学、工程、架构与系统多条线同时成熟</li>
         </ul>
+
+        <h2>关键年份锚点</h2>
+        <p>这条汇流线可以压缩为一系列年份锚点：</p>
+        <table>
+          <tr><th>年份</th><th>事件</th><th>学科</th><th>影响</th></tr>
+          <tr><td>1654</td><td>Pascal-Fermat 通信</td><td>概率论</td><td>概率计算起点</td></tr>
+          <tr><td>1854</td><td>Boole《思维规律研究》</td><td>逻辑学</td><td>符号逻辑基础</td></tr>
+          <tr><td>1936</td><td>Turing 可计算数</td><td>计算机科学</td><td>可计算性理论</td></tr>
+          <tr><td>1943</td><td>McCulloch-Pitts 神经元</td><td>神经科学</td><td>神经网络理论起点</td></tr>
+          <tr><td>1948</td><td>Shannon 信息论 / Wiener 控制论</td><td>信息论/控制论</td><td>AI 语言成形</td></tr>
+          <tr><td>1950</td><td>Turing 测试</td><td>哲学/计算机</td><td>机器能否思考</td></tr>
+          <tr><td>1956</td><td>达特茅斯会议</td><td>计算机科学</td><td>AI 独立学科</td></tr>
+          <tr><td>1986</td><td>反向传播</td><td>优化/数值分析</td><td>连接主义复兴</td></tr>
+          <tr><td>2012</td><td>AlexNet</td><td>优化/硬件</td><td>深度学习突破</td></tr>
+          <tr><td>2017</td><td>Transformer</td><td>信息论/语言学</td><td>注意力架构革命</td></tr>
+          <tr><td>2022</td><td>ChatGPT</td><td>全部学科</td><td>大模型时代开启</td></tr>
+          <tr><td>2024</td><td>欧盟AI法案</td><td>法学/伦理</td><td>AI 监管框架落地</td></tr>
+        </table>
+
+        <h2>AI 的核心能力来源</h2>
+        <p>29 学科共同塑造了 AI 的四种核心能力：</p>
+        <ul>
+          <li><strong>表示能力</strong>：概率论、线性代数、图论、拓扑与几何决定模型如何把世界编码成可计算结构</li>
+          <li><strong>学习能力</strong>：微积分、优化、信息论、逼近论与数值分析决定模型如何从数据中稳定更新</li>
+          <li><strong>系统能力</strong>：计算机科学、控制论、复杂性科学与并行硬件决定模型如何扩展成可部署系统</li>
+          <li><strong>智能边界与社会能力</strong>：认知科学、语言学、博弈论、经济学、哲学、AI伦理与因果推断决定模型如何推理、互动、对齐并被解释</li>
+        </ul>
+
+        <h2>压缩时间线</h2>
+        <pre>数学与形式基础
+  概率统计        Pascal/Fermat → Bayes/Laplace → Fisher → 统计学习
+  线性代数        Cayley → Grassmann → Hilbert → 向量/矩阵/注意力
+  微积分优化      Newton/Leibniz → Euler → SGD/Adam → 反向传播
+  信息论          Shannon'48 → KL散度 → 信息瓶颈 → 交叉熵/对比学习
+  图论            Euler'36 → Dijkstra → PageRank → GNN/知识图谱
+  逻辑学          Aristotle → Boole → Frege → Gödel → 形式推理
+  因果推断        Fisher → Rubin → Pearl → SCM/反事实推理
+
+计算与系统工程
+  计算机科学      Turing'36 → von Neumann → 复杂度 → AI 软件栈
+  数值分析        Gauss → Wilkinson → IEEE754 → 混合精度训练
+  信号处理        Fourier → Nyquist → FFT → CNN/频域方法
+  控制论          Wiener'48 → Kalman → 最优控制 → RL/智能体
+  复杂性科学      Anderson'72 → Santa Fe → Scaling Law → 涌现系统
+  AI硬件并行      晶体管 → GPU/CUDA → TPU → 大模型基础设施
+
+认知·生物·语言
+  神经科学        Hubel/Wiesel → Hebb → 神经网络 → 脑启发架构
+  认知科学        Marr'82 → 连接主义 → 计算认知 → 多模态理解
+  心理学          Wundt → Behaviorism → 认知革命 → 对齐问题
+  语言学          Saussure → Chomsky → 分布假设 → NLP/大语言模型
+  进化生物学      Darwin → 进化算法 → 生成模型/探索
+
+决策·交互·社会
+  运筹学          Dantzig'47 → Bellman → 最优化 → 强化学习
+  博弈论          von Neumann'44 → Nash → 机制设计 → 多智能体
+  经济学          Smith → 市场设计 → 对齐/治理
+
+物理·哲学·社会科学
+  统计物理        Boltzmann → Gibbs → 相变/熵 → 能量/扩散模型
+  哲学            Aristotle → Descartes → 认识论 → 心灵哲学/对齐
+  AI伦理与治理    Asimov'50 → COMPAS → RLHF → 欧盟AI法案'24
+  社会学          Marx → Foucault → 平台社会/算法治理
+  法学            数据法 → GDPR → AI法案 → AI责任/合规
+  人类学          Boas → Malinowski → 数字田野/文化相对</pre>
 
         <h2>前沿与开放问题</h2>
         <p>通向 AGI 的道路不会只是一条"更大模型"的路线，而是一套跨学科条件共同成熟的结果：</p>
@@ -1216,11 +1315,97 @@ document.querySelectorAll('a[href$=".md"]').forEach(a => {
   }
 });
 
-// === Overview toggle ===
+// === Topic search ===
+const topicDescriptions = {
+  '01-probability-and-statistics': '不确定性、统计学习与贝叶斯思维',
+  '02-linear-algebra': '向量与矩阵——现代模型的运行基石',
+  '03-calculus-and-optimization': '可微优化——训练过程的本质',
+  '04-information-theory': '熵、压缩、互信息与损失函数语言',
+  '05-approximation-theory': '神经网络的表达能力与函数逼近',
+  '06-graph-theory': '关系结构与图学习的基础',
+  '07-topology-and-geometry': '数据形状、流形与几何深度学习',
+  '08-logic': '符号推理、规则系统与形式语言',
+  '09-causal-inference': '从相关走向机制与反事实',
+  '10-computer-science': '可计算性、算法与系统架构',
+  '11-numerical-analysis': '有限精度下的稳定计算',
+  '12-signal-processing': '卷积、滤波与频域表示',
+  '13-cybernetics': '反馈、闭环与智能体前史',
+  '14-complexity-science': '涌现、规模律与复杂适应系统',
+  '15-computing-hardware-and-parallel-computing': 'GPU、TPU 与大模型基础设施',
+  '16-neuroscience': '神经元、层级表征与脑启发架构',
+  '17-cognitive-science': '知觉、记忆、推理与注意力',
+  '18-psychology': '行为、决策偏差与价值对齐',
+  '19-linguistics': '句法、语义与语言作为认知接口',
+  '20-evolutionary-biology': '进化策略、多样性与开放式搜索',
+  '21-operations-research': 'MDP、序贯决策与资源配置',
+  '22-game-theory': '对抗训练、多智能体与纳什均衡',
+  '23-economics': '激励、市场设计与平台机制',
+  '24-statistical-physics': '能量模型、扩散模型与相变',
+  '25-philosophy': '认识论、心灵哲学与 AGI 定义',
+  '26-ai-ethics': '对齐、公平、可解释性与治理',
+  '27-sociology': '技术嵌入、算法治理与社会分层',
+  '28-law': 'AI 责任、版权归属与监管合规',
+  '29-anthropology': '文化相对主义与技术全球化'
+};
+
+// Add descriptions to topic items
+document.querySelectorAll('.topic-item a').forEach(a => {
+  const href = a.getAttribute('href');
+  for (const [key, desc] of Object.entries(topicDescriptions)) {
+    if (href && href.includes(key)) {
+      const descEl = document.createElement('div');
+      descEl.className = 'topic-desc';
+      descEl.textContent = desc;
+      a.parentElement.appendChild(descEl);
+      break;
+    }
+  }
+});
+
+// Add search styling
+document.querySelectorAll('.topic-item').forEach(item => {
+  item.style.position = 'relative';
+});
+const style = document.createElement('style');
+style.textContent = `
+  .topic-item { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .topic-item .topic-name { font-weight: 500; }
+  .topic-desc { font-size: 11.5px; color: var(--text-dim); padding-left: 28px; line-height: 1.4; }
+  .topic-item:hover .topic-desc { color: var(--text); }
+  .topic-item a { width: 100%; }
+`;
+document.head.appendChild(style);
+
+// Search functionality
+document.getElementById('topicSearch').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const allGroups = document.querySelectorAll('.group-card');
+  const allItems = document.querySelectorAll('.topic-item');
+  const noResults = document.getElementById('noResults');
+  let visibleCount = 0;
+
+  allItems.forEach(item => {
+    const name = item.querySelector('.topic-name')?.textContent?.toLowerCase() || '';
+    const desc = item.querySelector('.topic-desc')?.textContent?.toLowerCase() || '';
+    const match = !q || name.includes(q) || desc.includes(q);
+    item.classList.toggle('hidden', !match);
+    if (match) visibleCount++;
+  });
+
+  allGroups.forEach(g => {
+    const visible = g.querySelectorAll('.topic-item:not(.hidden)').length > 0;
+    g.style.display = visible ? '' : 'none';
+  });
+
+  noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+});
+
+// === Overview toggle (expanded by default) ===
+const overviewContent = document.getElementById('overviewContent');
+overviewContent.classList.add('open');
 document.getElementById('overviewToggle').addEventListener('click', function() {
-  const content = document.getElementById('overviewContent');
-  content.classList.toggle('open');
-  this.textContent = content.classList.contains('open') ? '收起全景综述 &uarr;' : '展开阅读全景综述 &darr;';
+  overviewContent.classList.toggle('open');
+  this.textContent = overviewContent.classList.contains('open') ? '收起全景综述 &uarr;' : '展开阅读全景综述 &darr;';
 });
 
 // === Timeline filter ===
