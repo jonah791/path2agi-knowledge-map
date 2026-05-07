@@ -185,6 +185,9 @@ function buildTopicPage(md, file) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} — Path2AGI</title>
 ${css}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
 ${afterHead}
@@ -254,6 +257,30 @@ document.addEventListener('click', function(e) {
   const btn = document.getElementById('tocToggle');
   if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
 });
+</script>
+<script>
+// KaTeX math rendering
+(function() {
+  function renderMath() {
+    if (typeof renderMathInElement === 'function') {
+      try {
+        renderMathInElement(document.querySelector('.content'), {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      } catch(e) {
+        console.warn('KaTeX render error:', e);
+      }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMath);
+  } else {
+    renderMath();
+  }
+})();
 </script>
 </body>
 </html>`;
