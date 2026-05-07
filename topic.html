@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Path2AGI</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.querySelector('.content'), {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
 <style>
   :root {
     --bg: #080816; --bg2: #0d0d24;
@@ -59,7 +63,7 @@
   .top-nav .sep { color: var(--text-dimmer); padding: 0; }
 
   /* Layout */
-  .layout { display: flex; flex: 1; position: relative; }
+  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
 
   /* Sidebar nav */
   .sidebar {
@@ -155,7 +159,10 @@
     border-left: 1px solid var(--border);
     padding: 16px 10px; font-size: 12px;
     overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    overscroll-behavior: contain;
   }
+  .content .katex { font-size: 1.05em; }
+  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
   .toc-sidebar::-webkit-scrollbar { width: 3px; }
   .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
@@ -193,7 +200,7 @@
 
   /* Mobile */
   .sidebar-overlay { display: none; }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     .toc-sidebar { display: none; }
     .main { padding: 24px 20px; max-width: 100%; }
   }
@@ -245,7 +252,7 @@
   }
   .toc-drawer.open { display: block; }
   .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     .toc-toggle { display: inline-flex; align-items: center; }
   }
 </style>
