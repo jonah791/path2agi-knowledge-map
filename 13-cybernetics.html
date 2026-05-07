@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：控制论提供了“反馈”的数学理论。Wiener 1948 年提出的反馈机制为理解学习系统提供了重要框架，梯度下降、强化学习、RLHF 都可以在某种抽象层次上从反馈控制视角来理解。卡尔曼滤波在线性高斯假设下实现了贝叶斯推断的最优递归形式，而最优控制与强化学习则在不少标准设定下共享 Bellman 动态规划语言。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：动态环境中的状态估计、噪声处理与决策离不开概率方法</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：控制目标、代价函数与策略更新通常被表达为优化问题</li>
@@ -446,8 +446,8 @@
 <li><a href="11-operations-research.html">运筹学</a>：规划、调度与最优决策问题与控制思想高度相关</li>
 <li><a href="12-game-theory.html">博弈论</a>：多智能体控制与策略互动可从博弈论视角进一步理解</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要控制论</h2>
-<h3>1.1 反馈机制与学习系统</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要控制论">1. 上帝视角：为什么 AI 需要控制论</h2>
+<h3 id="n1-1-反馈机制与学习系统">1.1 反馈机制与学习系统</h3>
 <p>一切学习都可以归结为一个循环：<strong>观察 → 比较 → 调整</strong>。控制论为这一过程提供了数学框架。</p>
 <ul>
 <li><strong>梯度下降</strong>：损失函数提供反馈信号，参数沿梯度方向调整——可以理解为负反馈控制的一种形式</li>
@@ -455,7 +455,7 @@
 <li><strong>RLHF</strong>（Reinforcement Learning from Human Feedback）：人类偏好作为反馈信号，对齐大语言模型——控制论思想在 AGI 对齐中的应用</li>
 </ul>
 <p>从数学角度看，这些范式都涉及在某个目标函数下，通过反馈信号最小化误差的过程，体现了控制论的核心思想。</p>
-<h3>1.2 与其他学科的关键连接点</h3>
+<h3 id="n1-2-与其他学科的关键连接点">1.2 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -506,8 +506,8 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 前史：反馈思想的萌芽</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-前史-反馈思想的萌芽">2.1 前史：反馈思想的萌芽</h3>
 <p>反馈控制的思想远早于控制论的正式诞生：</p>
 <ul>
 <li><strong>古代</strong>：公元前 3 世纪，亚历山大的 Ctesibius 发明了浮球阀水钟，利用水位反馈维持恒定流速——这是已知最早的反馈装置</li>
@@ -516,7 +516,7 @@
 <li><strong>1932 年</strong>：Harry Nyquist 提出 Nyquist 稳定性判据，为频域分析奠定基础</li>
 <li><strong>1938 年</strong>：Hendrik Bode 发展了频率响应方法（Bode 图），成为经典控制理论的核心工具</li>
 </ul>
-<h3>2.2 控制论的诞生</h3>
+<h3 id="n2-2-控制论的诞生">2.2 控制论的诞生</h3>
 <ul>
 <li><strong>1943 年</strong>：Arturo Rosenblueth、Norbert Wiener 和 Julian Bigelow 发表《行为、目的与目的论》（<em>Behavior, Purpose and Teleology</em>），提出目的性行为可以用反馈机制解释——这篇论文直接启发了控制论</li>
 <li><strong>1948 年</strong>：<strong>Norbert Wiener</strong> 出版《控制论：或关于在动物和机器中控制和通信的科学》（<em>Cybernetics: Or Control and Communication in the Animal and the Machine</em>）。这部里程碑著作：<ul>
@@ -527,13 +527,13 @@
 </li>
 <li><strong>1948-1953 年</strong>：Macy 会议（Macy Conferences）汇聚了 Wiener、von Neumann、McCulloch、Pitts、Shannon、Bateson 等跨学科巨匠，控制论思想渗透到神经科学、心理学、社会学等领域</li>
 </ul>
-<h3>2.3 经典控制理论的成熟</h3>
+<h3 id="n2-3-经典控制理论的成熟">2.3 经典控制理论的成熟</h3>
 <ul>
 <li><strong>1950s</strong>：PID 控制器在工业中广泛应用，Ziegler-Nichols 整定法则成为工程标准</li>
 <li><strong>1956 年</strong>：Lev Pontryagin 提出极大值原理（Pontryagin&#39;s Maximum Principle），为最优控制提供了必要条件</li>
 <li><strong>1957 年</strong>：<strong>Richard Bellman</strong> 提出动态规划（dynamic programming）和 Bellman 方程，为最优控制和后来的强化学习奠定了数学基础</li>
 </ul>
-<h3>2.4 现代控制理论的革命</h3>
+<h3 id="n2-4-现代控制理论的革命">2.4 现代控制理论的革命</h3>
 <ul>
 <li><strong>1960 年</strong>：<strong>Rudolf Kálmán</strong> 发表划时代论文《线性滤波和预测问题的新方法》，提出卡尔曼滤波（Kalman filter）。这一成果：<ul>
 <li>将维纳滤波从频域推广到状态空间的时域方法</li>
@@ -544,21 +544,21 @@
 <li><strong>1960 年</strong>：Kálmán 同时提出了可控性（controllability）和可观性（observability）的概念，建立了现代控制理论的代数基础</li>
 <li><strong>1960s-1970s</strong>：线性二次调节器（LQR）、线性二次高斯控制（LQG）等最优控制方法成熟</li>
 </ul>
-<h3>2.5 自适应与鲁棒控制</h3>
+<h3 id="n2-5-自适应与鲁棒控制">2.5 自适应与鲁棒控制</h3>
 <ul>
 <li><strong>1970s-1980s</strong>：<strong>Karl Johan Åström</strong> 等人发展了自适应控制（adaptive control）理论，系统能在线辨识参数并调整控制策略</li>
 <li><strong>1981 年</strong>：George Zames 提出 $H_\infty$ 控制理论，将鲁棒控制问题转化为极小极大优化——与博弈论深度关联</li>
 <li><strong>1990s</strong>：模型预测控制（Model Predictive Control, MPC）在工业过程控制中大规模应用</li>
 </ul>
-<h3>2.6 控制论与 AI 的再汇合</h3>
+<h3 id="n2-6-控制论与-AI-的再汇合">2.6 控制论与 AI 的再汇合</h3>
 <ul>
 <li><strong>2013 年</strong>：Mnih 等人的 DQN 将深度学习与强化学习结合——控制论思想在 AI 中的复兴</li>
 <li><strong>2017 年</strong>：Benjamin Recht 等人明确指出强化学习与最优控制的数学等价性</li>
 <li><strong>2022 年</strong>：RLHF 成为对齐大语言模型的核心技术——反馈控制思想在 AGI 安全中的最新应用</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 反馈机制——学习的本质</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-反馈机制-学习的本质">3.1 反馈机制——学习的本质</h3>
 <h4>数学定义</h4>
 <p>考虑一个离散时间反馈系统。设参考信号为 $r(t)$，系统输出为 $y(t)$，误差信号为：</p>
 <p>$$e(t) = r(t) - y(t)$$</p>
@@ -610,7 +610,7 @@
 <td>对抗训练</td>
 </tr>
 </tbody></table>
-<h3>3.2 卡尔曼滤波（Kalman Filter）</h3>
+<h3 id="n3-2-卡尔曼滤波-Kalman-Filter">3.2 卡尔曼滤波（Kalman Filter）</h3>
 <h4>数学定义</h4>
 <p>卡尔曼滤波处理的是线性高斯状态空间模型：</p>
 <p><strong>状态方程</strong>（系统如何演化）：</p>
@@ -648,7 +648,7 @@
 <li><strong>时间序列预测</strong>：金融、气象等领域的状态估计</li>
 <li><strong>Transformer 中的隐式滤波</strong>：有研究表明，Transformer 的注意力机制在某种意义上执行了类似卡尔曼滤波的信息融合</li>
 </ul>
-<h3>3.3 最优控制与 LQR（Linear Quadratic Regulator）</h3>
+<h3 id="n3-3-最优控制与-LQR-Linear-Quadratic-Regulator">3.3 最优控制与 LQR（Linear Quadratic Regulator）</h3>
 <h4>数学定义</h4>
 <p>最优控制问题的一般形式：在动态约束下，找到控制序列 $\{u_0, u_1, \ldots\}$ 使得代价函数最小：</p>
 <p>$$\min_{u_0, u_1, \ldots} J = \sum_{k=0}^{N} l(x_k, u_k) + \phi(x_N)$$</p>
@@ -675,7 +675,7 @@
 <li><strong>模型预测控制（MPC）</strong>：在线求解有限时域 LQR，是当前机器人控制的主流方法</li>
 <li><strong>理论基准</strong>：LQR 因其解析解而成为强化学习理论研究中常用的基准问题</li>
 </ul>
-<h3>3.4 PID 控制（Proportional-Integral-Derivative Control）</h3>
+<h3 id="n3-4-PID-控制-Proportional-Integral-Derivative-Control">3.4 PID 控制（Proportional-Integral-Derivative Control）</h3>
 <h4>数学定义</h4>
 <p>PID 控制器是工业中最广泛使用的控制器，其控制律为：</p>
 <p>$$u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de(t)}{dt}$$</p>
@@ -702,7 +702,7 @@
 <li><strong>神经 PID</strong>：用神经网络学习 PID 参数，结合了 PID 的可解释性和深度学习的适应性</li>
 <li><strong>工业 AI</strong>：在工业控制中，PID + AI 的混合架构正在成为趋势</li>
 </ul>
-<h3>3.5 自适应控制（Adaptive Control）</h3>
+<h3 id="n3-5-自适应控制-Adaptive-Control">3.5 自适应控制（Adaptive Control）</h3>
 <h4>数学定义</h4>
 <p>自适应控制处理的核心问题是：<strong>系统参数未知或时变时，如何设计控制器？</strong></p>
 <p>以模型参考自适应控制（Model Reference Adaptive Control, MRAC）为例：</p>
@@ -729,8 +729,8 @@
 <li><strong>持续学习</strong>：自适应控制天然处理非平稳环境，这正是持续学习（continual learning）的核心挑战</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 最优控制 ↔ 强化学习：两种密切相关的决策语言</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-最优控制-强化学习-两种密切相关的决策语言">4.1 最优控制 ↔ 强化学习：两种密切相关的决策语言</h3>
 <p>这是控制论对 AI 的重要贡献之一。最优控制和强化学习在不少标准设定下可以用相近的动态规划语言来描述：</p>
 <table>
 <thead>
@@ -782,7 +782,7 @@
 <li><strong>强化学习</strong>通常假设模型未知（model-free），通过采样学习</li>
 </ul>
 <p>但这个界限正在变得更模糊：model-based RL 可以理解为先学习系统模型，再在该模型上做规划与控制。</p>
-<h3>4.2 卡尔曼滤波 → 贝叶斯深度学习</h3>
+<h3 id="n4-2-卡尔曼滤波-贝叶斯深度学习">4.2 卡尔曼滤波 → 贝叶斯深度学习</h3>
 <p>卡尔曼滤波是贝叶斯推断在线性高斯动态系统中的精确解。这一思想向 AI 的扩展包括：</p>
 <ul>
 <li><strong>粒子滤波</strong>（particle filter）：将卡尔曼滤波推广到非线性非高斯系统，用蒙特卡洛采样近似后验分布</li>
@@ -790,7 +790,7 @@
 <li><strong>状态空间模型</strong>：近年来 Mamba 等结构化状态空间模型（SSM）直接借鉴了卡尔曼滤波的状态空间框架</li>
 <li><strong>贝叶斯神经网络</strong>：扩展卡尔曼滤波（EKF）被用于神经网络的在线参数估计</li>
 </ul>
-<h3>4.3 稳定性理论 → 训练稳定性</h3>
+<h3 id="n4-3-稳定性理论-训练稳定性">4.3 稳定性理论 → 训练稳定性</h3>
 <p>控制论中的 Lyapunov 稳定性理论为理解神经网络训练提供了工具：</p>
 <ul>
 <li><strong>梯度爆炸/消失</strong>：可以用系统稳定性的语言描述——训练过程是否&quot;稳定&quot;</li>
@@ -798,7 +798,7 @@
 <li><strong>归一化技术</strong>：BatchNorm、LayerNorm 等可以理解为对训练动态系统的稳定化措施</li>
 <li><strong>神经 ODE</strong>：Chen 等人 (2018) 将残差网络解释为常微分方程的离散化，直接建立了深度学习与动态系统理论的桥梁</li>
 </ul>
-<h3>4.4 鲁棒控制 → AI 安全与对齐</h3>
+<h3 id="n4-4-鲁棒控制-AI-安全与对齐">4.4 鲁棒控制 → AI 安全与对齐</h3>
 <p>$H_\infty$ 鲁棒控制的思想——在最坏情况下保证性能——与 AI 安全问题有很强的方法论亲缘性：</p>
 <ul>
 <li><strong>对抗鲁棒性</strong>：对抗样本攻击可以看作一个极小极大博弈，与鲁棒控制的数学框架一致</li>
@@ -806,15 +806,15 @@
 <li><strong>RLHF 中的约束</strong>：对齐大模型时的安全约束可以用约束最优控制的框架来理解</li>
 <li><strong>可验证安全</strong>：控制论中的可达性分析（reachability analysis）正被用于验证神经网络的安全性</li>
 </ul>
-<h3>4.5 系统辨识 → 世界模型</h3>
+<h3 id="n4-5-系统辨识-世界模型">4.5 系统辨识 → 世界模型</h3>
 <p>控制论中的系统辨识（system identification）——从输入输出数据中学习系统模型——可视为后来世界模型（world model）研究的重要方法论先驱：</p>
 <ul>
 <li><strong>Dreamer</strong>（Hafner 等人, 2020）：学习环境的动态模型，然后在&quot;想象&quot;中做规划——这正是系统辨识 + 最优控制的现代版本</li>
 <li><strong>大语言模型作为世界模型</strong>：LLM 是否在隐式地学习世界的动态模型？这是当前 AI 研究的热门问题</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 控制论视角下的大模型对齐</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-控制论视角下的大模型对齐">5.1 控制论视角下的大模型对齐</h3>
 <p>RLHF 可以看作一个控制问题：</p>
 <ul>
 <li><strong>被控对象</strong>：大语言模型</li>
@@ -827,28 +827,28 @@
 <li>如何处理<strong>多目标</strong>对齐？（不同人群的偏好冲突）</li>
 <li>如何实现<strong>自适应</strong>对齐？（随社会价值观演变而调整）</li>
 </ul>
-<h3>5.2 神经控制器：端到端学习控制</h3>
+<h3 id="n5-2-神经控制器-端到端学习控制">5.2 神经控制器：端到端学习控制</h3>
 <p>传统控制依赖精确的数学模型，而神经控制器直接从数据学习控制策略：</p>
 <ul>
 <li><strong>端到端自动驾驶</strong>：从传感器输入直接到控制输出</li>
 <li><strong>灵巧操作</strong>：机器人手的精细控制</li>
 <li>挑战：如何保证神经控制器的<strong>安全性</strong>和<strong>可解释性</strong>？</li>
 </ul>
-<h3>5.3 控制论与因果推断</h3>
+<h3 id="n5-3-控制论与因果推断">5.3 控制论与因果推断</h3>
 <p>控制论中的干预（intervention）概念与因果推断中的 do-算子在“主动施加变化并观察结果”这一层面高度相关：</p>
 <ul>
 <li>控制 = 对系统施加干预</li>
 <li>因果效应 = 干预的结果</li>
 <li>开放问题：如何将因果推断的严格框架引入强化学习？</li>
 </ul>
-<h3>5.4 量子控制与量子机器学习</h3>
+<h3 id="n5-4-量子控制与量子机器学习">5.4 量子控制与量子机器学习</h3>
 <p>量子系统的控制是量子计算的基础：</p>
 <ul>
 <li>量子门操作本质上是对量子态的控制</li>
 <li>量子纠错可以看作量子系统的反馈控制</li>
 <li>量子强化学习正在探索中</li>
 </ul>
-<h3>5.5 生物启发的控制架构</h3>
+<h3 id="n5-5-生物启发的控制架构">5.5 生物启发的控制架构</h3>
 <p>大脑的控制架构远比 PID 或 LQR 复杂：</p>
 <ul>
 <li><strong>预测编码</strong>（predictive coding）：大脑持续预测感觉输入，只处理预测误差——它与卡尔曼滤波在功能直觉上相近，但并不是同一个严格数学模型</li>
@@ -856,8 +856,8 @@
 <li><strong>内模型</strong>（internal model）：小脑维护身体动力学的内部模型——启发了 model-based RL</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材与著作</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材与著作">经典教材与著作</h3>
 <ul>
 <li>Wiener, N. (1948). <em>Cybernetics: Or Control and Communication in the Animal and the Machine</em>. MIT Press.</li>
 <li>Bellman, R. (1957). <em>Dynamic Programming</em>. Princeton University Press.</li>
@@ -865,14 +865,14 @@
 <li>Åström, K. J. &amp; Murray, R. M. (2008). <em>Feedback Systems: An Introduction for Scientists and Engineers</em>. Princeton University Press.</li>
 <li>Pontryagin, L. S. et al. (1962). <em>The Mathematical Theory of Optimal Processes</em>. Interscience Publishers.</li>
 </ul>
-<h3>关键论文：控制论与 AI 的交叉</h3>
+<h3 id="关键论文-控制论与-AI-的交叉">关键论文：控制论与 AI 的交叉</h3>
 <ul>
 <li>Bertsekas, D. P. (2019). <em>Reinforcement Learning and Optimal Control</em>. Athena Scientific.</li>
 <li>Recht, B. (2019). A Tour of Reinforcement Learning: The View from Continuous Control. <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, 2, 253-279.</li>
 <li>Levine, S. (2018). Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review. <em>arXiv:1805.00909</em>.</li>
 <li>Sutton, R. S. &amp; Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em> (2nd ed.). MIT Press.</li>
 </ul>
-<h3>现代前沿</h3>
+<h3 id="现代前沿">现代前沿</h3>
 <ul>
 <li>Chen, R. T. Q. et al. (2018). Neural Ordinary Differential Equations. <em>Advances in Neural Information Processing Systems</em>, 31.</li>
 <li>Hafner, D. et al. (2020). Dream to Control: Learning Behaviors by Latent Imagination. <em>International Conference on Learning Representations</em>.</li>
@@ -880,7 +880,7 @@
 <li>Ouyang, L. et al. (2022). Training Language Models to Follow Instructions with Human Feedback. <em>Advances in Neural Information Processing Systems</em>, 35.</li>
 <li>Mnih, V. et al. (2015). Human-level control through deep reinforcement learning. <em>Nature</em>, 518, 529-533.</li>
 </ul>
-<h3>教材推荐</h3>
+<h3 id="教材推荐">教材推荐</h3>
 <ul>
 <li>入门：Åström, K. J. &amp; Murray, R. M. (2008). <em>Feedback Systems: An Introduction for Scientists and Engineers</em>. Princeton University Press.</li>
 <li>进阶：Bertsekas, D. P. (2019). <em>Reinforcement Learning and Optimal Control</em>. Athena Scientific.</li>
@@ -890,7 +890,7 @@
 <li>鲁棒控制：Zhou, K., Doyle, J. C. &amp; Glover, K. (1996). <em>Robust and Optimal Control</em>. Prentice Hall.</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了控制论对 AI/AGI 发展的核心贡献：<strong>反馈机制为学习系统提供了统一视角，而最优控制与强化学习在不少标准设定下可以共享动态规划语言。</strong></p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -915,12 +915,80 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要控制论" class="toc-link h2">1. 上帝视角：为什么 AI 需要控制论</a>
+<a href="#n1-1-反馈机制与学习系统" class="toc-link h3">1.1 反馈机制与学习系统</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-反馈思想的萌芽" class="toc-link h3">2.1 前史：反馈思想的萌芽</a>
+<a href="#n2-2-控制论的诞生" class="toc-link h3">2.2 控制论的诞生</a>
+<a href="#n2-3-经典控制理论的成熟" class="toc-link h3">2.3 经典控制理论的成熟</a>
+<a href="#n2-4-现代控制理论的革命" class="toc-link h3">2.4 现代控制理论的革命</a>
+<a href="#n2-5-自适应与鲁棒控制" class="toc-link h3">2.5 自适应与鲁棒控制</a>
+<a href="#n2-6-控制论与-AI-的再汇合" class="toc-link h3">2.6 控制论与 AI 的再汇合</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-反馈机制-学习的本质" class="toc-link h3">3.1 反馈机制——学习的本质</a>
+<a href="#n3-2-卡尔曼滤波-Kalman-Filter" class="toc-link h3">3.2 卡尔曼滤波（Kalman Filter）</a>
+<a href="#n3-3-最优控制与-LQR-Linear-Quadratic-Regulator" class="toc-link h3">3.3 最优控制与 LQR（Linear Quadratic Regulator）</a>
+<a href="#n3-4-PID-控制-Proportional-Integral-Derivative-Control" class="toc-link h3">3.4 PID 控制（Proportional-Integral-Derivative Control）</a>
+<a href="#n3-5-自适应控制-Adaptive-Control" class="toc-link h3">3.5 自适应控制（Adaptive Control）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-最优控制-强化学习-两种密切相关的决策语言" class="toc-link h3">4.1 最优控制 ↔ 强化学习：两种密切相关的决策语言</a>
+<a href="#n4-2-卡尔曼滤波-贝叶斯深度学习" class="toc-link h3">4.2 卡尔曼滤波 → 贝叶斯深度学习</a>
+<a href="#n4-3-稳定性理论-训练稳定性" class="toc-link h3">4.3 稳定性理论 → 训练稳定性</a>
+<a href="#n4-4-鲁棒控制-AI-安全与对齐" class="toc-link h3">4.4 鲁棒控制 → AI 安全与对齐</a>
+<a href="#n4-5-系统辨识-世界模型" class="toc-link h3">4.5 系统辨识 → 世界模型</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-控制论视角下的大模型对齐" class="toc-link h3">5.1 控制论视角下的大模型对齐</a>
+<a href="#n5-2-神经控制器-端到端学习控制" class="toc-link h3">5.2 神经控制器：端到端学习控制</a>
+<a href="#n5-3-控制论与因果推断" class="toc-link h3">5.3 控制论与因果推断</a>
+<a href="#n5-4-量子控制与量子机器学习" class="toc-link h3">5.4 量子控制与量子机器学习</a>
+<a href="#n5-5-生物启发的控制架构" class="toc-link h3">5.5 生物启发的控制架构</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材与著作" class="toc-link h3">经典教材与著作</a>
+<a href="#关键论文-控制论与-AI-的交叉" class="toc-link h3">关键论文：控制论与 AI 的交叉</a>
+<a href="#现代前沿" class="toc-link h3">现代前沿</a>
+<a href="#教材推荐" class="toc-link h3">教材推荐</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要控制论" class="toc-link h2">1. 上帝视角：为什么 AI 需要控制论</a>
+<a href="#n1-1-反馈机制与学习系统" class="toc-link h3">1.1 反馈机制与学习系统</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-反馈思想的萌芽" class="toc-link h3">2.1 前史：反馈思想的萌芽</a>
+<a href="#n2-2-控制论的诞生" class="toc-link h3">2.2 控制论的诞生</a>
+<a href="#n2-3-经典控制理论的成熟" class="toc-link h3">2.3 经典控制理论的成熟</a>
+<a href="#n2-4-现代控制理论的革命" class="toc-link h3">2.4 现代控制理论的革命</a>
+<a href="#n2-5-自适应与鲁棒控制" class="toc-link h3">2.5 自适应与鲁棒控制</a>
+<a href="#n2-6-控制论与-AI-的再汇合" class="toc-link h3">2.6 控制论与 AI 的再汇合</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-反馈机制-学习的本质" class="toc-link h3">3.1 反馈机制——学习的本质</a>
+<a href="#n3-2-卡尔曼滤波-Kalman-Filter" class="toc-link h3">3.2 卡尔曼滤波（Kalman Filter）</a>
+<a href="#n3-3-最优控制与-LQR-Linear-Quadratic-Regulator" class="toc-link h3">3.3 最优控制与 LQR（Linear Quadratic Regulator）</a>
+<a href="#n3-4-PID-控制-Proportional-Integral-Derivative-Control" class="toc-link h3">3.4 PID 控制（Proportional-Integral-Derivative Control）</a>
+<a href="#n3-5-自适应控制-Adaptive-Control" class="toc-link h3">3.5 自适应控制（Adaptive Control）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-最优控制-强化学习-两种密切相关的决策语言" class="toc-link h3">4.1 最优控制 ↔ 强化学习：两种密切相关的决策语言</a>
+<a href="#n4-2-卡尔曼滤波-贝叶斯深度学习" class="toc-link h3">4.2 卡尔曼滤波 → 贝叶斯深度学习</a>
+<a href="#n4-3-稳定性理论-训练稳定性" class="toc-link h3">4.3 稳定性理论 → 训练稳定性</a>
+<a href="#n4-4-鲁棒控制-AI-安全与对齐" class="toc-link h3">4.4 鲁棒控制 → AI 安全与对齐</a>
+<a href="#n4-5-系统辨识-世界模型" class="toc-link h3">4.5 系统辨识 → 世界模型</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-控制论视角下的大模型对齐" class="toc-link h3">5.1 控制论视角下的大模型对齐</a>
+<a href="#n5-2-神经控制器-端到端学习控制" class="toc-link h3">5.2 神经控制器：端到端学习控制</a>
+<a href="#n5-3-控制论与因果推断" class="toc-link h3">5.3 控制论与因果推断</a>
+<a href="#n5-4-量子控制与量子机器学习" class="toc-link h3">5.4 量子控制与量子机器学习</a>
+<a href="#n5-5-生物启发的控制架构" class="toc-link h3">5.5 生物启发的控制架构</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材与著作" class="toc-link h3">经典教材与著作</a>
+<a href="#关键论文-控制论与-AI-的交叉" class="toc-link h3">关键论文：控制论与 AI 的交叉</a>
+<a href="#现代前沿" class="toc-link h3">现代前沿</a>
+<a href="#教材推荐" class="toc-link h3">教材推荐</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

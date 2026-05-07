@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：运筹学提供了&quot;决策&quot;的数学框架。MDP（马尔可夫决策过程）是强化学习的数学骨架，Bellman 方程是 Q-Learning、DQN、PPO 等所有 RL 算法的理论根基。没有运筹学，AI 就无法做序贯决策。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="15-cybernetics.html">控制论</a>：控制论更关注反馈与动态系统，运筹学更强调可求解的决策与资源配置模型</li>
 <li><a href="12-game-theory.html">博弈论</a>：运筹学处理单智能体或统一目标下的决策，博弈论处理多主体战略互动</li>
@@ -447,16 +447,16 @@
 <li><a href="13-numerical-analysis.html">数值分析</a>：很多规划、优化与近似求解都需要数值方法支持</li>
 </ul>
 <hr>
-<h2>1. 上帝视角：为什么 AI 需要运筹学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要运筹学">1. 上帝视角：为什么 AI 需要运筹学</h2>
 <p>人工智能的核心目标之一是让智能体（agent）在复杂环境中做出最优决策。这不是一次性的判断，而是一连串相互关联的选择——每一步的决策都会影响未来的状态和可用选项。运筹学恰恰为这种<strong>序贯决策</strong>（sequential decision-making）提供了严格的数学框架。</p>
-<h3>1.1 运筹学为 AI 提供的四大基石</h3>
+<h3 id="n1-1-运筹学为-AI-提供的四大基石">1.1 运筹学为 AI 提供的四大基石</h3>
 <ol>
 <li><strong>序贯决策的数学模型</strong>：马尔可夫决策过程（Markov Decision Process, MDP）将&quot;状态—动作—奖励—转移&quot;形式化为一个五元组 $(S, A, P, R, \gamma)$，使得决策问题可以被精确定义和求解。</li>
 <li><strong>最优性原理与递归分解</strong>：Bellman 最优性原理（principle of optimality）指出，最优策略的子策略也是最优的。这使得复杂的多步决策问题可以通过递归方式分解为子问题，即动态规划（dynamic programming）。</li>
 <li><strong>从精确求解到近似学习</strong>：当状态空间过大、转移概率未知时，运筹学的框架自然延伸为强化学习（reinforcement learning）——用采样和函数逼近替代精确计算。</li>
 <li><strong>序列最优化的通用工具</strong>：Viterbi 算法、线性规划松弛等运筹学方法在 NLP、计算机视觉、组合优化等 AI 子领域中广泛应用。</li>
 </ol>
-<h3>1.2 与其他学科的边界与连接</h3>
+<h3 id="n1-2-与其他学科的边界与连接">1.2 与其他学科的边界与连接</h3>
 <ul>
 <li><strong>与博弈论 (22)</strong>：运筹学处理单智能体在环境中的最优决策；博弈论处理多智能体间的战略互动。MDP 扩展到多智能体即为随机博弈。</li>
 <li><strong>与控制论 (13)</strong>：最优控制是 MDP 的连续版本，运筹学偏重离散状态与组合优化。</li>
@@ -506,7 +506,7 @@
 <td>Schultz (1997) 的实验发现</td>
 </tr>
 </tbody></table>
-<h3>1.3 一个统一小例子：配送系统里谁负责什么</h3>
+<h3 id="n1-3-一个统一小例子-配送系统里谁负责什么">1.3 一个统一小例子：配送系统里谁负责什么</h3>
 <p>想象一个城市配送系统，需要同时回答三类问题：</p>
 <ul>
 <li><strong>今天有多少车、每辆车跑哪些点位？</strong> 这更像线性规划、整数规划或车辆路径问题，属于经典运筹学的资源分配与组合优化。</li>
@@ -515,21 +515,21 @@
 </ul>
 <p>这个例子说明：运筹学不等于强化学习。更准确地说，强化学习是运筹学处理“大状态、未知模型、在线学习”时的一条延伸分支；而调度、路径规划、整数规划和约束优化同样是 AI 系统里高频出现的运筹学主线。</p>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>运筹学的发展是一部从军事需求到数学理论、再到人工智能核心方法的演进史。</p>
-<h3>2.1 前史：运筹学的军事起源</h3>
+<h3 id="n2-1-前史-运筹学的军事起源">2.1 前史：运筹学的军事起源</h3>
 <ul>
 <li><strong>二战时期 (1937-1945)</strong>：运筹学（Operations Research）作为一门学科诞生于英国军方。科学家团队运用数学方法优化雷达部署、护航编队和轰炸策略。&quot;运筹学&quot;一词即来源于&quot;军事运作的研究&quot;（research on operations）。</li>
 <li><strong>George Dantzig (1947)</strong>：发明单纯形法（simplex method）求解线性规划（linear programming），为资源分配问题提供了高效算法。线性规划是运筹学最基础的工具之一。</li>
 </ul>
-<h3>2.2 动态规划的诞生</h3>
+<h3 id="n2-2-动态规划的诞生">2.2 动态规划的诞生</h3>
 <ul>
 <li><p><strong>Richard Bellman (1957)</strong>：出版 <em>Dynamic Programming</em>，提出动态规划方法和 Bellman 最优性原理。Bellman 方程成为所有序贯决策问题的理论基石。他还创造了&quot;维数灾难&quot;（curse of dimensionality）一词，指出状态空间指数增长带来的计算困难。</p>
 </li>
 <li><p><strong>Ronald Howard (1960)</strong>：在 <em>Dynamic Programming and Markov Processes</em> 中系统化了 MDP 理论，提出策略迭代（policy iteration）算法，与 Bellman 的值迭代（value iteration）形成互补。</p>
 </li>
 </ul>
-<h3>2.3 从运筹学到强化学习</h3>
+<h3 id="n2-3-从运筹学到强化学习">2.3 从运筹学到强化学习</h3>
 <ul>
 <li><p><strong>Arthur Samuel (1959)</strong>：开发了西洋跳棋程序，使用时序差分（temporal difference）思想进行自我对弈学习，被认为是强化学习的最早实践。</p>
 </li>
@@ -542,7 +542,7 @@
 <li><p><strong>Dimitri Bertsekas &amp; John Tsitsiklis (1996)</strong>：出版 <em>Neuro-Dynamic Programming</em>，系统阐述了将神经网络与动态规划结合的理论框架。</p>
 </li>
 </ul>
-<h3>2.4 深度强化学习时代</h3>
+<h3 id="n2-4-深度强化学习时代">2.4 深度强化学习时代</h3>
 <ul>
 <li><p><strong>Volodymyr Mnih et al. (2013, 2015)</strong>：DeepMind 发表 DQN（Deep Q-Network），用卷积神经网络逼近 Q 函数，在 Atari 游戏上达到超人水平。关键创新包括经验回放（experience replay）和目标网络（target network）。论文发表于 <em>Nature</em>，标志着深度强化学习的诞生。</p>
 </li>
@@ -556,8 +556,8 @@
 </li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 马尔可夫决策过程（Markov Decision Process, MDP）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-马尔可夫决策过程-Markov-Decision-Process-MDP">3.1 马尔可夫决策过程（Markov Decision Process, MDP）</h3>
 <h4>数学定义</h4>
 <p>MDP 是一个五元组 $(S, A, P, R, \gamma)$：</p>
 <ul>
@@ -607,7 +607,7 @@
 <li><strong>模型基础 RL</strong>（Model-based RL）：学习 MDP 的转移概率 P 和奖励函数 R</li>
 <li><strong>RLHF</strong>：将人类偏好建模为奖励函数，在 MDP 框架下优化语言模型</li>
 </ul>
-<h3>3.2 Bellman 方程与动态规划</h3>
+<h3 id="n3-2-Bellman-方程与动态规划">3.2 Bellman 方程与动态规划</h3>
 <h4>数学定义</h4>
 <p><strong>状态值函数</strong>（state-value function）：在策略 π 下，从状态 s 出发的期望累积奖励：</p>
 <p>$$V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(S_t, A_t) \mid S_0 = s \right]$$</p>
@@ -630,7 +630,7 @@
 <li><strong>DQN</strong>：用神经网络参数化 $Q^*(s,a)$，最小化 Bellman 误差</li>
 <li><strong>Actor-Critic</strong>：Critic 学习状态值函数或动作值函数，Actor 改进策略</li>
 </ul>
-<h3>3.3 值迭代与策略迭代对比</h3>
+<h3 id="n3-3-值迭代与策略迭代对比">3.3 值迭代与策略迭代对比</h3>
 <h4>值迭代（Value Iteration）</h4>
 <p>算法流程：</p>
 <ol>
@@ -701,7 +701,7 @@
 <li><strong>强化学习基线</strong>：很多 RL 算法都可以看作它们在未知模型情形下的采样近似。</li>
 <li><strong>模型基础决策</strong>：世界模型、搜索与规划系统常在局部状态空间内显式执行类似更新。</li>
 </ul>
-<h3>3.4 从表格 RL 到深度 RL</h3>
+<h3 id="n3-4-从表格-RL-到深度-RL">3.4 从表格 RL 到深度 RL</h3>
 <h4>Q-Learning：无模型的突破</h4>
 <p>Q-Learning（Watkins, 1989）是第一个收敛的 off-policy 控制算法。它不需要知道环境的转移概率 $P$，而是通过与环境交互来学习最优 Q 函数。</p>
 <p>更新规则：</p>
@@ -750,7 +750,7 @@ MAPPO / RLHF (2022+)
 <li><strong>大模型对齐</strong>：RLHF 把序列生成视作序贯决策问题，将 PPO 等方法迁移到语言模型训练。</li>
 <li><strong>近似规划</strong>：说明运筹学方法如何从精确求解转向“可扩展的近似最优”。</li>
 </ul>
-<h3>3.5 Viterbi 算法</h3>
+<h3 id="n3-5-Viterbi-算法">3.5 Viterbi 算法</h3>
 <h4>数学定义</h4>
 <p>给定隐马尔可夫模型（Hidden Markov Model, HMM）参数组 λ = (A, B, π₀)：</p>
 <ul>
@@ -777,9 +777,9 @@ MAPPO / RLHF (2022+)
 <li><strong>通信系统</strong>：卷积码的最大似然解码</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>运筹学对人工智能的贡献不仅仅是提供了几个算法，而是塑造了 AI 思考&quot;决策&quot;问题的整个范式。</p>
-<h3>4.1 强化学习的数学骨架</h3>
+<h3 id="n4-1-强化学习的数学骨架">4.1 强化学习的数学骨架</h3>
 <p>MDP + Bellman 方程构成了强化学习的完整数学框架。所有 RL 算法——无论是基于值函数的（DQN、Dueling DQN）、基于策略的（REINFORCE、PPO）还是 Actor-Critic 混合方法（A2C、SAC）——都可以在这个框架下统一理解。</p>
 <p>具体而言：</p>
 <ul>
@@ -787,7 +787,7 @@ MAPPO / RLHF (2022+)
 <li><strong>策略梯度方法</strong>：利用 Bellman 方程定义的优势函数来估计梯度</li>
 <li><strong>Actor-Critic</strong>：Critic 用 Bellman 方程学习值函数，Actor 用值函数指导策略更新</li>
 </ul>
-<h3>4.2 大语言模型的对齐</h3>
+<h3 id="n4-2-大语言模型的对齐">4.2 大语言模型的对齐</h3>
 <p>RLHF（Reinforcement Learning from Human Feedback）是当前大语言模型对齐的核心技术。其流程完全建立在运筹学框架之上：</p>
 <ol>
 <li><strong>奖励建模</strong>：从人类偏好数据中学习奖励函数 $R(s, a)$（Bradley-Terry 模型）</li>
@@ -795,7 +795,7 @@ MAPPO / RLHF (2022+)
 </ol>
 <p>$$\max_\pi \mathbb{E}_{x \sim \mathcal{D}, y \sim \pi(\cdot|x)} \left[ R(x, y) - \beta \text{KL}(\pi \| \pi_{ref}) \right]$$</p>
 <p>这正是一个带约束的 MDP 优化问题。</p>
-<h3>4.3 组合优化与规划</h3>
+<h3 id="n4-3-组合优化与规划">4.3 组合优化与规划</h3>
 <p>运筹学中的经典问题——旅行商问题（TSP）、车辆路径问题（VRP）、调度问题——正在被深度学习方法重新审视：</p>
 <ul>
 <li><strong>Pointer Network</strong>（Vinyals et al., 2015）：用注意力机制求解组合优化</li>
@@ -803,46 +803,46 @@ MAPPO / RLHF (2022+)
 <li><strong>LLM 推理规划</strong>：大模型的思维链（Chain-of-Thought）可以看作一种序贯决策过程</li>
 </ul>
 <p>这部分也正好提醒读者：运筹学对 AI 的贡献并不只在 RL。只要问题涉及资源约束、路径选择、调度分配、约束满足或近似最优解搜索，经典规划与组合优化仍然是第一层方法库。</p>
-<h3>4.4 多智能体系统</h3>
+<h3 id="n4-4-多智能体系统">4.4 多智能体系统</h3>
 <p>运筹学中的博弈论与多智能体 MDP 结合，催生了多智能体强化学习（MARL）：</p>
 <ul>
 <li><strong>合作场景</strong>：多个智能体共同优化全局目标（如机器人协作）</li>
 <li><strong>竞争场景</strong>：零和博弈中的纳什均衡求解（如 AlphaGo 的自我对弈）</li>
 <li><strong>混合场景</strong>：部分合作部分竞争（如自动驾驶中的交通博弈）</li>
 </ul>
-<h3>4.5 贡献边界：为什么运筹学不能单独解释 AI</h3>
+<h3 id="n4-5-贡献边界-为什么运筹学不能单独解释-AI">4.5 贡献边界：为什么运筹学不能单独解释 AI</h3>
 <p>运筹学最强的地方，是把决策、约束、资源分配与规划问题写成可以分析和求解的形式；但它并不单独决定表示学习、感知建模或语义理解该怎么做。现代 AI 往往需要把运筹学与概率论、数值分析、控制论、博弈论和深度学习结合起来：前者给出决策骨架，后者提供高维表示、近似求解与感知能力。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 样本效率</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-样本效率">5.1 样本效率</h3>
 <p>当前深度 RL 算法需要大量交互数据。如何提高样本效率是核心挑战：</p>
 <ul>
 <li><strong>模型基础 RL</strong>（Model-based RL）：学习环境模型，在&quot;想象&quot;中规划（如 MuZero、DreamerV3）</li>
 <li><strong>离线 RL</strong>（Offline RL）：从固定数据集中学习策略，无需在线交互（如 CQL、IQL）</li>
 <li><strong>迁移学习</strong>：将一个任务中学到的知识迁移到新任务</li>
 </ul>
-<h3>5.2 奖励设计</h3>
+<h3 id="n5-2-奖励设计">5.2 奖励设计</h3>
 <p>奖励函数的设计直接决定了智能体的行为，但手工设计奖励既困难又容易出错：</p>
 <ul>
 <li><strong>奖励黑客</strong>（reward hacking）：智能体找到意料之外的方式最大化奖励，但不符合设计者意图</li>
 <li><strong>逆强化学习</strong>（Inverse RL）：从专家行为中推断奖励函数</li>
 <li><strong>RLHF 的局限</strong>：人类偏好本身可能不一致、有偏差</li>
 </ul>
-<h3>5.3 长期规划与层次化决策</h3>
+<h3 id="n5-3-长期规划与层次化决策">5.3 长期规划与层次化决策</h3>
 <p>现实世界的决策往往涉及多个时间尺度：</p>
 <ul>
 <li><strong>层次化 RL</strong>（Hierarchical RL）：将决策分为高层目标设定和低层动作执行（如 Option Framework）</li>
 <li><strong>LLM 作为规划器</strong>：利用大语言模型的世界知识进行高层规划，RL 负责低层执行</li>
 <li><strong>时序抽象</strong>（temporal abstraction）：如何自动发现有意义的子目标</li>
 </ul>
-<h3>5.4 安全与约束</h3>
+<h3 id="n5-4-安全与约束">5.4 安全与约束</h3>
 <p>在现实应用中，智能体必须满足安全约束：</p>
 <ul>
 <li><strong>约束 MDP</strong>（Constrained MDP, CMDP）：在满足约束条件下最大化奖励</li>
 <li><strong>安全探索</strong>（safe exploration）：在学习过程中避免灾难性错误</li>
 <li><strong>AI 对齐</strong>（alignment）：确保 AI 系统的行为符合人类价值观</li>
 </ul>
-<h3>5.5 理论基础的完善</h3>
+<h3 id="n5-5-理论基础的完善">5.5 理论基础的完善</h3>
 <ul>
 <li><strong>非平稳环境</strong>中的 MDP 理论</li>
 <li><strong>部分可观测 MDP</strong>（POMDP）的高效求解</li>
@@ -850,8 +850,8 @@ MAPPO / RLHF (2022+)
 <li><strong>多智能体系统</strong>中的均衡概念与学习动态</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Bellman, R. (1957). <em>Dynamic Programming</em>. Princeton University Press.</li>
 <li>Howard, R. (1960). <em>Dynamic Programming and Markov Processes</em>. MIT Press.</li>
@@ -859,7 +859,7 @@ MAPPO / RLHF (2022+)
 <li>Sutton, R. &amp; Barto, A. (2018). <em>Reinforcement Learning: An Introduction</em> (2nd ed.). MIT Press. — 强化学习的&quot;圣经&quot;，免费在线阅读。</li>
 <li>Puterman, M. (1994). <em>Markov Decision Processes: Discrete Stochastic Dynamic Programming</em>. Wiley.</li>
 </ul>
-<h3>里程碑论文</h3>
+<h3 id="里程碑论文">里程碑论文</h3>
 <ul>
 <li>Watkins, C. (1989). <em>Learning from Delayed Rewards</em>. PhD thesis, Cambridge University.</li>
 <li>Tesauro, G. (1995). Temporal difference learning and TD-Gammon. <em>Communications of the ACM</em>, 38(3), 58-68.</li>
@@ -868,14 +868,14 @@ MAPPO / RLHF (2022+)
 <li>Schulman, J. et al. (2017). Proximal Policy Optimization Algorithms. <em>arXiv:1707.06347</em>.</li>
 <li>Ouyang, L. et al. (2022). Training language models to follow instructions with human feedback. <em>NeurIPS</em>.</li>
 </ul>
-<h3>前沿综述</h3>
+<h3 id="前沿综述">前沿综述</h3>
 <ul>
 <li>Levine, S. et al. (2020). Offline Reinforcement Learning: Tutorial, Review, and Perspectives on Open Problems. <em>arXiv:2005.01643</em>.</li>
 <li>Hafner, D. et al. (2023). Mastering Diverse Domains through World Models (DreamerV3). <em>arXiv:2301.04104</em>.</li>
 <li>Viterbi, A. (1967). Error bounds for convolutional codes and an asymptotically optimum decoding algorithm. <em>IEEE Transactions on Information Theory</em>, 13(2), 260-269.</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇负责给全书中的“决策、规划、约束与资源配置”提供统一数学语言。它告诉我们，AI 不只是拟合函数，也是在有限资源和动态环境下不断做选择。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -893,12 +893,76 @@ MAPPO / RLHF (2022+)
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要运筹学" class="toc-link h2">1. 上帝视角：为什么 AI 需要运筹学</a>
+<a href="#n1-1-运筹学为-AI-提供的四大基石" class="toc-link h3">1.1 运筹学为 AI 提供的四大基石</a>
+<a href="#n1-2-与其他学科的边界与连接" class="toc-link h3">1.2 与其他学科的边界与连接</a>
+<a href="#n1-3-一个统一小例子-配送系统里谁负责什么" class="toc-link h3">1.3 一个统一小例子：配送系统里谁负责什么</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-运筹学的军事起源" class="toc-link h3">2.1 前史：运筹学的军事起源</a>
+<a href="#n2-2-动态规划的诞生" class="toc-link h3">2.2 动态规划的诞生</a>
+<a href="#n2-3-从运筹学到强化学习" class="toc-link h3">2.3 从运筹学到强化学习</a>
+<a href="#n2-4-深度强化学习时代" class="toc-link h3">2.4 深度强化学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-马尔可夫决策过程-Markov-Decision-Process-MDP" class="toc-link h3">3.1 马尔可夫决策过程（Markov Decision Process, MDP）</a>
+<a href="#n3-2-Bellman-方程与动态规划" class="toc-link h3">3.2 Bellman 方程与动态规划</a>
+<a href="#n3-3-值迭代与策略迭代对比" class="toc-link h3">3.3 值迭代与策略迭代对比</a>
+<a href="#n3-4-从表格-RL-到深度-RL" class="toc-link h3">3.4 从表格 RL 到深度 RL</a>
+<a href="#n3-5-Viterbi-算法" class="toc-link h3">3.5 Viterbi 算法</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-强化学习的数学骨架" class="toc-link h3">4.1 强化学习的数学骨架</a>
+<a href="#n4-2-大语言模型的对齐" class="toc-link h3">4.2 大语言模型的对齐</a>
+<a href="#n4-3-组合优化与规划" class="toc-link h3">4.3 组合优化与规划</a>
+<a href="#n4-4-多智能体系统" class="toc-link h3">4.4 多智能体系统</a>
+<a href="#n4-5-贡献边界-为什么运筹学不能单独解释-AI" class="toc-link h3">4.5 贡献边界：为什么运筹学不能单独解释 AI</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-样本效率" class="toc-link h3">5.1 样本效率</a>
+<a href="#n5-2-奖励设计" class="toc-link h3">5.2 奖励设计</a>
+<a href="#n5-3-长期规划与层次化决策" class="toc-link h3">5.3 长期规划与层次化决策</a>
+<a href="#n5-4-安全与约束" class="toc-link h3">5.4 安全与约束</a>
+<a href="#n5-5-理论基础的完善" class="toc-link h3">5.5 理论基础的完善</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#前沿综述" class="toc-link h3">前沿综述</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要运筹学" class="toc-link h2">1. 上帝视角：为什么 AI 需要运筹学</a>
+<a href="#n1-1-运筹学为-AI-提供的四大基石" class="toc-link h3">1.1 运筹学为 AI 提供的四大基石</a>
+<a href="#n1-2-与其他学科的边界与连接" class="toc-link h3">1.2 与其他学科的边界与连接</a>
+<a href="#n1-3-一个统一小例子-配送系统里谁负责什么" class="toc-link h3">1.3 一个统一小例子：配送系统里谁负责什么</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-运筹学的军事起源" class="toc-link h3">2.1 前史：运筹学的军事起源</a>
+<a href="#n2-2-动态规划的诞生" class="toc-link h3">2.2 动态规划的诞生</a>
+<a href="#n2-3-从运筹学到强化学习" class="toc-link h3">2.3 从运筹学到强化学习</a>
+<a href="#n2-4-深度强化学习时代" class="toc-link h3">2.4 深度强化学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-马尔可夫决策过程-Markov-Decision-Process-MDP" class="toc-link h3">3.1 马尔可夫决策过程（Markov Decision Process, MDP）</a>
+<a href="#n3-2-Bellman-方程与动态规划" class="toc-link h3">3.2 Bellman 方程与动态规划</a>
+<a href="#n3-3-值迭代与策略迭代对比" class="toc-link h3">3.3 值迭代与策略迭代对比</a>
+<a href="#n3-4-从表格-RL-到深度-RL" class="toc-link h3">3.4 从表格 RL 到深度 RL</a>
+<a href="#n3-5-Viterbi-算法" class="toc-link h3">3.5 Viterbi 算法</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-强化学习的数学骨架" class="toc-link h3">4.1 强化学习的数学骨架</a>
+<a href="#n4-2-大语言模型的对齐" class="toc-link h3">4.2 大语言模型的对齐</a>
+<a href="#n4-3-组合优化与规划" class="toc-link h3">4.3 组合优化与规划</a>
+<a href="#n4-4-多智能体系统" class="toc-link h3">4.4 多智能体系统</a>
+<a href="#n4-5-贡献边界-为什么运筹学不能单独解释-AI" class="toc-link h3">4.5 贡献边界：为什么运筹学不能单独解释 AI</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-样本效率" class="toc-link h3">5.1 样本效率</a>
+<a href="#n5-2-奖励设计" class="toc-link h3">5.2 奖励设计</a>
+<a href="#n5-3-长期规划与层次化决策" class="toc-link h3">5.3 长期规划与层次化决策</a>
+<a href="#n5-4-安全与约束" class="toc-link h3">5.4 安全与约束</a>
+<a href="#n5-5-理论基础的完善" class="toc-link h3">5.5 理论基础的完善</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#前沿综述" class="toc-link h3">前沿综述</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

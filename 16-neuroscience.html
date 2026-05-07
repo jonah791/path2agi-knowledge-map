@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：神经科学为 AI 提供了重要的生物学启发，但这种关系并不是“直接照搬大脑”。人工神经元、CNN、经验回放、注意力机制等都能在神经系统研究中找到原型或功能类比；与此同时，现代深度学习的大量关键设计仍来自数学优化、计算机工程与大规模实验。理解神经科学，更适合帮助我们把握 AI 的设计动机、边界与未来可能性。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a>：神经表征、连接模式与高维活动分析通常依赖向量与矩阵工具</li>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：不确定性感知、神经编码与贝叶斯脑假说与概率建模密切相关</li>
@@ -446,7 +446,7 @@
 <li><a href="21-psychology.html">心理学</a>：行为实验与心理机制常为神经机制研究提供问题框架</li>
 <li><a href="22-linguistics.html">语言学</a>：语言加工、语义表示与符号能力研究连接神经与语言问题</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要神经科学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要神经科学">1. 上帝视角：为什么 AI 需要神经科学</h2>
 <p>人工智能的名字里虽然有&quot;智能&quot;二字，但它的设计者们在很长一段时间里并不真正理解智能是什么。截止 2026 年，迄今唯一有实证支撑、能够稳定完成跨模态感知、长期学习与开放环境适应的自然系统依然是生物大脑（Kandel et al., 2021；Dayan &amp; Abbott, 2001），因此神经科学为 AI 研究提供了重要的参照系。不过，这种参照更接近“受约束的启发来源”，而不是可直接复制的工程蓝图。</p>
 <p>更准确地说，神经科学与 AI 之间至少存在三种不同层级的关系：</p>
 <ul>
@@ -462,7 +462,7 @@
 <li><strong>奖励驱动的行为塑造</strong>：多巴胺系统的奖励预测误差信号，与时序差分学习（TD learning）的更新规则在功能上高度相似。</li>
 <li><strong>注意力的选择性分配</strong>：大脑无法同时处理所有感觉输入，必须选择性地分配计算资源，这为后来的注意力机制提供了功能层面的直觉参照。</li>
 </ul>
-<h3>与其他学科的关键连接点</h3>
+<h3 id="与其他学科的关键连接点">与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -508,15 +508,15 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>神经科学与 AI 的交织历史可以追溯到 19 世纪末。以下按时间线梳理关键里程碑：</p>
-<h3>2.1 神经元学说的建立（1880s-1900s）</h3>
+<h3 id="n2-1-神经元学说的建立-1880s-1900s">2.1 神经元学说的建立（1880s-1900s）</h3>
 <ul>
 <li><strong>Camillo Golgi (1873)</strong>：发明银染色法（Golgi staining），首次让单个神经元在显微镜下可见。Golgi 本人支持&quot;网状理论&quot;（reticular theory），认为神经系统是一个连续的网络。</li>
 <li><strong>Santiago Ramón y Cajal (1890s)</strong>：利用 Golgi 染色法系统研究神经组织，并在 1894 年的 Croonian Lecture 等工作中系统阐述<strong>神经元学说</strong>（neuron doctrine）——神经系统由离散的细胞（神经元）组成，信号在神经元之间通过间隙传递。这一框架后来成为人工神经元模型的重要生物学参照。</li>
 <li>1906 年，Golgi 和 Cajal 共同获得诺贝尔生理学或医学奖，尽管两人对神经系统的基本结构持相反观点。</li>
 </ul>
-<h3>2.2 突触与化学传递（1900s-1940s）</h3>
+<h3 id="n2-2-突触与化学传递-1900s-1940s">2.2 突触与化学传递（1900s-1940s）</h3>
 <ul>
 <li><strong>Charles Sherrington (1897)</strong>：提出&quot;突触&quot;（synapse）概念，描述神经元之间的连接点。他的工作确立了突触传递是神经信号传导的基本机制。</li>
 <li><strong>Otto Loewi (1921)</strong>：通过经典的蛙心实验证明了化学突触传递（chemical synaptic transmission）的存在，发现了乙酰胆碱（acetylcholine）作为神经递质的作用。</li>
@@ -524,14 +524,14 @@
 </ul>
 <p>$$C_m \frac{dV}{dt} = -g_{Na}m^3h(V - E_{Na}) - g_K n^4(V - E_K) - g_L(V - E_L) + I_{ext}$$</p>
 <p>其中 $C_m$ 是膜电容，$V$ 是膜电位，$g$ 是各离子通道的电导，$E$ 是各离子的平衡电位，$I_{ext}$ 是外部注入电流。</p>
-<h3>2.3 人工神经元的诞生（1943）</h3>
+<h3 id="n2-3-人工神经元的诞生-1943">2.3 人工神经元的诞生（1943）</h3>
 <ul>
 <li><strong>Warren McCulloch &amp; Walter Pitts (1943)</strong>：发表论文 <em>&quot;A Logical Calculus of the Ideas Immanent in Nervous Activity&quot;</em>，提出了第一个人工神经元数学模型——<strong>McCulloch-Pitts（M-P）神经元</strong>。</li>
 <li>M-P 神经元是一个二值阈值单元：接收多个二值输入，计算加权和，与阈值比较，输出 0 或 1。</li>
 <li>他们证明了 M-P 神经元网络可以计算任何可计算函数（图灵完备），这在理论上将神经计算与逻辑计算联系起来。</li>
 <li><strong>历史意义</strong>：这是神经科学与计算理论的第一次正式交汇，标志着&quot;计算神经科学&quot;和&quot;人工神经网络&quot;两个领域的共同起点。</li>
 </ul>
-<h3>2.4 Hebb 学习规则（1949）</h3>
+<h3 id="n2-4-Hebb-学习规则-1949">2.4 Hebb 学习规则（1949）</h3>
 <ul>
 <li><strong>Donald Hebb (1949)</strong>：在著作 <em>&quot;The Organization of Behavior&quot;</em> 中提出了著名的 Hebb 学习规则：</li>
 </ul>
@@ -543,7 +543,7 @@
 <li>数学形式：Δw = η · x_i · y_j，其中 η 是学习率，x_i 是突触前神经元活动，y_j 是突触后神经元活动。</li>
 <li>Hebb 规则是第一个基于生物学原理的学习算法，直接影响了后来的无监督学习、联想记忆和突触可塑性研究。</li>
 </ul>
-<h3>2.5 视觉皮层的层级结构（1959-1962）</h3>
+<h3 id="n2-5-视觉皮层的层级结构-1959-1962">2.5 视觉皮层的层级结构（1959-1962）</h3>
 <ul>
 <li><strong>David Hubel &amp; Torsten Wiesel (1959, 1962)</strong>：通过在猫的初级视觉皮层（V1）插入微电极记录单个神经元的活动，发现了两类关键细胞：<ul>
 <li><strong>简单细胞（simple cells）</strong>：对特定方向的边缘（edge）敏感，具有明确的兴奋区和抑制区。</li>
@@ -553,13 +553,13 @@
 <li>他们揭示了视觉皮层的<strong>层级处理结构</strong>：简单细胞 → 复杂细胞 → 超复杂细胞，逐层提取越来越抽象的特征。</li>
 <li><strong>对 AI 的影响</strong>：这一发现为 Fukushima (1980) 的 Neocognitron 和 LeCun (1989) 的卷积神经网络（CNN）提供了重要启发。CNN 中的卷积层借鉴了简单细胞的局部特征检测机制，池化层借鉴了复杂细胞的平移不变性特性。</li>
 </ul>
-<h3>2.6 长时程增强与突触可塑性（1973）</h3>
+<h3 id="n2-6-长时程增强与突触可塑性-1973">2.6 长时程增强与突触可塑性（1973）</h3>
 <ul>
 <li><strong>Tim Bliss &amp; Terje Lømo (1973)</strong>：在兔子海马体中发现了<strong>长时程增强</strong>（Long-Term Potentiation, LTP）——高频刺激突触后，突触传递效率持久增强。</li>
 <li>LTP 被广泛认为是学习和记忆的细胞机制，为 Hebb 学习规则提供了实验证据。</li>
 <li>后续研究还发现了<strong>长时程抑制</strong>（Long-Term Depression, LTD），即低频刺激导致突触效率降低。LTP 和 LTD 共同构成了双向突触可塑性。</li>
 </ul>
-<h3>2.7 多巴胺与奖励预测误差（1997）</h3>
+<h3 id="n2-7-多巴胺与奖励预测误差-1997">2.7 多巴胺与奖励预测误差（1997）</h3>
 <ul>
 <li><strong>Wolfram Schultz (1997)</strong>：通过记录猴子中脑多巴胺神经元的活动，发现了<strong>奖励预测误差</strong>（Reward Prediction Error, RPE）信号：<ul>
 <li>当获得<strong>意外奖励</strong>时，多巴胺神经元放电增加</li>
@@ -574,25 +574,25 @@
 <li>其中 δ_t 是 TD 误差（在功能上类似多巴胺信号），r_t 是即时奖励，γ 是折扣因子，V(s) 是状态价值函数。</li>
 <li><strong>历史意义</strong>：这是神经科学与 AI 之间最强的一类功能对应之一，但它仍是“计算层面的相似”，并不等于大脑在逐行实现标准 RL 代码。</li>
 </ul>
-<h3>2.8 镜像神经元（1990s）</h3>
+<h3 id="n2-8-镜像神经元-1990s">2.8 镜像神经元（1990s）</h3>
 <ul>
 <li><strong>Giacomo Rizzolatti 等 (1996)</strong>：在猕猴前运动皮层发现了<strong>镜像神经元</strong>（mirror neurons）——这些神经元在猴子执行某个动作时放电，在观察他人执行相同动作时也放电。</li>
 <li>镜像神经元被认为与模仿学习、动作理解和共情有关，为 AI 中的模仿学习（imitation learning）和逆强化学习（inverse reinforcement learning）提供了生物学启发。</li>
 </ul>
-<h3>2.9 脑成像技术的革命（1990s-2000s）</h3>
+<h3 id="n2-9-脑成像技术的革命-1990s-2000s">2.9 脑成像技术的革命（1990s-2000s）</h3>
 <ul>
 <li><strong>fMRI（功能性磁共振成像）</strong>：1990 年代开始广泛应用，通过检测血氧水平依赖（BOLD）信号间接测量神经活动，使研究者能够观察活体大脑在执行认知任务时的活动模式。</li>
 <li><strong>多体素模式分析（MVPA）</strong>：利用机器学习方法解码 fMRI 数据中的神经表征，反过来又推动了对深度网络内部表征的理解。</li>
 <li><strong>脑机接口（BCI）</strong>：将神经信号直接转化为计算机指令，是神经科学与 AI 融合的前沿应用领域。</li>
 </ul>
-<h3>2.10 大脑连接组计划（2010s）</h3>
+<h3 id="n2-10-大脑连接组计划-2010s">2.10 大脑连接组计划（2010s）</h3>
 <ul>
 <li><strong>Human Connectome Project (2009-)</strong>：旨在绘制人类大脑的完整连接图谱，揭示大脑的&quot;布线图&quot;。</li>
 <li>连接组学（connectomics）的数据为理解大脑网络拓扑结构提供了基础，也为人工神经网络架构设计提供了参考视角。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 McCulloch-Pitts 神经元模型</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-McCulloch-Pitts-神经元模型">3.1 McCulloch-Pitts 神经元模型</h3>
 <h4>生物机制</h4>
 <p>生物神经元的基本工作原理：</p>
 <ol>
@@ -619,7 +619,7 @@
 <li>现代人工神经元的改进：连续值输入/输出、可学习权重、非线性激活函数（sigmoid、ReLU 等）</li>
 <li>从 M-P 神经元到感知机（Rosenblatt, 1958）的演进：加入了权重学习算法</li>
 </ul>
-<h3>3.2 Hebb 学习规则</h3>
+<h3 id="n3-2-Hebb-学习规则">3.2 Hebb 学习规则</h3>
 <h4>生物机制</h4>
 <p>Hebb 学习规则描述的是<strong>突触可塑性</strong>的基本原理：</p>
 <ul>
@@ -644,7 +644,7 @@
 <li><strong>自组织映射</strong>（SOM, Kohonen, 1982）：基于竞争性 Hebb 学习</li>
 <li><strong>现代对比学习</strong>：SimCLR、BYOL 等自监督方法的核心思想——相似样本的表征应该靠近——与 Hebb 原则一脉相承</li>
 </ul>
-<h3>3.3 Hubel-Wiesel 视觉皮层实验（CNN 的灵感）</h3>
+<h3 id="n3-3-Hubel-Wiesel-视觉皮层实验-CNN-的灵感">3.3 Hubel-Wiesel 视觉皮层实验（CNN 的灵感）</h3>
 <h4>生物机制</h4>
 <p>Hubel 和 Wiesel 的实验揭示了视觉皮层的层级处理架构：</p>
 <p><strong>初级视觉皮层（V1）的细胞类型：</strong></p>
@@ -721,7 +721,7 @@ $$</p>
 </tr>
 </tbody></table>
 <p>Fukushima (1980) 的 <strong>Neocognitron</strong> 是第一个直接模仿视觉皮层层级结构的神经网络，包含 S-cells（对应简单细胞）和 C-cells（对应复杂细胞）。LeCun (1989) 的 CNN 在此基础上加入了反向传播训练。</p>
-<h3>3.4 多巴胺奖励预测误差（TD 学习的生物对应）</h3>
+<h3 id="n3-4-多巴胺奖励预测误差-TD-学习的生物对应">3.4 多巴胺奖励预测误差（TD 学习的生物对应）</h3>
 <h4>生物机制</h4>
 <p>中脑多巴胺系统是大脑奖励回路的核心组成部分：</p>
 <ul>
@@ -786,7 +786,7 @@ $$</p>
 <li><strong>深度强化学习</strong>：DQN（Mnih et al., 2015）将 TD 学习与深度网络结合，在 Atari 游戏上达到人类水平</li>
 <li><strong>奖励塑形（reward shaping）</strong>：受多巴胺系统启发，设计更有效的奖励信号</li>
 </ul>
-<h3>3.5 海马体与记忆系统（经验回放的灵感）</h3>
+<h3 id="n3-5-海马体与记忆系统-经验回放的灵感">3.5 海马体与记忆系统（经验回放的灵感）</h3>
 <h4>生物机制</h4>
 <p>海马体（hippocampus）是大脑中负责<strong>情景记忆</strong>（episodic memory）和<strong>空间导航</strong>的关键结构：</p>
 <ul>
@@ -809,7 +809,7 @@ $$</p>
 <li><strong>情景记忆模块</strong>：Neural Episodic Control（Pritzel et al., 2017）直接模仿海马体的快速记忆编码</li>
 <li><strong>位置细胞与网格细胞</strong>：DeepMind 的研究（Banino et al., 2018）发现训练导航任务的 RNN 会自发产生类似网格细胞的表征</li>
 </ul>
-<h3>3.6 注意力的神经机制</h3>
+<h3 id="n3-6-注意力的神经机制">3.6 注意力的神经机制</h3>
 <h4>生物机制</h4>
 <p>注意力是大脑应对信息过载的核心策略。大脑每秒接收约 $10^9$ 比特的感觉信息，但有意识处理的带宽仅约 $10^2$ 比特/秒。注意力机制负责选择性地放大相关信息、抑制无关信息。</p>
 <p><strong>注意力的主要类型：</strong></p>
@@ -883,9 +883,9 @@ $$</p>
 <li><strong>视觉注意力</strong>：Vision Transformer（ViT, Dosovitskiy et al., 2020）将注意力机制应用于图像，将图像分割为 patch 序列</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>神经科学对 AI 的价值，主要不在于“直接给出可训练网络”，而在于提供了三个层面的参照：哪些结构值得抽象、哪些学习信号值得建模、哪些能力边界值得重视。下面的对应关系应优先理解为<strong>启发来源或功能对应</strong>，只有少数位置接近较强的计算同构。</p>
-<h3>4.1 架构层面的启发</h3>
+<h3 id="n4-1-架构层面的启发">4.1 架构层面的启发</h3>
 <table>
 <thead>
 <tr>
@@ -930,7 +930,7 @@ $$</p>
 <td>间接、低强度类比</td>
 </tr>
 </tbody></table>
-<h3>4.2 学习算法层面的启发</h3>
+<h3 id="n4-2-学习算法层面的启发">4.2 学习算法层面的启发</h3>
 <table>
 <thead>
 <tr>
@@ -970,29 +970,29 @@ $$</p>
 <td>Kirkpatrick et al. (2017)</td>
 </tr>
 </tbody></table>
-<h3>4.3 表征层面的启发</h3>
+<h3 id="n4-3-表征层面的启发">4.3 表征层面的启发</h3>
 <ul>
 <li><strong>稀疏编码（sparse coding）</strong>：Olshausen &amp; Field (1996) 发现，对自然图像进行稀疏编码会自动学到类似 V1 简单细胞的 Gabor 滤波器。这说明某些高效表征原则可能同时出现在生物视觉与机器学习中，但并不意味着两者实现机制完全一致。</li>
 <li><strong>分布式表征（distributed representation）</strong>：大脑中的概念不是由单个神经元表示，而是由神经元群体的活动模式表示。这一原则是深度学习表征学习的基础。</li>
 <li><strong>预测编码（predictive coding）</strong>：大脑不断生成对感觉输入的预测，只传递预测误差。这一理论影响了生成模型、自监督学习和世界模型的解释框架，但现代模型的具体训练目标通常来自统计学习而非直接生物推导。</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 类脑计算（Neuromorphic Computing）</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-类脑计算-Neuromorphic-Computing">5.1 类脑计算（Neuromorphic Computing）</h3>
 <ul>
 <li><strong>脉冲神经网络（Spiking Neural Networks, SNN）</strong>：与传统人工神经网络使用连续值不同，SNN 使用离散的脉冲（spike）进行通信，更接近生物神经元的工作方式。</li>
 <li><strong>神经形态芯片</strong>：Intel Loihi、IBM TrueNorth 等芯片直接在硬件层面模拟神经元和突触的行为，具有极低的功耗。</li>
 <li><strong>事件驱动计算</strong>：SNN 只在接收到脉冲时才进行计算，而非像传统网络那样在每个时间步都进行前向传播，这在处理时序数据时具有天然优势。</li>
 <li><strong>开放问题</strong>：如何有效训练 SNN？反向传播在脉冲网络中不直接适用，因为脉冲函数不可微。</li>
 </ul>
-<h3>5.2 意识与全局工作空间理论</h3>
+<h3 id="n5-2-意识与全局工作空间理论">5.2 意识与全局工作空间理论</h3>
 <ul>
 <li><strong>全局工作空间理论（Global Workspace Theory, GWT）</strong>（Baars, 1988）：意识产生于信息在大脑中的全局广播——当某个局部处理模块的信息被&quot;广播&quot;到全脑时，该信息就进入了意识。</li>
 <li><strong>整合信息理论（Integrated Information Theory, IIT）</strong>（Tononi, 2004）：意识的程度由系统整合信息的能力（$\Phi$ 值）决定。</li>
 <li><strong>对 AI 的启示</strong>：当前的 AI 系统是否具有某种形式的&quot;意识&quot;？如果意识对智能行为是必要的，那么 AGI 可能需要实现某种全局信息整合机制。</li>
 <li><strong>开放问题</strong>：意识是通用智能的必要条件还是副产品？</li>
 </ul>
-<h3>5.3 持续学习与灾难性遗忘</h3>
+<h3 id="n5-3-持续学习与灾难性遗忘">5.3 持续学习与灾难性遗忘</h3>
 <ul>
 <li><strong>生物大脑的优势</strong>：人类可以持续学习新知识而不会忘记旧知识，这得益于互补学习系统（Complementary Learning Systems, CLS）——海马体负责快速学习新经验，新皮层负责缓慢整合长期知识。</li>
 <li><strong>AI 的困境</strong>：标准神经网络在学习新任务时会覆盖旧任务的权重（灾难性遗忘）。</li>
@@ -1003,13 +1003,13 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h3>5.4 大脑与大语言模型的表征对齐</h3>
+<h3 id="n5-4-大脑与大语言模型的表征对齐">5.4 大脑与大语言模型的表征对齐</h3>
 <ul>
 <li>近年来的研究发现，大语言模型（LLM）的内部表征与大脑处理语言时的神经活动模式存在显著的相关性（Schrimpf et al., 2021）。</li>
 <li><strong>编码模型（encoding models）</strong>：用 LLM 的隐藏层激活预测 fMRI/EEG 信号，发现中间层的预测效果最好。</li>
 <li><strong>开放问题</strong>：这种对齐是因为 LLM 真正学到了类似大脑的语言处理机制，还是仅仅因为两者都在优化类似的统计目标？</li>
 </ul>
-<h3>5.5 从神经科学到 AGI 的路径</h3>
+<h3 id="n5-5-从神经科学到-AGI-的路径">5.5 从神经科学到 AGI 的路径</h3>
 <p>两种主要观点：</p>
 <ol>
 <li><p><strong>自上而下（top-down）</strong>：从认知功能出发，设计能实现这些功能的计算系统。不需要精确模拟大脑的生物细节，只需要捕捉关键的计算原则。</p>
@@ -1029,14 +1029,14 @@ $$</p>
 </ol>
 <p><strong>第三条路径</strong>：在两者之间寻找平衡——从神经科学中提取关键的计算原则（而非生物细节），将其融入可扩展的工程系统中。这可能是通向 AGI 最务实的路径。</p>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Kandel, E. R. et al. (2021). <em>Principles of Neural Science</em> (6th ed.). McGraw-Hill. — 神经科学的&quot;圣经&quot;，全面覆盖从分子到认知的各个层面。</li>
 <li>Dayan, P. &amp; Abbott, L. F. (2001). <em>Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems</em>. MIT Press. — 计算神经科学的经典教材。</li>
 <li>Gerstner, W. et al. (2014). <em>Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition</em>. Cambridge University Press. — 从单神经元到网络的数学建模。</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>McCulloch, W. S. &amp; Pitts, W. (1943). A logical calculus of the ideas immanent in nervous activity. <em>Bulletin of Mathematical Biophysics</em>, 5(4), 115-133.</li>
 <li>Hebb, D. O. (1949). <em>The Organization of Behavior</em>. Wiley.</li>
@@ -1053,12 +1053,12 @@ $$</p>
 <li>Hawkins, J. (2004). <em>On Intelligence</em>. Times Books.</li>
 <li>Hassabis, D. et al. (2017). Neuroscience-inspired artificial intelligence. <em>Neuron</em>, 95(2), 245-258.</li>
 </ul>
-<h3>科普读物</h3>
+<h3 id="科普读物">科普读物</h3>
 <ul>
 <li>Eagleman, D. (2015). <em>The Brain: The Story of You</em>. Pantheon. — 大脑的通俗入门。</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了神经科学对 AI/AGI 发展的核心贡献：<strong>为人工神经网络、学习算法、注意力机制等关键架构提供了重要的生物学启发</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -1080,12 +1080,82 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要神经科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要神经科学</a>
+<a href="#与其他学科的关键连接点" class="toc-link h3">与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-神经元学说的建立-1880s-1900s" class="toc-link h3">2.1 神经元学说的建立（1880s-1900s）</a>
+<a href="#n2-2-突触与化学传递-1900s-1940s" class="toc-link h3">2.2 突触与化学传递（1900s-1940s）</a>
+<a href="#n2-3-人工神经元的诞生-1943" class="toc-link h3">2.3 人工神经元的诞生（1943）</a>
+<a href="#n2-4-Hebb-学习规则-1949" class="toc-link h3">2.4 Hebb 学习规则（1949）</a>
+<a href="#n2-5-视觉皮层的层级结构-1959-1962" class="toc-link h3">2.5 视觉皮层的层级结构（1959-1962）</a>
+<a href="#n2-6-长时程增强与突触可塑性-1973" class="toc-link h3">2.6 长时程增强与突触可塑性（1973）</a>
+<a href="#n2-7-多巴胺与奖励预测误差-1997" class="toc-link h3">2.7 多巴胺与奖励预测误差（1997）</a>
+<a href="#n2-8-镜像神经元-1990s" class="toc-link h3">2.8 镜像神经元（1990s）</a>
+<a href="#n2-9-脑成像技术的革命-1990s-2000s" class="toc-link h3">2.9 脑成像技术的革命（1990s-2000s）</a>
+<a href="#n2-10-大脑连接组计划-2010s" class="toc-link h3">2.10 大脑连接组计划（2010s）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-McCulloch-Pitts-神经元模型" class="toc-link h3">3.1 McCulloch-Pitts 神经元模型</a>
+<a href="#n3-2-Hebb-学习规则" class="toc-link h3">3.2 Hebb 学习规则</a>
+<a href="#n3-3-Hubel-Wiesel-视觉皮层实验-CNN-的灵感" class="toc-link h3">3.3 Hubel-Wiesel 视觉皮层实验（CNN 的灵感）</a>
+<a href="#n3-4-多巴胺奖励预测误差-TD-学习的生物对应" class="toc-link h3">3.4 多巴胺奖励预测误差（TD 学习的生物对应）</a>
+<a href="#n3-5-海马体与记忆系统-经验回放的灵感" class="toc-link h3">3.5 海马体与记忆系统（经验回放的灵感）</a>
+<a href="#n3-6-注意力的神经机制" class="toc-link h3">3.6 注意力的神经机制</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-架构层面的启发" class="toc-link h3">4.1 架构层面的启发</a>
+<a href="#n4-2-学习算法层面的启发" class="toc-link h3">4.2 学习算法层面的启发</a>
+<a href="#n4-3-表征层面的启发" class="toc-link h3">4.3 表征层面的启发</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-类脑计算-Neuromorphic-Computing" class="toc-link h3">5.1 类脑计算（Neuromorphic Computing）</a>
+<a href="#n5-2-意识与全局工作空间理论" class="toc-link h3">5.2 意识与全局工作空间理论</a>
+<a href="#n5-3-持续学习与灾难性遗忘" class="toc-link h3">5.3 持续学习与灾难性遗忘</a>
+<a href="#n5-4-大脑与大语言模型的表征对齐" class="toc-link h3">5.4 大脑与大语言模型的表征对齐</a>
+<a href="#n5-5-从神经科学到-AGI-的路径" class="toc-link h3">5.5 从神经科学到 AGI 的路径</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#科普读物" class="toc-link h3">科普读物</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要神经科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要神经科学</a>
+<a href="#与其他学科的关键连接点" class="toc-link h3">与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-神经元学说的建立-1880s-1900s" class="toc-link h3">2.1 神经元学说的建立（1880s-1900s）</a>
+<a href="#n2-2-突触与化学传递-1900s-1940s" class="toc-link h3">2.2 突触与化学传递（1900s-1940s）</a>
+<a href="#n2-3-人工神经元的诞生-1943" class="toc-link h3">2.3 人工神经元的诞生（1943）</a>
+<a href="#n2-4-Hebb-学习规则-1949" class="toc-link h3">2.4 Hebb 学习规则（1949）</a>
+<a href="#n2-5-视觉皮层的层级结构-1959-1962" class="toc-link h3">2.5 视觉皮层的层级结构（1959-1962）</a>
+<a href="#n2-6-长时程增强与突触可塑性-1973" class="toc-link h3">2.6 长时程增强与突触可塑性（1973）</a>
+<a href="#n2-7-多巴胺与奖励预测误差-1997" class="toc-link h3">2.7 多巴胺与奖励预测误差（1997）</a>
+<a href="#n2-8-镜像神经元-1990s" class="toc-link h3">2.8 镜像神经元（1990s）</a>
+<a href="#n2-9-脑成像技术的革命-1990s-2000s" class="toc-link h3">2.9 脑成像技术的革命（1990s-2000s）</a>
+<a href="#n2-10-大脑连接组计划-2010s" class="toc-link h3">2.10 大脑连接组计划（2010s）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-McCulloch-Pitts-神经元模型" class="toc-link h3">3.1 McCulloch-Pitts 神经元模型</a>
+<a href="#n3-2-Hebb-学习规则" class="toc-link h3">3.2 Hebb 学习规则</a>
+<a href="#n3-3-Hubel-Wiesel-视觉皮层实验-CNN-的灵感" class="toc-link h3">3.3 Hubel-Wiesel 视觉皮层实验（CNN 的灵感）</a>
+<a href="#n3-4-多巴胺奖励预测误差-TD-学习的生物对应" class="toc-link h3">3.4 多巴胺奖励预测误差（TD 学习的生物对应）</a>
+<a href="#n3-5-海马体与记忆系统-经验回放的灵感" class="toc-link h3">3.5 海马体与记忆系统（经验回放的灵感）</a>
+<a href="#n3-6-注意力的神经机制" class="toc-link h3">3.6 注意力的神经机制</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-架构层面的启发" class="toc-link h3">4.1 架构层面的启发</a>
+<a href="#n4-2-学习算法层面的启发" class="toc-link h3">4.2 学习算法层面的启发</a>
+<a href="#n4-3-表征层面的启发" class="toc-link h3">4.3 表征层面的启发</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-类脑计算-Neuromorphic-Computing" class="toc-link h3">5.1 类脑计算（Neuromorphic Computing）</a>
+<a href="#n5-2-意识与全局工作空间理论" class="toc-link h3">5.2 意识与全局工作空间理论</a>
+<a href="#n5-3-持续学习与灾难性遗忘" class="toc-link h3">5.3 持续学习与灾难性遗忘</a>
+<a href="#n5-4-大脑与大语言模型的表征对齐" class="toc-link h3">5.4 大脑与大语言模型的表征对齐</a>
+<a href="#n5-5-从神经科学到-AGI-的路径" class="toc-link h3">5.5 从神经科学到 AGI 的路径</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#科普读物" class="toc-link h3">科普读物</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

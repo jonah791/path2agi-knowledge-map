@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：数值分析是深度学习的“工程物理学”。训练大模型时，浮点精度、数值稳定性、矩阵运算效率决定了模型能否实际训练成功；而条件数、误差传播、离散化方式则决定这些结果是否可信、是否可扩展、是否能被稳定复现。没有数值分析，现代 AI 不只是“跑得慢”，而是很多算法根本无法落地。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数与矩阵论</a>：矩阵分解、特征值问题与大规模线性系统是数值分析的重要入口</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：收敛性与迭代法建立在优化和微分结构之上</li>
@@ -446,7 +446,7 @@
 <li><a href="15-cybernetics.html">控制论</a>：连续动力系统的离散化、状态估计与控制器实现都依赖数值方法</li>
 <li><a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：浮点格式、存储层级与并行硬件决定数值算法的实际运行形态</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要数值分析</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要数值分析">1. 上帝视角：为什么 AI 需要数值分析</h2>
 <p>深度学习的本质是<strong>大规模数值优化</strong>。一个拥有数十亿参数的语言模型，其训练过程归结为：在有限精度的浮点运算下，对一个极高维非凸函数执行数百万步迭代。这个过程中的每一步都依赖数值分析的核心理论：</p>
 <ul>
 <li><strong>精度</strong>：用 32 位还是 16 位浮点数？精度不够会导致训练发散，精度过高会浪费算力</li>
@@ -460,7 +460,7 @@
 <li>这个算法是不是<strong>稳定</strong>的？</li>
 <li>误差会不会在长计算链条里被持续放大？</li>
 </ul>
-<h3>1.1 数值分析与其他学科的关键连接</h3>
+<h3 id="n1-1-数值分析与其他学科的关键连接">1.1 数值分析与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -505,7 +505,7 @@
 <td>残差网络 ↔ 欧拉方法</td>
 </tr>
 </tbody></table>
-<h3>1.2 经典数值问题如何系统迁移到 AI</h3>
+<h3 id="n1-2-经典数值问题如何系统迁移到-AI">1.2 经典数值问题如何系统迁移到 AI</h3>
 <p>数值分析在 AI 中反复出现，不是因为深度学习“碰巧用了几个数值技巧”，而是因为 AI 训练本身就是把经典科学计算问题搬进了更高维、更大规模、更强并行的环境：</p>
 <ul>
 <li><strong>线性方程组与矩阵分解</strong>进入了注意力计算、低秩近似、二阶优化与参数高效微调；</li>
@@ -514,7 +514,7 @@
 <li><strong>有限精度浮点运算</strong>进入了混合精度训练、量化部署与超低精度硬件设计。</li>
 </ul>
 <p>因此，数值分析在 AI 中最准确的角色不是“某几个工程技巧的来源”，而是回答：<strong>同一个数学对象一旦进入有限精度、有限时间、有限内存的机器后，还剩下多少可计算性与可信度。</strong></p>
-<h3>1.3 它与优化、线性代数、控制论分别负责哪一层</h3>
+<h3 id="n1-3-它与优化-线性代数-控制论分别负责哪一层">1.3 它与优化、线性代数、控制论分别负责哪一层</h3>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数与矩阵论</a> 更关心表示对象与代数结构；</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a> 更关心目标函数、梯度结构与最优性条件；</li>
@@ -523,9 +523,9 @@
 </ul>
 <p>这也是为什么数值分析经常被低估：它很少改变问题定义，却经常决定问题是否真的算得出来。</p>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>数值分析的历史可以追溯到人类最早尝试用有限步骤逼近连续量的努力。以下是从经典数值方法到现代 AI 应用的关键里程碑：</p>
-<h3>2.1 经典时期</h3>
+<h3 id="n2-1-经典时期">2.1 经典时期</h3>
 <ul>
 <li><strong>Newton (1687)</strong>：Newton-Raphson 迭代法求解非线性方程，奠定了迭代求解的基本范式。这一思想直接影响了现代优化算法的设计</li>
 <li><strong>Euler (1768)</strong>：提出欧拉方法（Euler method）求解常微分方程初值问题。这是最简单的 ODE 数值解法，也是理解 Neural ODE 的起点：</li>
@@ -535,7 +535,7 @@
 <li><strong>Gauss (1809)</strong>：高斯消元法（Gaussian elimination）用于求解线性方程组，至今仍是数值线性代数的基石</li>
 <li><strong>Runge (1895) &amp; Kutta (1901)</strong>：Runge-Kutta 方法族，提供了比欧拉法更高精度的 ODE 求解方案。经典四阶 Runge-Kutta（RK4）至今广泛使用</li>
 </ul>
-<h3>2.2 计算机时代</h3>
+<h3 id="n2-2-计算机时代">2.2 计算机时代</h3>
 <ul>
 <li><strong>von Neumann &amp; Goldstine (1947)</strong>：首次系统分析了计算机浮点运算中的舍入误差传播问题，开创了现代数值误差分析</li>
 <li><strong>Wilkinson (1963)</strong>：《Rounding Errors in Algebraic Processes》，建立了浮点运算误差分析的严格理论框架</li>
@@ -545,7 +545,7 @@
 <li><strong>Kahan (1996)</strong>：William Kahan 因其在浮点运算标准化方面的贡献获得图灵奖</li>
 <li><strong>Trefethen &amp; Bau (1997)</strong>：以“条件数 + 稳定性 + 算法实现”的统一框架系统整理现代数值线性代数</li>
 </ul>
-<h3>2.3 深度学习时代</h3>
+<h3 id="n2-3-深度学习时代">2.3 深度学习时代</h3>
 <ul>
 <li><strong>Glorot &amp; Bengio (2010)</strong>：分析了深度网络中梯度消失/爆炸问题，提出 Xavier 初始化方法，这本质上是数值稳定性分析在神经网络中的应用</li>
 <li><strong>He et al. (2015)</strong>：Kaiming 初始化，针对 ReLU 激活函数的数值稳定初始化方案</li>
@@ -555,8 +555,8 @@
 <li><strong>Dettmers et al. (2022)</strong>：8-bit 优化器（INT8 量化），将 Adam 优化器的状态量化到 8 位，大幅减少内存占用</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 浮点运算与精度（IEEE 754、FP32/FP16/BF16/INT8）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-浮点运算与精度-IEEE-754-FP32-FP16-BF16-INT8">3.1 浮点运算与精度（IEEE 754、FP32/FP16/BF16/INT8）</h3>
 <h4>数学定义</h4>
 <p>IEEE 754 标准将浮点数表示为：</p>
 <p>$$x = (-1)^s \times 2^{e - \text{bias}} \times (1 + m)$$</p>
@@ -634,7 +634,7 @@
 </ul>
 <p>机器精度（machine epsilon）ε 定义为满足 fl(1 + ε) &gt; 1 的最小正浮点数：</p>
 <p>$$\epsilon_{\text{FP32}} = 2^{-23} \approx 1.19 \times 10^{-7}$$<br>$$\epsilon_{\text{FP16}} = 2^{-10} \approx 9.77 \times 10^{-4}$$<br>$$\epsilon_{\text{BF16}} = 2^{-7} \approx 7.81 \times 10^{-3}$$</p>
-<h3>3.2 数值稳定性（梯度消失/爆炸、softmax 技巧、log-sum-exp）</h3>
+<h3 id="n3-2-数值稳定性-梯度消失-爆炸-softmax-技巧-log-sum-exp">3.2 数值稳定性（梯度消失/爆炸、softmax 技巧、log-sum-exp）</h3>
 <h4>数学定义</h4>
 <p>一个算法是<strong>数值稳定的</strong>（numerically stable），如果输入的微小扰动只导致输出的微小变化。形式化地，对于函数 $f$ 和扰动输入 $\tilde{x} = x + \delta x$：</p>
 <p>$$\frac{\|f(\tilde{x}) - f(x)\|}{\|f(x)\|} \leq C \cdot \frac{\|\delta x\|}{\|x\|}$$</p>
@@ -707,7 +707,7 @@
 <td>标准实现</td>
 </tr>
 </tbody></table>
-<h3>3.3 条件数、误差分析与预处理</h3>
+<h3 id="n3-3-条件数-误差分析与预处理">3.3 条件数、误差分析与预处理</h3>
 <h4>核心定义</h4>
 <p>数值分析最经典的三问是：</p>
 <ul>
@@ -737,7 +737,7 @@
 <li><strong>归一化层</strong>：LayerNorm / BatchNorm 在工程上缓解尺度病态</li>
 <li><strong>低秩适配与线性探针</strong>：最小二乘问题和矩阵条件数直接影响求解稳定性</li>
 </ul>
-<h3>3.4 混合精度训练（Mixed Precision Training）</h3>
+<h3 id="n3-4-混合精度训练-Mixed-Precision-Training">3.4 混合精度训练（Mixed Precision Training）</h3>
 <h4>数学定义</h4>
 <p>混合精度训练的核心思想：用低精度（FP16/BF16）完成前向传播和反向传播中的大量矩阵运算，用高精度（FP32）维护权重的主副本（master copy）。</p>
 <p>训练循环：</p>
@@ -781,7 +781,7 @@
 <li>某些归一化、归约和优化器状态更新仍需要更高精度维护；</li>
 <li>真正决定收益的不是位宽本身，而是模型结构、硬件指令支持和数值保护策略是否匹配。</li>
 </ul>
-<h3>3.5 迭代法与收敛性（Iterative Methods and Convergence）</h3>
+<h3 id="n3-5-迭代法与收敛性-Iterative-Methods-and-Convergence">3.5 迭代法与收敛性（Iterative Methods and Convergence）</h3>
 <h4>数学定义</h4>
 <p>迭代法的一般形式：给定初始点 $x_0$，通过递推关系生成序列：</p>
 <p>$$x_{n+1} = g(x_n)$$</p>
@@ -839,7 +839,7 @@
 </tr>
 </tbody></table>
 <p>现代优化器的设计本质上是在数值分析的迭代法框架下，寻找<strong>收敛速度、计算成本、内存占用、泛化性能</strong>之间的最佳平衡。</p>
-<h3>3.6 离散化、连续动力学与 Neural ODE</h3>
+<h3 id="n3-6-离散化-连续动力学与-Neural-ODE">3.6 离散化、连续动力学与 Neural ODE</h3>
 <h4>核心定义</h4>
 <p>连续数学对象必须先被<strong>离散化</strong>（discretization）才能进入计算机。设连续时间系统满足：</p>
 <p>$$\frac{dh(t)}{dt} = f(h(t), t)$$</p>
@@ -864,7 +864,7 @@
 <li><strong>世界模型与控制</strong>：很多模型学习的其实是连续动力系统的数值近似</li>
 <li><strong>稳定架构设计</strong>：隐式法、辛积分、步长控制等思想正在影响神经网络结构</li>
 </ul>
-<h3>3.7 Neural ODE（神经常微分方程）</h3>
+<h3 id="n3-7-Neural-ODE-神经常微分方程">3.7 Neural ODE（神经常微分方程）</h3>
 <h4>数学定义</h4>
 <p>残差网络（ResNet）的核心公式：</p>
 <p>$$h_{t+1} = h_t + f(h_t, \theta_t)$$</p>
@@ -907,9 +907,9 @@
 <li>在很多工程场景中，离散残差网络仍然因为实现简单、调参直接而更常用。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>数值分析对 AI 的贡献不是某个单一技术，而是一整套<strong>让理论变为现实</strong>的工程方法论。</p>
-<h3>4.1 让大模型训练成为可能</h3>
+<h3 id="n4-1-让大模型训练成为可能">4.1 让大模型训练成为可能</h3>
 <p>没有混合精度训练，GPT-3 级别的模型根本无法训练。简单算一笔账：</p>
 <ul>
 <li>GPT-3 有 175B 参数</li>
@@ -917,7 +917,7 @@
 <li>加上梯度和优化器状态，总内存需求超过 2.8 TB</li>
 <li>混合精度 + 模型并行将内存需求降低到可行范围</li>
 </ul>
-<h3>4.2 数值稳定性决定了架构设计</h3>
+<h3 id="n4-2-数值稳定性决定了架构设计">4.2 数值稳定性决定了架构设计</h3>
 <p>深度学习中许多看似&quot;灵感驱动&quot;的架构创新，本质上是数值稳定性的解决方案：</p>
 <ul>
 <li><strong>残差连接</strong>（ResNet）：解决梯度消失，等价于将梯度传播的连乘变为连加</li>
@@ -925,19 +925,19 @@
 <li><strong>梯度裁剪</strong>：防止梯度爆炸导致的参数更新过大</li>
 <li><strong>学习率预热</strong>（warmup）：避免训练初期数值不稳定</li>
 </ul>
-<h3>4.3 量化技术推动了边缘部署</h3>
+<h3 id="n4-3-量化技术推动了边缘部署">4.3 量化技术推动了边缘部署</h3>
 <p>从 FP32 → FP16 → INT8 → INT4 的量化路径，使得大模型可以在手机、嵌入式设备上运行：</p>
 <p>$$\text{量化}: \quad q = \text{round}\left(\frac{x}{\Delta}\right), \quad \Delta = \frac{x_{\max} - x_{\min}}{2^b - 1}$$</p>
 <p>其中 $b$ 是目标位宽，$\Delta$ 是量化步长。量化本质上是数值分析中<strong>离散化误差</strong>的控制问题。</p>
 <p>更准确地说，量化不是“无损压缩”，而是<strong>在可接受误差范围内重新分配精度预算</strong>。它是否可用，取决于权重分布、激活范围、校准方法和硬件支持，而不是只看目标位宽。</p>
-<h3>4.4 ODE/SDE 视角统一了深度学习理论</h3>
+<h3 id="n4-4-ODE-SDE-视角统一了深度学习理论">4.4 ODE/SDE 视角统一了深度学习理论</h3>
 <p>Neural ODE 引入的连续视角，为深度学习提供了一组有力的理论工具：</p>
 <ul>
 <li>用动力系统理论分析网络的稳定性和表达能力</li>
 <li>用最优控制理论理解训练过程</li>
 <li>扩散模型（DDPM、Score SDE）直接建立在随机微分方程的数值求解之上</li>
 </ul>
-<h3>4.5 数值线性代数加速了核心运算</h3>
+<h3 id="n4-5-数值线性代数加速了核心运算">4.5 数值线性代数加速了核心运算</h3>
 <p>深度学习的计算瓶颈是矩阵乘法。数值线性代数提供了关键加速：</p>
 <ul>
 <li><strong>BLAS/LAPACK</strong>：高度优化的矩阵运算库，是 cuBLAS 的理论基础</li>
@@ -946,36 +946,36 @@
 <li><strong>低秩近似</strong>：LoRA 等参数高效微调方法的数学基础</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 超低精度训练</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-超低精度训练">5.1 超低精度训练</h3>
 <p>能否用 4-bit 甚至 2-bit 完成训练（而非仅推理）？目前的挑战：</p>
 <ul>
 <li>极低精度下梯度估计的方差急剧增大</li>
 <li>需要新的量化感知训练（quantization-aware training）方法</li>
 <li>BitNet（2023）等工作探索了 1-bit 权重的可能性</li>
 </ul>
-<h3>5.2 自适应精度</h3>
+<h3 id="n5-2-自适应精度">5.2 自适应精度</h3>
 <p>不同层、不同训练阶段是否需要不同精度？</p>
 <ul>
 <li>训练初期可能需要更高精度（参数变化大）</li>
 <li>训练后期可以降低精度（参数趋于稳定）</li>
 <li>自适应精度调度（adaptive precision scheduling）是活跃研究方向</li>
 </ul>
-<h3>5.3 Neural ODE/SDE 的可扩展性</h3>
+<h3 id="n5-3-Neural-ODE-SDE-的可扩展性">5.3 Neural ODE/SDE 的可扩展性</h3>
 <p>Neural ODE 的理论优美，但实际应用受限于 ODE 求解器的计算成本：</p>
 <ul>
 <li>自适应求解器的步数不可预测，难以在 GPU 上高效并行</li>
 <li>反向传播的伴随方法存在数值误差累积问题</li>
 <li>如何在连续深度模型和离散模型之间找到最佳平衡？</li>
 </ul>
-<h3>5.4 数值方法与硬件协同设计</h3>
+<h3 id="n5-4-数值方法与硬件协同设计">5.4 数值方法与硬件协同设计</h3>
 <p>未来的 AI 加速器可能需要与数值方法协同设计：</p>
 <ul>
 <li>新的浮点格式（如 NVIDIA 的 FP8、Microsoft 的 MSFP）</li>
 <li>模拟计算（analog computing）中的噪声容忍数值方法</li>
 <li>量子计算中的数值稳定性问题</li>
 </ul>
-<h3>5.5 可微分科学计算</h3>
+<h3 id="n5-5-可微分科学计算">5.5 可微分科学计算</h3>
 <p>将深度学习与传统科学计算结合：</p>
 <ul>
 <li>物理信息神经网络（PINN）：用神经网络求解偏微分方程</li>
@@ -983,15 +983,15 @@
 <li>数值方法的自动发现：用 AI 发现新的数值算法</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Higham, N. J. (2002). <em>Accuracy and Stability of Numerical Algorithms</em> (2nd ed.). SIAM. — 数值稳定性分析的权威参考</li>
 <li>Trefethen, L. N. &amp; Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM. — 数值线性代数的经典入门</li>
 <li>Hairer, E., Nørsett, S. P. &amp; Wanner, G. (1993). <em>Solving Ordinary Differential Equations I: Nonstiff Problems</em>. Springer. — ODE 数值方法的百科全书</li>
 <li>Golub, G. H. &amp; Van Loan, C. F. (2013). <em>Matrix Computations</em> (4th ed.). Johns Hopkins University Press. — 矩阵计算的圣经</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>IEEE (1985). IEEE Standard for Binary Floating-Point Arithmetic (IEEE 754-1985). — 浮点运算标准</li>
 <li>Glorot, X. &amp; Bengio, Y. (2010). Understanding the difficulty of training deep feedforward neural networks. <em>AISTATS</em>. — Xavier 初始化</li>
@@ -1003,13 +1003,13 @@
 <li>Kawar, B. et al. (2022). Denoising Diffusion Restoration Models. <em>NeurIPS</em>. — 扩散模型与 SDE</li>
 <li>Wang, M. et al. (2023). BitNet: Scaling 1-bit Transformers for Large Language Models. <em>arXiv</em>. — 1-bit 量化探索</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li>NVIDIA Mixed Precision Training 文档：<a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/">https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/</a></li>
 <li>PyTorch AMP（Automatic Mixed Precision）教程：<a href="https://pytorch.org/docs/stable/amp.html">https://pytorch.org/docs/stable/amp.html</a></li>
 <li>torchdiffeq：Neural ODE 的 PyTorch 实现：<a href="https://github.com/rtqichen/torchdiffeq">https://github.com/rtqichen/torchdiffeq</a></li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇回答的是：<strong>当 AI 的数学模型真正进入计算机之后，误差、稳定性、精度与算力会怎样重新塑造问题本身。</strong> 它处理的是“可计算对象如何被稳定、可信、经济地算出来”。</p>
 <ul>
 <li>与 <a href="02-linear-algebra.html">线性代数与矩阵论</a> 相邻：线性代数给出矩阵和向量空间的结构，本篇决定这些结构在有限精度下如何被可靠求解。</li>
@@ -1038,12 +1038,78 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要数值分析" class="toc-link h2">1. 上帝视角：为什么 AI 需要数值分析</a>
+<a href="#n1-1-数值分析与其他学科的关键连接" class="toc-link h3">1.1 数值分析与其他学科的关键连接</a>
+<a href="#n1-2-经典数值问题如何系统迁移到-AI" class="toc-link h3">1.2 经典数值问题如何系统迁移到 AI</a>
+<a href="#n1-3-它与优化-线性代数-控制论分别负责哪一层" class="toc-link h3">1.3 它与优化、线性代数、控制论分别负责哪一层</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-经典时期" class="toc-link h3">2.1 经典时期</a>
+<a href="#n2-2-计算机时代" class="toc-link h3">2.2 计算机时代</a>
+<a href="#n2-3-深度学习时代" class="toc-link h3">2.3 深度学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-浮点运算与精度-IEEE-754-FP32-FP16-BF16-INT8" class="toc-link h3">3.1 浮点运算与精度（IEEE 754、FP32/FP16/BF16/INT8）</a>
+<a href="#n3-2-数值稳定性-梯度消失-爆炸-softmax-技巧-log-sum-exp" class="toc-link h3">3.2 数值稳定性（梯度消失/爆炸、softmax 技巧、log-sum-exp）</a>
+<a href="#n3-3-条件数-误差分析与预处理" class="toc-link h3">3.3 条件数、误差分析与预处理</a>
+<a href="#n3-4-混合精度训练-Mixed-Precision-Training" class="toc-link h3">3.4 混合精度训练（Mixed Precision Training）</a>
+<a href="#n3-5-迭代法与收敛性-Iterative-Methods-and-Convergence" class="toc-link h3">3.5 迭代法与收敛性（Iterative Methods and Convergence）</a>
+<a href="#n3-6-离散化-连续动力学与-Neural-ODE" class="toc-link h3">3.6 离散化、连续动力学与 Neural ODE</a>
+<a href="#n3-7-Neural-ODE-神经常微分方程" class="toc-link h3">3.7 Neural ODE（神经常微分方程）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-让大模型训练成为可能" class="toc-link h3">4.1 让大模型训练成为可能</a>
+<a href="#n4-2-数值稳定性决定了架构设计" class="toc-link h3">4.2 数值稳定性决定了架构设计</a>
+<a href="#n4-3-量化技术推动了边缘部署" class="toc-link h3">4.3 量化技术推动了边缘部署</a>
+<a href="#n4-4-ODE-SDE-视角统一了深度学习理论" class="toc-link h3">4.4 ODE/SDE 视角统一了深度学习理论</a>
+<a href="#n4-5-数值线性代数加速了核心运算" class="toc-link h3">4.5 数值线性代数加速了核心运算</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-超低精度训练" class="toc-link h3">5.1 超低精度训练</a>
+<a href="#n5-2-自适应精度" class="toc-link h3">5.2 自适应精度</a>
+<a href="#n5-3-Neural-ODE-SDE-的可扩展性" class="toc-link h3">5.3 Neural ODE/SDE 的可扩展性</a>
+<a href="#n5-4-数值方法与硬件协同设计" class="toc-link h3">5.4 数值方法与硬件协同设计</a>
+<a href="#n5-5-可微分科学计算" class="toc-link h3">5.5 可微分科学计算</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要数值分析" class="toc-link h2">1. 上帝视角：为什么 AI 需要数值分析</a>
+<a href="#n1-1-数值分析与其他学科的关键连接" class="toc-link h3">1.1 数值分析与其他学科的关键连接</a>
+<a href="#n1-2-经典数值问题如何系统迁移到-AI" class="toc-link h3">1.2 经典数值问题如何系统迁移到 AI</a>
+<a href="#n1-3-它与优化-线性代数-控制论分别负责哪一层" class="toc-link h3">1.3 它与优化、线性代数、控制论分别负责哪一层</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-经典时期" class="toc-link h3">2.1 经典时期</a>
+<a href="#n2-2-计算机时代" class="toc-link h3">2.2 计算机时代</a>
+<a href="#n2-3-深度学习时代" class="toc-link h3">2.3 深度学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-浮点运算与精度-IEEE-754-FP32-FP16-BF16-INT8" class="toc-link h3">3.1 浮点运算与精度（IEEE 754、FP32/FP16/BF16/INT8）</a>
+<a href="#n3-2-数值稳定性-梯度消失-爆炸-softmax-技巧-log-sum-exp" class="toc-link h3">3.2 数值稳定性（梯度消失/爆炸、softmax 技巧、log-sum-exp）</a>
+<a href="#n3-3-条件数-误差分析与预处理" class="toc-link h3">3.3 条件数、误差分析与预处理</a>
+<a href="#n3-4-混合精度训练-Mixed-Precision-Training" class="toc-link h3">3.4 混合精度训练（Mixed Precision Training）</a>
+<a href="#n3-5-迭代法与收敛性-Iterative-Methods-and-Convergence" class="toc-link h3">3.5 迭代法与收敛性（Iterative Methods and Convergence）</a>
+<a href="#n3-6-离散化-连续动力学与-Neural-ODE" class="toc-link h3">3.6 离散化、连续动力学与 Neural ODE</a>
+<a href="#n3-7-Neural-ODE-神经常微分方程" class="toc-link h3">3.7 Neural ODE（神经常微分方程）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-让大模型训练成为可能" class="toc-link h3">4.1 让大模型训练成为可能</a>
+<a href="#n4-2-数值稳定性决定了架构设计" class="toc-link h3">4.2 数值稳定性决定了架构设计</a>
+<a href="#n4-3-量化技术推动了边缘部署" class="toc-link h3">4.3 量化技术推动了边缘部署</a>
+<a href="#n4-4-ODE-SDE-视角统一了深度学习理论" class="toc-link h3">4.4 ODE/SDE 视角统一了深度学习理论</a>
+<a href="#n4-5-数值线性代数加速了核心运算" class="toc-link h3">4.5 数值线性代数加速了核心运算</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-超低精度训练" class="toc-link h3">5.1 超低精度训练</a>
+<a href="#n5-2-自适应精度" class="toc-link h3">5.2 自适应精度</a>
+<a href="#n5-3-Neural-ODE-SDE-的可扩展性" class="toc-link h3">5.3 Neural ODE/SDE 的可扩展性</a>
+<a href="#n5-4-数值方法与硬件协同设计" class="toc-link h3">5.4 数值方法与硬件协同设计</a>
+<a href="#n5-5-可微分科学计算" class="toc-link h3">5.5 可微分科学计算</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

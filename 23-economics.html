@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：经济学为 AI 提供的不只是资源配置视角，更是一套讨论<strong>偏好、激励、制度与对齐</strong>的语言。奖励函数设计本质上是激励设计问题：如何让 AI 在追求代理目标时，仍然服务于人类真实意图？行为经济学揭示了人类偏好的非理性与不稳定性，社会选择理论提醒我们群体偏好并不天然一致，而委托—代理框架则解释了为什么 AI 对齐不是“把目标写清楚”这么简单。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="12-game-theory.html">博弈论</a>：博弈论分析互动结构与均衡，经济学进一步处理偏好、制度与激励设计</li>
 <li><a href="11-operations-research.html">运筹学</a>：运筹学更偏求解与资源配置，经济学更偏目标函数、效用与制度安排</li>
@@ -447,7 +447,7 @@
 <li><a href="25-philosophy.html">哲学</a>：经济学中的福利、偏好与公平问题最终仍与规范哲学相连</li>
 </ul>
 <hr>
-<h2>1. 上帝视角：为什么 AI 需要经济学、偏好与对齐</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要经济学-偏好与对齐">1. 上帝视角：为什么 AI 需要经济学、偏好与对齐</h2>
 <p>经济学在 AI 中最核心的价值，不是提供一套泛泛的“市场隐喻”，而是帮助我们回答四个更具体的问题：</p>
 <ul>
 <li><strong>AI 到底在替谁优化、优化什么偏好？</strong></li>
@@ -462,7 +462,7 @@
 <li><strong>多智能体协调</strong> = 市场均衡（market equilibrium）：多个 AI 智能体如何在共享环境中达成高效协作？</li>
 <li><strong>AI 对齐</strong> = 激励相容（incentive compatibility）：如何确保 AI 的最优策略恰好是人类期望的行为？</li>
 </ul>
-<h3>与其他学科的关键连接</h3>
+<h3 id="与其他学科的关键连接">与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -503,22 +503,22 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>经济学的发展史与 AI 的演进有着深刻的交织。以下按时间线梳理关键里程碑：</p>
-<h3>2.1 古典经济学时期（18-19 世纪）</h3>
+<h3 id="n2-1-古典经济学时期-18-19-世纪">2.1 古典经济学时期（18-19 世纪）</h3>
 <ul>
 <li><strong>Adam Smith (1776)</strong>：《国富论》（<em>An Inquiry into the Nature and Causes of the Wealth of Nations</em>）提出&quot;看不见的手&quot;（invisible hand），在特定条件下个体追求自利可能带来较高的整体协调效率——这一思想常被用来类比去中心化多智能体系统的设计。</li>
 <li><strong>David Ricardo (1817)</strong>：比较优势理论（comparative advantage），为分工与专业化提供了理论基础，影响了多智能体任务分配。</li>
 <li><strong>Antoine Augustin Cournot (1838)</strong>：首次用数学方法分析寡头竞争，开创了数理经济学，其 Cournot 竞争模型至今用于多智能体博弈分析。</li>
 <li><strong>Léon Walras (1874)</strong>：一般均衡理论（general equilibrium theory），证明了市场可以同时达到所有商品的供需平衡。</li>
 </ul>
-<h3>2.2 边际革命与效用理论（19 世纪末-20 世纪初）</h3>
+<h3 id="n2-2-边际革命与效用理论-19-世纪末-20-世纪初">2.2 边际革命与效用理论（19 世纪末-20 世纪初）</h3>
 <ul>
 <li><strong>William Stanley Jevons, Carl Menger, Léon Walras (1870s)</strong>：边际效用理论（marginal utility theory），将经济学建立在个体选择的数学基础上。</li>
 <li><strong>Vilfredo Pareto (1906)</strong>：Pareto 最优（Pareto optimality），定义了资源配置的效率标准——在多目标优化和 AI 公平性研究中广泛使用。</li>
 <li><strong>Frank Ramsey (1928)</strong>：最优储蓄理论，引入了跨期决策的数学框架，影响了强化学习中的折扣因子设计。</li>
 </ul>
-<h3>2.3 现代经济学的数学化（1940s-1970s）</h3>
+<h3 id="n2-3-现代经济学的数学化-1940s-1970s">2.3 现代经济学的数学化（1940s-1970s）</h3>
 <ul>
 <li><strong>John von Neumann &amp; Oskar Morgenstern (1944)</strong>：《博弈论与经济行为》（<em>Theory of Games and Economic Behavior</em>），建立了期望效用理论（expected utility theory）的公理化基础。效用函数 u 满足：若 A 优于 B，则 u(A) &gt; u(B)。</li>
 <li><strong>Kenneth Arrow (1951)</strong>：不可能定理（impossibility theorem）——不存在满足所有合理条件的社会选择函数。这对 AI 中的偏好聚合问题有深远影响：如何从多个标注者的偏好中得到一致的奖励信号？</li>
@@ -527,7 +527,7 @@
 <li><strong>Leonid Hurwicz (1972)</strong>：正式提出机制设计理论（mechanism design theory），研究如何设计博弈规则以实现特定社会目标。</li>
 <li><strong>Roger Myerson (1981)</strong>：最优拍卖设计（optimal auction design），给出了收益最大化拍卖的一般理论。</li>
 </ul>
-<h3>2.4 行为经济学革命（1970s-2000s）</h3>
+<h3 id="n2-4-行为经济学革命-1970s-2000s">2.4 行为经济学革命（1970s-2000s）</h3>
 <ul>
 <li><strong>Daniel Kahneman &amp; Amos Tversky (1979)</strong>：前景理论（prospect theory），揭示人类决策中的系统性偏差：<ul>
 <li>损失厌恶（loss aversion）：损失的痛苦约为等量收益快乐的 2 倍</li>
@@ -538,7 +538,7 @@
 <li><strong>Richard Thaler (1980s-2000s)</strong>：心理账户（mental accounting）、禀赋效应（endowment effect）、助推理论（nudge theory）。</li>
 <li><strong>Colin Camerer (2003)</strong>：行为博弈论（behavioral game theory），将实验数据与博弈论结合。</li>
 </ul>
-<h3>2.5 经济学与 AI 的融合（2010s-至今）</h3>
+<h3 id="n2-5-经济学与-AI-的融合-2010s-至今">2.5 经济学与 AI 的融合（2010s-至今）</h3>
 <ul>
 <li><strong>Hal Varian (2014)</strong>：Google 首席经济学家，将拍卖理论应用于广告竞价系统。</li>
 <li><strong>Paul Christiano et al. (2017)</strong>：提出 RLHF（Reinforcement Learning from Human Feedback），用人类偏好训练奖励模型，这一过程可借助从行为数据中估计效用的视角来理解。</li>
@@ -547,8 +547,8 @@
 <li><strong>Susan Athey、Guido Imbens 等（2010s-2020s）</strong>：推动现代计量经济学与机器学习结合，使因果识别正式进入 AI 评估与政策应用场景。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 效用理论与理性选择</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-效用理论与理性选择">3.1 效用理论与理性选择</h3>
 <h4>经济学理论</h4>
 <p>效用理论是经济学的基石。理性人假设（rational agent hypothesis）认为，决策者拥有完备且传递的偏好关系，并选择最大化期望效用的行动。</p>
 <p>von Neumann-Morgenstern 期望效用定理指出，若偏好满足完备性、传递性、连续性和独立性公理，则存在效用函数 $u$，使得：</p>
@@ -572,7 +572,7 @@
 <li><strong>多目标优化</strong>：当 AI 需要平衡多个目标时，Pareto 最优提供了效率标准。</li>
 <li><strong>风险敏感强化学习</strong>：将风险厌恶引入策略优化，使 AI 在不确定环境中更加稳健。</li>
 </ul>
-<h3>3.2 机制设计</h3>
+<h3 id="n3-2-机制设计">3.2 机制设计</h3>
 <h4>经济学理论</h4>
 <p>机制设计（mechanism design）被称为&quot;逆博弈论&quot;——博弈论分析给定规则下的均衡，而机制设计是设计规则以实现期望的均衡。</p>
 <p>核心概念：</p>
@@ -598,7 +598,7 @@
 <li><strong>联邦学习中的激励</strong>：如何激励多个数据持有者真实地贡献数据？机制设计提供了理论工具。</li>
 <li><strong>AI 市场设计</strong>：多个 AI 服务提供商竞争时，平台如何设计规则以最大化社会福利？</li>
 </ul>
-<h3>3.3 拍卖理论</h3>
+<h3 id="n3-3-拍卖理论">3.3 拍卖理论</h3>
 <h4>经济学理论</h4>
 <p>拍卖是机制设计最成功的应用领域。四种经典拍卖形式：</p>
 <ol>
@@ -634,7 +634,7 @@
 </ul>
 <h4>直觉理解</h4>
 <p>拍卖理论关心的是：在不同规则下，理性的参与者会如何出价，以及平台最终会得到什么结果。第一价格拍卖鼓励“压价出手”，因为赢家按自己的报价付款；第二价格拍卖则鼓励真实报价，因为赢家只需支付第二高价。收益等价定理的价值，在于说明很多看起来不同的拍卖规则，在特定条件下可能给出相同的平均收益，但它们对行为透明度、实现复杂度和平台目标的影响并不相同。</p>
-<h3>3.4 行为经济学</h3>
+<h3 id="n3-4-行为经济学">3.4 行为经济学</h3>
 <h4>经济学理论</h4>
 <p>行为经济学挑战了传统的理性人假设，揭示了人类决策中的系统性偏差。这些发现对 AI 系统设计有深远影响——因为 AI 的训练数据和反馈信号来自非理性的人类。</p>
 <p><strong>前景理论</strong>（prospect theory, Kahneman &amp; Tversky 1979）的核心要素：</p>
@@ -667,7 +667,7 @@
 <li><strong>AI 助推</strong>（AI nudging）：利用行为经济学原理设计 AI 界面，引导用户做出更好的决策——但也引发伦理争议。</li>
 <li><strong>鲁棒偏好学习</strong>：如何从有偏的人类反馈中学到&quot;真实&quot;偏好？需要建模人类的认知偏差并加以校正。</li>
 </ul>
-<h3>3.5 计量经济学与因果问题的接口</h3>
+<h3 id="n3-5-计量经济学与因果问题的接口">3.5 计量经济学与因果问题的接口</h3>
 <p>经济学与因果推断的关系主要体现在<strong>计量经济学</strong>（econometrics）的识别传统中。它关心的问题是：在存在混杂因素、选择偏差和观测噪声时，如何识别某个干预的真实效果？这条传统推动了工具变量、双重差分、断点回归、合成控制等方法的发展。</p>
 <p>在 AI 语境下，这些方法对于推荐系统评估、广告增量收益分析、高影响决策系统以及离线强化学习中的反事实评估都非常重要。但从专题结构上看，这部分问题意识已经超出了本章”偏好、激励与对齐”的核心职责，因此在当前 26 学科结构中，由独立专题<strong>因果推断与结构因果模型</strong>系统展开。</p>
 <p>本章保留这一节，是为了强调历史谱系与接口关系：</p>
@@ -682,7 +682,7 @@
 <li><strong>反事实分析</strong>：离线强化学习和政策评估常借助工具变量、双重差分等思想处理偏差。</li>
 <li><strong>高影响决策系统</strong>：在教育、医疗、金融等场景中，因果识别帮助区分“预测相关”与“真实干预效果”。</li>
 </ul>
-<h3>3.6 AI 对齐的经济学视角</h3>
+<h3 id="n3-6-AI-对齐的经济学视角">3.6 AI 对齐的经济学视角</h3>
 <h4>核心问题</h4>
 <p>AI 对齐（AI alignment）问题可以用经济学的委托-代理框架（principal-agent framework）来理解：</p>
 <ul>
@@ -727,68 +727,68 @@
 <li><strong>制度化约束</strong>：为多代理系统的权限、监督与问责提供框架</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 奖励建模与偏好学习</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-奖励建模与偏好学习">4.1 奖励建模与偏好学习</h3>
 <p>经济学的效用理论为 RLHF 提供了理论基础。Bradley-Terry 模型（1952）原本用于体育排名，现在是奖励建模的标准方法：</p>
 <p>$$P(y_w \succ y_l | x) = \sigma(r_\theta(x, y_w) - r_\theta(x, y_l))$$</p>
 <p>训练目标是最大化对数似然：</p>
 <p>$$\mathcal{L}(\theta) = -E_{(x, y_w, y_l)} [\log \sigma(r_\theta(x, y_w) - r_\theta(x, y_l))]$$</p>
 <p>这本质上是从成对比较数据中估计效用函数——经济学中的离散选择模型（discrete choice model）。</p>
-<h3>4.2 拍卖与市场设计</h3>
+<h3 id="n4-2-拍卖与市场设计">4.2 拍卖与市场设计</h3>
 <p>互联网广告是经济学理论最大规模的工程应用：</p>
 <ul>
 <li>Google 的广告系统每秒处理数百万次拍卖</li>
 <li>广义第二价格拍卖（GSP）保证了近似激励相容</li>
 <li>自动出价代理使用强化学习优化长期收益</li>
 </ul>
-<h3>4.3 多智能体经济系统</h3>
+<h3 id="n4-3-多智能体经济系统">4.3 多智能体经济系统</h3>
 <p>经济学的市场均衡理论启发了多智能体系统设计：</p>
 <ul>
 <li><strong>Fisher 市场模型</strong>：多个买家竞争有限资源，均衡价格实现高效分配</li>
 <li><strong>Walrasian 拍卖</strong>：通过价格调整达到供需平衡</li>
 <li><strong>代币经济</strong>（token economy）：在多智能体环境中引入虚拟货币促进合作</li>
 </ul>
-<h3>4.4 计量经济学与因果问题的历史接口</h3>
+<h3 id="n4-4-计量经济学与因果问题的历史接口">4.4 计量经济学与因果问题的历史接口</h3>
 <p>计量经济学发展的因果识别方法已经深刻影响 AI 社区，包括工具变量、断点回归、双重差分和合成控制等。它们帮助系统从观察数据中区分相关性改善与真实干预效果。</p>
 <p>不过，在当前 26 学科结构中，这部分内容由独立专题<strong>因果推断与结构因果模型</strong>系统展开；本章仅保留其作为经济学历史谱系的一部分，用来说明偏好、制度与部署后果分析之间的连接。</p>
 <hr>
-<h2>5. 与相邻学科的边界</h2>
-<h3>5.1 与博弈论与机制设计</h3>
+<h2 id="n5-与相邻学科的边界">5. 与相邻学科的边界</h2>
+<h3 id="n5-1-与博弈论与机制设计">5.1 与博弈论与机制设计</h3>
 <ul>
 <li><strong>博弈论与机制设计</strong>更偏向战略互动、均衡概念与机制设计的形式框架。</li>
 <li><strong>本章</strong>更偏向偏好、效用、激励、社会选择与 AI 对齐的制度目标。</li>
 </ul>
-<h3>5.2 与因果推断与结构因果模型</h3>
+<h3 id="n5-2-与因果推断与结构因果模型">5.2 与因果推断与结构因果模型</h3>
 <ul>
 <li><strong>因果推断与结构因果模型</strong>负责系统展开干预、反事实、结构因果模型与识别方法。</li>
 <li><strong>本章</strong>只保留计量经济学与因果问题之间的历史接口，不再代管完整因果方法论。</li>
 </ul>
-<h3>5.3 与心理学</h3>
+<h3 id="n5-3-与心理学">5.3 与心理学</h3>
 <ul>
 <li><strong>心理学</strong>更关注人类行为偏差、启发式与反馈噪声的认知来源。</li>
 <li><strong>本章</strong>则关注这些偏差如何影响偏好建模、制度设计与对齐目标。</li>
 </ul>
 <hr>
-<h2>6. 前沿与开放问题</h2>
-<h3>6.1 大语言模型时代的经济学问题</h3>
+<h2 id="n6-前沿与开放问题">6. 前沿与开放问题</h2>
+<h3 id="n6-1-大语言模型时代的经济学问题">6.1 大语言模型时代的经济学问题</h3>
 <ul>
 <li><strong>LLM 作为经济代理</strong>：大语言模型能否模拟理性经济行为？实验表明 LLM 展现出类似人类的认知偏差（Chen et al. 2023）。</li>
 <li><strong>AI 生成内容的定价</strong>：如何为 AI 生成的文本、图像、代码定价？传统的边际成本定价在零边际成本的数字产品中失效。</li>
 <li><strong>数据市场设计</strong>：数据作为生产要素，如何设计公平高效的数据交易机制？</li>
 </ul>
-<h3>6.2 AI 对齐的经济学前沿</h3>
+<h3 id="n6-2-AI-对齐的经济学前沿">6.2 AI 对齐的经济学前沿</h3>
 <ul>
 <li><strong>可扩展的人类监督</strong>（scalable oversight）：当 AI 能力超越人类时，如何设计激励机制确保 AI 仍然可控？</li>
 <li><strong>宪法 AI</strong>（Constitutional AI）：用规则约束 AI 行为，类似于法律和制度设计。</li>
 <li><strong>迭代放大</strong>（iterated amplification）：通过分解任务降低信息不对称。</li>
 </ul>
-<h3>6.3 AI 对劳动市场的影响</h3>
+<h3 id="n6-3-AI-对劳动市场的影响">6.3 AI 对劳动市场的影响</h3>
 <ul>
 <li><strong>技能溢价变化</strong>：AI 自动化如何改变不同技能的市场价值？</li>
 <li><strong>人机互补 vs 替代</strong>：哪些任务中 AI 是人类的互补品，哪些是替代品？</li>
 <li><strong>通用基本收入</strong>（UBI）：如果 AI 大规模替代人类劳动，经济体系如何调整？</li>
 </ul>
-<h3>6.4 开放问题</h3>
+<h3 id="n6-4-开放问题">6.4 开放问题</h3>
 <ol>
 <li>如何设计对 Goodhart 定律鲁棒的奖励函数？</li>
 <li>多个 AI 系统在共享环境中博弈时，是否会出现市场失灵（market failure）？</li>
@@ -797,15 +797,15 @@
 <li>当 AI 代理代替人类参与市场时，传统的均衡理论是否仍然成立？</li>
 </ol>
 <hr>
-<h2>7. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n7-推荐阅读与参考文献">7. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Mas-Colell, A., Whinston, M. D., &amp; Green, J. R. (1995). <em>Microeconomic Theory</em>. Oxford University Press.</li>
 <li>Nisan, N., Roughgarden, T., Tardos, É., &amp; Vazirani, V. V. (2007). <em>Algorithmic Game Theory</em>. Cambridge University Press.</li>
 <li>Krishna, V. (2009). <em>Auction Theory</em>. Academic Press.</li>
 <li>Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>. Farrar, Straus and Giroux.</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>von Neumann, J., &amp; Morgenstern, O. (1944). Theory of Games and Economic Behavior. <em>Princeton University Press</em>.</li>
 <li>Arrow, K. J. (1951). Social Choice and Individual Values. <em>Wiley</em>.</li>
@@ -818,20 +818,20 @@
 <li>Hadfield-Menell, D., et al. (2016). Cooperative Inverse Reinforcement Learning. <em>NeurIPS</em>.</li>
 <li>Russell, S. (2019). <em>Human Compatible: Artificial Intelligence and the Problem of Control</em>. Viking.</li>
 </ul>
-<h3>AI 对齐与经济学</h3>
+<h3 id="AI-对齐与经济学">AI 对齐与经济学</h3>
 <ul>
 <li>Manheim, D., &amp; Garrabrant, S. (2019). Categorizing Variants of Goodhart&#39;s Law. <em>arXiv:1803.04585</em>.</li>
 <li>Zhuang, S., &amp; Hadfield-Menell, D. (2020). Consequences of Misaligned AI. <em>NeurIPS</em>.</li>
 <li>Ouyang, L., et al. (2022). Training Language Models to Follow Instructions with Human Feedback. <em>NeurIPS</em>.</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li>Coursera: Game Theory (Stanford University)</li>
 <li>MIT OpenCourseWare: Microeconomic Theory</li>
 <li>Alignment Forum (alignmentforum.org): AI 对齐研究社区</li>
 </ul>
 <hr>
-<h2>8. 本篇在全书中的位置</h2>
+<h2 id="n8-本篇在全书中的位置">8. 本篇在全书中的位置</h2>
 <p>本篇负责把 AI 中常见的“偏好、激励、制度、奖励失配”问题组织成一套更清楚的语言。它提醒我们，很多 AI 问题并不是“模型不会优化”，而是“我们没有把人类真实想要的东西稳定地写进优化目标”。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -852,12 +852,82 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要经济学-偏好与对齐" class="toc-link h2">1. 上帝视角：为什么 AI 需要经济学、偏好与对齐</a>
+<a href="#与其他学科的关键连接" class="toc-link h3">与其他学科的关键连接</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-古典经济学时期-18-19-世纪" class="toc-link h3">2.1 古典经济学时期（18-19 世纪）</a>
+<a href="#n2-2-边际革命与效用理论-19-世纪末-20-世纪初" class="toc-link h3">2.2 边际革命与效用理论（19 世纪末-20 世纪初）</a>
+<a href="#n2-3-现代经济学的数学化-1940s-1970s" class="toc-link h3">2.3 现代经济学的数学化（1940s-1970s）</a>
+<a href="#n2-4-行为经济学革命-1970s-2000s" class="toc-link h3">2.4 行为经济学革命（1970s-2000s）</a>
+<a href="#n2-5-经济学与-AI-的融合-2010s-至今" class="toc-link h3">2.5 经济学与 AI 的融合（2010s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-效用理论与理性选择" class="toc-link h3">3.1 效用理论与理性选择</a>
+<a href="#n3-2-机制设计" class="toc-link h3">3.2 机制设计</a>
+<a href="#n3-3-拍卖理论" class="toc-link h3">3.3 拍卖理论</a>
+<a href="#n3-4-行为经济学" class="toc-link h3">3.4 行为经济学</a>
+<a href="#n3-5-计量经济学与因果问题的接口" class="toc-link h3">3.5 计量经济学与因果问题的接口</a>
+<a href="#n3-6-AI-对齐的经济学视角" class="toc-link h3">3.6 AI 对齐的经济学视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-奖励建模与偏好学习" class="toc-link h3">4.1 奖励建模与偏好学习</a>
+<a href="#n4-2-拍卖与市场设计" class="toc-link h3">4.2 拍卖与市场设计</a>
+<a href="#n4-3-多智能体经济系统" class="toc-link h3">4.3 多智能体经济系统</a>
+<a href="#n4-4-计量经济学与因果问题的历史接口" class="toc-link h3">4.4 计量经济学与因果问题的历史接口</a>
+<a href="#n5-与相邻学科的边界" class="toc-link h2">5. 与相邻学科的边界</a>
+<a href="#n5-1-与博弈论与机制设计" class="toc-link h3">5.1 与博弈论与机制设计</a>
+<a href="#n5-2-与因果推断与结构因果模型" class="toc-link h3">5.2 与因果推断与结构因果模型</a>
+<a href="#n5-3-与心理学" class="toc-link h3">5.3 与心理学</a>
+<a href="#n6-前沿与开放问题" class="toc-link h2">6. 前沿与开放问题</a>
+<a href="#n6-1-大语言模型时代的经济学问题" class="toc-link h3">6.1 大语言模型时代的经济学问题</a>
+<a href="#n6-2-AI-对齐的经济学前沿" class="toc-link h3">6.2 AI 对齐的经济学前沿</a>
+<a href="#n6-3-AI-对劳动市场的影响" class="toc-link h3">6.3 AI 对劳动市场的影响</a>
+<a href="#n6-4-开放问题" class="toc-link h3">6.4 开放问题</a>
+<a href="#n7-推荐阅读与参考文献" class="toc-link h2">7. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#AI-对齐与经济学" class="toc-link h3">AI 对齐与经济学</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n8-本篇在全书中的位置" class="toc-link h2">8. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要经济学-偏好与对齐" class="toc-link h2">1. 上帝视角：为什么 AI 需要经济学、偏好与对齐</a>
+<a href="#与其他学科的关键连接" class="toc-link h3">与其他学科的关键连接</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-古典经济学时期-18-19-世纪" class="toc-link h3">2.1 古典经济学时期（18-19 世纪）</a>
+<a href="#n2-2-边际革命与效用理论-19-世纪末-20-世纪初" class="toc-link h3">2.2 边际革命与效用理论（19 世纪末-20 世纪初）</a>
+<a href="#n2-3-现代经济学的数学化-1940s-1970s" class="toc-link h3">2.3 现代经济学的数学化（1940s-1970s）</a>
+<a href="#n2-4-行为经济学革命-1970s-2000s" class="toc-link h3">2.4 行为经济学革命（1970s-2000s）</a>
+<a href="#n2-5-经济学与-AI-的融合-2010s-至今" class="toc-link h3">2.5 经济学与 AI 的融合（2010s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-效用理论与理性选择" class="toc-link h3">3.1 效用理论与理性选择</a>
+<a href="#n3-2-机制设计" class="toc-link h3">3.2 机制设计</a>
+<a href="#n3-3-拍卖理论" class="toc-link h3">3.3 拍卖理论</a>
+<a href="#n3-4-行为经济学" class="toc-link h3">3.4 行为经济学</a>
+<a href="#n3-5-计量经济学与因果问题的接口" class="toc-link h3">3.5 计量经济学与因果问题的接口</a>
+<a href="#n3-6-AI-对齐的经济学视角" class="toc-link h3">3.6 AI 对齐的经济学视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-奖励建模与偏好学习" class="toc-link h3">4.1 奖励建模与偏好学习</a>
+<a href="#n4-2-拍卖与市场设计" class="toc-link h3">4.2 拍卖与市场设计</a>
+<a href="#n4-3-多智能体经济系统" class="toc-link h3">4.3 多智能体经济系统</a>
+<a href="#n4-4-计量经济学与因果问题的历史接口" class="toc-link h3">4.4 计量经济学与因果问题的历史接口</a>
+<a href="#n5-与相邻学科的边界" class="toc-link h2">5. 与相邻学科的边界</a>
+<a href="#n5-1-与博弈论与机制设计" class="toc-link h3">5.1 与博弈论与机制设计</a>
+<a href="#n5-2-与因果推断与结构因果模型" class="toc-link h3">5.2 与因果推断与结构因果模型</a>
+<a href="#n5-3-与心理学" class="toc-link h3">5.3 与心理学</a>
+<a href="#n6-前沿与开放问题" class="toc-link h2">6. 前沿与开放问题</a>
+<a href="#n6-1-大语言模型时代的经济学问题" class="toc-link h3">6.1 大语言模型时代的经济学问题</a>
+<a href="#n6-2-AI-对齐的经济学前沿" class="toc-link h3">6.2 AI 对齐的经济学前沿</a>
+<a href="#n6-3-AI-对劳动市场的影响" class="toc-link h3">6.3 AI 对劳动市场的影响</a>
+<a href="#n6-4-开放问题" class="toc-link h3">6.4 开放问题</a>
+<a href="#n7-推荐阅读与参考文献" class="toc-link h2">7. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#AI-对齐与经济学" class="toc-link h3">AI 对齐与经济学</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n8-本篇在全书中的位置" class="toc-link h2">8. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

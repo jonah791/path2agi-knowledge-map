@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：统计物理为 AI 提供了一套理解“分布、能量、熵、自由能、不可逆过程”的统一语言。统计力学解释微观状态如何组织成宏观分布，热力学解释系统为何沿着某些方向演化、为何存在耗散与不可逆性。Boltzmann 机、变分推断、扩散模型、模拟退火等方法都可以从这套语言中获得启发；而关于大模型能力跃迁，物理学中的相变概念更适合被看作解释性视角，而不是现成定理。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：Boltzmann 分布、采样与后验推断都离不开概率语言</li>
 <li><a href="04-information-theory.html">信息论</a>：熵、自由能与压缩视角在两篇之间高度相关</li>
@@ -446,9 +446,9 @@
 <li><a href="16-complexity-science.html">复杂性科学</a>：相变、幂律与临界性在复杂系统解释中反复出现</li>
 <li><a href="15-cybernetics.html">控制论</a>：朗之万动力学、随机控制与扩散过程在动态系统视角下彼此接近</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要统计力学与热力学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要统计力学与热力学">1. 上帝视角：为什么 AI 需要统计力学与热力学</h2>
 <p>统计力学的核心思想是：<strong>用概率描述大量微观粒子的集体行为，从而推导出宏观可观测量</strong>。热力学则更关心系统在约束下朝什么方向演化、什么过程不可逆、哪些量决定平衡条件。它们与机器学习的核心问题——从大量数据中学习分布，并推动系统沿某种目标方向演化——在数学结构上具有相似性。</p>
-<h3>1.1 物理概念与 AI 方法的对应关系</h3>
+<h3 id="n1-1-物理概念与-AI-方法的对应关系">1.1 物理概念与 AI 方法的对应关系</h3>
 <table>
 <thead>
 <tr>
@@ -501,7 +501,7 @@
 </ul>
 <p>这三类关系都重要，但证据强度不同。如果不分开写，读者很容易把“有启发的类比”误读成“已经证明的统一理论”。</p>
 <p>现代 AI 从两者都获得了启发。只讲统计分布，不足以解释训练和生成过程为何沿某个方向演化；只讲热力学方向，也不足以解释模型最终逼近的概率结构。</p>
-<h3>1.2 与其他学科的关键连接点</h3>
+<h3 id="n1-2-与其他学科的关键连接点">1.2 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -542,9 +542,9 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>统计力学的发展史，也是人类理解&quot;从微观到宏观&quot;这一根本问题的历史。</p>
-<h3>2.1 经典统计力学的建立</h3>
+<h3 id="n2-1-经典统计力学的建立">2.1 经典统计力学的建立</h3>
 <ul>
 <li><strong>Clausius (1850)</strong>：提出热力学第二定律的早期形式，引入熵（entropy）的概念</li>
 <li><strong>Helmholtz (1882)</strong>：系统化自由能概念，使平衡条件与“可用功”获得统一表达</li>
@@ -553,7 +553,7 @@
 <li><strong>Gibbs (1902)</strong>：系统化统计力学理论，引入系综（ensemble）概念，定义配分函数（partition function）</li>
 <li><strong>Onsager (1931)</strong>：提出非平衡热力学中的互反关系，为后续理解扩散、耗散与线性响应奠基</li>
 </ul>
-<h3>2.2 Ising 模型与相变理论</h3>
+<h3 id="n2-2-Ising-模型与相变理论">2.2 Ising 模型与相变理论</h3>
 <ul>
 <li><strong>Lenz (1920)</strong>：提出磁性模型的基本思想</li>
 <li><strong>Ising (1925)</strong>：求解一维 Ising 模型，发现无相变（但二维有）</li>
@@ -561,13 +561,13 @@
 <li><strong>Kadanoff (1966)</strong>：提出块自旋（block spin）思想，为重整化群奠基</li>
 <li><strong>Wilson (1971)</strong>：发展重整化群（renormalization group）理论，获 1982 年 Nobel 物理学奖</li>
 </ul>
-<h3>2.3 计算方法的革命</h3>
+<h3 id="n2-3-计算方法的革命">2.3 计算方法的革命</h3>
 <ul>
 <li><strong>Metropolis et al. (1953)</strong>：提出 Metropolis 算法，开创 Monte Carlo 方法在统计力学中的应用</li>
 <li><strong>Hastings (1970)</strong>：推广 Metropolis 算法为 Metropolis-Hastings 算法，成为 MCMC 的基石</li>
 <li><strong>Kirkpatrick, Gelatt &amp; Vecchi (1983)</strong>：将退火过程类比到组合优化，提出模拟退火（simulated annealing）算法</li>
 </ul>
-<h3>2.4 统计力学进入 AI</h3>
+<h3 id="n2-4-统计力学进入-AI">2.4 统计力学进入 AI</h3>
 <ul>
 <li><strong>Hopfield (1982)</strong>：提出 Hopfield 网络，将神经网络与自旋玻璃（spin glass）类比</li>
 <li><strong>Hinton &amp; Sejnowski (1985)</strong>：提出 Boltzmann 机（Boltzmann machine），直接使用 Boltzmann 分布作为网络的平衡分布</li>
@@ -575,7 +575,7 @@
 <li><strong>Hinton (2006)</strong>：用 RBM 逐层预训练深度网络，开启深度学习复兴</li>
 <li><strong>LeCun et al. (2006)</strong>：能量模型（Energy-Based Models, EBM）的系统化框架</li>
 </ul>
-<h3>2.5 扩散模型与现代发展</h3>
+<h3 id="n2-5-扩散模型与现代发展">2.5 扩散模型与现代发展</h3>
 <ul>
 <li><strong>Sohl-Dickstein et al. (2015)</strong>：首次将非平衡统计力学的扩散过程用于生成模型</li>
 <li><strong>Song &amp; Ermon (2019)</strong>：基于得分匹配（score matching）的生成模型，与朗之万动力学直接关联</li>
@@ -583,8 +583,8 @@
 <li><strong>Kaplan et al. (2020)</strong>：发现神经网络的 Scaling Law，其幂律行为与统计力学的相变理论有深刻联系</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 熵、自由能与热力学方向</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-熵-自由能与热力学方向">3.1 熵、自由能与热力学方向</h3>
 <h4>核心定义</h4>
 <p>热力学关心的不是单个微观状态，而是系统在宏观约束下朝什么方向演化。几个核心量是：</p>
 <ul>
@@ -605,7 +605,7 @@
 <li><strong>采样温度</strong>：控制确定性与多样性的平衡</li>
 <li><strong>正则化</strong>：许多目标函数都可理解为能量项与熵项之间的折中</li>
 </ul>
-<h3>3.2 Boltzmann 分布与配分函数</h3>
+<h3 id="n3-2-Boltzmann-分布与配分函数">3.2 Boltzmann 分布与配分函数</h3>
 <h4>数学定义</h4>
 <p>对于一个具有离散状态 $\{x_i\}$ 的系统，每个状态的能量为 $E(x_i)$，在温度 $T$ 下，系统处于状态 $x_i$ 的概率为：</p>
 <p>$$P(x_i) = \frac{1}{Z} \exp\left(-\frac{E(x_i)}{k_B T}\right)$$</p>
@@ -630,7 +630,7 @@
 <li><p><strong>LLM 采样</strong>：大语言模型生成时的温度参数直接来自 Boltzmann 分布</p>
 </li>
 </ol>
-<h3>3.3 Ising 模型与相变</h3>
+<h3 id="n3-3-Ising-模型与相变">3.3 Ising 模型与相变</h3>
 <h4>数学定义</h4>
 <p>二维 Ising 模型定义在 $N \times N$ 的格点上，每个格点 $i$ 有自旋 $s_i \in \{-1, +1\}$，系统的能量为：</p>
 <p>$$E(\mathbf{s}) = -J \sum_{\langle i,j \rangle} s_i s_j - h \sum_i s_i$$</p>
@@ -651,7 +651,7 @@
 <li><strong>Scaling Law</strong>：损失随参数量的幂律下降，与临界现象的幂律行为有结构相似性</li>
 <li><strong>图神经网络</strong>：消息传递机制与 Ising 模型的均场近似在形式上有一定相似性，但通常更适合作为解释性工具，而不是直接方法来源</li>
 </ol>
-<h3>3.4 模拟退火（Simulated Annealing）</h3>
+<h3 id="n3-4-模拟退火-Simulated-Annealing">3.4 模拟退火（Simulated Annealing）</h3>
 <h4>数学定义</h4>
 <p>模拟退火是一种概率性全局优化算法，模拟金属退火过程：</p>
 <ol>
@@ -690,7 +690,7 @@
 <li><strong>训练策略</strong>：学习率退火（learning rate annealing）借用了相同的思想</li>
 <li><strong>KL 退火</strong>：VAE 训练中逐渐增加 KL 散度项的权重</li>
 </ol>
-<h3>3.5 非平衡过程、朗之万动力学与扩散模型</h3>
+<h3 id="n3-5-非平衡过程-朗之万动力学与扩散模型">3.5 非平衡过程、朗之万动力学与扩散模型</h3>
 <h4>朗之万动力学（Langevin Dynamics）</h4>
 <p>朗之万方程描述粒子在势场中受随机力驱动的运动：</p>
 <p>$$dx = -\nabla E(x) \, dt + \sqrt{2T} \, dW_t$$</p>
@@ -739,7 +739,7 @@
 <li><strong>随机梯度朗之万动力学（SGLD）</strong>：将 SGD 与朗之万动力学结合，用于贝叶斯深度学习</li>
 <li><strong>流匹配（Flow Matching）</strong>：扩散模型的连续时间推广</li>
 </ol>
-<h3>3.6 Scaling Law 的物理视角</h3>
+<h3 id="n3-6-Scaling-Law-的物理视角">3.6 Scaling Law 的物理视角</h3>
 <h4>幂律行为</h4>
 <p>Kaplan et al. (2020) 发现，神经网络的测试损失 $L$ 与模型参数量 $N$、数据量 $D$、计算量 $C$ 之间存在幂律关系：</p>
 <p>$$L(N) \approx \left(\frac{N_c}{N}\right)^{\alpha_N}, \quad L(D) \approx \left(\frac{D_c}{D}\right)^{\alpha_D}$$</p>
@@ -766,9 +766,9 @@
 <li><strong>训练动力学建模</strong>：为损失景观、优化稳定性和泛化行为提供跨学科解释框架。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>统计物理进入 AI 的方式，最好分成三层理解：它既提供严格的概率与自由能语言，也提供采样与优化算法，还提供一套帮助我们解释复杂训练现象的物理视角。</p>
-<h3>4.1 概率建模框架</h3>
+<h3 id="n4-1-概率建模框架">4.1 概率建模框架</h3>
 <p>统计力学为 AI 提供了一套完整的概率建模语言：</p>
 <ul>
 <li><strong>能量模型</strong>：$p(x) = \exp(-E(x)) / Z$ 是最一般的无向图模型</li>
@@ -779,7 +779,7 @@
 <ul>
 <li><strong>最大熵原理</strong>：在给定约束下，熵最大的分布是最&quot;无偏&quot;的选择，这为正则化提供了物理直觉</li>
 </ul>
-<h3>4.2 采样与推断算法</h3>
+<h3 id="n4-2-采样与推断算法">4.2 采样与推断算法</h3>
 <p>统计力学催生了一系列重要的采样算法：</p>
 <table>
 <thead>
@@ -815,7 +815,7 @@
 <td>多模态分布采样</td>
 </tr>
 </tbody></table>
-<h3>4.3 生成模型的物理基础</h3>
+<h3 id="n4-3-生成模型的物理基础">4.3 生成模型的物理基础</h3>
 <p>现代生成模型与统计力学的对应关系：</p>
 <table>
 <thead>
@@ -851,7 +851,7 @@
 <td>对比散度训练</td>
 </tr>
 </tbody></table>
-<h3>4.4 理解深度学习的理论工具</h3>
+<h3 id="n4-4-理解深度学习的理论工具">4.4 理解深度学习的理论工具</h3>
 <p>统计力学为理解深度学习提供了独特的理论视角：</p>
 <ol>
 <li><strong>损失景观分析</strong>：用自旋玻璃理论分析神经网络的损失函数景观，解释为什么局部最优解通常也是好的解</li>
@@ -859,7 +859,7 @@
 <li><strong>信息瓶颈</strong>：Tishby 的信息瓶颈理论借用了热力学中的压缩思想</li>
 <li><strong>双下降现象</strong>：模型复杂度增加时测试误差先降后升再降的现象，可以借助统计力学语言组织解释，但目前仍不是统一结论</li>
 </ol>
-<h3>4.5 热力学的方向性视角</h3>
+<h3 id="n4-5-热力学的方向性视角">4.5 热力学的方向性视角</h3>
 <p>热力学对 AI 的独特贡献，在于它提供了关于<strong>训练为什么沿某个方向演化</strong>的语言：</p>
 <ul>
 <li><strong>熵增与耗散</strong>：帮助理解很多训练与采样过程天然不可逆</li>
@@ -868,8 +868,8 @@
 <li><strong>温度与探索</strong>：统一采样多样性、策略随机性和退火优化</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 活跃研究方向</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-活跃研究方向">5.1 活跃研究方向</h3>
 <ol>
 <li><strong>扩散模型的加速</strong>：如何减少采样步数（DDIM、一致性模型、蒸馏方法）</li>
 <li><strong>能量模型的训练</strong>：配分函数不可计算带来的训练困难，对比散度的改进</li>
@@ -877,14 +877,14 @@
 <li><strong>涌现能力的机制</strong>：是真正的相变还是度量选择的假象？</li>
 <li><strong>非平衡统计力学与 AI</strong>：Jarzynski 等式、波动定理在机器学习中的应用</li>
 </ol>
-<h3>5.2 开放问题</h3>
+<h3 id="n5-2-开放问题">5.2 开放问题</h3>
 <ul>
 <li><strong>配分函数的高效计算</strong>：能否找到比 MCMC 更高效的方法？</li>
 <li><strong>Scaling Law 的极限</strong>：幂律会在什么尺度上失效？是否存在&quot;相变点&quot;？</li>
 <li><strong>统计力学能否解释意识</strong>：集成信息理论（IIT）与统计力学的关系</li>
 <li><strong>量子统计力学与量子 AI</strong>：量子退火、量子 Boltzmann 机的实际优势</li>
 </ul>
-<h3>5.3 统计力学视角下的 AGI</h3>
+<h3 id="n5-3-统计力学视角下的-AGI">5.3 统计力学视角下的 AGI</h3>
 <p>从统计力学的角度看，AGI 可能需要：</p>
 <ul>
 <li><strong>多尺度表示</strong>：类似重整化群，在不同抽象层次上表示知识</li>
@@ -892,20 +892,20 @@
 <li><strong>自组织临界性</strong>：系统自发演化到临界态，无需外部调参</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Huang, K. (1987). <em>Statistical Mechanics</em>. Wiley. — 统计力学经典教材</li>
 <li>Pathria, R. K. &amp; Beale, P. D. (2011). <em>Statistical Mechanics</em>. Academic Press. — 研究生标准教材</li>
 <li>Sethna, J. P. (2006). <em>Statistical Mechanics: Entropy, Order Parameters, and Complexity</em>. Oxford University Press. — 面向跨学科读者的现代教材</li>
 </ul>
-<h3>AI 与统计力学交叉</h3>
+<h3 id="AI-与统计力学交叉">AI 与统计力学交叉</h3>
 <ul>
 <li>Mezard, M. &amp; Montanari, A. (2009). <em>Information, Physics, and Computation</em>. Oxford University Press. — 信息论、统计力学与计算的交叉</li>
 <li>Bahri, Y. et al. (2020). Statistical Mechanics of Deep Learning. <em>Annual Review of Condensed Matter Physics</em>. — 深度学习的统计力学综述</li>
 <li>Roberts, D. A. &amp; Yaida, S. (2022). <em>The Principles of Deep Learning Theory</em>. Cambridge University Press. — 用统计力学方法分析深度网络</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>Boltzmann, L. (1877). Über die Beziehung zwischen dem zweiten Hauptsatze der mechanischen Wärmetheorie und der Wahrscheinlichkeitsrechnung. — 统计力学奠基论文</li>
 <li>Metropolis, N. et al. (1953). Equation of State Calculations by Fast Computing Machines. <em>Journal of Chemical Physics</em>. — Monte Carlo 方法的开创性论文</li>
@@ -918,7 +918,7 @@
 <li>Kaplan, J. et al. (2020). Scaling Laws for Neural Language Models. — Scaling Law 的发现</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了统计物理对 AI/AGI 发展的核心贡献：<strong>提供了理解分布、能量、熵、自由能和不可逆过程的统一语言，为能量模型、变分推断、扩散模型等方法提供了理论启发</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -946,12 +946,74 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要统计力学与热力学" class="toc-link h2">1. 上帝视角：为什么 AI 需要统计力学与热力学</a>
+<a href="#n1-1-物理概念与-AI-方法的对应关系" class="toc-link h3">1.1 物理概念与 AI 方法的对应关系</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-经典统计力学的建立" class="toc-link h3">2.1 经典统计力学的建立</a>
+<a href="#n2-2-Ising-模型与相变理论" class="toc-link h3">2.2 Ising 模型与相变理论</a>
+<a href="#n2-3-计算方法的革命" class="toc-link h3">2.3 计算方法的革命</a>
+<a href="#n2-4-统计力学进入-AI" class="toc-link h3">2.4 统计力学进入 AI</a>
+<a href="#n2-5-扩散模型与现代发展" class="toc-link h3">2.5 扩散模型与现代发展</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-熵-自由能与热力学方向" class="toc-link h3">3.1 熵、自由能与热力学方向</a>
+<a href="#n3-2-Boltzmann-分布与配分函数" class="toc-link h3">3.2 Boltzmann 分布与配分函数</a>
+<a href="#n3-3-Ising-模型与相变" class="toc-link h3">3.3 Ising 模型与相变</a>
+<a href="#n3-4-模拟退火-Simulated-Annealing" class="toc-link h3">3.4 模拟退火（Simulated Annealing）</a>
+<a href="#n3-5-非平衡过程-朗之万动力学与扩散模型" class="toc-link h3">3.5 非平衡过程、朗之万动力学与扩散模型</a>
+<a href="#n3-6-Scaling-Law-的物理视角" class="toc-link h3">3.6 Scaling Law 的物理视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-概率建模框架" class="toc-link h3">4.1 概率建模框架</a>
+<a href="#n4-2-采样与推断算法" class="toc-link h3">4.2 采样与推断算法</a>
+<a href="#n4-3-生成模型的物理基础" class="toc-link h3">4.3 生成模型的物理基础</a>
+<a href="#n4-4-理解深度学习的理论工具" class="toc-link h3">4.4 理解深度学习的理论工具</a>
+<a href="#n4-5-热力学的方向性视角" class="toc-link h3">4.5 热力学的方向性视角</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-活跃研究方向" class="toc-link h3">5.1 活跃研究方向</a>
+<a href="#n5-2-开放问题" class="toc-link h3">5.2 开放问题</a>
+<a href="#n5-3-统计力学视角下的-AGI" class="toc-link h3">5.3 统计力学视角下的 AGI</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#AI-与统计力学交叉" class="toc-link h3">AI 与统计力学交叉</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要统计力学与热力学" class="toc-link h2">1. 上帝视角：为什么 AI 需要统计力学与热力学</a>
+<a href="#n1-1-物理概念与-AI-方法的对应关系" class="toc-link h3">1.1 物理概念与 AI 方法的对应关系</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-经典统计力学的建立" class="toc-link h3">2.1 经典统计力学的建立</a>
+<a href="#n2-2-Ising-模型与相变理论" class="toc-link h3">2.2 Ising 模型与相变理论</a>
+<a href="#n2-3-计算方法的革命" class="toc-link h3">2.3 计算方法的革命</a>
+<a href="#n2-4-统计力学进入-AI" class="toc-link h3">2.4 统计力学进入 AI</a>
+<a href="#n2-5-扩散模型与现代发展" class="toc-link h3">2.5 扩散模型与现代发展</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-熵-自由能与热力学方向" class="toc-link h3">3.1 熵、自由能与热力学方向</a>
+<a href="#n3-2-Boltzmann-分布与配分函数" class="toc-link h3">3.2 Boltzmann 分布与配分函数</a>
+<a href="#n3-3-Ising-模型与相变" class="toc-link h3">3.3 Ising 模型与相变</a>
+<a href="#n3-4-模拟退火-Simulated-Annealing" class="toc-link h3">3.4 模拟退火（Simulated Annealing）</a>
+<a href="#n3-5-非平衡过程-朗之万动力学与扩散模型" class="toc-link h3">3.5 非平衡过程、朗之万动力学与扩散模型</a>
+<a href="#n3-6-Scaling-Law-的物理视角" class="toc-link h3">3.6 Scaling Law 的物理视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-概率建模框架" class="toc-link h3">4.1 概率建模框架</a>
+<a href="#n4-2-采样与推断算法" class="toc-link h3">4.2 采样与推断算法</a>
+<a href="#n4-3-生成模型的物理基础" class="toc-link h3">4.3 生成模型的物理基础</a>
+<a href="#n4-4-理解深度学习的理论工具" class="toc-link h3">4.4 理解深度学习的理论工具</a>
+<a href="#n4-5-热力学的方向性视角" class="toc-link h3">4.5 热力学的方向性视角</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-活跃研究方向" class="toc-link h3">5.1 活跃研究方向</a>
+<a href="#n5-2-开放问题" class="toc-link h3">5.2 开放问题</a>
+<a href="#n5-3-统计力学视角下的-AGI" class="toc-link h3">5.3 统计力学视角下的 AGI</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#AI-与统计力学交叉" class="toc-link h3">AI 与统计力学交叉</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

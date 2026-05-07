@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：语言学为 AI 尤其是 NLP/LLM 提供了形式化框架、语义问题定义与评估语言，但它并不等于“语言学理论直接变成今天的模型代码”。从 Chomsky 层级到分布式语义、从语用学到篇章分析，语言学更像是给出了问题的结构与判准，而工程实现则由统计学习、深度学习与大规模语料驱动。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="04-information-theory.html">信息论</a>：语言可被看作编码、传输与压缩信息的系统</li>
 <li><a href="05-logic.html">逻辑学与形式推理</a>：语义表示、句法结构与推理形式化长期受逻辑学影响</li>
@@ -446,10 +446,10 @@
 <li><a href="21-psychology.html">心理学</a>：语言理解、习得与使用行为与心理学研究密切相关</li>
 <li><a href="25-philosophy.html">哲学</a>：意义、指称、理解与语言与世界的关系是语言哲学的核心主题</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要语言学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要语言学">1. 上帝视角：为什么 AI 需要语言学</h2>
 <p>语言是人类智能最显著的外在表现。Alan Turing 在 1950 年提出的&quot;图灵测试&quot;，其核心判据就是机器能否用自然语言与人类进行不可区分的对话。这一选择并非偶然——语言承载了人类思维的几乎全部复杂性：抽象概念、逻辑推理、情感表达、隐喻联想、社会协作。</p>
 <p>自然语言处理（Natural Language Processing, NLP）是 AI 领域中应用最广泛、商业价值最高的分支之一。从搜索引擎、机器翻译到聊天机器人、大语言模型（Large Language Model, LLM），NLP 的每一次突破都深深植根于语言学理论。</p>
-<h3>1.1 NLP 的理论基础</h3>
+<h3 id="n1-1-NLP-的理论基础">1.1 NLP 的理论基础</h3>
 <p>NLP 的核心问题可以归结为：</p>
 <ul>
 <li><strong>表示问题</strong>：如何将离散的语言符号转化为计算机可处理的数学对象？</li>
@@ -458,7 +458,7 @@
 <li><strong>生成问题</strong>：如何产生符合语法且有意义的文本？</li>
 </ul>
 <p>这些问题的回答，分别对应语言学的不同分支：音系学（phonology）、形态学（morphology）、句法学（syntax）、语义学（semantics）、语用学（pragmatics）。</p>
-<h3>1.2 与其他学科的关键连接点</h3>
+<h3 id="n1-2-与其他学科的关键连接点">1.2 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -510,9 +510,9 @@
 <li><strong>启发性参照</strong>：例如语言习得争论、语义组合性、语用含义等，为 LLM 提供分析框架而非现成算法</li>
 </ul>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>语言学的历史可以追溯到古印度语法学家 Pāṇini（约公元前 4 世纪），他为梵语编写的语法规则体系被认为是人类最早的形式语言描述。但现代语言学——特别是与 AI 相关的部分——主要从 20 世纪初开始。</p>
-<h3>2.1 结构主义时期（1900s-1950s）</h3>
+<h3 id="n2-1-结构主义时期-1900s-1950s">2.1 结构主义时期（1900s-1950s）</h3>
 <p><strong>Ferdinand de Saussure (1916)</strong>：《普通语言学教程》（<em>Cours de linguistique générale</em>）奠定了现代语言学的基础。Saussure 提出了几个革命性概念：</p>
 <ul>
 <li><strong>能指（signifier）与所指（signified）</strong>：语言符号是任意的，&quot;树&quot;这个词与真实的树之间没有必然联系</li>
@@ -526,7 +526,7 @@
 <p>&quot;出现在相同上下文中的词具有相似的含义。&quot;</p>
 </blockquote>
 <p>这一简洁而深刻的观察，在 60 年后成为 Word2Vec、GloVe 以及所有基于上下文的语言模型的理论基石。</p>
-<h3>2.2 生成语法革命（1950s-1970s）</h3>
+<h3 id="n2-2-生成语法革命-1950s-1970s">2.2 生成语法革命（1950s-1970s）</h3>
 <p><strong>Noam Chomsky (1957)</strong>：《句法结构》（<em>Syntactic Structures</em>）引发了语言学的&quot;认知革命&quot;。Chomsky 的核心贡献包括：</p>
 <ul>
 <li><strong>形式语言层级（Chomsky hierarchy）</strong>：将语言按计算复杂度分为四个层次（详见 3.1 节）</li>
@@ -535,7 +535,7 @@
 <li><strong>普遍语法（Universal Grammar）</strong>：人类天生具有语言习得的生物基础</li>
 </ul>
 <p><strong>对 AI 的影响</strong>：Chomsky 层级直接催生了编译器理论中的语法分析技术。上下文无关文法（Context-Free Grammar, CFG）至今仍是编程语言设计和自然语言句法分析的核心工具。</p>
-<h3>2.3 统计转向（1980s-2000s）</h3>
+<h3 id="n2-3-统计转向-1980s-2000s">2.3 统计转向（1980s-2000s）</h3>
 <p>1980 年代末，随着计算能力的提升和大规模语料库的出现，NLP 经历了从规则方法到统计方法的范式转换。</p>
 <p><strong>Frederick Jelinek（IBM，1980s）</strong>：将统计方法引入语音识别和机器翻译，留下了著名的（可能是杜撰的）名言：</p>
 <blockquote>
@@ -548,7 +548,7 @@
 <li><strong>最大熵模型（Maximum Entropy）</strong>：Berger et al. (1996)</li>
 <li><strong>条件随机场（Conditional Random Fields, CRF）</strong>：Lafferty et al. (2001)</li>
 </ul>
-<h3>2.4 深度学习时代（2010s-至今）</h3>
+<h3 id="n2-4-深度学习时代-2010s-至今">2.4 深度学习时代（2010s-至今）</h3>
 <ul>
 <li><strong>Mikolov et al. (2013)</strong>：Word2Vec，用神经网络学习词的分布式表示</li>
 <li><strong>Pennington et al. (2014)</strong>：GloVe，结合全局统计信息的词向量</li>
@@ -560,8 +560,8 @@
 <li><strong>OpenAI (2022-2023)</strong>：ChatGPT / GPT-4，大语言模型进入公众视野</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 Chomsky 层级（Chomsky Hierarchy）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-Chomsky-层级-Chomsky-Hierarchy">3.1 Chomsky 层级（Chomsky Hierarchy）</h3>
 <p>Chomsky (1956, 1959) 提出的形式语言分类体系，按生成能力从弱到强分为四个层次：</p>
 <table>
 <thead>
@@ -612,7 +612,7 @@
 </ul>
 <h4>AI 中的角色</h4>
 <p>Chomsky 层级依旧是评估模型表达力下限的哲学基础：简单任务可以用 Type-3 的有限状态自动机处理，涉及上下文依赖的句法结构则需要 Type-2 的解析器或 TAG 这样的中介级别，而要捕捉更丰富的语义约束（比如词形变化、跨句上下文）就要转向 Type-1/Type-0 的更强算力。AI 工程师据此约束模型结构、选择正则/CFG/属性文法工具，并在编译器、编程语言、符号推理与形式验证中引入严格的语言等级划分。即便在 LLM 时代，也常常用 Chomsky 层级来设定测试集分层、验证模型是否跨越了“温和上下文相关”边界，从而保证统计模型与语言学可解释性之间的平衡。</p>
-<h3>3.2 分布式语义假说（Distributional Semantics Hypothesis）</h3>
+<h3 id="n3-2-分布式语义假说-Distributional-Semantics-Hypothesis">3.2 分布式语义假说（Distributional Semantics Hypothesis）</h3>
 <p><strong>核心思想</strong>：一个词的含义可以由它出现的上下文来定义。</p>
 <p>用 Harris (1954) 的原话：</p>
 <blockquote>
@@ -638,7 +638,7 @@
 <p>分布式语义假说是预训练表示的理论起点：共现矩阵与向量化的设计直接影响了词嵌入的预训练任务与目标。对比损失、负采样、以及自监督的遮蔽目标都在重构上下文共现模式，让模型在矢量空间中保持“语义邻近”。在多语言迁移、跨模态对齐以及知识图谱补全等任务中，AI 工程师用这个假说来设定正样本/负样本、选择上下文窗口大小以及设计对比语义距离，从而控制表示的粒度与抽象能力。</p>
 <h4>直觉理解</h4>
 <p>直觉上，一个词的意义就是它在句子里“遇到”的邻居——如果你把每个词的上下文当成一个小生态圈，两个词共享大量邻居时，它们看上去就更相似。embedding 就像把这些生态圈投影到向量空间，用距离表达语义距离：共同出现越多，向量越靠近，越能互换上下文。这个直觉也说明了为何频率高的词需要平滑或降重，因为它们的生态圈太大，容易掩盖具体语义。</p>
-<h3>3.3 词嵌入（Word Embeddings）</h3>
+<h3 id="n3-3-词嵌入-Word-Embeddings">3.3 词嵌入（Word Embeddings）</h3>
 <p>词嵌入是将离散的词符号映射到连续向量空间的技术，是现代 NLP 的基石。</p>
 <p><strong>Word2Vec（Mikolov et al., 2013）</strong>：</p>
 <p>两种架构：</p>
@@ -664,7 +664,7 @@
 <p>词嵌入将离散符号映射到几何空间，为大多数 NLP 任务提供通用的初始表征。无论是语言建模、机器翻译还是语义检索，embedding 层都充当“字典”，把稀疏输入变为可微的张量。AI 工程师还会用对比学习或多任务损失微调这些向量，以便对齐多语言语义、融合知识图谱实体、或者让检索-生成系统在相似度上更可控。</p>
 <h4>直觉理解</h4>
 <p>把词看做点、把共现看做连接，词嵌入就是在几何空间里排列这些点，使得邻近的点对应语义相近的词：语义“海洋”里的波峰和波谷代表的是话题类别，线性的移动代表的是语义偏移。感知词义的直觉就是：如果两个词在文本中总是出现一起，那么在向量空间里它们也应该靠得很近——embedding 用数字上的“靠近感”量化了这个直觉，使得模型能够通过简单的线性算子实现类比、聚类、甚至隐含的语义刚性。</p>
-<h3>3.4 从 n-gram 到神经语言模型</h3>
+<h3 id="n3-4-从-n-gram-到神经语言模型">3.4 从 n-gram 到神经语言模型</h3>
 <p><strong>语言模型（Language Model）</strong> 的核心任务是估计一个词序列的概率：</p>
 <p>$$P(w_1, w_2, \ldots, w_T) = \prod_{t=1}^{T} P(w_t | w_1, \ldots, w_{t-1})$$<br>其中乘积将序列分解为逐步生成过程，$P(w_t | w_1, \ldots, w_{t-1})$ 反映模型在已有上下文基础上填补下一个词的能力。</p>
 <p><strong>n-gram 语言模型</strong>：</p>
@@ -710,7 +710,7 @@
 <p>n-gram 模型提供了“频率统计”的起点，成为语言理解任务中的基准；神经语言模型通过上下文窗口、注意力和自监督目标来扩展这个基准，使得模型在低资源和长文本场景中都能共享参数。AI 工程师利用概率分解公式设计训练目标、使用平滑与插值控制概率估计，并在骨干网络（RNN、Transformer 等）中显式地把上下文窗口作为“记忆”层与自注意力作为“选择器”，从而保证生成内容既高效又可控。</p>
 <h4>直觉理解</h4>
 <p>n-gram 就像你记住最近 $n$ 句话里说了什么，越远的内容就被遗忘；神经语言模型则在这个记忆池里插入了密集向量和自注意力，让你在写下一句话前可以“回想”任意长度的上下文——只是需要不断地点亮相关的 token。困惑度直观地告诉我们：模型平均面对多少个离散选项，它越低意味着模型像一个有经验的写作者，对每一步的选择越来越有信心。</p>
-<h3>3.5 语义学、语用学与篇章理解</h3>
+<h3 id="n3-5-语义学-语用学与篇章理解">3.5 语义学、语用学与篇章理解</h3>
 <p>语言学对 AI 的真正挑战不只在“词和句子”，而在“句子在语境中是什么意思”。</p>
 <p><strong>形式语义学</strong>（formal semantics）强调<strong>组合性原则</strong>：整体意义由部分意义及其组合方式决定。这一思想直接影响了语义解析（semantic parsing）、知识库问答和工具调用，因为模型不仅要生成词，还要恢复可执行的意义结构。</p>
 <p><strong>语用学</strong>（pragmatics）则关注说话者在具体情境中真正想表达什么。句子“这里有点冷”可能是在描述环境，也可能是在请求关窗。Grice 的合作原则与会话含义（implicature）告诉我们，理解语言不能只看字面形式，还必须看共享背景、交互目标和社会规范。</p>
@@ -729,7 +729,7 @@
 <li><strong>篇章分析</strong>：进入长上下文 QA、多轮对话、摘要与报告生成，核心问题是“跨句是否连贯、自洽、可追踪”</li>
 </ul>
 <p>对现代 LLM 而言，这些层面更多体现为<strong>训练目标和评估标准</strong>，而不是单一模块能一劳永逸解决的问题。</p>
-<h3>3.6 大语言模型的语言学视角</h3>
+<h3 id="n3-6-大语言模型的语言学视角">3.6 大语言模型的语言学视角</h3>
 <p>大语言模型（LLM）的成功引发了语言学界的深刻反思。</p>
 <p><strong>LLM 学到了什么语言知识？</strong></p>
 <p>实证研究表明，LLM 能够：</p>
@@ -756,21 +756,21 @@
 <p>大语言模型提供了语言学实证的试验场：研究者可以通过 probing、最小对（minimal pairs）、挑战集、控制生成策略等方法，观察模型在哪些语法/语义/语用现象上可靠、在哪些上仍然薄弱。这一过程不仅推动了 LLM 的可解释性，也让语法学、语义学、语用学获得新的检验对象。</p>
 <p>需要强调的是，这类实验更像“语言学分析进入模型评测”，并不自动证明模型已经获得了与人类等价的语言能力。</p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>语言学对 AI 的贡献主要体现在：把语言问题形式化、把语义与语用拆成可分析层级、把评估标准从“词面像不像”推进到“是否真正表达得当”。下面五层里，前两层更多是直接进入 NLP 工具链，后三层更多是为 LLM 提供分析框架和评测判准。</p>
-<h3>4.1 形式化框架</h3>
+<h3 id="n4-1-形式化框架">4.1 形式化框架</h3>
 <ul>
 <li><strong>形式语言理论</strong>：为编程语言设计、编译器构造、自然语言解析提供了数学基础</li>
 <li><strong>特征结构与合一（unification）</strong>：HPSG、LFG 等语法理论中的特征结构启发了知识表示方法</li>
 <li><strong>类型逻辑语法（Type-Logical Grammar）</strong>：将句法分析与逻辑推理统一，影响了语义解析（semantic parsing）</li>
 </ul>
-<h3>4.2 语义表示</h3>
+<h3 id="n4-2-语义表示">4.2 语义表示</h3>
 <ul>
 <li><strong>谓词逻辑与 lambda 演算</strong>：Montague (1970) 将自然语言语义形式化为高阶逻辑，奠定了计算语义学的基础</li>
 <li><strong>框架语义学（Frame Semantics）</strong>：Fillmore (1982) 的理论启发了 FrameNet 等语义资源的构建</li>
 <li><strong>词汇语义网络</strong>：WordNet（Miller, 1995）是最早的大规模词汇语义数据库，至今仍广泛使用</li>
 </ul>
-<h3>4.3 语用与对话</h3>
+<h3 id="n4-3-语用与对话">4.3 语用与对话</h3>
 <ul>
 <li><strong>言语行为理论（Speech Act Theory）</strong>：Austin (1962) 和 Searle (1969) 的理论为对话系统中的意图识别提供了框架</li>
 <li><strong>Grice 会话准则（Gricean Maxims）</strong>：合作原则（quantity, quality, relation, manner）指导了对话系统的设计</li>
@@ -783,13 +783,13 @@
 <li>生成了字面正确但语用失礼的回答</li>
 <li>把篇章连贯误解为表面重复</li>
 </ul>
-<h3>4.4 语料库与标注</h3>
+<h3 id="n4-4-语料库与标注">4.4 语料库与标注</h3>
 <ul>
 <li><strong>Penn Treebank</strong>（Marcus et al., 1993）：大规模句法标注语料库，推动了统计句法分析的发展</li>
 <li><strong>PropBank、NomBank</strong>：语义角色标注资源</li>
 <li><strong>Universal Dependencies</strong>：跨语言的依存句法标注标准</li>
 </ul>
-<h3>4.5 评估方法论</h3>
+<h3 id="n4-5-评估方法论">4.5 评估方法论</h3>
 <ul>
 <li><strong>BLEU</strong>（Papineni et al., 2002）：机器翻译评估指标，基于 n-gram 精确率</li>
 <li><strong>ROUGE</strong>：文本摘要评估指标</li>
@@ -799,40 +799,40 @@
 </ul>
 <p>语言学的一个重要提醒是：评估不能只测词面相似度，还应区分句法正确性、语义一致性、语用得体性和篇章连贯性。这也是为什么许多自动指标在 LLM 时代越来越不够用。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 LLM 与语言能力的边界</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-LLM-与语言能力的边界">5.1 LLM 与语言能力的边界</h3>
 <ul>
 <li>LLM 能否真正&quot;理解&quot;语言，还是只在做复杂的模式匹配？</li>
 <li>多模态模型（如 GPT-4V）是否比纯文本模型更接近人类的语言理解？</li>
 <li>语言模型的&quot;幻觉&quot;（hallucination）问题是否反映了统计方法的根本局限？</li>
 </ul>
-<h3>5.2 低资源语言与语言多样性</h3>
+<h3 id="n5-2-低资源语言与语言多样性">5.2 低资源语言与语言多样性</h3>
 <ul>
 <li>全球约 7000 种语言，绝大多数缺乏数字化资源</li>
 <li>跨语言迁移学习（cross-lingual transfer）能否帮助低资源语言？</li>
 <li>语言多样性对 AI 系统的公平性有何影响？</li>
 </ul>
-<h3>5.3 语言与思维的关系</h3>
+<h3 id="n5-3-语言与思维的关系">5.3 语言与思维的关系</h3>
 <ul>
 <li>Sapir-Whorf 假说（语言相对论）在 AI 时代的新解读</li>
 <li>不同语言训练的 LLM 是否展现出不同的&quot;思维方式&quot;？</li>
 <li>内部表示（internal representations）是否构成某种&quot;思维语言&quot;（language of thought）？</li>
 </ul>
-<h3>5.4 可解释性与语言学分析</h3>
+<h3 id="n5-4-可解释性与语言学分析">5.4 可解释性与语言学分析</h3>
 <ul>
 <li>探针实验（probing experiments）：LLM 的内部表示编码了哪些语言学信息？</li>
 <li>注意力模式是否对应语言学中的依存关系？</li>
 <li>机械可解释性（mechanistic interpretability）能否揭示 LLM 的&quot;语法&quot;？</li>
 </ul>
-<h3>5.5 语言生成的伦理问题</h3>
+<h3 id="n5-5-语言生成的伦理问题">5.5 语言生成的伦理问题</h3>
 <ul>
 <li>AI 生成文本的版权与归属</li>
 <li>深度伪造文本（deepfake text）的检测</li>
 <li>语言模型中的偏见与歧视</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典著作</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典著作">经典著作</h3>
 <ul>
 <li>Saussure, F. de (1916). <em>Cours de linguistique générale</em>. Payot.</li>
 <li>Chomsky, N. (1957). <em>Syntactic Structures</em>. Mouton.</li>
@@ -840,7 +840,7 @@
 <li>Firth, J. R. (1957). A Synopsis of Linguistic Theory. <em>Studies in Linguistic Analysis</em>, 1-32.</li>
 <li>Montague, R. (1970). Universal Grammar. <em>Theoria</em>, 36(3), 373-398.</li>
 </ul>
-<h3>NLP 里程碑论文</h3>
+<h3 id="NLP-里程碑论文">NLP 里程碑论文</h3>
 <ul>
 <li>Shannon, C. (1951). Prediction and Entropy of Printed English. <em>Bell System Technical Journal</em>, 30(1), 50-64.</li>
 <li>Bengio, Y., Ducharme, R., Vincent, P., &amp; Jauvin, C. (2003). A Neural Probabilistic Language Model. <em>JMLR</em>, 3, 1137-1155.</li>
@@ -849,14 +849,14 @@
 <li>Vaswani, A., Shazeer, N., Parmar, N., et al. (2017). Attention Is All You Need. <em>NeurIPS</em>.</li>
 <li>Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers. <em>NAACL</em>.</li>
 </ul>
-<h3>教材与综述</h3>
+<h3 id="教材与综述">教材与综述</h3>
 <ul>
 <li>Jurafsky, D. &amp; Martin, J. H. (2024). <em>Speech and Language Processing</em> (3rd ed.). [在线版本]</li>
 <li>Manning, C. D. &amp; Schütze, H. (1999). <em>Foundations of Statistical Natural Language Processing</em>. MIT Press.</li>
 <li>Goldberg, Y. (2017). <em>Neural Network Methods for Natural Language Processing</em>. Morgan &amp; Claypool.</li>
 <li>Bender, E. M. &amp; Koller, A. (2020). Climbing towards NLU: On Meaning, Form, and Understanding in the Age of Data. <em>ACL</em>.</li>
 </ul>
-<h3>语言学与 AI 的交叉</h3>
+<h3 id="语言学与-AI-的交叉">语言学与 AI 的交叉</h3>
 <ul>
 <li>Piantadosi, S. T. (2023). Modern Language Models Refute Chomsky&#39;s Approach to Language. <em>Lingbuzz</em>.</li>
 <li>Linzen, T. &amp; Baroni, M. (2021). Syntactic Tests for Large Language Models. <em>Cognitive Science</em>.</li>
@@ -867,7 +867,7 @@
 <p><strong>总结</strong>：语言学为 AI 提供了理解和处理人类语言的理论框架。从 Chomsky 的形式语言理论到 Harris 的分布式假说，从 n-gram 模型到 Transformer，语言学的核心价值不在于替代统计学习，而在于持续追问：什么是语言理解？哪些成功只是词面拟合，哪些才是真正的语义与语用能力？这些问题仍需要语言学家和 AI 研究者共同回答。</p>
 </blockquote>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍语言学如何为 AI 提供<strong>语言形式化框架、语义与语用问题定义，以及更细粒度的评估标准</strong>。它是理解 NLP、对话系统和大语言模型为何既强大又容易失真的关键章节。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -888,12 +888,78 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要语言学" class="toc-link h2">1. 上帝视角：为什么 AI 需要语言学</a>
+<a href="#n1-1-NLP-的理论基础" class="toc-link h3">1.1 NLP 的理论基础</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-结构主义时期-1900s-1950s" class="toc-link h3">2.1 结构主义时期（1900s-1950s）</a>
+<a href="#n2-2-生成语法革命-1950s-1970s" class="toc-link h3">2.2 生成语法革命（1950s-1970s）</a>
+<a href="#n2-3-统计转向-1980s-2000s" class="toc-link h3">2.3 统计转向（1980s-2000s）</a>
+<a href="#n2-4-深度学习时代-2010s-至今" class="toc-link h3">2.4 深度学习时代（2010s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-Chomsky-层级-Chomsky-Hierarchy" class="toc-link h3">3.1 Chomsky 层级（Chomsky Hierarchy）</a>
+<a href="#n3-2-分布式语义假说-Distributional-Semantics-Hypothesis" class="toc-link h3">3.2 分布式语义假说（Distributional Semantics Hypothesis）</a>
+<a href="#n3-3-词嵌入-Word-Embeddings" class="toc-link h3">3.3 词嵌入（Word Embeddings）</a>
+<a href="#n3-4-从-n-gram-到神经语言模型" class="toc-link h3">3.4 从 n-gram 到神经语言模型</a>
+<a href="#n3-5-语义学-语用学与篇章理解" class="toc-link h3">3.5 语义学、语用学与篇章理解</a>
+<a href="#n3-6-大语言模型的语言学视角" class="toc-link h3">3.6 大语言模型的语言学视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-形式化框架" class="toc-link h3">4.1 形式化框架</a>
+<a href="#n4-2-语义表示" class="toc-link h3">4.2 语义表示</a>
+<a href="#n4-3-语用与对话" class="toc-link h3">4.3 语用与对话</a>
+<a href="#n4-4-语料库与标注" class="toc-link h3">4.4 语料库与标注</a>
+<a href="#n4-5-评估方法论" class="toc-link h3">4.5 评估方法论</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-LLM-与语言能力的边界" class="toc-link h3">5.1 LLM 与语言能力的边界</a>
+<a href="#n5-2-低资源语言与语言多样性" class="toc-link h3">5.2 低资源语言与语言多样性</a>
+<a href="#n5-3-语言与思维的关系" class="toc-link h3">5.3 语言与思维的关系</a>
+<a href="#n5-4-可解释性与语言学分析" class="toc-link h3">5.4 可解释性与语言学分析</a>
+<a href="#n5-5-语言生成的伦理问题" class="toc-link h3">5.5 语言生成的伦理问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#NLP-里程碑论文" class="toc-link h3">NLP 里程碑论文</a>
+<a href="#教材与综述" class="toc-link h3">教材与综述</a>
+<a href="#语言学与-AI-的交叉" class="toc-link h3">语言学与 AI 的交叉</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要语言学" class="toc-link h2">1. 上帝视角：为什么 AI 需要语言学</a>
+<a href="#n1-1-NLP-的理论基础" class="toc-link h3">1.1 NLP 的理论基础</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-结构主义时期-1900s-1950s" class="toc-link h3">2.1 结构主义时期（1900s-1950s）</a>
+<a href="#n2-2-生成语法革命-1950s-1970s" class="toc-link h3">2.2 生成语法革命（1950s-1970s）</a>
+<a href="#n2-3-统计转向-1980s-2000s" class="toc-link h3">2.3 统计转向（1980s-2000s）</a>
+<a href="#n2-4-深度学习时代-2010s-至今" class="toc-link h3">2.4 深度学习时代（2010s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-Chomsky-层级-Chomsky-Hierarchy" class="toc-link h3">3.1 Chomsky 层级（Chomsky Hierarchy）</a>
+<a href="#n3-2-分布式语义假说-Distributional-Semantics-Hypothesis" class="toc-link h3">3.2 分布式语义假说（Distributional Semantics Hypothesis）</a>
+<a href="#n3-3-词嵌入-Word-Embeddings" class="toc-link h3">3.3 词嵌入（Word Embeddings）</a>
+<a href="#n3-4-从-n-gram-到神经语言模型" class="toc-link h3">3.4 从 n-gram 到神经语言模型</a>
+<a href="#n3-5-语义学-语用学与篇章理解" class="toc-link h3">3.5 语义学、语用学与篇章理解</a>
+<a href="#n3-6-大语言模型的语言学视角" class="toc-link h3">3.6 大语言模型的语言学视角</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-形式化框架" class="toc-link h3">4.1 形式化框架</a>
+<a href="#n4-2-语义表示" class="toc-link h3">4.2 语义表示</a>
+<a href="#n4-3-语用与对话" class="toc-link h3">4.3 语用与对话</a>
+<a href="#n4-4-语料库与标注" class="toc-link h3">4.4 语料库与标注</a>
+<a href="#n4-5-评估方法论" class="toc-link h3">4.5 评估方法论</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-LLM-与语言能力的边界" class="toc-link h3">5.1 LLM 与语言能力的边界</a>
+<a href="#n5-2-低资源语言与语言多样性" class="toc-link h3">5.2 低资源语言与语言多样性</a>
+<a href="#n5-3-语言与思维的关系" class="toc-link h3">5.3 语言与思维的关系</a>
+<a href="#n5-4-可解释性与语言学分析" class="toc-link h3">5.4 可解释性与语言学分析</a>
+<a href="#n5-5-语言生成的伦理问题" class="toc-link h3">5.5 语言生成的伦理问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#NLP-里程碑论文" class="toc-link h3">NLP 里程碑论文</a>
+<a href="#教材与综述" class="toc-link h3">教材与综述</a>
+<a href="#语言学与-AI-的交叉" class="toc-link h3">语言学与 AI 的交叉</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

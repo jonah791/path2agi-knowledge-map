@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：复杂性科学研究的是一个根本问题：为什么许多系统的整体行为，不能直接从局部部件逐项相加得到？在 AI 里，这个问题几乎无处不在。单个参数、单层网络、单个智能体都不难描述，真正难的是当规模、耦合和反馈不断增强时，系统为何会出现涌现、自组织、临界跃迁和集体现象。系统论是这条道路的重要历史来源，但现代 AI 更常直接面对的是复杂性科学提出的整体行为问题。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="15-cybernetics.html">控制论</a>：控制论关注反馈、稳定性与目标导向，复杂性科学进一步追问大规模耦合系统为何会出现整体行为</li>
 <li><a href="17-statistical-physics.html">统计物理与能量模型</a>：相变、临界性、幂律与能量景观是复杂性研究的重要语言来源</li>
@@ -446,7 +446,7 @@
 <li><a href="11-operations-research.html">运筹学</a>：多主体协调、资源耦合与系统级优化常需复杂系统视角</li>
 <li><a href="25-philosophy.html">哲学</a>：涌现、还原论、整体论与智能边界问题在哲学上有深厚背景</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要复杂性科学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要复杂性科学">1. 上帝视角：为什么 AI 需要复杂性科学</h2>
 <p>现代 AI 之所以越来越像复杂系统，而不只是一个静态函数逼近器，至少有四个原因：</p>
 <ul>
 <li>模型规模在扩大，参数、数据、工具和用户反馈不断耦合；</li>
@@ -461,7 +461,7 @@
 <li>为什么系统常常对少量扰动非常敏感；</li>
 <li>为什么多智能体交互常常产生难以直观预测的集体后果。</li>
 </ul>
-<h3>1.1 复杂性科学与系统论的边界</h3>
+<h3 id="n1-1-复杂性科学与系统论的边界">1.1 复杂性科学与系统论的边界</h3>
 <p>两者常被并列讨论，但它们的侧重点并不相同：</p>
 <table>
 <thead>
@@ -483,7 +483,7 @@
 </tr>
 </tbody></table>
 <p>这并不是绝对切分。更准确的说法是：<strong>系统论更像复杂性科学的工程前史与组织语言，复杂性科学则更直接面对整体行为本身。</strong></p>
-<h3>1.2 一个 AI 例子：为什么“多加一些规模”有时会带来质变</h3>
+<h3 id="n1-2-一个-AI-例子-为什么-多加一些规模-有时会带来质变">1.2 一个 AI 例子：为什么“多加一些规模”有时会带来质变</h3>
 <p>设模型性能随规模 $N$ 提升而变化。很多任务并不是平滑改善，而是在某个区间迅速跃迁。经验上，研究者常用类似 sigmoid 的曲线描述这种现象：</p>
 <p>$$
 \operatorname{Performance}(N)=\frac{1}{1+e^{-k(N-N_c)}}
@@ -496,8 +496,8 @@ $$</p>
 </ul>
 <p>这个式子不是统一定律，但它抓住了复杂性科学最关心的直觉：<strong>系统并不总是线性增长，它可能在局部相变。</strong></p>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 系统科学作为前史（1940s-1960s）</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-系统科学作为前史-1940s-1960s">2.1 系统科学作为前史（1940s-1960s）</h3>
 <p>复杂性科学的直接前史之一，是 20 世纪中叶的系统科学传统。</p>
 <ul>
 <li><strong>Ludwig von Bertalanffy</strong> 提出一般系统论，强调开放系统、层级结构与整体性；</li>
@@ -505,7 +505,7 @@ $$</p>
 <li><strong>Herbert A. Simon</strong> 在《The Architecture of Complexity》(1962) 中提出近可分解层级结构。</li>
 </ul>
 <p>这些工作还不等于今天意义上的复杂性科学，但它们为后来研究“整体行为如何从局部耦合中出现”提供了组织语言。</p>
-<h3>2.2 元胞自动机与人工生命</h3>
+<h3 id="n2-2-元胞自动机与人工生命">2.2 元胞自动机与人工生命</h3>
 <p><strong>John von Neumann</strong> 设计了自复制自动机，<strong>John Conway</strong> 的生命游戏（1970）则让一个重要事实变得极其直观：简单规则可以产生令人惊讶的复杂模式。</p>
 <p>生命游戏之所以重要，不是因为它像现实世界，而是因为它告诉研究者：</p>
 <ul>
@@ -513,7 +513,7 @@ $$</p>
 <li>局部更新规则足以产生长期结构；</li>
 <li>“会不会涌现出新模式”是可计算系统里的真问题。</li>
 </ul>
-<h3>2.3 “多即不同”与涌现论证</h3>
+<h3 id="n2-3-多即不同-与涌现论证">2.3 “多即不同”与涌现论证</h3>
 <p><strong>Philip W. Anderson</strong> 在 1972 年发表《More Is Different》，明确挑战“只要知道微观规律，就足以推出宏观规律”的朴素还原论。其要点是：</p>
 <ul>
 <li>复杂度层级上升后会出现新性质；</li>
@@ -521,7 +521,7 @@ $$</p>
 <li>微观正确不自动推出宏观可理解。</li>
 </ul>
 <p>这篇论文后来成为讨论 AI 涌现、模型集体现象和系统级解释时的常见思想源头。</p>
-<h3>2.4 Santa Fe 研究所与复杂适应系统</h3>
+<h3 id="n2-4-Santa-Fe-研究所与复杂适应系统">2.4 Santa Fe 研究所与复杂适应系统</h3>
 <p>1984 年建立的 <strong>Santa Fe Institute</strong> 把复杂性科学推向跨学科中心位置。关键人物包括：</p>
 <ul>
 <li><strong>John Holland</strong>：遗传算法与复杂适应系统；</li>
@@ -530,7 +530,7 @@ $$</p>
 <li><strong>W. Brian Arthur</strong>：复杂经济系统与路径依赖。</li>
 </ul>
 <p>“复杂适应系统”（Complex Adaptive Systems, CAS）从此成为理解市场、生态、社会网络乃至多智能体系统的重要框架。</p>
-<h3>2.5 网络科学与规模规律</h3>
+<h3 id="n2-5-网络科学与规模规律">2.5 网络科学与规模规律</h3>
 <p>1998 年后，网络科学迅速成熟：</p>
 <ul>
 <li><strong>Watts &amp; Strogatz (1998)</strong> 提出小世界网络；</li>
@@ -538,7 +538,7 @@ $$</p>
 <li>幂律、中心性、社区结构开始成为研究大型复杂网络的核心语言。</li>
 </ul>
 <p>这些结果后来深刻影响了人们对互联网、社交网络、知识网络与 AI 多模块系统的理解。</p>
-<h3>2.6 Scaling Laws 与现代 AI</h3>
+<h3 id="n2-6-Scaling-Laws-与现代-AI">2.6 Scaling Laws 与现代 AI</h3>
 <p>进入大模型时代后，复杂性科学重新进入 AI 中心：</p>
 <ul>
 <li><strong>Kaplan et al. (2020)</strong> 的 Neural Scaling Laws 展示了模型性能与规模之间的幂律关系；</li>
@@ -546,8 +546,8 @@ $$</p>
 <li>多智能体、开放式 Agent 系统、工具协作与反馈循环让 AI 越来越像复杂适应系统。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 涌现（Emergence）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-涌现-Emergence">3.1 涌现（Emergence）</h3>
 <p>复杂性科学中最核心的概念之一是涌现：系统整体表现出局部部件单独不具备的性质。</p>
 <p>若系统由状态 $s_1,\dots,s_N$ 构成，宏观性质记为 $\Phi$，可以用说明性方式写为：</p>
 <p>$$
@@ -576,7 +576,7 @@ $$</p>
 <li><strong>分析系统层表现</strong>：把“单模块性能”与“整体行为”区分开来；</li>
 <li><strong>理解群体行为</strong>：为多智能体协同、竞争和角色分化提供概念框架。</li>
 </ul>
-<h3>3.2 自组织（Self-Organization）</h3>
+<h3 id="n3-2-自组织-Self-Organization">3.2 自组织（Self-Organization）</h3>
 <p>自组织指的是：系统在没有外部中央控制的情况下，仅凭局部交互就形成有序结构。</p>
 <p>常见的说明性表达是用熵变化来描述内部有序度提升：</p>
 <p>$$
@@ -605,7 +605,7 @@ $$</p>
 <li><strong>功能分化</strong>：帮助理解注意力头、模块和专家网络的角色形成；</li>
 <li><strong>多智能体协同</strong>：分析没有中心控制时的协作秩序。</li>
 </ul>
-<h3>3.3 复杂适应系统（CAS）</h3>
+<h3 id="n3-3-复杂适应系统-CAS">3.3 复杂适应系统（CAS）</h3>
 <p>复杂适应系统由大量可学习、可调整、可相互影响的个体组成。其关键不是“复杂”，而是“会适应”。</p>
 <p>可以把全局状态写成：</p>
 <p>$$
@@ -639,7 +639,7 @@ $$</p>
 <li><strong>人类反馈闭环</strong>：解释训练、评估与部署之间的持续相互塑造；</li>
 <li><strong>开放系统建模</strong>：帮助理解模型与工具、用户、平台之间的长期耦合。</li>
 </ul>
-<h3>3.4 网络结构、幂律与临界性</h3>
+<h3 id="n3-4-网络结构-幂律与临界性">3.4 网络结构、幂律与临界性</h3>
 <p>复杂系统常常不是均匀网络，而是具有明显结构偏置：</p>
 <ul>
 <li>小世界性：平均路径短，但局部聚类强；</li>
@@ -671,8 +671,8 @@ $$</p>
 <li><strong>研究开放式 AI 生态</strong>：观察平台网络和模型协作结构中的不均匀性。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 帮助理解规模化为何有效</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-帮助理解规模化为何有效">4.1 帮助理解规模化为何有效</h3>
 <p>复杂性科学提供了一套语言来讨论为什么“加规模”不是简单的线性外推，而可能带来：</p>
 <ul>
 <li>新能力阈值；</li>
@@ -680,7 +680,7 @@ $$</p>
 <li>行为模式突变；</li>
 <li>系统级协同效应。</li>
 </ul>
-<h3>4.2 帮助分析开放式 Agent 系统</h3>
+<h3 id="n4-2-帮助分析开放式-Agent-系统">4.2 帮助分析开放式 Agent 系统</h3>
 <p>当 AI 系统从单模型走向：</p>
 <ul>
 <li>模型 + 工具；</li>
@@ -689,7 +689,7 @@ $$</p>
 <li>持续与环境交互；</li>
 </ul>
 <p>它就越来越接近复杂适应系统。复杂性科学因此成为分析这类系统行为不可或缺的框架。</p>
-<h3>4.3 把“整体行为”变成可研究对象</h3>
+<h3 id="n4-3-把-整体行为-变成可研究对象">4.3 把“整体行为”变成可研究对象</h3>
 <p>没有复杂性科学，我们很容易把 AI 中的重要问题误写成“单模块性能优化”。但很多关键现象其实发生在系统层：</p>
 <ul>
 <li>模块耦合是否稳定；</li>
@@ -697,17 +697,17 @@ $$</p>
 <li>局部优化是否破坏全局目标；</li>
 <li>群体行为是否会出现偏置放大或协同失控。</li>
 </ul>
-<h3>4.4 为 AGI 讨论提供更严肃的中层语言</h3>
+<h3 id="n4-4-为-AGI-讨论提供更严肃的中层语言">4.4 为 AGI 讨论提供更严肃的中层语言</h3>
 <p>复杂性科学既不像纯工程那样只看系统搭建，也不像纯哲学那样只谈抽象定义。它提供了一层非常重要的中层语言：用可观察的结构、动力学与群体现象，讨论智能系统为何会出现超出局部设计的整体行为。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 涌现能力到底是真相变还是评测阈值效应</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-涌现能力到底是真相变还是评测阈值效应">5.1 涌现能力到底是真相变还是评测阈值效应</h3>
 <p>当前关于“大模型涌现”的争论仍在继续。一个关键问题是：</p>
 <ul>
 <li>某些能力是否真在内部机制上发生突变；</li>
 <li>还是评测指标把连续改善误看成了离散跃迁。</li>
 </ul>
-<h3>5.2 多智能体系统的稳定性</h3>
+<h3 id="n5-2-多智能体系统的稳定性">5.2 多智能体系统的稳定性</h3>
 <p>多智能体协作越来越重要，但仍面临：</p>
 <ul>
 <li>反馈放大；</li>
@@ -716,25 +716,25 @@ $$</p>
 <li>长链路错误传播。</li>
 </ul>
 <p>这些都属于复杂系统稳定性问题。</p>
-<h3>5.3 复杂性与可解释性的张力</h3>
+<h3 id="n5-3-复杂性与可解释性的张力">5.3 复杂性与可解释性的张力</h3>
 <p>系统越复杂，整体行为越丰富，但也越难解释。未来需要回答：</p>
 <ul>
 <li>哪些中层结构是稳定且可解释的；</li>
 <li>怎样从局部规则恢复全局因果链；</li>
 <li>如何避免“只会命名现象，不会解释机制”。</li>
 </ul>
-<h3>5.4 复杂性科学能否成为 AI 的预测理论</h3>
+<h3 id="n5-4-复杂性科学能否成为-AI-的预测理论">5.4 复杂性科学能否成为 AI 的预测理论</h3>
 <p>今天它更多是解释性框架，而不是高精度预测理论。一个长期开放问题是：能否把复杂性科学从“描述涌现现象”推进到“预测何时会出现哪类涌现行为”。</p>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典著作</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典著作">经典著作</h3>
 <ul>
 <li>Bertalanffy, L. von. (1968). <em>General System Theory</em>. George Braziller.</li>
 <li>Simon, H. A. (1962). The architecture of complexity. <em>Proceedings of the American Philosophical Society</em>, 106(6), 467-482.</li>
 <li>Holland, J. H. (1992). <em>Adaptation in Natural and Artificial Systems</em>. MIT Press.</li>
 <li>Mitchell, M. (2009). <em>Complexity: A Guided Tour</em>. Oxford University Press.</li>
 </ul>
-<h3>关键论文与综述</h3>
+<h3 id="关键论文与综述">关键论文与综述</h3>
 <ul>
 <li>Anderson, P. W. (1972). More is different. <em>Science</em>, 177(4047), 393-396.</li>
 <li>Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ‘small-world’ networks. <em>Nature</em>, 393, 440-442.</li>
@@ -742,13 +742,13 @@ $$</p>
 <li>Kaplan, J., et al. (2020). Scaling laws for neural language models. <em>arXiv:2001.08361</em>.</li>
 <li>Wei, J., et al. (2022). Emergent abilities of large language models. <em>Transactions on Machine Learning Research</em>.</li>
 </ul>
-<h3>面向 AI 的延伸阅读</h3>
+<h3 id="面向-AI-的延伸阅读">面向 AI 的延伸阅读</h3>
 <ul>
 <li>Mitchell, M. (2011). Ubiquity symposium: Biological complexity and integrative pluralism. <em>Ubiquity</em>.</li>
 <li>Bommasani, R., et al. (2021). On the opportunities and risks of foundation models. <em>arXiv:2108.07258</em>.</li>
 <li>Rahwan, I., et al. (2019). Machine behaviour. <em>Nature</em>, 568, 477-486.</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这篇位于“计算与系统工程”内部最偏系统层的一端。它不像 <a href="10-computer-science.html">计算机科学</a> 那样先问算法边界，也不像 <a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 那样先问算力和硬件，而是专门讨论：<strong>当大量组件、反馈和交互缠在一起时，整体行为会如何变化。</strong></p>
 <ul>
 <li><a href="15-cybernetics.html">控制论</a> 先给出反馈与控制语言；</li>
@@ -767,12 +767,72 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要复杂性科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要复杂性科学</a>
+<a href="#n1-1-复杂性科学与系统论的边界" class="toc-link h3">1.1 复杂性科学与系统论的边界</a>
+<a href="#n1-2-一个-AI-例子-为什么-多加一些规模-有时会带来质变" class="toc-link h3">1.2 一个 AI 例子：为什么“多加一些规模”有时会带来质变</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-系统科学作为前史-1940s-1960s" class="toc-link h3">2.1 系统科学作为前史（1940s-1960s）</a>
+<a href="#n2-2-元胞自动机与人工生命" class="toc-link h3">2.2 元胞自动机与人工生命</a>
+<a href="#n2-3-多即不同-与涌现论证" class="toc-link h3">2.3 “多即不同”与涌现论证</a>
+<a href="#n2-4-Santa-Fe-研究所与复杂适应系统" class="toc-link h3">2.4 Santa Fe 研究所与复杂适应系统</a>
+<a href="#n2-5-网络科学与规模规律" class="toc-link h3">2.5 网络科学与规模规律</a>
+<a href="#n2-6-Scaling-Laws-与现代-AI" class="toc-link h3">2.6 Scaling Laws 与现代 AI</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-涌现-Emergence" class="toc-link h3">3.1 涌现（Emergence）</a>
+<a href="#n3-2-自组织-Self-Organization" class="toc-link h3">3.2 自组织（Self-Organization）</a>
+<a href="#n3-3-复杂适应系统-CAS" class="toc-link h3">3.3 复杂适应系统（CAS）</a>
+<a href="#n3-4-网络结构-幂律与临界性" class="toc-link h3">3.4 网络结构、幂律与临界性</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-帮助理解规模化为何有效" class="toc-link h3">4.1 帮助理解规模化为何有效</a>
+<a href="#n4-2-帮助分析开放式-Agent-系统" class="toc-link h3">4.2 帮助分析开放式 Agent 系统</a>
+<a href="#n4-3-把-整体行为-变成可研究对象" class="toc-link h3">4.3 把“整体行为”变成可研究对象</a>
+<a href="#n4-4-为-AGI-讨论提供更严肃的中层语言" class="toc-link h3">4.4 为 AGI 讨论提供更严肃的中层语言</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-涌现能力到底是真相变还是评测阈值效应" class="toc-link h3">5.1 涌现能力到底是真相变还是评测阈值效应</a>
+<a href="#n5-2-多智能体系统的稳定性" class="toc-link h3">5.2 多智能体系统的稳定性</a>
+<a href="#n5-3-复杂性与可解释性的张力" class="toc-link h3">5.3 复杂性与可解释性的张力</a>
+<a href="#n5-4-复杂性科学能否成为-AI-的预测理论" class="toc-link h3">5.4 复杂性科学能否成为 AI 的预测理论</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#面向-AI-的延伸阅读" class="toc-link h3">面向 AI 的延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要复杂性科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要复杂性科学</a>
+<a href="#n1-1-复杂性科学与系统论的边界" class="toc-link h3">1.1 复杂性科学与系统论的边界</a>
+<a href="#n1-2-一个-AI-例子-为什么-多加一些规模-有时会带来质变" class="toc-link h3">1.2 一个 AI 例子：为什么“多加一些规模”有时会带来质变</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-系统科学作为前史-1940s-1960s" class="toc-link h3">2.1 系统科学作为前史（1940s-1960s）</a>
+<a href="#n2-2-元胞自动机与人工生命" class="toc-link h3">2.2 元胞自动机与人工生命</a>
+<a href="#n2-3-多即不同-与涌现论证" class="toc-link h3">2.3 “多即不同”与涌现论证</a>
+<a href="#n2-4-Santa-Fe-研究所与复杂适应系统" class="toc-link h3">2.4 Santa Fe 研究所与复杂适应系统</a>
+<a href="#n2-5-网络科学与规模规律" class="toc-link h3">2.5 网络科学与规模规律</a>
+<a href="#n2-6-Scaling-Laws-与现代-AI" class="toc-link h3">2.6 Scaling Laws 与现代 AI</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-涌现-Emergence" class="toc-link h3">3.1 涌现（Emergence）</a>
+<a href="#n3-2-自组织-Self-Organization" class="toc-link h3">3.2 自组织（Self-Organization）</a>
+<a href="#n3-3-复杂适应系统-CAS" class="toc-link h3">3.3 复杂适应系统（CAS）</a>
+<a href="#n3-4-网络结构-幂律与临界性" class="toc-link h3">3.4 网络结构、幂律与临界性</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-帮助理解规模化为何有效" class="toc-link h3">4.1 帮助理解规模化为何有效</a>
+<a href="#n4-2-帮助分析开放式-Agent-系统" class="toc-link h3">4.2 帮助分析开放式 Agent 系统</a>
+<a href="#n4-3-把-整体行为-变成可研究对象" class="toc-link h3">4.3 把“整体行为”变成可研究对象</a>
+<a href="#n4-4-为-AGI-讨论提供更严肃的中层语言" class="toc-link h3">4.4 为 AGI 讨论提供更严肃的中层语言</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-涌现能力到底是真相变还是评测阈值效应" class="toc-link h3">5.1 涌现能力到底是真相变还是评测阈值效应</a>
+<a href="#n5-2-多智能体系统的稳定性" class="toc-link h3">5.2 多智能体系统的稳定性</a>
+<a href="#n5-3-复杂性与可解释性的张力" class="toc-link h3">5.3 复杂性与可解释性的张力</a>
+<a href="#n5-4-复杂性科学能否成为-AI-的预测理论" class="toc-link h3">5.4 复杂性科学能否成为 AI 的预测理论</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#面向-AI-的延伸阅读" class="toc-link h3">面向 AI 的延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

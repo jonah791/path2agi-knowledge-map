@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：信息论为 AI 提供了量化不确定性、编码代价与分布差异的度量语言，也由此启发了许多关键目标函数。交叉熵、KL 散度、互信息与最大熵原理确实深刻影响了现代机器学习，但它更准确的角色是“度量与目标设计的来源之一”，而不是单独定义全部学习理论。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：信息论中的熵、互信息与交叉熵都以概率分布为基础</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：交叉熵损失、变分目标与编码效率常通过优化实现</li>
@@ -446,16 +446,16 @@
 <li><a href="22-linguistics.html">语言学</a>：语言可以被视为一种信息编码系统，统计语言模型与压缩思想高度相关</li>
 <li><a href="17-statistical-physics.html">物理学</a>：熵在信息论与统计物理中具有深刻的对应关系</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要信息论</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要信息论">1. 上帝视角：为什么 AI 需要信息论</h2>
 <p>信息论为人工智能提供了一套精确的数学语言，用于描述&quot;不确定性&quot;、&quot;信息量&quot;和&quot;分布之间的距离&quot;。没有信息论，我们甚至无法定义&quot;模型学到了什么&quot;。</p>
-<h3>1.1 信息论为 AI 提供的四大基石</h3>
+<h3 id="n1-1-信息论为-AI-提供的四大基石">1.1 信息论为 AI 提供的四大基石</h3>
 <ol>
 <li><strong>信息的数学度量</strong>：熵（entropy）将&quot;不确定性&quot;从哲学概念变为可计算的数值，使得我们能够量化一个随机变量携带多少信息。</li>
 <li><strong>交叉熵损失 = 分类任务的标准目标</strong>：几乎所有现代分类器——从逻辑回归到 GPT——都使用交叉熵作为损失函数。这不是偶然的工程选择，而是信息论的必然推论。</li>
 <li><strong>KL 散度 = 分布匹配的度量</strong>：当我们需要衡量&quot;模型学到的分布&quot;与&quot;真实分布&quot;之间的差距时，KL 散度是最自然的选择。它是 VAE 的正则项、知识蒸馏的目标函数、强化学习中策略更新的约束。</li>
 <li><strong>互信息 = 表示学习的指导原则</strong>：好的特征表示应该保留输入中与任务相关的信息，同时丢弃无关的噪声。互信息精确地量化了这种&quot;相关性&quot;。</li>
 </ol>
-<h3>1.2 与其他学科的关键连接</h3>
+<h3 id="n1-2-与其他学科的关键连接">1.2 与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -495,7 +495,7 @@
 <td>二阶优化方法</td>
 </tr>
 </tbody></table>
-<h3>1.3 信息论更像“度量语言”，不是全部学习理论</h3>
+<h3 id="n1-3-信息论更像-度量语言-不是全部学习理论">1.3 信息论更像“度量语言”，不是全部学习理论</h3>
 <p>信息论最擅长回答的是：</p>
 <ul>
 <li>一个变量里有多少不确定性；</li>
@@ -511,9 +511,9 @@
 </ul>
 <p>这些问题仍然需要<a href="01-probability-and-statistics.html">概率论与统计学</a>、<a href="03-calculus-and-optimization.html">优化理论</a>和<a href="09-causal-inference.html">因果推断</a>等学科共同补足。</p>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>信息论的诞生并非孤立事件，而是 20 世纪数学、工程和物理学交汇的产物。</p>
-<h3>2.1 前史：从 Boltzmann 到 Hartley</h3>
+<h3 id="n2-1-前史-从-Boltzmann-到-Hartley">2.1 前史：从 Boltzmann 到 Hartley</h3>
 <ul>
 <li><p><strong>Ludwig Boltzmann (1877)</strong>：在统计力学中引入了熵公式：</p>
 <p>$$S = k_B \ln W$$</p>
@@ -524,7 +524,7 @@
 <p>其中 $n$ 是符号数量，$s$ 是每个符号的可能取值数。这是信息定量化的第一步。</p>
 </li>
 </ul>
-<h3>2.2 Shannon 的奠基之作</h3>
+<h3 id="n2-2-Shannon-的奠基之作">2.2 Shannon 的奠基之作</h3>
 <ul>
 <li><p><strong>Claude Shannon (1948)</strong>：发表 <em>A Mathematical Theory of Communication</em>，这篇论文被公认为信息论的诞生标志。Shannon 在其中：</p>
 <ul>
@@ -542,7 +542,7 @@
 <li><p><strong>Shannon &amp; Weaver (1949)</strong>：出版 <em>The Mathematical Theory of Communication</em>，将技术论文扩展为更广泛的理论框架。</p>
 </li>
 </ul>
-<h3>2.3 后续发展</h3>
+<h3 id="n2-3-后续发展">2.3 后续发展</h3>
 <ul>
 <li><p><strong>Solomon Kullback &amp; Richard Leibler (1951)</strong>：在论文 <em>On Information and Sufficiency</em> 中提出 KL 散度（Kullback-Leibler divergence），定义了两个概率分布之间的&quot;距离&quot;度量。这一概念后来成为机器学习中最重要的工具之一。</p>
 </li>
@@ -562,8 +562,8 @@
 </li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 熵（Entropy）— 不确定性的度量</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-熵-Entropy-不确定性的度量">3.1 熵（Entropy）— 不确定性的度量</h3>
 <h4>数学定义</h4>
 <p>对于离散随机变量 $X$，其概率质量函数为 $p(x) = P(X = x)$，Shannon 熵定义为：</p>
 <p>$$H(X) = -\sum_{x \in \mathcal{X}} p(x) \log p(x)$$</p>
@@ -613,7 +613,7 @@
 <li><p><strong>数据压缩与表示</strong>：自编码器（autoencoder）的瓶颈层可以理解为对输入信息的压缩，其理论极限与熵相关。</p>
 </li>
 </ul>
-<h3>3.2 交叉熵（Cross-Entropy）</h3>
+<h3 id="n3-2-交叉熵-Cross-Entropy">3.2 交叉熵（Cross-Entropy）</h3>
 <h4>数学定义</h4>
 <p>给定真实分布 $P$ 和模型分布 $Q$，交叉熵定义为：</p>
 <p>$$H(P, Q) = -\sum_{x} p(x) \log q(x)$$</p>
@@ -643,7 +643,7 @@
 <li><strong>语言模型训练</strong>：GPT 系列模型的预训练目标就是下一个 token 的交叉熵损失</li>
 <li><strong>梯度性质优越</strong>：相比 MSE 损失，交叉熵在 sigmoid/softmax 输出层上的梯度不会出现饱和问题</li>
 </ul>
-<h3>3.3 KL 散度（Kullback-Leibler Divergence）</h3>
+<h3 id="n3-3-KL-散度-Kullback-Leibler-Divergence">3.3 KL 散度（Kullback-Leibler Divergence）</h3>
 <h4>数学定义</h4>
 <p>从分布 $P$ 到分布 $Q$ 的 KL 散度定义为：</p>
 <p>$$D_{KL}(P \| Q) = \sum_{x} p(x) \log \frac{p(x)}{q(x)}$$</p>
@@ -694,7 +694,7 @@
 <li><p><strong>GAN 的理论分析</strong>：原始 GAN 的目标函数与 Jensen-Shannon 散度（JSD）相关，而 JSD 是 KL 散度的对称化版本</p>
 </li>
 </ul>
-<h3>3.4 互信息（Mutual Information）</h3>
+<h3 id="n3-4-互信息-Mutual-Information">3.4 互信息（Mutual Information）</h3>
 <h4>数学定义</h4>
 <p>随机变量 $X$ 和 $Y$ 之间的互信息定义为：</p>
 <p>$$I(X; Y) = \sum_{x, y} p(x, y) \log \frac{p(x, y)}{p(x) p(y)}$$</p>
@@ -749,7 +749,7 @@
 <li><code>I(T; X)</code> 过大，表示 <code>T</code> 可能把无关细节也一起记住了。</li>
 </ul>
 <p>这正是信息瓶颈、对比学习与许多自监督方法的共同出发点。它们并不一定直接优化真正的互信息，但都在寻找“保留有用信息、压缩无关信息”的可训练代理目标。</p>
-<h3>3.5 信息瓶颈（Information Bottleneck）</h3>
+<h3 id="n3-5-信息瓶颈-Information-Bottleneck">3.5 信息瓶颈（Information Bottleneck）</h3>
 <h4>Tishby 的理论框架</h4>
 <p>Naftali Tishby 等人在 2000 年提出的信息瓶颈方法，为&quot;什么是好的表示&quot;提供了信息论的回答。</p>
 <p>给定输入 $X$ 和目标 $Y$，我们希望找到一个压缩表示 $T$（$X$ 的函数），使得：</p>
@@ -776,7 +776,7 @@
 <li><strong>深度学习理论</strong>：为理解深度网络的泛化能力提供了新视角</li>
 <li><strong>VIB（Variational Information Bottleneck）</strong>：Alemi et al. (2017) 将信息瓶颈转化为可训练的变分目标，直接用于深度学习模型的正则化</li>
 </ul>
-<h3>3.6 最大熵原理（Maximum Entropy Principle）</h3>
+<h3 id="n3-6-最大熵原理-Maximum-Entropy-Principle">3.6 最大熵原理（Maximum Entropy Principle）</h3>
 <h4>Jaynes 的最大熵原理</h4>
 <p>Edwin Jaynes (1957) 提出：在满足已知约束条件的所有概率分布中，应选择熵最大的那个分布。</p>
 <p>形式化地，给定约束 $\mathbb{E}[f_k(X)] = \alpha_k$（$k = 1, \ldots, K$），最大熵分布为：</p>
@@ -809,9 +809,9 @@ $$</p>
 <li><strong>正则化的信息论解释</strong>：L2 正则化可以理解为对参数分布施加高斯先验，而高斯分布是给定方差约束下的最大熵分布</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>信息论对 AI 的贡献远不止提供几个损失函数。它从根本上塑造了我们理解和构建智能系统的方式。</p>
-<h3>4.1 损失函数设计</h3>
+<h3 id="n4-1-损失函数设计">4.1 损失函数设计</h3>
 <table>
 <thead>
 <tr>
@@ -846,7 +846,7 @@ $$</p>
 <td>类别不平衡问题</td>
 </tr>
 </tbody></table>
-<h3>4.2 生成模型</h3>
+<h3 id="n4-2-生成模型">4.2 生成模型</h3>
 <p>信息论为生成模型提供了理论框架：</p>
 <ul>
 <li><strong>VAE（Variational Autoencoder）</strong>：ELBO（Evidence Lower Bound）= 重构项 - KL 正则项。KL 项确保潜在空间的结构化。</li>
@@ -854,68 +854,68 @@ $$</p>
 <li><strong>Flow 模型</strong>：通过可逆变换精确计算对数似然，直接优化交叉熵。</li>
 <li><strong>扩散模型（Diffusion Models）</strong>：训练目标可以理解为变分下界，与 VAE 的 ELBO 有深刻联系。</li>
 </ul>
-<h3>4.3 表示学习与自监督学习</h3>
+<h3 id="n4-3-表示学习与自监督学习">4.3 表示学习与自监督学习</h3>
 <ul>
 <li><strong>对比学习</strong>：SimCLR、MoCo 等方法的核心思想是最大化正样本对之间的互信息，同时最小化与负样本的互信息。InfoNCE 损失是互信息 $I(X; Y)$ 的下界。</li>
 <li><strong>BYOL 与信息论</strong>：即使没有负样本，BYOL 也能学到好的表示，这可以从信息论角度理解为隐式地最大化表示与输入的互信息。</li>
 <li><strong>掩码语言模型（MLM）</strong>：BERT 的 MLM 目标可以理解为最大化上下文与被掩码 token 之间的互信息。</li>
 </ul>
-<h3>4.4 模型压缩与蒸馏</h3>
+<h3 id="n4-4-模型压缩与蒸馏">4.4 模型压缩与蒸馏</h3>
 <ul>
 <li><strong>知识蒸馏</strong>：教师模型的软标签包含比硬标签更多的信息（更高的熵），学生模型通过匹配教师的输出分布（最小化 KL 散度）来学习这些&quot;暗知识&quot;（dark knowledge）。</li>
 <li><strong>剪枝的信息论视角</strong>：可以将网络剪枝理解为去除信息冗余的过程，保留对输出互信息贡献最大的连接。</li>
 <li><strong>量化</strong>：将权重从高精度量化到低精度，本质上是一个率失真问题。</li>
 </ul>
-<h3>4.5 自然语言处理</h3>
+<h3 id="n4-5-自然语言处理">4.5 自然语言处理</h3>
 <ul>
 <li><strong>困惑度（Perplexity）</strong>：语言模型的标准评估指标，定义为交叉熵的指数形式。困惑度越低，模型越好。</li>
 <li><strong>BPE 与信息论</strong>：Byte Pair Encoding 分词算法可以理解为一种基于频率的编码方案，与 Shannon 的信源编码思想一脉相承。</li>
 <li><strong>注意力机制的信息论解释</strong>：注意力权重可以理解为在信息论意义上选择最相关的上下文信息。</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 高维互信息估计</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-高维互信息估计">5.1 高维互信息估计</h3>
 <p>在高维空间中精确估计互信息是一个根本性的困难问题。现有方法包括：</p>
 <ul>
 <li><strong>MINE（Mutual Information Neural Estimation）</strong>：Belghazi et al. (2018) 使用神经网络估计互信息的 Donsker-Varadhan 下界</li>
 <li><strong>InfoNCE</strong>：提供了互信息的下界，但在高维空间中可能非常松</li>
 <li><strong>核心挑战</strong>：互信息估计的方差随维度指数增长，使得基于互信息的目标函数在实践中难以优化</li>
 </ul>
-<h3>5.2 因果推断与信息论</h3>
+<h3 id="n5-2-因果推断与信息论">5.2 因果推断与信息论</h3>
 <ul>
 <li><strong>因果熵</strong>：将信息论概念扩展到因果关系的度量</li>
 <li><strong>信息论因果性</strong>：Granger 因果性可以用条件互信息来表达</li>
 <li><strong>干预与信息</strong>：Pearl 的 do-calculus 与信息论的结合是活跃的研究方向</li>
 </ul>
-<h3>5.3 量子信息论</h3>
+<h3 id="n5-3-量子信息论">5.3 量子信息论</h3>
 <ul>
 <li><strong>量子熵</strong>：von Neumann 熵是 Shannon 熵在量子力学中的推广</li>
 <li><strong>量子纠缠与互信息</strong>：量子互信息可以捕捉经典互信息无法描述的量子关联</li>
 <li><strong>量子机器学习</strong>：量子信息论为量子计算在 AI 中的应用提供理论基础</li>
 </ul>
-<h3>5.4 大语言模型时代的信息论问题</h3>
+<h3 id="n5-4-大语言模型时代的信息论问题">5.4 大语言模型时代的信息论问题</h3>
 <ul>
 <li><strong>Scaling Laws 的信息论解释</strong>：为什么模型性能随参数量、数据量的幂律关系增长？信息论能否给出解释？</li>
 <li><strong>上下文学习（In-Context Learning）的信息论分析</strong>：大模型如何在推理时从上下文中提取信息？</li>
 <li><strong>幻觉问题</strong>：模型生成不忠实内容是否可以用信息论来分析和缓解？</li>
 <li><strong>数据质量与信息密度</strong>：高质量数据的信息密度更高，如何用信息论指导数据筛选？</li>
 </ul>
-<h3>5.5 隐私与信息论</h3>
+<h3 id="n5-5-隐私与信息论">5.5 隐私与信息论</h3>
 <ul>
 <li><strong>差分隐私的信息论基础</strong>：差分隐私机制可以用互信息来分析其隐私保证</li>
 <li><strong>联邦学习中的信息泄露</strong>：如何量化梯度共享过程中泄露的信息量？</li>
 <li><strong>信息论安全</strong>：Shannon 的完美保密性（perfect secrecy）概念在现代密码学中的延续</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典论文</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典论文">经典论文</h3>
 <ul>
 <li>Shannon, C. E. (1948). A Mathematical Theory of Communication. <em>Bell System Technical Journal</em>, 27(3), 379-423.</li>
 <li>Kullback, S., &amp; Leibler, R. A. (1951). On Information and Sufficiency. <em>Annals of Mathematical Statistics</em>, 22(1), 79-86.</li>
 <li>Jaynes, E. T. (1957). Information Theory and Statistical Mechanics. <em>Physical Review</em>, 106(4), 620-630.</li>
 <li>Tishby, N., Pereira, F. C., &amp; Bialek, W. (2000). The Information Bottleneck Method. <em>arXiv preprint physics/0004057</em>.</li>
 </ul>
-<h3>AI 相关论文</h3>
+<h3 id="AI-相关论文">AI 相关论文</h3>
 <ul>
 <li>Hinton, G., Vinyals, O., &amp; Dean, J. (2015). Distilling the Knowledge in a Neural Network. <em>arXiv:1503.02531</em>.</li>
 <li>Kingma, D. P., &amp; Welling, M. (2014). Auto-Encoding Variational Bayes. <em>ICLR 2014</em>.</li>
@@ -924,19 +924,19 @@ $$</p>
 <li>Alemi, A. A., Fischer, I., Dillon, J. V., &amp; Murphy, K. (2017). Deep Variational Information Bottleneck. <em>ICLR 2017</em>.</li>
 <li>Belghazi, M. I., et al. (2018). Mutual Information Neural Estimation. <em>ICML 2018</em>.</li>
 </ul>
-<h3>教材</h3>
+<h3 id="教材">教材</h3>
 <ul>
 <li>Cover, T. M., &amp; Thomas, J. A. (2006). <em>Elements of Information Theory</em> (2nd ed.). Wiley.<br>— 信息论的标准教材，数学严谨，覆盖全面。</li>
 <li>MacKay, D. J. C. (2003). <em>Information Theory, Inference, and Learning Algorithms</em>. Cambridge University Press.<br>— 将信息论与机器学习紧密结合，免费在线阅读。</li>
 <li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>. Springer.<br>— 第 1.6 节和第 10 章对信息论在机器学习中的应用有精彩阐述。</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li><a href="https://colah.github.io/posts/2015-09-Visual-Information/">Visual Information Theory</a> — Chris Olah 的经典博文，用可视化方式解释信息论核心概念</li>
 <li><a href="https://www.inference.vc/">Information Theory for Machine Learning</a> — Ferenc Huszár 的博客，深入探讨信息论与深度学习的交叉</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了信息论对 AI/AGI 发展的核心贡献：<strong>提供了量化信息、度量不确定性和优化信息传递的数学工具，从损失函数设计到模型压缩，从表示学习到生成模型</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -962,12 +962,78 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要信息论" class="toc-link h2">1. 上帝视角：为什么 AI 需要信息论</a>
+<a href="#n1-1-信息论为-AI-提供的四大基石" class="toc-link h3">1.1 信息论为 AI 提供的四大基石</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-信息论更像-度量语言-不是全部学习理论" class="toc-link h3">1.3 信息论更像“度量语言”，不是全部学习理论</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-从-Boltzmann-到-Hartley" class="toc-link h3">2.1 前史：从 Boltzmann 到 Hartley</a>
+<a href="#n2-2-Shannon-的奠基之作" class="toc-link h3">2.2 Shannon 的奠基之作</a>
+<a href="#n2-3-后续发展" class="toc-link h3">2.3 后续发展</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-熵-Entropy-不确定性的度量" class="toc-link h3">3.1 熵（Entropy）— 不确定性的度量</a>
+<a href="#n3-2-交叉熵-Cross-Entropy" class="toc-link h3">3.2 交叉熵（Cross-Entropy）</a>
+<a href="#n3-3-KL-散度-Kullback-Leibler-Divergence" class="toc-link h3">3.3 KL 散度（Kullback-Leibler Divergence）</a>
+<a href="#n3-4-互信息-Mutual-Information" class="toc-link h3">3.4 互信息（Mutual Information）</a>
+<a href="#n3-5-信息瓶颈-Information-Bottleneck" class="toc-link h3">3.5 信息瓶颈（Information Bottleneck）</a>
+<a href="#n3-6-最大熵原理-Maximum-Entropy-Principle" class="toc-link h3">3.6 最大熵原理（Maximum Entropy Principle）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-损失函数设计" class="toc-link h3">4.1 损失函数设计</a>
+<a href="#n4-2-生成模型" class="toc-link h3">4.2 生成模型</a>
+<a href="#n4-3-表示学习与自监督学习" class="toc-link h3">4.3 表示学习与自监督学习</a>
+<a href="#n4-4-模型压缩与蒸馏" class="toc-link h3">4.4 模型压缩与蒸馏</a>
+<a href="#n4-5-自然语言处理" class="toc-link h3">4.5 自然语言处理</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-高维互信息估计" class="toc-link h3">5.1 高维互信息估计</a>
+<a href="#n5-2-因果推断与信息论" class="toc-link h3">5.2 因果推断与信息论</a>
+<a href="#n5-3-量子信息论" class="toc-link h3">5.3 量子信息论</a>
+<a href="#n5-4-大语言模型时代的信息论问题" class="toc-link h3">5.4 大语言模型时代的信息论问题</a>
+<a href="#n5-5-隐私与信息论" class="toc-link h3">5.5 隐私与信息论</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典论文" class="toc-link h3">经典论文</a>
+<a href="#AI-相关论文" class="toc-link h3">AI 相关论文</a>
+<a href="#教材" class="toc-link h3">教材</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要信息论" class="toc-link h2">1. 上帝视角：为什么 AI 需要信息论</a>
+<a href="#n1-1-信息论为-AI-提供的四大基石" class="toc-link h3">1.1 信息论为 AI 提供的四大基石</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-信息论更像-度量语言-不是全部学习理论" class="toc-link h3">1.3 信息论更像“度量语言”，不是全部学习理论</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前史-从-Boltzmann-到-Hartley" class="toc-link h3">2.1 前史：从 Boltzmann 到 Hartley</a>
+<a href="#n2-2-Shannon-的奠基之作" class="toc-link h3">2.2 Shannon 的奠基之作</a>
+<a href="#n2-3-后续发展" class="toc-link h3">2.3 后续发展</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-熵-Entropy-不确定性的度量" class="toc-link h3">3.1 熵（Entropy）— 不确定性的度量</a>
+<a href="#n3-2-交叉熵-Cross-Entropy" class="toc-link h3">3.2 交叉熵（Cross-Entropy）</a>
+<a href="#n3-3-KL-散度-Kullback-Leibler-Divergence" class="toc-link h3">3.3 KL 散度（Kullback-Leibler Divergence）</a>
+<a href="#n3-4-互信息-Mutual-Information" class="toc-link h3">3.4 互信息（Mutual Information）</a>
+<a href="#n3-5-信息瓶颈-Information-Bottleneck" class="toc-link h3">3.5 信息瓶颈（Information Bottleneck）</a>
+<a href="#n3-6-最大熵原理-Maximum-Entropy-Principle" class="toc-link h3">3.6 最大熵原理（Maximum Entropy Principle）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-损失函数设计" class="toc-link h3">4.1 损失函数设计</a>
+<a href="#n4-2-生成模型" class="toc-link h3">4.2 生成模型</a>
+<a href="#n4-3-表示学习与自监督学习" class="toc-link h3">4.3 表示学习与自监督学习</a>
+<a href="#n4-4-模型压缩与蒸馏" class="toc-link h3">4.4 模型压缩与蒸馏</a>
+<a href="#n4-5-自然语言处理" class="toc-link h3">4.5 自然语言处理</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-高维互信息估计" class="toc-link h3">5.1 高维互信息估计</a>
+<a href="#n5-2-因果推断与信息论" class="toc-link h3">5.2 因果推断与信息论</a>
+<a href="#n5-3-量子信息论" class="toc-link h3">5.3 量子信息论</a>
+<a href="#n5-4-大语言模型时代的信息论问题" class="toc-link h3">5.4 大语言模型时代的信息论问题</a>
+<a href="#n5-5-隐私与信息论" class="toc-link h3">5.5 隐私与信息论</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典论文" class="toc-link h3">经典论文</a>
+<a href="#AI-相关论文" class="toc-link h3">AI 相关论文</a>
+<a href="#教材" class="toc-link h3">教材</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

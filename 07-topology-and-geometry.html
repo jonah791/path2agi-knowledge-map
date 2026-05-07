@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：拓扑学和微分几何共同研究数据的“形状”，但关注点并不相同。拓扑更关心连通性、洞、等价类这类在连续变形下不变的结构；几何更关心距离、角度、曲率与测地线。流形假设、拓扑数据分析和信息几何，正是这两条线索在现代 AI 中最常见的汇合点。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a>：切空间、谱分解与局部线性近似都依赖线性代数</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：测地线、自然梯度与流形上的变化都需要微积分语言</li>
@@ -446,14 +446,14 @@
 <li><a href="06-graph-theory.html">图论</a>：图论处理离散关系结构，本篇处理连续空间中的流形、曲率与拓扑不变量</li>
 <li><a href="19-neuroscience.html">神经科学</a>：神经表征空间的几何组织常借助流形视角来理解</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要拓扑学与几何</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要拓扑学与几何">1. 上帝视角：为什么 AI 需要拓扑学与几何</h2>
 <p>现代机器学习面对的核心挑战之一是<strong>高维数据</strong>。一张 $256 \times 256$ 的灰度图像就是 $65536$ 维空间中的一个点，但所有&quot;有意义&quot;的图像只占据这个巨大空间中极其微小的一部分。拓扑学和微分几何提供了理解这种结构的数学语言：</p>
 <ul>
 <li><strong>流形假设（Manifold Hypothesis）</strong>：高维数据实际上集中在低维流形附近，降维、表示学习、生成模型的理论根基</li>
 <li><strong>曲率与度量（Curvature and Metric）</strong>：概率分布空间本身具有黎曼几何结构，自然梯度下降利用这一结构加速优化</li>
 <li><strong>拓扑不变量（Topological Invariants）</strong>：数据的&quot;洞&quot;、&quot;连通分量&quot;等拓扑特征对噪声鲁棒，可作为特征工程的工具</li>
 </ul>
-<h3>1.1 拓扑负责不变量，几何负责度量与曲率</h3>
+<h3 id="n1-1-拓扑负责不变量-几何负责度量与曲率">1.1 拓扑负责不变量，几何负责度量与曲率</h3>
 <p>如果只用一句话区分两者：</p>
 <ul>
 <li><strong>拓扑学</strong>问的是：连续变形以后，哪些结构仍然不变？</li>
@@ -465,7 +465,7 @@
 <li>当我们关心“表示空间里的距离是否有意义、沿哪个方向更新更自然、概率分布之间的局部变化如何度量”时，更接近几何问题。</li>
 </ul>
 <p>流形学习和几何深度学习通常处在两者的交界处：拓扑告诉我们全局形状不该被轻易破坏，几何告诉我们局部距离和方向如何被保留。</p>
-<h3>1.2 与其他学科的关键连接</h3>
+<h3 id="n1-2-与其他学科的关键连接">1.2 与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -506,9 +506,9 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>拓扑学与微分几何的发展横跨近三个世纪，从纯粹的数学好奇心演变为 AI 的核心工具。</p>
-<h3>2.1 古典时期：拓扑与几何的分化起点</h3>
+<h3 id="n2-1-古典时期-拓扑与几何的分化起点">2.1 古典时期：拓扑与几何的分化起点</h3>
 <p><strong>Euler (1758)：多面体公式</strong></p>
 <p>Leonhard Euler 对凸多面体提出了著名关系式：</p>
 <p>$$
@@ -521,14 +521,14 @@ $$</p>
 K = \frac{R_{1212}}{g_{11}g_{22} - g_{12}^2}
 $$</p>
 <p>这一思想深刻影响了后来的黎曼几何和广义相对论。</p>
-<h3>2.2 黎曼几何的建立</h3>
+<h3 id="n2-2-黎曼几何的建立">2.2 黎曼几何的建立</h3>
 <p><strong>Riemann (1854)：黎曼几何</strong></p>
 <p>Bernhard Riemann 在哥廷根大学的就职演讲《论作为几何学基础的假设》（<em>Über die Hypothesen, welche der Geometrie zu Grunde liegen</em>）中，将几何学从二维曲面推广到任意维度的流形。核心概念是<strong>黎曼度量张量</strong>：</p>
 <p>$$
 ds^2 = \sum_{i,j} g_{ij} \, dx^i \, dx^j
 $$</p>
 <p>度量张量 $g_{ij}$ 定义了流形上的距离、角度和曲率。Riemann 的这套语言后来被 Einstein 的广义相对论和 Rao、Amari 的信息几何分别继承并发展。</p>
-<h3>2.3 拓扑学的系统化</h3>
+<h3 id="n2-3-拓扑学的系统化">2.3 拓扑学的系统化</h3>
 <p><strong>Poincaré (1895)：代数拓扑</strong></p>
 <p>Henri Poincaré 在《位置分析》（<em>Analysis Situs</em>）中创立了代数拓扑学，引入了：</p>
 <ul>
@@ -537,7 +537,7 @@ $$</p>
 <li><strong>Betti 数</strong>：通常记为 βₙ，其中 β₀ 是连通分量数，β₁ 是&quot;环&quot;的数量，β₂ 是&quot;空腔&quot;的数量</li>
 </ul>
 <p>这些工具在 21 世纪被拓扑数据分析（TDA）重新发现并应用于机器学习。</p>
-<h3>2.4 现代发展：嵌入与流形</h3>
+<h3 id="n2-4-现代发展-嵌入与流形">2.4 现代发展：嵌入与流形</h3>
 <p><strong>Whitney (1936)：嵌入定理</strong></p>
 <p>Hassler Whitney 证明了任何 $n$ 维光滑流形都可以嵌入到 $\mathbb{R}^{2n}$ 中。这个定理的 AI 意义在于：如果数据分布在 $d$ 维流形上，那么 $2d$ 维的表示空间就足以忠实地保留其结构。</p>
 <p>$$
@@ -545,7 +545,7 @@ $$</p>
 $$</p>
 <p><strong>Nash (1956)：等距嵌入定理</strong></p>
 <p>John Nash 证明了任何黎曼流形都可以等距嵌入到足够高维的欧几里得空间中。这意味着流形上的内蕴几何信息可以完全由嵌入来表达。</p>
-<h3>2.5 计算时代：流形学习的兴起</h3>
+<h3 id="n2-5-计算时代-流形学习的兴起">2.5 计算时代：流形学习的兴起</h3>
 <p><strong>Tenenbaum, de Silva &amp; Langford (2000)：Isomap</strong></p>
 <p>Joshua Tenenbaum 等人在 <em>Science</em> 上发表了 Isomap 算法，这是第一个系统性的非线性降维方法。核心思想：用图上的最短路径（测地距离）替代欧几里得距离。</p>
 <p><strong>Roweis &amp; Saul (2000)：LLE</strong></p>
@@ -554,14 +554,14 @@ $$</p>
 <p>t-分布随机邻域嵌入（t-SNE）通过概率分布匹配实现降维，特别擅长保持局部结构，成为高维数据可视化的标准工具。</p>
 <p><strong>McInnes, Healy &amp; Melville (2018)：UMAP</strong></p>
 <p>统一流形近似与投影（UMAP）基于黎曼几何和模糊拓扑理论，在速度和全局结构保持上超越了 t-SNE。</p>
-<h3>2.6 深度学习时代</h3>
+<h3 id="n2-6-深度学习时代">2.6 深度学习时代</h3>
 <p><strong>Amari (1998)：自然梯度</strong></p>
 <p>Shun-ichi Amari 将信息几何真正推入机器学习核心语境。自然梯度的关键思想是：参数更新不应只看欧几里得坐标里的步长，还应看分布空间里真正走了多远。</p>
 <p><strong>Bronstein et al. (2021)：几何深度学习</strong></p>
 <p>Michael Bronstein 等人系统提出“几何深度学习”框架，强调数据域的对称性、度量与几何约束应直接进入模型架构。这里的重点不再只是“图”，而是更一般的几何归纳偏置。</p>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 流形假设（Manifold Hypothesis）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-流形假设-Manifold-Hypothesis">3.1 流形假设（Manifold Hypothesis）</h3>
 <h4>数学定义</h4>
 <p>一个 $d$ 维<strong>拓扑流形</strong>（topological manifold）$M$ 是一个 Hausdorff 拓扑空间，满足：</p>
 <ul>
@@ -589,7 +589,7 @@ $$</p>
 <li><strong>生成对抗网络（GAN）</strong>：生成器学习从低维噪声空间到数据流形的映射</li>
 <li><strong>扩散模型（Diffusion Model）</strong>：在数据流形上定义前向/逆向扩散过程</li>
 </ul>
-<h3>3.2 流形学习（Manifold Learning）</h3>
+<h3 id="n3-2-流形学习-Manifold-Learning">3.2 流形学习（Manifold Learning）</h3>
 <p>流形学习是一类非线性降维方法，目标是从高维数据中恢复低维流形结构。</p>
 <h4>3.2.1 Isomap</h4>
 <p><strong>核心思想</strong>：用测地距离（geodesic distance）替代欧几里得距离。</p>
@@ -657,7 +657,7 @@ $$</p>
 <li><strong>降维预处理</strong>：在高维小样本任务中减少噪声和冗余维度</li>
 <li><strong>表示几何诊断</strong>：帮助判断表征空间是按类别、任务还是域在组织</li>
 </ul>
-<h3>3.3 持续同调与拓扑数据分析（TDA）</h3>
+<h3 id="n3-3-持续同调与拓扑数据分析-TDA">3.3 持续同调与拓扑数据分析（TDA）</h3>
 <h4>单纯复形（Simplicial Complex）</h4>
 <p>单纯复形是拓扑空间的组合近似。一个 $k$-单纯形是 $k+1$ 个点的凸包：</p>
 <ul>
@@ -696,7 +696,7 @@ $$</p>
 <li><strong>损失函数</strong>：拓扑损失（topological loss）惩罚生成数据与真实数据的拓扑差异</li>
 <li><strong>结构鲁棒特征</strong>：用持续同调提取对尺度变化和噪声更稳健的形状特征</li>
 </ul>
-<h3>3.4 信息几何（Information Geometry）</h3>
+<h3 id="n3-4-信息几何-Information-Geometry">3.4 信息几何（Information Geometry）</h3>
 <p>信息几何用黎曼几何的语言研究概率分布空间，由 Rao (1945) 和 Amari (1985) 奠基。</p>
 <h4>为什么概率分布也能看成流形？</h4>
 <p>关键不是“分布看起来像几何对象”，而是很多常见分布族都由一组连续参数刻画。例如 Bernoulli 分布</p>
@@ -747,14 +747,14 @@ $$</p>
 $$</p>
 <p>其中 ℓ 表示对数似然。α=1 对应指数族的自然联络，α=-1 对应混合族的联络。α 与 -α 联络互为对偶，这种对偶性统一了 EM 算法、变分推断等方法的几何解释。</p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 表示学习的几何视角</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-表示学习的几何视角">4.1 表示学习的几何视角</h3>
 <p>深度神经网络可以理解为一系列流形变换。每一层将输入流形映射到新的流形，逐步&quot;展开&quot;数据的纠缠结构，使得最终的表示空间中不同类别线性可分。</p>
 <p>$$
 f = f_L \circ f_{L-1} \circ \cdots \circ f_1 : \mathcal{M}_{\text{data}} \to \mathcal{M}_{\text{repr}}
 $$</p>
 <p>ResNet 的残差连接 $f_l(x) = x + g_l(x)$ 可以理解为流形上的微小形变，这与微分同胚（diffeomorphism）的概念密切相关。Neural ODE 将这一思想推到极致，用连续的常微分方程描述流形变换。</p>
-<h3>4.2 几何深度学习的统一框架</h3>
+<h3 id="n4-2-几何深度学习的统一框架">4.2 几何深度学习的统一框架</h3>
 <p>Bronstein et al. (2021) 在《Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges》中提出了 5G 框架。对本篇来说，更关键的是其中关于“测地线、流形与规范”的连续几何视角：</p>
 <table>
 <thead>
@@ -786,43 +786,43 @@ $$</p>
 </tr>
 </tbody></table>
 <p>图结构部分已在 <a href="06-graph-theory.html">图论</a> 专篇展开；本篇保留的是连续空间几何如何进入模型设计这条主线。核心原则仍然是：<strong>对称性决定架构</strong>。</p>
-<h3>4.3 优化的几何结构</h3>
+<h3 id="n4-3-优化的几何结构">4.3 优化的几何结构</h3>
 <p>损失函数的景观（loss landscape）本身具有丰富的几何结构：</p>
 <ul>
 <li><strong>鞍点</strong>：高维空间中，鞍点远多于局部极小值，这是拓扑的必然结果</li>
 <li><strong>平坦极小值</strong>：与泛化性能相关，可以用 Hessian 矩阵的特征值（曲率）来刻画</li>
 <li><strong>模式连通性</strong>（Mode Connectivity）：不同的局部极小值之间存在低损失的路径，这是损失景观的拓扑性质</li>
 </ul>
-<h3>4.4 生成模型的流形视角</h3>
+<h3 id="n4-4-生成模型的流形视角">4.4 生成模型的流形视角</h3>
 <ul>
 <li><strong>VAE</strong>：编码器将数据映射到潜在流形，解码器从潜在流形生成数据</li>
 <li><strong>Normalizing Flow</strong>：通过一系列可逆变换（微分同胚）将简单分布映射到复杂分布</li>
 <li><strong>扩散模型</strong>：在数据流形上定义随机过程，正向过程逐步破坏结构，逆向过程逐步恢复</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 拓扑深度学习</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-拓扑深度学习">5.1 拓扑深度学习</h3>
 <p>将深度学习从图（1-单纯形）推广到更高阶的拓扑结构：</p>
 <ul>
 <li><strong>单纯复形神经网络</strong>（Simplicial Neural Networks）：在单纯复形上定义消息传递</li>
 <li><strong>胞腔复形网络</strong>（Cell Complex Networks）：更灵活的拓扑结构</li>
 <li><strong>高阶结构学习</strong>：处理二元边之外的多体交互与复合关系</li>
 </ul>
-<h3>5.2 流形上的扩散模型</h3>
+<h3 id="n5-2-流形上的扩散模型">5.2 流形上的扩散模型</h3>
 <p>在黎曼流形上定义扩散过程，生成具有特定几何约束的数据：</p>
 <ul>
 <li>分子构象生成（SE(3) 等变）</li>
 <li>蛋白质结构预测</li>
 <li>机器人运动规划（李群上的扩散）</li>
 </ul>
-<h3>5.3 神经网络的拓扑复杂度</h3>
+<h3 id="n5-3-神经网络的拓扑复杂度">5.3 神经网络的拓扑复杂度</h3>
 <p>用拓扑工具分析神经网络的表达能力：</p>
 <ul>
 <li>决策边界的 Betti 数与网络深度/宽度的关系</li>
 <li>网络权重空间的拓扑结构</li>
 <li>损失景观的持续同调分析</li>
 </ul>
-<h3>5.4 开放问题</h3>
+<h3 id="n5-4-开放问题">5.4 开放问题</h3>
 <ul>
 <li><strong>流形假设的验证</strong>：真实数据是否真的分布在低维流形上？还是更复杂的分层结构？</li>
 <li><strong>曲率与泛化</strong>：数据流形的曲率如何影响学习的难度和泛化能力？</li>
@@ -830,39 +830,39 @@ $$</p>
 <li><strong>可扩展的 TDA</strong>：持续同调的计算复杂度如何降低到大规模数据可用的程度？</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>do Carmo, M. P. (1992). <em>Riemannian Geometry</em>. Birkhäuser. — 黎曼几何的标准教材</li>
 <li>Munkres, J. R. (2000). <em>Topology</em>. Prentice Hall. — 点集拓扑的经典入门</li>
 <li>Hatcher, A. (2002). <em>Algebraic Topology</em>. Cambridge University Press. — 代数拓扑的现代教材（免费在线）</li>
 <li>Lee, J. M. (2012). <em>Introduction to Smooth Manifolds</em>. Springer. — 光滑流形的全面介绍</li>
 </ul>
-<h3>关键论文与综述</h3>
+<h3 id="关键论文与综述">关键论文与综述</h3>
 <ul>
 <li>Amari, S. (2016). <em>Information Geometry and Its Applications</em>. Springer. — 信息几何的权威著作</li>
 <li>Amari, S. (1998). Natural gradient works efficiently in learning. <em>Neural Computation</em>, 10(2), 251-276.</li>
 <li>Rao, C. R. (1945). Information and the accuracy attainable in the estimation of statistical parameters. <em>Bulletin of the Calcutta Mathematical Society</em>, 37, 81-91.</li>
 </ul>
-<h3>流形学习</h3>
+<h3 id="流形学习">流形学习</h3>
 <ul>
 <li>Tenenbaum, J. B., de Silva, V., &amp; Langford, J. C. (2000). A global geometric framework for nonlinear dimensionality reduction. <em>Science</em>, 290(5500), 2319-2323.</li>
 <li>Roweis, S. T., &amp; Saul, L. K. (2000). Nonlinear dimensionality reduction by locally linear embedding. <em>Science</em>, 290(5500), 2323-2326.</li>
 <li>van der Maaten, L., &amp; Hinton, G. (2008). Visualizing data using t-SNE. <em>Journal of Machine Learning Research</em>, 9, 2579-2605.</li>
 <li>McInnes, L., Healy, J., &amp; Melville, J. (2018). UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction. <em>arXiv:1802.03426</em>.</li>
 </ul>
-<h3>几何深度学习</h3>
+<h3 id="几何深度学习">几何深度学习</h3>
 <ul>
 <li>Bronstein, M. M., Bruna, J., Cohen, T., &amp; Veličković, P. (2021). Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges. <em>arXiv:2104.13478</em>.</li>
 <li>Cohen, T. S., &amp; Welling, M. (2016). Group equivariant convolutional networks. <em>ICML 2016</em>.</li>
 </ul>
-<h3>拓扑数据分析</h3>
+<h3 id="拓扑数据分析">拓扑数据分析</h3>
 <ul>
 <li>Edelsbrunner, H., &amp; Harer, J. (2010). <em>Computational Topology: An Introduction</em>. AMS. — TDA 的数学基础</li>
 <li>Carlsson, G. (2009). Topology and data. <em>Bulletin of the AMS</em>, 46(2), 255-308.</li>
 <li>Hensel, F., Moor, M., &amp; Rieck, B. (2021). A survey of topological machine learning methods. <em>Frontiers in Artificial Intelligence</em>, 4, 681108.</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这一篇位于全书中“从代数与优化转向空间结构”的位置。它讨论的不是单个公式如何计算，而是数据与模型所在空间本身具有什么形状。</p>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a> 处理局部线性表示与矩阵运算；</li>
@@ -892,12 +892,76 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要拓扑学与几何" class="toc-link h2">1. 上帝视角：为什么 AI 需要拓扑学与几何</a>
+<a href="#n1-1-拓扑负责不变量-几何负责度量与曲率" class="toc-link h3">1.1 拓扑负责不变量，几何负责度量与曲率</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-古典时期-拓扑与几何的分化起点" class="toc-link h3">2.1 古典时期：拓扑与几何的分化起点</a>
+<a href="#n2-2-黎曼几何的建立" class="toc-link h3">2.2 黎曼几何的建立</a>
+<a href="#n2-3-拓扑学的系统化" class="toc-link h3">2.3 拓扑学的系统化</a>
+<a href="#n2-4-现代发展-嵌入与流形" class="toc-link h3">2.4 现代发展：嵌入与流形</a>
+<a href="#n2-5-计算时代-流形学习的兴起" class="toc-link h3">2.5 计算时代：流形学习的兴起</a>
+<a href="#n2-6-深度学习时代" class="toc-link h3">2.6 深度学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-流形假设-Manifold-Hypothesis" class="toc-link h3">3.1 流形假设（Manifold Hypothesis）</a>
+<a href="#n3-2-流形学习-Manifold-Learning" class="toc-link h3">3.2 流形学习（Manifold Learning）</a>
+<a href="#n3-3-持续同调与拓扑数据分析-TDA" class="toc-link h3">3.3 持续同调与拓扑数据分析（TDA）</a>
+<a href="#n3-4-信息几何-Information-Geometry" class="toc-link h3">3.4 信息几何（Information Geometry）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-表示学习的几何视角" class="toc-link h3">4.1 表示学习的几何视角</a>
+<a href="#n4-2-几何深度学习的统一框架" class="toc-link h3">4.2 几何深度学习的统一框架</a>
+<a href="#n4-3-优化的几何结构" class="toc-link h3">4.3 优化的几何结构</a>
+<a href="#n4-4-生成模型的流形视角" class="toc-link h3">4.4 生成模型的流形视角</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-拓扑深度学习" class="toc-link h3">5.1 拓扑深度学习</a>
+<a href="#n5-2-流形上的扩散模型" class="toc-link h3">5.2 流形上的扩散模型</a>
+<a href="#n5-3-神经网络的拓扑复杂度" class="toc-link h3">5.3 神经网络的拓扑复杂度</a>
+<a href="#n5-4-开放问题" class="toc-link h3">5.4 开放问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#流形学习" class="toc-link h3">流形学习</a>
+<a href="#几何深度学习" class="toc-link h3">几何深度学习</a>
+<a href="#拓扑数据分析" class="toc-link h3">拓扑数据分析</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要拓扑学与几何" class="toc-link h2">1. 上帝视角：为什么 AI 需要拓扑学与几何</a>
+<a href="#n1-1-拓扑负责不变量-几何负责度量与曲率" class="toc-link h3">1.1 拓扑负责不变量，几何负责度量与曲率</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-古典时期-拓扑与几何的分化起点" class="toc-link h3">2.1 古典时期：拓扑与几何的分化起点</a>
+<a href="#n2-2-黎曼几何的建立" class="toc-link h3">2.2 黎曼几何的建立</a>
+<a href="#n2-3-拓扑学的系统化" class="toc-link h3">2.3 拓扑学的系统化</a>
+<a href="#n2-4-现代发展-嵌入与流形" class="toc-link h3">2.4 现代发展：嵌入与流形</a>
+<a href="#n2-5-计算时代-流形学习的兴起" class="toc-link h3">2.5 计算时代：流形学习的兴起</a>
+<a href="#n2-6-深度学习时代" class="toc-link h3">2.6 深度学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-流形假设-Manifold-Hypothesis" class="toc-link h3">3.1 流形假设（Manifold Hypothesis）</a>
+<a href="#n3-2-流形学习-Manifold-Learning" class="toc-link h3">3.2 流形学习（Manifold Learning）</a>
+<a href="#n3-3-持续同调与拓扑数据分析-TDA" class="toc-link h3">3.3 持续同调与拓扑数据分析（TDA）</a>
+<a href="#n3-4-信息几何-Information-Geometry" class="toc-link h3">3.4 信息几何（Information Geometry）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-表示学习的几何视角" class="toc-link h3">4.1 表示学习的几何视角</a>
+<a href="#n4-2-几何深度学习的统一框架" class="toc-link h3">4.2 几何深度学习的统一框架</a>
+<a href="#n4-3-优化的几何结构" class="toc-link h3">4.3 优化的几何结构</a>
+<a href="#n4-4-生成模型的流形视角" class="toc-link h3">4.4 生成模型的流形视角</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-拓扑深度学习" class="toc-link h3">5.1 拓扑深度学习</a>
+<a href="#n5-2-流形上的扩散模型" class="toc-link h3">5.2 流形上的扩散模型</a>
+<a href="#n5-3-神经网络的拓扑复杂度" class="toc-link h3">5.3 神经网络的拓扑复杂度</a>
+<a href="#n5-4-开放问题" class="toc-link h3">5.4 开放问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#流形学习" class="toc-link h3">流形学习</a>
+<a href="#几何深度学习" class="toc-link h3">几何深度学习</a>
+<a href="#拓扑数据分析" class="toc-link h3">拓扑数据分析</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

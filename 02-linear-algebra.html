@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：线性代数是深度学习的表示与计算语言。神经网络的前向传播大多可以写成矩阵乘法，Transformer 的自注意力机制也是围绕 Q、K、V 的线性变换展开。没有线性代数，就没有现代 AI 的高效实现；但只有线性代数也不够，因为实际智能系统还依赖非线性、概率建模与优化过程。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：梯度下降与参数更新建立在线性表示与微分计算之上</li>
 <li><a href="08-approximation-theory.html">逼近论</a>：函数逼近、特征表示与模型容量问题与线性空间密切相关</li>
@@ -446,7 +446,7 @@
 <li><a href="10-computer-science.html">计算机科学</a>：矩阵计算、算法复杂度与数据结构共同支撑现代 AI 实现</li>
 <li><a href="19-neuroscience.html">神经科学</a>：神经表征、连接权重与群体活动常可借助向量与矩阵形式理解</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要线性代数</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要线性代数">1. 上帝视角：为什么 AI 需要线性代数</h2>
 <p>线性代数为 AI 提供了三大基石能力：</p>
 <ul>
 <li><p><strong>数据表示</strong>：一张图片是像素向量，一段文本是词嵌入向量，一条用户行为是特征向量——万物皆向量</p>
@@ -458,7 +458,7 @@
 <li><p><strong>降维与压缩</strong>：SVD / PCA 将高维数据投影到低维流形，揭示数据的内在结构</p>
 </li>
 </ul>
-<h3>线性结构的适用边界</h3>
+<h3 id="线性结构的适用边界">线性结构的适用边界</h3>
 <p>线性代数最擅长处理的是<strong>表示、投影、旋转、缩放与组合</strong>。这使它成为现代 AI 的底层语言，但也要看到边界：</p>
 <ul>
 <li>线性变换本身不能单独表达复杂决策边界，真正的深度网络还需要非线性激活；</li>
@@ -466,7 +466,7 @@
 <li>它也不负责处理不确定性和统计推断，这需要<a href="01-probability-and-statistics.html">概率论与数理统计</a>。</li>
 </ul>
 <p>因此，更准确的说法不是“AI 就是线性代数”，而是“现代 AI 的大部分计算都必须通过线性代数来组织”。</p>
-<h3>与其他学科的关键连接</h3>
+<h3 id="与其他学科的关键连接">与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -512,36 +512,36 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络：关键人物与里程碑</h2>
+<h2 id="n2-历史脉络-关键人物与里程碑">2. 历史脉络：关键人物与里程碑</h2>
 <p>线性代数的发展横跨四个世纪，从解方程组的实用需求演化为现代数学与计算科学的核心语言。</p>
-<h3>2.1 萌芽期（17-18 世纪）</h3>
+<h3 id="n2-1-萌芽期-17-18-世纪">2.1 萌芽期（17-18 世纪）</h3>
 <ul>
 <li><strong>Leibniz (1693)</strong>：首次使用行列式（determinant）求解线性方程组，虽然当时尚无矩阵概念</li>
 <li><strong>Cramer (1750)</strong>：发表 Cramer 法则，给出线性方程组的行列式解法，这是线性代数最早的系统化成果</li>
 <li><strong>Gauss (约 1800)</strong>：发展高斯消元法（Gaussian elimination），至今仍是求解线性方程组的基础算法</li>
 </ul>
-<h3>2.2 矩阵理论的诞生（19 世纪）</h3>
+<h3 id="n2-2-矩阵理论的诞生-19-世纪">2.2 矩阵理论的诞生（19 世纪）</h3>
 <ul>
 <li><strong>Cayley (1858)</strong>：发表《矩阵理论的回忆录》（<em>A Memoir on the Theory of Matrices</em>），正式定义矩阵及其运算规则（加法、乘法、逆矩阵），被誉为&quot;矩阵理论之父&quot;</li>
 <li><strong>Sylvester (1850)</strong>：引入&quot;矩阵&quot;（matrix）这一术语，源自拉丁语&quot;子宫&quot;，意为&quot;数的母体&quot;</li>
 <li><strong>Jordan (1870)</strong>：发展 Jordan 标准形（Jordan normal form），为矩阵的分类提供了完整框架</li>
 <li><strong>Frobenius (1878)</strong>：系统研究矩阵的秩（rank）、特征值（eigenvalue）等概念</li>
 </ul>
-<h3>2.3 抽象化与公理化（20 世纪上半叶）</h3>
+<h3 id="n2-3-抽象化与公理化-20-世纪上半叶">2.3 抽象化与公理化（20 世纪上半叶）</h3>
 <ul>
 <li><strong>Hilbert (1904-1910)</strong>：创立 Hilbert 空间理论，将有限维向量空间推广到无穷维函数空间，为量子力学和泛函分析奠基</li>
 <li><strong>Banach (1920s)</strong>：发展 Banach 空间，进一步推广线性空间的概念</li>
 <li><strong>von Neumann (1932)</strong>：在《量子力学的数学基础》中系统运用算子理论，将线性代数与物理学深度融合</li>
 <li><strong>Halmos (1942)</strong>：出版《有限维向量空间》，确立了现代线性代数的公理化教学体系</li>
 </ul>
-<h3>2.4 计算革命（20 世纪下半叶）</h3>
+<h3 id="n2-4-计算革命-20-世纪下半叶">2.4 计算革命（20 世纪下半叶）</h3>
 <ul>
 <li><strong>Householder (1958)</strong>：提出 Householder 变换，开创数值线性代数的现代方法</li>
 <li><strong>Golub &amp; Kahan (1965)</strong>：发展计算 SVD 的高效算法</li>
 <li><strong>Golub &amp; Van Loan (1983)</strong>：出版《矩阵计算》（<em>Matrix Computations</em>），成为数值线性代数的&quot;圣经&quot;</li>
 <li><strong>LAPACK (1992)</strong>：标准化线性代数计算库发布，至今仍是 NumPy、MATLAB 等工具的底层引擎</li>
 </ul>
-<h3>2.5 AI 时代的新篇章（21 世纪）</h3>
+<h3 id="n2-5-AI-时代的新篇章-21-世纪">2.5 AI 时代的新篇章（21 世纪）</h3>
 <ul>
 <li><p><strong>Word2Vec (2013)</strong>：Mikolov 等人用词向量矩阵捕获语义关系。经典例子是：</p>
 <p>$$\text{king} - \text{man} + \text{woman} \approx \text{queen}$$</p>
@@ -553,8 +553,8 @@
 </li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 向量空间与线性变换</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-向量空间与线性变换">3.1 向量空间与线性变换</h3>
 <h4>数学定义</h4>
 <p>一个<strong>向量空间</strong>（vector space）$V$ 是定义在域 $\mathbb{F}$（通常为 $\mathbb{R}$ 或 $\mathbb{C}$）上的集合，满足以下公理：</p>
 <ul>
@@ -598,7 +598,7 @@
 <h4>代码演示</h4>
 <p>参见 <code>code/math-foundations/svd_decomposition.py</code> 中向量与矩阵的基本操作。</p>
 <hr>
-<h3>3.2 特征分解与谱定理</h3>
+<h3 id="n3-2-特征分解与谱定理">3.2 特征分解与谱定理</h3>
 <h4>数学定义</h4>
 <p>对于方阵 $A \in \mathbb{R}^{n \times n}$，若存在非零向量 $\mathbf{v}$ 和标量 $\lambda$ 使得：</p>
 <p>$$A\mathbf{v} = \lambda\mathbf{v}$$</p>
@@ -660,7 +660,7 @@ $$</p>
 <li><strong>稳定性分析</strong>：RNN 中梯度爆炸/消失与权重矩阵的特征值直接相关——特征值绝对值 &gt; 1 导致爆炸，&lt; 1 导致消失</li>
 </ul>
 <hr>
-<h3>3.3 SVD（奇异值分解）</h3>
+<h3 id="n3-3-SVD-奇异值分解">3.3 SVD（奇异值分解）</h3>
 <h4>数学定义</h4>
 <p><strong>奇异值分解</strong>（Singular Value Decomposition, SVD）是线性代数中最重要的矩阵分解之一。对于任意矩阵 $A \in \mathbb{R}^{m \times n}$（不要求方阵），都存在分解：</p>
 <p>$$A = U\Sigma V^T$$</p>
@@ -693,7 +693,7 @@ $$</p>
 <li><strong>LoRA</strong>：大模型微调时，$\Delta W = BA$ 就是一种低秩分解，思想直接来源于 SVD</li>
 </ul>
 <hr>
-<h3>3.4 PCA（主成分分析）</h3>
+<h3 id="n3-4-PCA-主成分分析">3.4 PCA（主成分分析）</h3>
 <h4>数学定义</h4>
 <p><strong>主成分分析</strong>（Principal Component Analysis, PCA）是最经典的线性降维方法。给定数据矩阵 $X \in \mathbb{R}^{n \times d}$（$n$ 个样本，$d$ 维特征），PCA 的步骤：</p>
 <ol>
@@ -754,7 +754,7 @@ $$</p>
 <li><strong>白化</strong>（Whitening）：PCA 白化使数据各维度方差为 1 且不相关，常用于预处理</li>
 </ul>
 <hr>
-<h3>3.5 注意力机制的矩阵本质</h3>
+<h3 id="n3-5-注意力机制的矩阵本质">3.5 注意力机制的矩阵本质</h3>
 <h4>数学定义</h4>
 <p><strong>缩放点积注意力</strong>（Scaled Dot-Product Attention）由 Vaswani 等人在 <em>Attention Is All You Need</em> (2017) 中提出：</p>
 <p>$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$</p>
@@ -814,17 +814,17 @@ $$</p>
 </ul>
 <p>参见代码演示：<code>code/ml-algorithms/attention_matrix.py</code></p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>线性代数对 AI 的贡献远不止&quot;提供计算工具&quot;，它从根本上塑造了 AI 的思维方式和技术路线。</p>
-<h3>4.1 表示学习的数学基础</h3>
+<h3 id="n4-1-表示学习的数学基础">4.1 表示学习的数学基础</h3>
 <p>深度学习的核心思想是<strong>学习数据的表示</strong>（representation learning）。每一层神经网络都是一次线性变换 + 非线性激活：</p>
 <p>$$\mathbf{h}^{(l)} = \sigma(W^{(l)}\mathbf{h}^{(l-1)} + \mathbf{b}^{(l)})$$</p>
 <p>线性变换 $W^{(l)}$ 负责&quot;重新组合特征&quot;，非线性激活 $\sigma$ 负责&quot;引入表达能力&quot;。没有线性代数，就没有表示学习。</p>
-<h3>4.2 反向传播的矩阵视角</h3>
+<h3 id="n4-2-反向传播的矩阵视角">4.2 反向传播的矩阵视角</h3>
 <p>反向传播（backpropagation）的核心是链式法则的矩阵形式。对于损失函数 $L$：</p>
 <p>$$\frac{\partial L}{\partial W^{(l)}} = \frac{\partial L}{\partial \mathbf{h}^{(l)}} \cdot \frac{\partial \mathbf{h}^{(l)}}{\partial W^{(l)}}$$</p>
 <p>梯度在网络中的传播本质上是 Jacobian 矩阵的连乘。梯度消失/爆炸问题直接对应于这些矩阵连乘后的奇异值衰减/增长。</p>
-<h3>4.3 GPU 并行计算的线性代数本质</h3>
+<h3 id="n4-3-GPU-并行计算的线性代数本质">4.3 GPU 并行计算的线性代数本质</h3>
 <p>GPU 之所以能加速深度学习，根本原因是神经网络的核心运算——矩阵乘法——天然适合并行化。NVIDIA 的 cuBLAS、Tensor Core 等硬件加速都是为矩阵运算优化的。</p>
 <p>$$C = AB \quad \Rightarrow \quad C_{ij} = \sum_k A_{ik}B_{kj}$$</p>
 <p>其中：</p>
@@ -834,7 +834,7 @@ $$</p>
 <li>这一并行性使得 GPU 能把 $C_{ij}$ 的计算分发到不同线程</li>
 </ul>
 <p>每个 $C_{ij}$ 的计算相互独立，可以完全并行。这就是为什么深度学习的崛起与 GPU 计算的发展密不可分。</p>
-<h3>4.4 大模型时代的线性代数新挑战</h3>
+<h3 id="n4-4-大模型时代的线性代数新挑战">4.4 大模型时代的线性代数新挑战</h3>
 <ul>
 <li><p><strong>参数高效微调</strong>：LoRA 用低秩矩阵近似全量微调。</p>
 <p>$$\Delta W = BA$$</p>
@@ -853,20 +853,20 @@ $$</p>
 </li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 高效线性代数计算</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-高效线性代数计算">5.1 高效线性代数计算</h3>
 <ul>
 <li><strong>Flash Attention</strong> (Dao et al., 2022)：通过分块计算和 IO 感知算法，将注意力计算的内存复杂度从二次规模降到线性规模，同时保持精确计算（非近似）</li>
 <li><strong>线性注意力</strong>（Linear Attention）：用核函数近似 Softmax，将注意力复杂度降到线性规模，但精度有所损失</li>
 <li><strong>结构化矩阵</strong>：Monarch 矩阵、蝶形矩阵等结构化矩阵可以用近似 nlogn 级别的计算，代替稠密矩阵乘法的二次复杂度</li>
 </ul>
-<h3>5.2 随机线性代数</h3>
+<h3 id="n5-2-随机线性代数">5.2 随机线性代数</h3>
 <ul>
 <li><strong>随机 SVD</strong>（Randomized SVD）：Halko, Martinsson &amp; Tropp (2011) 提出的随机化方法，可以更快地计算秩 k 近似，适合大规模矩阵场景</li>
 <li><strong>草图方法</strong>（Sketching）：用随机投影将大矩阵&quot;压缩&quot;为小矩阵，在小矩阵上做精确计算</li>
 <li><strong>随机数值线性代数</strong>（RandNLA）已成为处理大规模数据的标准工具</li>
 </ul>
-<h3>5.3 张量分解与高阶推广</h3>
+<h3 id="n5-3-张量分解与高阶推广">5.3 张量分解与高阶推广</h3>
 <p>矩阵是二阶张量，深度学习中大量出现高阶张量（如卷积核是四阶张量）：</p>
 <ul>
 <li><strong>CP 分解</strong>（CANDECOMP/PARAFAC）：将张量分解为秩一张量之和</li>
@@ -874,22 +874,22 @@ $$</p>
 <li><strong>张量网络</strong>（Tensor Networks）：源自量子物理，用于压缩和分析高阶张量结构</li>
 <li>张量分解在模型压缩、多模态学习中有广泛应用</li>
 </ul>
-<h3>5.4 矩阵理论与深度学习理论</h3>
+<h3 id="n5-4-矩阵理论与深度学习理论">5.4 矩阵理论与深度学习理论</h3>
 <ul>
 <li><strong>神经切线核</strong>（Neural Tangent Kernel, NTK）：无限宽网络的训练动态可以用核矩阵描述</li>
 <li><strong>随机矩阵理论</strong>（Random Matrix Theory）：用于分析神经网络权重矩阵的谱分布，理解泛化能力</li>
 <li><strong>矩阵感知</strong>（Matrix Sensing）/ <strong>矩阵补全</strong>（Matrix Completion）：低秩矩阵恢复的理论保证，与压缩感知密切相关</li>
 <li><strong>隐式正则化</strong>：梯度下降在矩阵分解问题上倾向于找到低秩解，这一现象的理论解释仍是开放问题</li>
 </ul>
-<h3>5.5 量子线性代数</h3>
+<h3 id="n5-5-量子线性代数">5.5 量子线性代数</h3>
 <ul>
 <li><strong>HHL 算法</strong> (Harrow, Hassidim &amp; Lloyd, 2009)：量子计算机上求解线性方程组的指数加速算法</li>
 <li><strong>量子 SVD</strong>：量子计算机上的奇异值分解可能实现指数级加速</li>
 <li>量子线性代数是量子机器学习的基础，但实用化仍面临量子纠错等挑战</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em>. 5th Edition. Wellesley-Cambridge Press.<ul>
 <li>最受欢迎的线性代数入门教材，配有 MIT OCW 公开课</li>
@@ -904,7 +904,7 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h3>AI 相关</h3>
+<h3 id="AI-相关">AI 相关</h3>
 <ul>
 <li>Goodfellow, I., Bengio, Y. &amp; Courville, A. (2016). <em>Deep Learning</em>. MIT Press. 第 2 章：线性代数.<ul>
 <li>深度学习教材中最好的线性代数速览</li>
@@ -923,7 +923,7 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h3>数值方法与计算</h3>
+<h3 id="数值方法与计算">数值方法与计算</h3>
 <ul>
 <li>Trefethen, L. N. &amp; Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.<ul>
 <li>数值线性代数的现代经典，强调几何直觉</li>
@@ -934,14 +934,14 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h3>前沿论文</h3>
+<h3 id="前沿论文">前沿论文</h3>
 <ul>
 <li>Dao, T. et al. (2022). FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. <em>NeurIPS</em>.</li>
 <li>Jacot, A., Gabriel, F. &amp; Hongler, C. (2018). Neural Tangent Kernel: Convergence and Generalization in Neural Networks. <em>NeurIPS</em>.</li>
 <li>Martin, C. H. &amp; Mahoney, M. W. (2021). Implicit Self-Regularization in Deep Neural Networks: Evidence from Random Matrix Theory and Implications for Training. <em>JMLR</em>.</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这一篇提供的是“AI 如何把对象写成向量和矩阵，并在其中高效计算”的基础层：</p>
 <ul>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a> 在这些矩阵表示上定义梯度与更新；</li>
@@ -970,12 +970,76 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要线性代数" class="toc-link h2">1. 上帝视角：为什么 AI 需要线性代数</a>
+<a href="#线性结构的适用边界" class="toc-link h3">线性结构的适用边界</a>
+<a href="#与其他学科的关键连接" class="toc-link h3">与其他学科的关键连接</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-萌芽期-17-18-世纪" class="toc-link h3">2.1 萌芽期（17-18 世纪）</a>
+<a href="#n2-2-矩阵理论的诞生-19-世纪" class="toc-link h3">2.2 矩阵理论的诞生（19 世纪）</a>
+<a href="#n2-3-抽象化与公理化-20-世纪上半叶" class="toc-link h3">2.3 抽象化与公理化（20 世纪上半叶）</a>
+<a href="#n2-4-计算革命-20-世纪下半叶" class="toc-link h3">2.4 计算革命（20 世纪下半叶）</a>
+<a href="#n2-5-AI-时代的新篇章-21-世纪" class="toc-link h3">2.5 AI 时代的新篇章（21 世纪）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-向量空间与线性变换" class="toc-link h3">3.1 向量空间与线性变换</a>
+<a href="#n3-2-特征分解与谱定理" class="toc-link h3">3.2 特征分解与谱定理</a>
+<a href="#n3-3-SVD-奇异值分解" class="toc-link h3">3.3 SVD（奇异值分解）</a>
+<a href="#n3-4-PCA-主成分分析" class="toc-link h3">3.4 PCA（主成分分析）</a>
+<a href="#n3-5-注意力机制的矩阵本质" class="toc-link h3">3.5 注意力机制的矩阵本质</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-表示学习的数学基础" class="toc-link h3">4.1 表示学习的数学基础</a>
+<a href="#n4-2-反向传播的矩阵视角" class="toc-link h3">4.2 反向传播的矩阵视角</a>
+<a href="#n4-3-GPU-并行计算的线性代数本质" class="toc-link h3">4.3 GPU 并行计算的线性代数本质</a>
+<a href="#n4-4-大模型时代的线性代数新挑战" class="toc-link h3">4.4 大模型时代的线性代数新挑战</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-高效线性代数计算" class="toc-link h3">5.1 高效线性代数计算</a>
+<a href="#n5-2-随机线性代数" class="toc-link h3">5.2 随机线性代数</a>
+<a href="#n5-3-张量分解与高阶推广" class="toc-link h3">5.3 张量分解与高阶推广</a>
+<a href="#n5-4-矩阵理论与深度学习理论" class="toc-link h3">5.4 矩阵理论与深度学习理论</a>
+<a href="#n5-5-量子线性代数" class="toc-link h3">5.5 量子线性代数</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#AI-相关" class="toc-link h3">AI 相关</a>
+<a href="#数值方法与计算" class="toc-link h3">数值方法与计算</a>
+<a href="#前沿论文" class="toc-link h3">前沿论文</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要线性代数" class="toc-link h2">1. 上帝视角：为什么 AI 需要线性代数</a>
+<a href="#线性结构的适用边界" class="toc-link h3">线性结构的适用边界</a>
+<a href="#与其他学科的关键连接" class="toc-link h3">与其他学科的关键连接</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-萌芽期-17-18-世纪" class="toc-link h3">2.1 萌芽期（17-18 世纪）</a>
+<a href="#n2-2-矩阵理论的诞生-19-世纪" class="toc-link h3">2.2 矩阵理论的诞生（19 世纪）</a>
+<a href="#n2-3-抽象化与公理化-20-世纪上半叶" class="toc-link h3">2.3 抽象化与公理化（20 世纪上半叶）</a>
+<a href="#n2-4-计算革命-20-世纪下半叶" class="toc-link h3">2.4 计算革命（20 世纪下半叶）</a>
+<a href="#n2-5-AI-时代的新篇章-21-世纪" class="toc-link h3">2.5 AI 时代的新篇章（21 世纪）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-向量空间与线性变换" class="toc-link h3">3.1 向量空间与线性变换</a>
+<a href="#n3-2-特征分解与谱定理" class="toc-link h3">3.2 特征分解与谱定理</a>
+<a href="#n3-3-SVD-奇异值分解" class="toc-link h3">3.3 SVD（奇异值分解）</a>
+<a href="#n3-4-PCA-主成分分析" class="toc-link h3">3.4 PCA（主成分分析）</a>
+<a href="#n3-5-注意力机制的矩阵本质" class="toc-link h3">3.5 注意力机制的矩阵本质</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-表示学习的数学基础" class="toc-link h3">4.1 表示学习的数学基础</a>
+<a href="#n4-2-反向传播的矩阵视角" class="toc-link h3">4.2 反向传播的矩阵视角</a>
+<a href="#n4-3-GPU-并行计算的线性代数本质" class="toc-link h3">4.3 GPU 并行计算的线性代数本质</a>
+<a href="#n4-4-大模型时代的线性代数新挑战" class="toc-link h3">4.4 大模型时代的线性代数新挑战</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-高效线性代数计算" class="toc-link h3">5.1 高效线性代数计算</a>
+<a href="#n5-2-随机线性代数" class="toc-link h3">5.2 随机线性代数</a>
+<a href="#n5-3-张量分解与高阶推广" class="toc-link h3">5.3 张量分解与高阶推广</a>
+<a href="#n5-4-矩阵理论与深度学习理论" class="toc-link h3">5.4 矩阵理论与深度学习理论</a>
+<a href="#n5-5-量子线性代数" class="toc-link h3">5.5 量子线性代数</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#AI-相关" class="toc-link h3">AI 相关</a>
+<a href="#数值方法与计算" class="toc-link h3">数值方法与计算</a>
+<a href="#前沿论文" class="toc-link h3">前沿论文</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

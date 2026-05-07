@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：如果线性代数处理的是“量”，拓扑与几何处理的是“形”，那么图论处理的就是“关系”。现实世界里，大量 AI 对象并不是整齐排列在欧几里得网格上的，而是由节点与连接构成的关系系统：社交网络、知识图谱、分子结构、代码调用图、交通网络、推荐系统都属于这一类。图论提供了描述这些结构的最小语言，而图神经网络、谱方法、知识图谱推理则把这种语言变成了现代 AI 的可学习框架。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a>：邻接矩阵、拉普拉斯矩阵、谱分解是图论进入 AI 的核心桥梁</li>
 <li><a href="07-topology-and-geometry.html">拓扑与几何</a>：图论研究离散关系结构，拓扑与几何研究连续空间中的形状与度量</li>
@@ -446,7 +446,7 @@
 <li><a href="14-signal-processing.html">信号处理</a>：谱图方法把“图上的信号”推广为非欧几里得域上的滤波与卷积</li>
 <li><a href="22-linguistics.html">语言学</a>：依存句法树、语义图和知识图谱都把语言问题转化为图结构推理</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要图论</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要图论">1. 上帝视角：为什么 AI 需要图论</h2>
 <p>很多 AI 教科书默认数据是向量、矩阵、张量，因此天然适合放进欧几里得空间里处理。但现实中的很多任务并不是“一个样本 = 一个定长向量”，而是：</p>
 <ul>
 <li>对象之间本身有显式关系，例如用户与商品、蛋白质与蛋白质、论文与引用；</li>
@@ -461,7 +461,7 @@
 <li><strong>关系组合</strong>：两步关系、三步关系是否暗含更深层语义；</li>
 <li><strong>离散归纳偏置</strong>：模型应当对节点重排不敏感，而对连边变化敏感。</li>
 </ul>
-<h3>1.1 一个直观例子：推荐系统为什么天然是图问题</h3>
+<h3 id="n1-1-一个直观例子-推荐系统为什么天然是图问题">1.1 一个直观例子：推荐系统为什么天然是图问题</h3>
 <p>设想一个电影推荐系统。把“用户”与“电影”分别看作两类节点，把“看过 / 点赞 / 收藏”看作边，就得到一个二部图（bipartite graph）：</p>
 <pre><code class="language-text">用户 A ── 喜欢 ── 电影 1
 用户 A ── 喜欢 ── 电影 3
@@ -475,7 +475,7 @@
 <li>因而电影 2 对 A 可能是潜在推荐。</li>
 </ul>
 <p>这不是传统“样本独立同分布”视角下自然出现的信息，而是图结构额外提供的关系推断能力。</p>
-<h3>1.2 图论带给 AI 的四种核心价值</h3>
+<h3 id="n1-2-图论带给-AI-的四种核心价值">1.2 图论带给 AI 的四种核心价值</h3>
 <table>
 <thead>
 <tr>
@@ -506,9 +506,9 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>图论的历史很像 AI 自身的缩影：先从一个看似玩具化的离散问题出发，再逐步演化为连接算法、网络、学习和推理的通用语言。</p>
-<h3>2.1 Euler 与图论的起点（1736）</h3>
+<h3 id="n2-1-Euler-与图论的起点-1736">2.1 Euler 与图论的起点（1736）</h3>
 <p><strong>Leonhard Euler</strong> 在研究柯尼斯堡七桥问题时，第一次把现实中的连通问题抽象成节点与边：</p>
 <ul>
 <li>陆地被视为顶点（vertex）</li>
@@ -517,7 +517,7 @@
 </ul>
 <p>Euler 证明了答案是否定的。更重要的是，他展示了一个方法论转折：<strong>很多关于空间和路径的问题，真正重要的不是精确长度，而是连接关系本身。</strong></p>
 <p>这一思想后来在 19 世纪与 20 世纪上半叶逐步发展为欧拉路径、欧拉回路及系统化图论研究，并被普遍视为图论的历史起点。</p>
-<h3>2.2 19 世纪：树、网络与电路</h3>
+<h3 id="n2-2-19-世纪-树-网络与电路">2.2 19 世纪：树、网络与电路</h3>
 <p>19 世纪的图论开始与更具体的工程问题结合：</p>
 <ul>
 <li><strong>Kirchhoff (1847)</strong> 用生成树与矩阵方法分析电路网络；</li>
@@ -525,7 +525,7 @@
 <li><strong>Hamilton</strong> 研究哈密顿路径问题，推动了遍历类问题的发展。</li>
 </ul>
 <p>这里已经能看到后来 AI 会反复重演的结构：图不只是数学对象，它还是复杂系统的抽象骨架。</p>
-<h3>2.3 20 世纪：算法图论成熟</h3>
+<h3 id="n2-3-20-世纪-算法图论成熟">2.3 20 世纪：算法图论成熟</h3>
 <p>20 世纪图论从“有趣的问题集合”走向“有系统的方法论”：</p>
 <ul>
 <li><strong>Hall (1935)</strong> 的婚配定理推动匹配理论；</li>
@@ -535,7 +535,7 @@
 <li><strong>Fiedler (1973)</strong> 推动谱图理论，让拉普拉斯特征值与图结构性质建立联系。</li>
 </ul>
 <p>从这里开始，图论不再只是离散数学的一支，而成为算法设计、网络分析、组合优化的基础语言。</p>
-<h3>2.4 互联网与知识网络时代</h3>
+<h3 id="n2-4-互联网与知识网络时代">2.4 互联网与知识网络时代</h3>
 <p>1990 年代以后，大规模网络数据让图论重新站到中心位置：</p>
 <ul>
 <li>Web 被看作超大有向图；</li>
@@ -544,7 +544,7 @@
 <li>生物信息学把蛋白质相互作用、代谢网络和分子结构都写成图。</li>
 </ul>
 <p>这一阶段的关键变化是：<strong>图不再只是“需要偶尔求解的结构”，而是数据本身的自然形态。</strong></p>
-<h3>2.5 图学习时代</h3>
+<h3 id="n2-5-图学习时代">2.5 图学习时代</h3>
 <p>进入深度学习时代后，研究者开始尝试把卷积、表示学习和关系推理推广到图结构：</p>
 <ul>
 <li><strong>Bruna et al. (2014)</strong> 提出早期谱图卷积框架；</li>
@@ -555,8 +555,8 @@
 </ul>
 <p>从此，图论不再只是“为 AI 提供算法工具”，而是直接决定模型架构如何设计。</p>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 图的基本对象与矩阵表示</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-图的基本对象与矩阵表示">3.1 图的基本对象与矩阵表示</h3>
 <p>一个图记作：</p>
 <p>$$
 G = (V, E)
@@ -620,7 +620,7 @@ $$</p>
 <li><strong>结构特征工程</strong>：度、邻居、子图、邻接关系常直接进入模型输入；</li>
 <li><strong>图算法前处理</strong>：很多图学习系统先做子图提取、采样或稀疏化，再进入训练。</li>
 </ul>
-<h3>3.2 路径、连通性与组合问题</h3>
+<h3 id="n3-2-路径-连通性与组合问题">3.2 路径、连通性与组合问题</h3>
 <p>图论的很多经典问题，后来都直接转化成 AI 系统中的基础算子。</p>
 <h4>路径与最短路</h4>
 <p>一条路径是节点序列：</p>
@@ -662,7 +662,7 @@ $$</p>
 <li><strong>推荐与检索</strong>：多跳邻域扩展、候选召回和关系传播常依赖路径结构；</li>
 <li><strong>系统调度</strong>：资源分配、任务编排与依赖分析可转写为流和匹配问题。</li>
 </ul>
-<h3>3.3 图拉普拉斯与谱图方法</h3>
+<h3 id="n3-3-图拉普拉斯与谱图方法">3.3 图拉普拉斯与谱图方法</h3>
 <p>图学习里最核心的矩阵之一是图拉普拉斯矩阵：</p>
 <p>$$
 L = D - A
@@ -706,7 +706,7 @@ $$</p>
 <li><strong>图正则化</strong>：约束相邻节点表示不要无端剧烈波动；</li>
 <li><strong>图卷积基础</strong>：谱方法是早期 GNN 与图信号处理的重要理论来源。</li>
 </ul>
-<h3>3.4 从图卷积到消息传递</h3>
+<h3 id="n3-4-从图卷积到消息传递">3.4 从图卷积到消息传递</h3>
 <p>图神经网络的核心思想并不神秘：<strong>节点通过边从邻居那里接收信息，再更新自己的表示。</strong></p>
 <h4>GCN 的基本形式</h4>
 <p>Kipf 与 Welling (2017) 的图卷积网络写成：</p>
@@ -758,7 +758,7 @@ $$</p>
 <li><strong>推荐系统</strong>：偏好信号沿用户-物品图传播；</li>
 <li><strong>程序与知识推理</strong>：调用图、实体图上的关系模式可被逐层聚合。</li>
 </ul>
-<h3>3.5 知识图谱与关系推理</h3>
+<h3 id="n3-5-知识图谱与关系推理">3.5 知识图谱与关系推理</h3>
 <p>图论对 AI 的另一条重要贡献，是把知识组织成可推理的关系网络。知识图谱中的基本单元通常是三元组：</p>
 <p>$$
 (\text{head}, \text{relation}, \text{tail})
@@ -798,10 +798,10 @@ $$</p>
 </ul>
 <p>之中。</p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 把“关系”提升为一等公民</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-把-关系-提升为一等公民">4.1 把“关系”提升为一等公民</h3>
 <p>很多 AI 失败并不是因为模型不会拟合，而是因为输入表示把关键关系丢掉了。图论的第一大贡献，就是让节点之间的相互作用被显式保留下来，而不必强行塞进定长向量。</p>
-<h3>4.2 提供结构归纳偏置</h3>
+<h3 id="n4-2-提供结构归纳偏置">4.2 提供结构归纳偏置</h3>
 <p>图学习模型天然满足一类关键约束：</p>
 <ul>
 <li>对节点编号的重排应当不敏感；</li>
@@ -809,14 +809,14 @@ $$</p>
 <li>对多跳依赖应当可以逐层组合。</li>
 </ul>
 <p>这种归纳偏置使模型在分子预测、推荐、程序分析等任务上，比纯粹的无结构 MLP 更有效。</p>
-<h3>4.3 连接算法图论与可学习系统</h3>
+<h3 id="n4-3-连接算法图论与可学习系统">4.3 连接算法图论与可学习系统</h3>
 <p>图论并不是被深度学习替代了，而是被重新吸收了：</p>
 <ul>
 <li>最短路、流、匹配等经典算法继续负责精确求解；</li>
 <li>GNN、图嵌入、图 Transformer 负责表示学习与泛化；</li>
 <li>两者结合后，AI 才能在结构化任务里同时拥有“会算”与“会学”的能力。</li>
 </ul>
-<h3>4.4 为复杂系统提供可解释接口</h3>
+<h3 id="n4-4-为复杂系统提供可解释接口">4.4 为复杂系统提供可解释接口</h3>
 <p>与纯粹黑箱向量表示相比，图结构通常更容易解释：</p>
 <ul>
 <li>哪些节点最关键，可以看中心性；</li>
@@ -826,15 +826,15 @@ $$</p>
 </ul>
 <p>因此，图论不仅提高性能，也提高了结构透明度。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 图基础模型</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-图基础模型">5.1 图基础模型</h3>
 <p>图学习正从任务专用模型走向更大规模的预训练与通用表示：</p>
 <ul>
 <li>跨图迁移是否可能稳定成立；</li>
 <li>图与文本、多模态如何统一预训练；</li>
 <li>图 Transformer 是否能在长程依赖上系统超越传统消息传递。</li>
 </ul>
-<h3>5.2 动态图、异构图与超图</h3>
+<h3 id="n5-2-动态图-异构图与超图">5.2 动态图、异构图与超图</h3>
 <p>真实世界的图很少是静态同构的：</p>
 <ul>
 <li>金融交易图随时间变化；</li>
@@ -842,7 +842,7 @@ $$</p>
 <li>多体交互常需要超图或单纯复形表示。</li>
 </ul>
 <p>如何在保留结构真实性的同时维持可扩展训练，仍是难点。</p>
-<h3>5.3 图学习的可扩展性与鲁棒性</h3>
+<h3 id="n5-3-图学习的可扩展性与鲁棒性">5.3 图学习的可扩展性与鲁棒性</h3>
 <p>大图任务经常遭遇：</p>
 <ul>
 <li>邻域爆炸；</li>
@@ -851,7 +851,7 @@ $$</p>
 <li>对图扰动或错误边敏感。</li>
 </ul>
 <p>这些问题说明：把图结构纳入模型不是终点，真正难的是怎样让结构偏置在大规模下仍然可靠。</p>
-<h3>5.4 图与因果、逻辑的结合</h3>
+<h3 id="n5-4-图与因果-逻辑的结合">5.4 图与因果、逻辑的结合</h3>
 <p>当前很多图模型能利用相关关系，但未必真正理解“为什么节点之间存在这种关系”。因此，图论与：</p>
 <ul>
 <li><a href="05-logic.html">逻辑学</a></li>
@@ -859,14 +859,14 @@ $$</p>
 </ul>
 <p>的结合，可能决定下一代结构推理系统能否从“关系拟合”走向“机制理解”。</p>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>West, D. B. (2001). <em>Introduction to Graph Theory</em>. Prentice Hall.</li>
 <li>Bondy, J. A., &amp; Murty, U. S. R. (2008). <em>Graph Theory</em>. Springer.</li>
 <li>Chung, F. R. K. (1997). <em>Spectral Graph Theory</em>. AMS.</li>
 </ul>
-<h3>关键论文与综述</h3>
+<h3 id="关键论文与综述">关键论文与综述</h3>
 <ul>
 <li>Euler, L. (1736). Solutio problematis ad geometriam situs pertinentis.</li>
 <li>Kirchhoff, G. (1847). Ueber die Auflösung der Gleichungen, auf welche man bei der Untersuchung der linearen Vertheilung galvanischer Ströme geführt wird.</li>
@@ -876,13 +876,13 @@ $$</p>
 <li>Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., &amp; Dahl, G. E. (2017). Neural message passing for quantum chemistry. <em>ICML</em>.</li>
 <li>Veličković, P., Cucurull, G., Casanova, A., Romero, A., Liò, P., &amp; Bengio, Y. (2018). Graph attention networks. <em>ICLR</em>.</li>
 </ul>
-<h3>延伸阅读</h3>
+<h3 id="延伸阅读">延伸阅读</h3>
 <ul>
 <li>Hamilton, W. L. (2020). <em>Graph Representation Learning</em>. Morgan &amp; Claypool.</li>
 <li>Battaglia, P. W., et al. (2018). Relational inductive biases, deep learning, and graph networks. <em>arXiv:1806.01261</em>.</li>
 <li>Wu, Z., et al. (2021). A comprehensive survey on graph neural networks. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 32(1), 4-24.</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这篇位于“数学与形式基础”内部的结构层位置。前几篇文档更多处理连续数值与函数近似，本篇则把焦点转向<strong>离散关系结构</strong>。</p>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a> 负责把图转写为矩阵与谱对象；</li>
@@ -908,12 +908,72 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要图论" class="toc-link h2">1. 上帝视角：为什么 AI 需要图论</a>
+<a href="#n1-1-一个直观例子-推荐系统为什么天然是图问题" class="toc-link h3">1.1 一个直观例子：推荐系统为什么天然是图问题</a>
+<a href="#n1-2-图论带给-AI-的四种核心价值" class="toc-link h3">1.2 图论带给 AI 的四种核心价值</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-Euler-与图论的起点-1736" class="toc-link h3">2.1 Euler 与图论的起点（1736）</a>
+<a href="#n2-2-19-世纪-树-网络与电路" class="toc-link h3">2.2 19 世纪：树、网络与电路</a>
+<a href="#n2-3-20-世纪-算法图论成熟" class="toc-link h3">2.3 20 世纪：算法图论成熟</a>
+<a href="#n2-4-互联网与知识网络时代" class="toc-link h3">2.4 互联网与知识网络时代</a>
+<a href="#n2-5-图学习时代" class="toc-link h3">2.5 图学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-图的基本对象与矩阵表示" class="toc-link h3">3.1 图的基本对象与矩阵表示</a>
+<a href="#n3-2-路径-连通性与组合问题" class="toc-link h3">3.2 路径、连通性与组合问题</a>
+<a href="#n3-3-图拉普拉斯与谱图方法" class="toc-link h3">3.3 图拉普拉斯与谱图方法</a>
+<a href="#n3-4-从图卷积到消息传递" class="toc-link h3">3.4 从图卷积到消息传递</a>
+<a href="#n3-5-知识图谱与关系推理" class="toc-link h3">3.5 知识图谱与关系推理</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-把-关系-提升为一等公民" class="toc-link h3">4.1 把“关系”提升为一等公民</a>
+<a href="#n4-2-提供结构归纳偏置" class="toc-link h3">4.2 提供结构归纳偏置</a>
+<a href="#n4-3-连接算法图论与可学习系统" class="toc-link h3">4.3 连接算法图论与可学习系统</a>
+<a href="#n4-4-为复杂系统提供可解释接口" class="toc-link h3">4.4 为复杂系统提供可解释接口</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-图基础模型" class="toc-link h3">5.1 图基础模型</a>
+<a href="#n5-2-动态图-异构图与超图" class="toc-link h3">5.2 动态图、异构图与超图</a>
+<a href="#n5-3-图学习的可扩展性与鲁棒性" class="toc-link h3">5.3 图学习的可扩展性与鲁棒性</a>
+<a href="#n5-4-图与因果-逻辑的结合" class="toc-link h3">5.4 图与因果、逻辑的结合</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#延伸阅读" class="toc-link h3">延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要图论" class="toc-link h2">1. 上帝视角：为什么 AI 需要图论</a>
+<a href="#n1-1-一个直观例子-推荐系统为什么天然是图问题" class="toc-link h3">1.1 一个直观例子：推荐系统为什么天然是图问题</a>
+<a href="#n1-2-图论带给-AI-的四种核心价值" class="toc-link h3">1.2 图论带给 AI 的四种核心价值</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-Euler-与图论的起点-1736" class="toc-link h3">2.1 Euler 与图论的起点（1736）</a>
+<a href="#n2-2-19-世纪-树-网络与电路" class="toc-link h3">2.2 19 世纪：树、网络与电路</a>
+<a href="#n2-3-20-世纪-算法图论成熟" class="toc-link h3">2.3 20 世纪：算法图论成熟</a>
+<a href="#n2-4-互联网与知识网络时代" class="toc-link h3">2.4 互联网与知识网络时代</a>
+<a href="#n2-5-图学习时代" class="toc-link h3">2.5 图学习时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-图的基本对象与矩阵表示" class="toc-link h3">3.1 图的基本对象与矩阵表示</a>
+<a href="#n3-2-路径-连通性与组合问题" class="toc-link h3">3.2 路径、连通性与组合问题</a>
+<a href="#n3-3-图拉普拉斯与谱图方法" class="toc-link h3">3.3 图拉普拉斯与谱图方法</a>
+<a href="#n3-4-从图卷积到消息传递" class="toc-link h3">3.4 从图卷积到消息传递</a>
+<a href="#n3-5-知识图谱与关系推理" class="toc-link h3">3.5 知识图谱与关系推理</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-把-关系-提升为一等公民" class="toc-link h3">4.1 把“关系”提升为一等公民</a>
+<a href="#n4-2-提供结构归纳偏置" class="toc-link h3">4.2 提供结构归纳偏置</a>
+<a href="#n4-3-连接算法图论与可学习系统" class="toc-link h3">4.3 连接算法图论与可学习系统</a>
+<a href="#n4-4-为复杂系统提供可解释接口" class="toc-link h3">4.4 为复杂系统提供可解释接口</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-图基础模型" class="toc-link h3">5.1 图基础模型</a>
+<a href="#n5-2-动态图-异构图与超图" class="toc-link h3">5.2 动态图、异构图与超图</a>
+<a href="#n5-3-图学习的可扩展性与鲁棒性" class="toc-link h3">5.3 图学习的可扩展性与鲁棒性</a>
+<a href="#n5-4-图与因果-逻辑的结合" class="toc-link h3">5.4 图与因果、逻辑的结合</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文与综述" class="toc-link h3">关键论文与综述</a>
+<a href="#延伸阅读" class="toc-link h3">延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

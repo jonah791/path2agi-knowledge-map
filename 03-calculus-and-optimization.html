@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：微积分提供了“可微结构”与梯度计算规则，优化理论提供了“如何沿这些梯度搜索参数”的策略。反向传播建立在链式法则之上，梯度下降则是最常用的一类训练方法。没有微积分与优化的结合，现代神经网络训练几乎无法展开。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：参数估计与似然最大化问题通常被转化为优化问题</li>
 <li><a href="02-linear-algebra.html">线性代数</a>：梯度、雅可比矩阵与 Hessian 矩阵都依赖线性代数表达</li>
@@ -446,8 +446,8 @@
 <li><a href="13-numerical-analysis.html">数值分析</a>：实际训练中的收敛性、稳定性与误差控制属于数值分析核心问题</li>
 <li><a href="15-cybernetics.html">控制论</a>：最优控制、反馈调节与强化学习中的策略更新都与优化紧密相关</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要微积分与优化</h2>
-<h3>1.1 训练 = 优化，学习 = 梯度下降</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要微积分与优化">1. 上帝视角：为什么 AI 需要微积分与优化</h2>
+<h3 id="n1-1-训练-优化-学习-梯度下降">1.1 训练 = 优化，学习 = 梯度下降</h3>
 <p>深度学习的本质可以用一句话概括：<strong>找到一组参数 $\theta$，使得损失函数 $L(\theta)$ 最小化</strong>。这正是优化理论的核心问题。</p>
 <p>$$\theta^* = \arg\min_{\theta} L(\theta; \mathcal{D})$$</p>
 <p>其中 θ 表示神经网络的参数向量，D 是训练数据集，L(θ; D) 是在数据上定义的经验损失。</p>
@@ -455,7 +455,7 @@
 <p>$$\theta_{t+1} = \theta_t - \eta \nabla_\theta L(\theta_t)$$</p>
 <p>其中 $\eta$ 是学习率，$\nabla_\theta L(\theta_t)$ 表示当前参数处的梯度。</p>
 <p>这个看似简单的更新公式，背后是微积分三百多年的积累。</p>
-<h3>1.2 微积分与优化理论的分工</h3>
+<h3 id="n1-2-微积分与优化理论的分工">1.2 微积分与优化理论的分工</h3>
 <p>虽然本篇将两者合并讨论，但需要明确它们在 AI 中的不同角色：</p>
 <p><strong>微积分（Calculus）</strong>：提供&quot;如何计算梯度&quot;的工具</p>
 <ul>
@@ -477,7 +477,7 @@
 <li>反向传播（微积分）计算梯度，梯度下降（优化）使用梯度更新参数</li>
 <li>没有微积分，我们无法高效计算梯度；没有优化理论，我们不知道如何利用梯度找到好的解</li>
 </ul>
-<h3>1.3 微积分先定义“可微”，优化再决定“怎么走”</h3>
+<h3 id="n1-3-微积分先定义-可微-优化再决定-怎么走">1.3 微积分先定义“可微”，优化再决定“怎么走”</h3>
 <p>在深度学习里，很多讨论会直接把“训练”说成“优化”，但在数学上还需要再往前退一步。只有当模型由一系列可微操作组成时，我们才有资格谈：</p>
 <ul>
 <li>哪些方向导数存在；</li>
@@ -486,7 +486,7 @@
 <li>哪些操作会让梯度消失、爆炸或不可导。</li>
 </ul>
 <p>因此，微积分并不只是优化的附属工具。它先规定了模型能否被稳定求导、梯度能否被高效传播；优化理论才在这个基础上讨论“用什么更新规则、在什么条件下收敛、遇到非凸景观怎么办”。</p>
-<h3>1.4 与其他学科的关键连接点</h3>
+<h3 id="n1-4-与其他学科的关键连接点">1.4 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -532,15 +532,15 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 微积分的诞生（17 世纪）</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-微积分的诞生-17-世纪">2.1 微积分的诞生（17 世纪）</h3>
 <ul>
 <li><strong>Newton（1665-1666）</strong>：在瘟疫隔离期间发展了&quot;流数法&quot;（method of fluxions），将导数理解为瞬时变化率。他的动机来自物理学——描述运动和引力。</li>
 <li><strong>Leibniz（1684）</strong>：独立发明微积分，引入了我们今天仍在使用的导数符号 dy/dx 和积分符号 ∫。Leibniz 的符号系统更适合链式法则的表达，这对后来的反向传播至关重要。</li>
 <li><strong>Newton-Leibniz 公式</strong>：微积分基本定理将微分与积分统一起来：</li>
 </ul>
 <p>$$\int_a^b f'(x) dx = f(b) - f(a)$$</p>
-<h3>2.2 变分法的兴起（18 世纪）</h3>
+<h3 id="n2-2-变分法的兴起-18-世纪">2.2 变分法的兴起（18 世纪）</h3>
 <ul>
 <li><strong>Euler（1744）</strong>：发表《寻找具有极大极小性质曲线的方法》，奠定变分法基础。变分法处理的是函数的函数（泛函）的极值问题。</li>
 <li><strong>Lagrange（1788）</strong>：在《分析力学》中系统化了变分法，引入 <strong>Lagrange 乘数法</strong>（method of Lagrange multipliers）处理约束优化：</li>
@@ -551,12 +551,12 @@
 </ul>
 <p>$$\frac{\partial F}{\partial y} - \frac{d}{dx}\frac{\partial F}{\partial y'} = 0$$</p>
 <p>这个方程是现代变分推断（variational inference）的数学根基。</p>
-<h3>2.3 梯度下降的发明（19 世纪）</h3>
+<h3 id="n2-3-梯度下降的发明-19-世纪">2.3 梯度下降的发明（19 世纪）</h3>
 <ul>
 <li><strong>Cauchy（1847）</strong>：在论文《关于确定一阶方程组近似解的一般方法》中首次提出梯度下降法。他的想法朴素而深刻：沿着函数下降最快的方向走，就能逼近最小值。</li>
 <li><strong>Hadamard（1908）</strong>：将梯度下降推广到更一般的函数空间。</li>
 </ul>
-<h3>2.4 凸优化理论的成熟（20 世纪中叶）</h3>
+<h3 id="n2-4-凸优化理论的成熟-20-世纪中叶">2.4 凸优化理论的成熟（20 世纪中叶）</h3>
 <ul>
 <li><strong>Kantorovich（1939）</strong>：线性规划，为运筹学和优化理论奠基。</li>
 <li><strong>Karush-Kuhn-Tucker 条件（1951）</strong>：约束优化的必要条件，推广了 Lagrange 乘数法：</li>
@@ -566,13 +566,13 @@
 <li><strong>Dantzig（1947）</strong>：单纯形法（simplex method），线性规划的实用算法。</li>
 <li><strong>Rockafellar（1970）</strong>：《凸分析》系统化了凸优化理论。</li>
 </ul>
-<h3>2.5 反向传播与深度学习（20 世纪后半叶）</h3>
+<h3 id="n2-5-反向传播与深度学习-20-世纪后半叶">2.5 反向传播与深度学习（20 世纪后半叶）</h3>
 <ul>
 <li><strong>Werbos（1974）</strong>：在博士论文中首次提出反向传播（backpropagation）的思想，但未引起广泛关注。</li>
 <li><strong>Rumelhart, Hinton &amp; Williams（1986）</strong>：在 Nature 发表《Learning representations by back-propagating errors》，使反向传播成为神经网络训练的标准方法。这篇论文的核心就是链式法则的系统应用。</li>
 <li><strong>LeCun et al.（1989）</strong>：将反向传播应用于卷积神经网络，识别手写数字。</li>
 </ul>
-<h3>2.6 现代优化器的演进（21 世纪）</h3>
+<h3 id="n2-6-现代优化器的演进-21-世纪">2.6 现代优化器的演进（21 世纪）</h3>
 <ul>
 <li><strong>Duchi et al.（2011）</strong>：AdaGrad——自适应学习率的先驱。</li>
 <li><strong>Hinton（2012）</strong>：RMSProp——在 Coursera 课程中提出，解决 AdaGrad 学习率衰减过快的问题。</li>
@@ -581,8 +581,8 @@
 <li><strong>Liu et al.（2019）</strong>：RAdam——自动预热的 Adam 变体。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 链式法则与反向传播</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-链式法则与反向传播">3.1 链式法则与反向传播</h3>
 <h4>数学定义</h4>
 <p>链式法则（chain rule）是微积分中最重要的求导法则之一。对于复合函数 $f(g(x))$：</p>
 <p>$$\frac{df}{dx} = \frac{df}{dg} \cdot \frac{dg}{dx}$$</p>
@@ -650,7 +650,7 @@ $$</p>
 <blockquote>
 <p><strong>代码示例</strong>：参见 <code>code/math-foundations/backpropagation.py</code></p>
 </blockquote>
-<h3>3.2 梯度下降及其变体</h3>
+<h3 id="n3-2-梯度下降及其变体">3.2 梯度下降及其变体</h3>
 <h4>3.2.1 vanilla 梯度下降（Gradient Descent）</h4>
 <p>最基本的优化算法，沿负梯度方向更新参数：</p>
 <p>$$\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t)$$</p>
@@ -693,7 +693,7 @@ $$</p>
 <blockquote>
 <p><strong>代码示例</strong>：参见 <code>code/ml-algorithms/optimizer_comparison.py</code></p>
 </blockquote>
-<h3>3.3 凸优化与非凸优化</h3>
+<h3 id="n3-3-凸优化与非凸优化">3.3 凸优化与非凸优化</h3>
 <h4>凸函数的定义</h4>
 <p>函数 $f$ 是凸函数（convex function），当且仅当对任意 $x, y$ 和 $\lambda \in [0, 1]$：</p>
 <p>$$f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y)$$</p>
@@ -723,7 +723,7 @@ $$</p>
 <p>凸函数的定义可以解读为：在曲线上任意两点之间的连线始终在函数之上。这样的函数没有波动、没有多余局部极小值，负梯度永远指向相同方向。非凸函数则像多山的地形，梯度沿途会震荡，鞍点和局部极小值让训练变得不确定。</p>
 <h4>AI 中的角色</h4>
 <p>凸优化在经典机器学习中扮演核心角色：逻辑回归、支持向量机、LASSO 等都是凸问题，方便引入正则化和对偶分析。在深度学习中，大规模网络的损失函数是非凸的，但我们仍借助凸优化的思维（正则化、对偶惩罚、高度结构化的层）来构建更稳定的训练管道。</p>
-<h3>3.4 损失函数景观</h3>
+<h3 id="n3-4-损失函数景观">3.4 损失函数景观</h3>
 <h4>鞍点（Saddle Points）</h4>
 <p>在 $n$ 维空间中，鞍点是 Hessian 矩阵既有正特征值又有负特征值的临界点。Dauphin et al.（2014）指出，在高维空间中，鞍点的数量远超局部最小值。</p>
 <p>对于一个随机的临界点，每个 Hessian 特征值为正或负的概率各为 1/2。要成为局部最小值，所有 n 个特征值都必须为正，概率为 (1/2)^n——在高维中趋近于零。这里 n 是参数空间的维度。</p>
@@ -743,7 +743,7 @@ $$</p>
 <p>损失景观可以类比为山地：鞍点是过山鞍的顶点，既不是山峰也不是山谷。梯度下降在鞍点处会振荡，因此会放慢或停滞。平坦极小值相当于宽阔的山谷，随机梯度的噪声使得更新更容易在这些区域停留。理解这些直觉有助于解释为什么在实际训练中需要梯度剪裁、学习率调度以及随机扰动。</p>
 <h4>AI 中的角色</h4>
 <p>损失景观理解直接指导了优化实践：大模型训练中使用小批量 SGD + Dropout + 权重衰减，目的是引导训练进入平坦区域；当遇到易陷入鞍点的优化问题时，Nesterov、Adam 之类的优化器通过提前量和自适应步长帮助穿越；Loss surface 可视化工具（如 Hessian 特征值分析、linear interpolation curves）成为工程中分析训练稳定性的重要手段。</p>
-<h3>3.5 变分法与变分推断</h3>
+<h3 id="n3-5-变分法与变分推断">3.5 变分法与变分推断</h3>
 <h4>从变分法到变分推断</h4>
 <p>经典变分法求解泛函的极值：</p>
 <p>$$J[y] = \int_a^b F(x, y, y') dx$$</p>
@@ -769,15 +769,15 @@ $$</p>
 <h4>AI 中的角色</h4>
 <p>VAE 是变分推断在 AI 中最直接、也最标准的应用：编码器、解码器和 KL 项共同构成一个可训练的概率生成模型。更广泛地说，变分思想也影响了现代生成模型与近似后验学习，但要注意边界：BERT 的 MLM 目标不是标准的变分推断，扩散模型则只在某些推导中可写成变分下界。因此，更稳妥的说法是，变分法为现代 AI 提供了“把难解推断问题改写成可优化目标”的方法论，而不是所有生成模型都直接等价于经典变分推断。</p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 训练范式：从不可能到可能</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-训练范式-从不可能到可能">4.1 训练范式：从不可能到可能</h3>
 <p>微积分对 AI 最根本的贡献是<strong>让神经网络可训练</strong>。在反向传播被广泛采用之前，神经网络的参数调整几乎是盲目的。链式法则 + 计算图的组合，使得即使是数十亿参数的模型也能高效计算梯度。</p>
 <p><strong>自动微分（Automatic Differentiation）</strong>：现代深度学习框架（PyTorch、TensorFlow、JAX）的核心就是自动微分引擎。它不是符号微分（表达式膨胀），也不是数值微分（精度差），而是通过计算图精确高效地计算梯度。</p>
 <ul>
 <li><strong>前向模式（Forward Mode）</strong>：适合输入少、输出多的情况</li>
 <li><strong>反向模式（Reverse Mode）</strong>：适合输入多、输出少的情况——正好是神经网络的场景（百万参数，一个标量损失）</li>
 </ul>
-<h3>4.2 优化算法：训练效率的关键</h3>
+<h3 id="n4-2-优化算法-训练效率的关键">4.2 优化算法：训练效率的关键</h3>
 <p>优化器的选择直接影响：</p>
 <ul>
 <li><strong>收敛速度</strong>：Adam 通常比 vanilla SGD 快数倍</li>
@@ -791,7 +791,7 @@ $$</p>
 <li><strong>混合精度训练（Mixed Precision）</strong>：FP16 前向 + FP32 梯度累积</li>
 <li><strong>学习率调度</strong>：余弦退火（cosine annealing）、线性预热等</li>
 </ul>
-<h3>4.3 损失函数设计</h3>
+<h3 id="n4-3-损失函数设计">4.3 损失函数设计</h3>
 <p>损失函数是微积分与具体任务之间的桥梁：</p>
 <table>
 <thead>
@@ -827,7 +827,7 @@ $$</p>
 <td>$L = -\log \frac{\exp(\text{sim}(z_i, z_j)/\tau)}{\sum_k \exp(\text{sim}(z_i, z_k)/\tau)}$</td>
 </tr>
 </tbody></table>
-<h3>4.4 二阶方法与未来方向</h3>
+<h3 id="n4-4-二阶方法与未来方向">4.4 二阶方法与未来方向</h3>
 <p>一阶方法（只用梯度）主导了当前的深度学习，但二阶方法（利用 Hessian 信息）有更好的理论收敛性：</p>
 <ul>
 <li><strong>Newton 法</strong>：利用 Hessian 逆矩阵进行二次收敛更新，但计算代价为立方级</li>
@@ -836,26 +836,26 @@ $$</p>
 <li><strong>K-FAC（2015）</strong>：Kronecker 分解近似 Fisher 矩阵，使自然梯度在深度网络中可行</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 为什么过参数化的网络能泛化？</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-为什么过参数化的网络能泛化">5.1 为什么过参数化的网络能泛化？</h3>
 <p>经典统计学习理论预测，参数远多于数据的模型应该严重过拟合。但深度网络违反了这一预测。<strong>双下降现象（double descent）</strong>（Belkin et al., 2019）表明，在插值阈值之后，增加模型容量反而改善泛化。这挑战了传统的偏差-方差权衡理论。</p>
-<h3>5.2 SGD 的隐式正则化</h3>
+<h3 id="n5-2-SGD-的隐式正则化">5.2 SGD 的隐式正则化</h3>
 <p>SGD 不仅仅是一个优化算法，它还隐式地偏好某些解。研究表明：</p>
 <ul>
 <li>SGD 倾向于找到最大间隔解（类似 SVM）</li>
 <li>小批量 SGD 的噪声起到正则化作用</li>
 <li>学习率的大小影响找到的解的&quot;平坦度&quot;</li>
 </ul>
-<h3>5.3 神经切线核（Neural Tangent Kernel）</h3>
+<h3 id="n5-3-神经切线核-Neural-Tangent-Kernel">5.3 神经切线核（Neural Tangent Kernel）</h3>
 <p>Jacot et al.（2018）发现，在无限宽度极限下，神经网络的训练动态等价于一个核方法。这为理解梯度下降在神经网络中的行为提供了理论框架，但对有限宽度网络的适用性仍有争议。</p>
-<h3>5.4 优化与泛化的统一理论</h3>
+<h3 id="n5-4-优化与泛化的统一理论">5.4 优化与泛化的统一理论</h3>
 <p>目前缺乏一个统一的理论来解释：</p>
 <ul>
 <li>为什么特定的优化轨迹导致好的泛化</li>
 <li>损失曲面的几何结构如何影响学习</li>
 <li>不同优化器找到的解有什么本质区别</li>
 </ul>
-<h3>5.5 大模型时代的优化挑战</h3>
+<h3 id="n5-5-大模型时代的优化挑战">5.5 大模型时代的优化挑战</h3>
 <ul>
 <li><strong>训练不稳定性</strong>：大模型训练中的 loss spike 问题</li>
 <li><strong>超参数转移</strong>：如何将小模型的最优超参数转移到大模型（$\mu$P, Yang et al., 2022）</li>
@@ -863,14 +863,14 @@ $$</p>
 <li><strong>零阶优化</strong>：当梯度不可用时（如 RLHF 中的奖励模型），如何高效优化</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Boyd, S. &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Cambridge University Press. — 凸优化的标准教材，免费在线版本。</li>
 <li>Nocedal, J. &amp; Wright, S. (2006). <em>Numerical Optimization</em>. Springer. — 数值优化的权威参考。</li>
 <li>Goodfellow, I., Bengio, Y. &amp; Courville, A. (2016). <em>Deep Learning</em>. MIT Press. — 第 4 章（数值计算）和第 8 章（优化）。</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>Rumelhart, D., Hinton, G. &amp; Williams, R. (1986). Learning representations by back-propagating errors. <em>Nature</em>, 323, 533-536.</li>
 <li>Kingma, D. &amp; Ba, J. (2014). Adam: A Method for Stochastic Optimization. <em>arXiv:1412.6980</em>.</li>
@@ -884,13 +884,13 @@ $$</p>
 <li>Sutskever, I., Martens, J., Dahl, G. &amp; Hinton, G. (2013). On the importance of initialization and momentum in deep learning. <em>ICML</em>.</li>
 <li>Choromanska, A., Henaff, M., Mathieu, M., Arous, G. B. &amp; LeCun, Y. (2015). The loss surfaces of multilayer networks. <em>AISTATS</em>.</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li>Stanford CS229 机器学习课程笔记（优化部分）</li>
 <li>Distill.pub 上关于优化器的可视化文章</li>
 <li>Sebastian Ruder (2016). An overview of gradient descent optimization algorithms. <em>arXiv:1609.04747</em>. — 优化器综述的经典博文。</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这一篇位于“数学基础如何真正变成可训练 AI 系统”的关键中间层：</p>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a> 负责把模型写成向量、矩阵和张量运算；</li>
@@ -910,12 +910,80 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要微积分与优化" class="toc-link h2">1. 上帝视角：为什么 AI 需要微积分与优化</a>
+<a href="#n1-1-训练-优化-学习-梯度下降" class="toc-link h3">1.1 训练 = 优化，学习 = 梯度下降</a>
+<a href="#n1-2-微积分与优化理论的分工" class="toc-link h3">1.2 微积分与优化理论的分工</a>
+<a href="#n1-3-微积分先定义-可微-优化再决定-怎么走" class="toc-link h3">1.3 微积分先定义“可微”，优化再决定“怎么走”</a>
+<a href="#n1-4-与其他学科的关键连接点" class="toc-link h3">1.4 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-微积分的诞生-17-世纪" class="toc-link h3">2.1 微积分的诞生（17 世纪）</a>
+<a href="#n2-2-变分法的兴起-18-世纪" class="toc-link h3">2.2 变分法的兴起（18 世纪）</a>
+<a href="#n2-3-梯度下降的发明-19-世纪" class="toc-link h3">2.3 梯度下降的发明（19 世纪）</a>
+<a href="#n2-4-凸优化理论的成熟-20-世纪中叶" class="toc-link h3">2.4 凸优化理论的成熟（20 世纪中叶）</a>
+<a href="#n2-5-反向传播与深度学习-20-世纪后半叶" class="toc-link h3">2.5 反向传播与深度学习（20 世纪后半叶）</a>
+<a href="#n2-6-现代优化器的演进-21-世纪" class="toc-link h3">2.6 现代优化器的演进（21 世纪）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-链式法则与反向传播" class="toc-link h3">3.1 链式法则与反向传播</a>
+<a href="#n3-2-梯度下降及其变体" class="toc-link h3">3.2 梯度下降及其变体</a>
+<a href="#n3-3-凸优化与非凸优化" class="toc-link h3">3.3 凸优化与非凸优化</a>
+<a href="#n3-4-损失函数景观" class="toc-link h3">3.4 损失函数景观</a>
+<a href="#n3-5-变分法与变分推断" class="toc-link h3">3.5 变分法与变分推断</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-训练范式-从不可能到可能" class="toc-link h3">4.1 训练范式：从不可能到可能</a>
+<a href="#n4-2-优化算法-训练效率的关键" class="toc-link h3">4.2 优化算法：训练效率的关键</a>
+<a href="#n4-3-损失函数设计" class="toc-link h3">4.3 损失函数设计</a>
+<a href="#n4-4-二阶方法与未来方向" class="toc-link h3">4.4 二阶方法与未来方向</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-为什么过参数化的网络能泛化" class="toc-link h3">5.1 为什么过参数化的网络能泛化？</a>
+<a href="#n5-2-SGD-的隐式正则化" class="toc-link h3">5.2 SGD 的隐式正则化</a>
+<a href="#n5-3-神经切线核-Neural-Tangent-Kernel" class="toc-link h3">5.3 神经切线核（Neural Tangent Kernel）</a>
+<a href="#n5-4-优化与泛化的统一理论" class="toc-link h3">5.4 优化与泛化的统一理论</a>
+<a href="#n5-5-大模型时代的优化挑战" class="toc-link h3">5.5 大模型时代的优化挑战</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要微积分与优化" class="toc-link h2">1. 上帝视角：为什么 AI 需要微积分与优化</a>
+<a href="#n1-1-训练-优化-学习-梯度下降" class="toc-link h3">1.1 训练 = 优化，学习 = 梯度下降</a>
+<a href="#n1-2-微积分与优化理论的分工" class="toc-link h3">1.2 微积分与优化理论的分工</a>
+<a href="#n1-3-微积分先定义-可微-优化再决定-怎么走" class="toc-link h3">1.3 微积分先定义“可微”，优化再决定“怎么走”</a>
+<a href="#n1-4-与其他学科的关键连接点" class="toc-link h3">1.4 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-微积分的诞生-17-世纪" class="toc-link h3">2.1 微积分的诞生（17 世纪）</a>
+<a href="#n2-2-变分法的兴起-18-世纪" class="toc-link h3">2.2 变分法的兴起（18 世纪）</a>
+<a href="#n2-3-梯度下降的发明-19-世纪" class="toc-link h3">2.3 梯度下降的发明（19 世纪）</a>
+<a href="#n2-4-凸优化理论的成熟-20-世纪中叶" class="toc-link h3">2.4 凸优化理论的成熟（20 世纪中叶）</a>
+<a href="#n2-5-反向传播与深度学习-20-世纪后半叶" class="toc-link h3">2.5 反向传播与深度学习（20 世纪后半叶）</a>
+<a href="#n2-6-现代优化器的演进-21-世纪" class="toc-link h3">2.6 现代优化器的演进（21 世纪）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-链式法则与反向传播" class="toc-link h3">3.1 链式法则与反向传播</a>
+<a href="#n3-2-梯度下降及其变体" class="toc-link h3">3.2 梯度下降及其变体</a>
+<a href="#n3-3-凸优化与非凸优化" class="toc-link h3">3.3 凸优化与非凸优化</a>
+<a href="#n3-4-损失函数景观" class="toc-link h3">3.4 损失函数景观</a>
+<a href="#n3-5-变分法与变分推断" class="toc-link h3">3.5 变分法与变分推断</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-训练范式-从不可能到可能" class="toc-link h3">4.1 训练范式：从不可能到可能</a>
+<a href="#n4-2-优化算法-训练效率的关键" class="toc-link h3">4.2 优化算法：训练效率的关键</a>
+<a href="#n4-3-损失函数设计" class="toc-link h3">4.3 损失函数设计</a>
+<a href="#n4-4-二阶方法与未来方向" class="toc-link h3">4.4 二阶方法与未来方向</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-为什么过参数化的网络能泛化" class="toc-link h3">5.1 为什么过参数化的网络能泛化？</a>
+<a href="#n5-2-SGD-的隐式正则化" class="toc-link h3">5.2 SGD 的隐式正则化</a>
+<a href="#n5-3-神经切线核-Neural-Tangent-Kernel" class="toc-link h3">5.3 神经切线核（Neural Tangent Kernel）</a>
+<a href="#n5-4-优化与泛化的统一理论" class="toc-link h3">5.4 优化与泛化的统一理论</a>
+<a href="#n5-5-大模型时代的优化挑战" class="toc-link h3">5.5 大模型时代的优化挑战</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

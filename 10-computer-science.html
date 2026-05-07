@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：更准确地说，理论计算机科学定义了 AI 的理论边界。图灵机告诉我们什么是“可计算的”，P/NP 问题告诉我们什么是“高效可计算的”，PAC 学习理论告诉我们什么是“可学习的”。它不直接替代软件工程、系统架构和硬件实现，但会决定这些工程努力究竟在什么边界内展开。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="05-logic.html">逻辑学与形式推理</a>：形式语言、可判定性与自动机理论共同构成可计算性的前提背景</li>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：随机算法、学习理论与泛化分析离不开概率语言</li>
@@ -446,8 +446,8 @@
 <li><a href="13-numerical-analysis.html">数值分析</a>：理论上可解的问题进入有限精度计算后，还要面对稳定性与误差传播</li>
 <li><a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：理论边界回答“能否算”，硬件与系统工程回答“能多快、多大规模地算”</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要计算机科学</h2>
-<h3>1.1 本篇的范围界定：理论计算机科学</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要计算机科学">1. 上帝视角：为什么 AI 需要计算机科学</h2>
+<h3 id="n1-1-本篇的范围界定-理论计算机科学">1.1 本篇的范围界定：理论计算机科学</h3>
 <p>计算机科学是一个庞大的学科，涵盖从理论到工程的广泛领域。本篇聚焦于<strong>理论计算机科学（Theoretical Computer Science）</strong>，即为 AI 提供数学基础的部分：</p>
 <p><strong>本篇涵盖的核心内容</strong>：</p>
 <ul>
@@ -464,14 +464,14 @@
 <li>人机交互、计算机图形学等应用领域</li>
 </ul>
 <p><strong>为什么聚焦理论？</strong> 因为理论计算机科学定义了 AI 的<strong>可能性边界</strong>和<strong>效率边界</strong>，这是理解 AI 能力与局限的基础。工程实践固然重要，但它们建立在这些理论基础之上。</p>
-<h3>1.2 解决了 AI 中的什么根本问题？</h3>
+<h3 id="n1-2-解决了-AI-中的什么根本问题">1.2 解决了 AI 中的什么根本问题？</h3>
 <p>计算机科学为 AI 解决了三大根本问题：</p>
 <ul>
 <li><strong>可计算性边界（Computability Boundary）</strong>：并非所有问题都能被算法解决。停机问题（Halting Problem）证明了存在不可判定的问题。AI 系统的设计者必须知道哪些目标在原理上就不可能实现——例如，不存在一个通用算法能判断任意程序是否会终止。</li>
 <li><strong>计算效率（Computational Efficiency）</strong>：即使一个问题理论上可解，如果需要指数级时间，在实践中也等于不可解。P vs NP 问题划定了&quot;高效可解&quot;与&quot;可能不可高效解&quot;的边界。深度学习的成功很大程度上依赖于找到了高效的近似算法（如随机梯度下降）来绕过 NP 难问题。</li>
 <li><strong>可学习性（Learnability）</strong>：PAC 学习理论和 VC 维理论回答了&quot;从有限样本中学习需要多少数据&quot;这一核心问题。这直接决定了模型的泛化能力——AI 最重要的能力。</li>
 </ul>
-<h3>1.3 如果没有计算机科学，AI 会缺失什么能力？</h3>
+<h3 id="n1-3-如果没有计算机科学-AI-会缺失什么能力">1.3 如果没有计算机科学，AI 会缺失什么能力？</h3>
 <ul>
 <li>无法判断一个学习任务是否在原理上可解——可能在不可能的问题上浪费无限资源</li>
 <li>无法分析算法的时间和空间复杂度——无法预测模型训练需要多长时间、多少内存</li>
@@ -479,7 +479,7 @@
 <li>无法设计高效的数据结构——搜索、排序、图遍历等基础操作将极其低效</li>
 <li>无法理解计算的物理极限——不知道量子计算能否突破经典计算的瓶颈</li>
 </ul>
-<h3>1.4 与其他学科的关键连接点</h3>
+<h3 id="n1-4-与其他学科的关键连接点">1.4 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -519,7 +519,7 @@
 <td>大脑的计算模型、注意力机制的计算解释</td>
 </tr>
 </tbody></table>
-<h3>1.5 理论边界如何进入现实 AI 系统设计</h3>
+<h3 id="n1-5-理论边界如何进入现实-AI-系统设计">1.5 理论边界如何进入现实 AI 系统设计</h3>
 <p>理论计算机科学并不直接告诉你“下一代模型架构长什么样”，但它会持续影响 AI 工程中的四类关键决策：</p>
 <ul>
 <li><strong>任务筛选</strong>：如果一个问题在一般情形下不可判定或已知高度困难，工程上就更应转向近似求解、受限版本或交互式验证。</li>
@@ -529,16 +529,16 @@
 </ul>
 <p>换句话说，本篇回答的不是“如何把系统实现出来”，而是“哪些目标在原理上可行、哪些代价在规模上不可忽略、哪些保证不可能无条件获得”。</p>
 <hr>
-<h2>2. 历史脉络：关键人物与里程碑</h2>
+<h2 id="n2-历史脉络-关键人物与里程碑">2. 历史脉络：关键人物与里程碑</h2>
 <p>计算机科学的发展从数学基础危机开始，经历了可计算性理论、复杂性理论、计算学习理论三个阶段，每个阶段都深刻影响了 AI 的发展方向。</p>
-<h3>2.1 前史：数学基础危机（1900—1930）</h3>
+<h3 id="n2-1-前史-数学基础危机-1900-1930">2.1 前史：数学基础危机（1900—1930）</h3>
 <ul>
 <li><p><strong>1900 年 — David Hilbert 的 23 个问题</strong>：在巴黎国际数学家大会上，Hilbert 提出了 23 个未解决的数学问题。其中第 2 问题（算术公理系统的一致性）和第 10 问题（丢番图方程的可判定性）直接催生了可计算性理论。Hilbert 的纲领（Hilbert&#39;s Program）试图将全部数学建立在有限的公理系统之上，并证明其一致性和完备性。</p>
 </li>
 <li><p><strong>1928 年 — Hilbert 的判定问题（Entscheidungsproblem）</strong>：Hilbert 与 Wilhelm Ackermann 在《数理逻辑原理》中正式提出：是否存在一个算法，能判定任意一阶逻辑命题的真假？这个问题的否定回答直接导致了图灵机的诞生。</p>
 </li>
 </ul>
-<h3>2.2 可计算性理论的诞生（1931—1945）</h3>
+<h3 id="n2-2-可计算性理论的诞生-1931-1945">2.2 可计算性理论的诞生（1931—1945）</h3>
 <ul>
 <li><p><strong>1931 年 — Kurt Gödel 不完备性定理</strong>：Gödel 证明了两个震撼数学界的定理：</p>
 <ul>
@@ -560,7 +560,7 @@
 <li><p><strong>1945 年 — John von Neumann 架构</strong>：von Neumann 在 EDVAC 报告中提出了存储程序计算机的架构——将程序和数据存储在同一内存中。这一架构实现了 Turing 的通用图灵机思想，至今仍是几乎所有计算机的基本架构。</p>
 </li>
 </ul>
-<h3>2.3 复杂性理论的兴起（1960—1980）</h3>
+<h3 id="n2-3-复杂性理论的兴起-1960-1980">2.3 复杂性理论的兴起（1960—1980）</h3>
 <ul>
 <li><p><strong>1965 年 — Juris Hartmanis &amp; Richard Stearns</strong>：发表《On the Computational Complexity of Algorithms》，正式创立了计算复杂性理论。定义了时间复杂度和空间复杂度的概念，建立了复杂性类的层次结构。</p>
 </li>
@@ -571,7 +571,7 @@
 <li><p><strong>1979 年 — Michael Garey &amp; David Johnson《Computers and Intractability》</strong>：这本经典教材系统整理了 NP 完全性理论，成为该领域的&quot;圣经&quot;。书中收录了数百个 NP 完全问题，为后续研究提供了重要参考。</p>
 </li>
 </ul>
-<h3>2.4 计算学习理论（1984—2000）</h3>
+<h3 id="n2-4-计算学习理论-1984-2000">2.4 计算学习理论（1984—2000）</h3>
 <ul>
 <li><p><strong>1984 年 — Leslie Valiant 的 PAC 学习理论</strong>：Valiant 在论文《A Theory of the Learnable》中提出了 PAC（Probably Approximately Correct）学习框架。这是第一个严格回答&quot;什么是可学习的&quot;这一问题的理论框架。Valiant 因此获得 2010 年图灵奖。</p>
 </li>
@@ -582,15 +582,15 @@
 <li><p><strong>1996 年 — Michael Kearns &amp; Umesh Vazirani《An Introduction to Computational Learning Theory》</strong>：系统总结了计算学习理论的核心成果，包括 PAC 学习、Occam 学习、在线学习等框架。</p>
 </li>
 </ul>
-<h3>2.5 现代发展（2000 至今）</h3>
+<h3 id="n2-5-现代发展-2000-至今">2.5 现代发展（2000 至今）</h3>
 <ul>
 <li><strong>2006 年 — Geoffrey Hinton 的深度信念网络</strong>：虽然深度学习的理论基础尚不完善，但其实践成功引发了对&quot;为什么深度网络能泛化&quot;的理论研究热潮。</li>
 <li><strong>2017 年 — 神经切线核（Neural Tangent Kernel）理论</strong>：Jacot 等人建立了无限宽神经网络与核方法的联系，为深度学习提供了部分理论解释。</li>
 <li><strong>2019 年 — 双下降（Double Descent）现象</strong>：Belkin 等人发现过参数化模型的泛化行为违反了经典偏差-方差权衡，挑战了传统计算学习理论。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 图灵机与 Church-Turing 论题</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-图灵机与-Church-Turing-论题">3.1 图灵机与 Church-Turing 论题</h3>
 <h4>数学定义</h4>
 <p>图灵机（Turing Machine）是一个七元组：</p>
 <p>$$M = (Q, \Sigma, \Gamma, \delta, q_0, q_{\text{accept}}, q_{\text{reject}})$$</p>
@@ -618,7 +618,7 @@
 <li><strong>通用图灵机 = 可编程计算机</strong>：图灵在 1936 年提出的通用图灵机证明了一台机器可以模拟任何其他机器，为后来的 von Neumann 架构和通用 AI 计算模型奠定基础。</li>
 <li><strong>Church-Turing 论题的讨论边界</strong>：如果把认知过程理想化为有效可执行的信息处理过程，那么 Church-Turing 论题会为“机器能否覆盖这类过程”提供讨论边界；但这仍是理论与哲学问题，不是已经证明的经验结论。</li>
 </ul>
-<h3>3.2 可计算性与停机问题</h3>
+<h3 id="n3-2-可计算性与停机问题">3.2 可计算性与停机问题</h3>
 <h4>停机问题的数学表述</h4>
 <p><strong>停机问题（Halting Problem）</strong>：是否存在一个图灵机 $H$，对于任意图灵机 $M$ 和输入 $w$，$H$ 能判定 $M$ 在输入 $w$ 上是否会停机？</p>
 <p>$$H(\langle M, w \rangle) = \begin{cases} 1 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上停机} \\ 0 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上不停机} \end{cases}$$</p>
@@ -641,7 +641,7 @@
 <li><strong>Rice 定理的推广</strong>：Rice（1953）证明了任何非平凡的语义性质都不可判定，说明我们无法自动校验 AI 的语义安全性或责任边界。</li>
 <li><strong>与 Gödel 结果的亲缘性</strong>：停机问题常被视为与 Gödel（1931）不完备性结果在精神上相近的可计算性版本，两者都指出足够强的形式系统存在内在边界。</li>
 </ul>
-<h3>3.3 计算复杂性（P / NP / NP-complete）</h3>
+<h3 id="n3-3-计算复杂性-P-NP-NP-complete">3.3 计算复杂性（P / NP / NP-complete）</h3>
 <h4>核心复杂性类</h4>
 <p><strong>P 类（Polynomial Time）</strong>：</p>
 <p>$$\mathbf{P} = \bigcup_{k \geq 0} \text{DTIME}(n^k)$$</p>
@@ -674,7 +674,7 @@
 <li><strong>近似算法与启发式</strong>：既然精确求解不可行，AI 借助随机梯度下降、模拟退火、局部搜索等算法，这些方法虽然没有全局最优保证，但借助统计假设在实践中表现出色。</li>
 <li><strong>SAT 求解器在 AI 中的应用</strong>：从 DPLL 到 Chaff/Glucose（约 2001 年后），SAT 求解器在 AI 规划、自动证明与约束满足系统中提供了高效的搜索底座。</li>
 </ul>
-<h3>3.4 PAC 学习理论</h3>
+<h3 id="n3-4-PAC-学习理论">3.4 PAC 学习理论</h3>
 <h4>数学定义</h4>
 <p><strong>PAC 可学习（Probably Approximately Correct Learnable）</strong>：</p>
 <p>一个概念类如果是 PAC 可学习的，则存在算法 A 和多项式 $p(\cdot, \cdot, \cdot)$，使得对任意：</p>
@@ -714,7 +714,7 @@
 <li><strong>Occam 学习</strong>：Blumer 等人（1987）证明了输出比训练集更简单的假设会更容易泛化，直接支撑了正则化和模型压缩策略。</li>
 <li><strong>计算学习理论的基石</strong>：Kearns &amp; Vazirani（1994）等综述将 PAC 框架作为学习理论统一语言，使得统计学习与算法复杂性得以联动。</li>
 </ul>
-<h3>3.5 VC 维与 Rademacher 复杂度</h3>
+<h3 id="n3-5-VC-维与-Rademacher-复杂度">3.5 VC 维与 Rademacher 复杂度</h3>
 <h4>VC 维的数学定义</h4>
 <p><strong>打散（Shattering）</strong>：如果假设类 H 对集合 S 的每种二分类标注，都存在一个假设 h 与之一致，就称 H 打散了集合 S。</p>
 <p><strong>VC 维（Vapnik-Chervonenkis Dimension）</strong>：</p>
@@ -750,9 +750,9 @@
 <li><strong>深度学习的理论挑战</strong>：Zhang 等人（2017）发现深度网络可以拟合随机标签，Dziugaite &amp; Roy（2017）则用 PAC-Bayes 界尝试解释这种泛化现象，推动了新的理论研究。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>理论计算机科学对 AI 的贡献，不是直接给出现成模型结构，而是提供一组更底层的判断标准：什么问题值得求、什么代价值得付、什么保证在原则上可望而不可得。</p>
-<h3>4.1 算法设计范式</h3>
+<h3 id="n4-1-算法设计范式">4.1 算法设计范式</h3>
 <p>计算机科学为 AI 提供了系统的算法设计方法论：</p>
 <ul>
 <li><strong>分治法（Divide and Conquer）</strong>：将大问题分解为小问题。在 AI 中体现为：决策树的递归构建、快速傅里叶变换（FFT）在信号处理中的应用、分层特征提取（深度网络的核心思想）。</li>
@@ -760,28 +760,28 @@
 <li><strong>贪心算法（Greedy Algorithm）</strong>：每步选择局部最优。在 AI 中体现为：决策树的特征选择（ID3、C4.5）、束搜索（Beam Search）在序列生成中的应用。</li>
 <li><strong>随机化算法（Randomized Algorithm）</strong>：引入随机性来提高效率或打破对称性。在 AI 中体现为：随机梯度下降（SGD）、随机森林、Dropout 正则化、蒙特卡洛树搜索（AlphaGo）。</li>
 </ul>
-<h3>4.2 数据结构与搜索</h3>
+<h3 id="n4-2-数据结构与搜索">4.2 数据结构与搜索</h3>
 <ul>
 <li><strong>图算法</strong>：知识图谱的表示与推理、图神经网络（GNN）、社交网络分析</li>
 <li><strong>树结构</strong>：决策树、蒙特卡洛树搜索、KD 树（最近邻搜索）</li>
 <li><strong>哈希表</strong>：局部敏感哈希（LSH）用于近似最近邻搜索、特征哈希（Feature Hashing）</li>
 <li><strong>优先队列</strong>：A* 搜索算法、Dijkstra 最短路径、束搜索</li>
 </ul>
-<h3>4.3 自动机理论与形式语言</h3>
+<h3 id="n4-3-自动机理论与形式语言">4.3 自动机理论与形式语言</h3>
 <p>自动机理论为自然语言处理提供了重要工具：</p>
 <ul>
 <li><strong>有限自动机（Finite Automata）</strong>：正则表达式匹配、词法分析、形态学处理</li>
 <li><strong>下推自动机（Pushdown Automata）</strong>：上下文无关文法的解析、句法分析</li>
 <li><strong>Chomsky 层次结构</strong>：将形式语言按复杂度分为四个层次（正则语言、上下文无关语言、上下文相关语言、递归可枚举语言），对应不同的自动机模型。现代序列模型在某些任务上表现出超出经典有限状态模型的经验能力，但其严格形式能力仍是活跃研究议题。</li>
 </ul>
-<h3>4.4 密码学与安全</h3>
+<h3 id="n4-4-密码学与安全">4.4 密码学与安全</h3>
 <ul>
 <li><strong>计算困难性假设</strong>：现代密码学建立在 P ≠ NP 的假设之上。AI 系统的安全性（对抗样本防御、模型水印、联邦学习中的隐私保护）也依赖于计算困难性。</li>
 <li><strong>零知识证明</strong>：允许证明者在不泄露信息的情况下证明某个命题为真。在 AI 隐私保护中有潜在应用。</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 P vs NP：计算的终极问题</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-P-vs-NP-计算的终极问题">5.1 P vs NP：计算的终极问题</h3>
 <p>如果 $\mathbf{P} = \mathbf{NP}$，意味着：</p>
 <ul>
 <li>所有&quot;验证容易&quot;的问题都&quot;求解容易&quot;</li>
@@ -790,39 +790,39 @@
 <li>数学证明可以被高效地自动发现</li>
 </ul>
 <p>大多数专家相信 $\mathbf{P} \neq \mathbf{NP}$，但证明这一点可能需要全新的数学工具。目前已知的证明技术（对角化、相对化、自然证明）都被证明不足以解决这个问题。</p>
-<h3>5.2 深度学习的理论基础</h3>
+<h3 id="n5-2-深度学习的理论基础">5.2 深度学习的理论基础</h3>
 <p>深度学习的实践成功远远超前于理论理解。核心开放问题包括：</p>
 <ul>
 <li><strong>为什么过参数化模型能泛化？</strong> 经典 VC 维理论预测过参数化模型应该严重过拟合，但实际上它们泛化得很好。可能的解释包括：隐式正则化（SGD 的归纳偏置）、神经切线核理论、信息瓶颈理论。</li>
 <li><strong>损失曲面的结构</strong>：深度网络的损失函数是高度非凸的，但 SGD 似乎总能找到好的局部最小值。为什么？研究表明高维空间中鞍点比局部最小值更常见，且大多数局部最小值的损失值接近全局最小值。</li>
 <li><strong>双下降现象（Double Descent）</strong>：随着模型复杂度增加，测试误差先下降、再上升（经典偏差-方差权衡）、然后再次下降（过参数化区域）。这一现象挑战了经典统计学习理论。</li>
 </ul>
-<h3>5.3 量子计算与 AI</h3>
+<h3 id="n5-3-量子计算与-AI">5.3 量子计算与 AI</h3>
 <ul>
 <li><strong>量子复杂性类 BQP</strong>：量子计算机能高效求解的问题类。已知 $\mathbf{P} \subseteq \mathbf{BQP} \subseteq \mathbf{PSPACE}$，但 BQP 与 NP 的关系尚不清楚。</li>
 <li><strong>量子机器学习</strong>：量子算法可能在某些机器学习任务上提供指数级加速（如量子核方法、量子采样），但目前仍处于早期阶段。</li>
 <li><strong>量子霸权（Quantum Supremacy）</strong>：Google 在 2019 年声称实现了量子霸权——量子计算机在特定任务上超越了最强的经典计算机。但这一结果的实际意义仍有争议。</li>
 </ul>
-<h3>5.4 计算不可约性与涌现</h3>
+<h3 id="n5-4-计算不可约性与涌现">5.4 计算不可约性与涌现</h3>
 <ul>
 <li><strong>计算不可约性（Computational Irreducibility）</strong>：Stephen Wolfram 提出的概念——某些系统的行为无法通过捷径预测，只能通过逐步模拟来观察。这可能解释了为什么大语言模型的涌现能力（Emergent Abilities）难以从小模型的行为中预测。</li>
 <li><strong>涌现与相变</strong>：大语言模型在规模增大时突然获得新能力（如思维链推理），类似于物理学中的相变。理解这种涌现的计算理论基础是当前的热门研究方向。</li>
 </ul>
-<h3>5.5 AI 安全的计算理论视角</h3>
+<h3 id="n5-5-AI-安全的计算理论视角">5.5 AI 安全的计算理论视角</h3>
 <ul>
 <li><strong>可验证 AI</strong>：能否设计出行为可以被形式化验证的 AI 系统？Rice 定理告诉我们通用验证是不可能的，但对特定性质的验证可能是可行的。</li>
 <li><strong>对齐问题的计算复杂度</strong>：AI 对齐（Alignment）问题——确保 AI 系统的目标与人类价值观一致——的计算复杂度是什么？这是一个尚未被充分研究的问题。</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Sipser, M. (2012). <em>Introduction to the Theory of Computation</em>. Cengage Learning. — 计算理论的标准教材，覆盖自动机、可计算性、复杂性。</li>
 <li>Arora, S. &amp; Barak, B. (2009). <em>Computational Complexity: A Modern Approach</em>. Cambridge University Press. — 计算复杂性理论的权威参考。</li>
 <li>Kearns, M. &amp; Vazirani, U. (1994). <em>An Introduction to Computational Learning Theory</em>. MIT Press. — 计算学习理论的经典入门。</li>
 <li>Shalev-Shwartz, S. &amp; Ben-David, S. (2014). <em>Understanding Machine Learning: From Theory to Algorithms</em>. Cambridge University Press. — 机器学习理论的现代教材，覆盖 PAC 学习、VC 维、正则化等。</li>
 </ul>
-<h3>里程碑论文</h3>
+<h3 id="里程碑论文">里程碑论文</h3>
 <ul>
 <li>Turing, A. (1936). On Computable Numbers, with an Application to the Entscheidungsproblem. <em>Proceedings of the London Mathematical Society</em>. — 图灵机的原始论文。</li>
 <li>Cook, S. (1971). The Complexity of Theorem-Proving Procedures. <em>Proceedings of the 3rd Annual ACM Symposium on Theory of Computing</em>. — NP 完全性理论的奠基论文。</li>
@@ -831,13 +831,13 @@
 <li>Vapnik, V. &amp; Chervonenkis, A. (1971). On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities. <em>Theory of Probability and Its Applications</em>. — VC 维理论的原始论文。</li>
 <li>Gödel, K. (1931). Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I. <em>Monatshefte für Mathematik und Physik</em>. — 不完备性定理的原始论文。</li>
 </ul>
-<h3>前沿综述</h3>
+<h3 id="前沿综述">前沿综述</h3>
 <ul>
 <li>Belkin, M. et al. (2019). Reconciling Modern Machine Learning Practice and the Bias-Variance Trade-off. <em>Proceedings of the National Academy of Sciences</em>. — 双下降现象。</li>
 <li>Jacot, A. et al. (2018). Neural Tangent Kernel: Convergence and Generalization in Neural Networks. <em>NeurIPS</em>. — 神经切线核理论。</li>
 <li>Zhang, C. et al. (2017). Understanding Deep Learning Requires Rethinking Generalization. <em>ICLR</em>. — 深度学习泛化之谜的实验研究。</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇回答的是：<strong>AI 在原理上能算什么、能多高效地算、能在什么条件下从有限数据中学到东西。</strong> 它提供的是可能性边界、效率边界与可学习性边界，而不是现成的工程实现。</p>
 <ul>
 <li>与 <a href="05-logic.html">逻辑学与形式推理</a> 相邻：逻辑学提供形式语言与推理对象，本篇进一步追问这些对象能否被算法处理、处理代价有多大。</li>
@@ -857,12 +857,80 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要计算机科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要计算机科学</a>
+<a href="#n1-1-本篇的范围界定-理论计算机科学" class="toc-link h3">1.1 本篇的范围界定：理论计算机科学</a>
+<a href="#n1-2-解决了-AI-中的什么根本问题" class="toc-link h3">1.2 解决了 AI 中的什么根本问题？</a>
+<a href="#n1-3-如果没有计算机科学-AI-会缺失什么能力" class="toc-link h3">1.3 如果没有计算机科学，AI 会缺失什么能力？</a>
+<a href="#n1-4-与其他学科的关键连接点" class="toc-link h3">1.4 与其他学科的关键连接点</a>
+<a href="#n1-5-理论边界如何进入现实-AI-系统设计" class="toc-link h3">1.5 理论边界如何进入现实 AI 系统设计</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-前史-数学基础危机-1900-1930" class="toc-link h3">2.1 前史：数学基础危机（1900—1930）</a>
+<a href="#n2-2-可计算性理论的诞生-1931-1945" class="toc-link h3">2.2 可计算性理论的诞生（1931—1945）</a>
+<a href="#n2-3-复杂性理论的兴起-1960-1980" class="toc-link h3">2.3 复杂性理论的兴起（1960—1980）</a>
+<a href="#n2-4-计算学习理论-1984-2000" class="toc-link h3">2.4 计算学习理论（1984—2000）</a>
+<a href="#n2-5-现代发展-2000-至今" class="toc-link h3">2.5 现代发展（2000 至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-图灵机与-Church-Turing-论题" class="toc-link h3">3.1 图灵机与 Church-Turing 论题</a>
+<a href="#n3-2-可计算性与停机问题" class="toc-link h3">3.2 可计算性与停机问题</a>
+<a href="#n3-3-计算复杂性-P-NP-NP-complete" class="toc-link h3">3.3 计算复杂性（P / NP / NP-complete）</a>
+<a href="#n3-4-PAC-学习理论" class="toc-link h3">3.4 PAC 学习理论</a>
+<a href="#n3-5-VC-维与-Rademacher-复杂度" class="toc-link h3">3.5 VC 维与 Rademacher 复杂度</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-算法设计范式" class="toc-link h3">4.1 算法设计范式</a>
+<a href="#n4-2-数据结构与搜索" class="toc-link h3">4.2 数据结构与搜索</a>
+<a href="#n4-3-自动机理论与形式语言" class="toc-link h3">4.3 自动机理论与形式语言</a>
+<a href="#n4-4-密码学与安全" class="toc-link h3">4.4 密码学与安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-P-vs-NP-计算的终极问题" class="toc-link h3">5.1 P vs NP：计算的终极问题</a>
+<a href="#n5-2-深度学习的理论基础" class="toc-link h3">5.2 深度学习的理论基础</a>
+<a href="#n5-3-量子计算与-AI" class="toc-link h3">5.3 量子计算与 AI</a>
+<a href="#n5-4-计算不可约性与涌现" class="toc-link h3">5.4 计算不可约性与涌现</a>
+<a href="#n5-5-AI-安全的计算理论视角" class="toc-link h3">5.5 AI 安全的计算理论视角</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#前沿综述" class="toc-link h3">前沿综述</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要计算机科学" class="toc-link h2">1. 上帝视角：为什么 AI 需要计算机科学</a>
+<a href="#n1-1-本篇的范围界定-理论计算机科学" class="toc-link h3">1.1 本篇的范围界定：理论计算机科学</a>
+<a href="#n1-2-解决了-AI-中的什么根本问题" class="toc-link h3">1.2 解决了 AI 中的什么根本问题？</a>
+<a href="#n1-3-如果没有计算机科学-AI-会缺失什么能力" class="toc-link h3">1.3 如果没有计算机科学，AI 会缺失什么能力？</a>
+<a href="#n1-4-与其他学科的关键连接点" class="toc-link h3">1.4 与其他学科的关键连接点</a>
+<a href="#n1-5-理论边界如何进入现实-AI-系统设计" class="toc-link h3">1.5 理论边界如何进入现实 AI 系统设计</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-前史-数学基础危机-1900-1930" class="toc-link h3">2.1 前史：数学基础危机（1900—1930）</a>
+<a href="#n2-2-可计算性理论的诞生-1931-1945" class="toc-link h3">2.2 可计算性理论的诞生（1931—1945）</a>
+<a href="#n2-3-复杂性理论的兴起-1960-1980" class="toc-link h3">2.3 复杂性理论的兴起（1960—1980）</a>
+<a href="#n2-4-计算学习理论-1984-2000" class="toc-link h3">2.4 计算学习理论（1984—2000）</a>
+<a href="#n2-5-现代发展-2000-至今" class="toc-link h3">2.5 现代发展（2000 至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-图灵机与-Church-Turing-论题" class="toc-link h3">3.1 图灵机与 Church-Turing 论题</a>
+<a href="#n3-2-可计算性与停机问题" class="toc-link h3">3.2 可计算性与停机问题</a>
+<a href="#n3-3-计算复杂性-P-NP-NP-complete" class="toc-link h3">3.3 计算复杂性（P / NP / NP-complete）</a>
+<a href="#n3-4-PAC-学习理论" class="toc-link h3">3.4 PAC 学习理论</a>
+<a href="#n3-5-VC-维与-Rademacher-复杂度" class="toc-link h3">3.5 VC 维与 Rademacher 复杂度</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-算法设计范式" class="toc-link h3">4.1 算法设计范式</a>
+<a href="#n4-2-数据结构与搜索" class="toc-link h3">4.2 数据结构与搜索</a>
+<a href="#n4-3-自动机理论与形式语言" class="toc-link h3">4.3 自动机理论与形式语言</a>
+<a href="#n4-4-密码学与安全" class="toc-link h3">4.4 密码学与安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-P-vs-NP-计算的终极问题" class="toc-link h3">5.1 P vs NP：计算的终极问题</a>
+<a href="#n5-2-深度学习的理论基础" class="toc-link h3">5.2 深度学习的理论基础</a>
+<a href="#n5-3-量子计算与-AI" class="toc-link h3">5.3 量子计算与 AI</a>
+<a href="#n5-4-计算不可约性与涌现" class="toc-link h3">5.4 计算不可约性与涌现</a>
+<a href="#n5-5-AI-安全的计算理论视角" class="toc-link h3">5.5 AI 安全的计算理论视角</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#前沿综述" class="toc-link h3">前沿综述</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

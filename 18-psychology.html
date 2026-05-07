@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：心理学并不是现代 AI 算法的唯一技术来源，但它为 AI 提供了大量关于行为形成、偏好比较、风险判断与人机反馈的实验原型（Thorndike, 1898；Bandura, 1977；Kahneman &amp; Tversky, 1979）。本文重点聚焦行为与决策心理学如何进入强化学习、偏好建模、认知偏差评测与交互系统，而不是试图覆盖整个心理学版图。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="19-neuroscience.html">神经科学</a>：神经科学解释奖励与记忆的生物机制，心理学更多研究可观察的行为规律</li>
 <li><a href="20-cognitive-science.html">认知科学</a>：认知科学强调统一的功能建模，心理学更强调实验范式与行为结果</li>
@@ -447,7 +447,7 @@
 <li><a href="15-cybernetics.html">控制论</a>：控制论提供反馈系统形式化，心理学提供反馈如何塑造行为的实验原型</li>
 </ul>
 <hr>
-<h2>1. 上帝视角：为什么 AI 需要心理学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要心理学">1. 上帝视角：为什么 AI 需要心理学</h2>
 <p>心理学为 AI 提供了智能行为的<strong>实验原型与行为约束</strong>。在当前 26 学科结构中：</p>
 <ul>
 <li><strong>心理学（18）</strong>：侧重于行为的心理学基础、认知偏差的<strong>实验观察</strong>与<strong>产生机制</strong>。</li>
@@ -455,7 +455,7 @@
 <li><strong>经济学（23）</strong>：侧重于将心理偏差<strong>形式化</strong>为效用函数，用于处理偏好学习与 AI 对齐。</li>
 </ul>
 <p>人工智能的核心问题之一是：<strong>智能体如何在未知环境中通过试错学会有效行为，并在与人类互动时对反馈做出合适响应？</strong> 这个问题在心理学中已经被研究了超过一个世纪。</p>
-<h3>1.1 强化学习的概念来源</h3>
+<h3 id="n1-1-强化学习的概念来源">1.1 强化学习的概念来源</h3>
 <p>强化学习（Reinforcement Learning, RL）并非凭空诞生于计算机科学。它的许多核心概念都能在行为心理学中找到历史原型：</p>
 <ul>
 <li><strong>奖励信号</strong>（reward signal）← Thorndike 的效果律（Law of Effect, 1898）</li>
@@ -471,7 +471,7 @@
 <li><strong>概念启发</strong>：例如探索-利用、新奇偏好、偏好比较，帮助设计奖励与反馈机制</li>
 <li><strong>严格方法来源</strong>：MDP、动态规划、策略梯度、PPO 等现代形式化主要来自运筹学、控制论与计算机科学，而不是直接从心理学理论推导</li>
 </ul>
-<h3>1.2 与其他学科的关键连接点</h3>
+<h3 id="n1-2-与其他学科的关键连接点">1.2 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -517,19 +517,19 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
 <p>心理学对 AI 的影响可以沿着一条清晰的时间线追溯：</p>
-<h3>2.1 前科学时期</h3>
+<h3 id="n2-1-前科学时期">2.1 前科学时期</h3>
 <ul>
 <li><strong>Descartes (1637)</strong>：提出动物是&quot;自动机&quot;（automata），行为可以用机械原理解释。这一思想为行为主义的&quot;刺激-反应&quot;框架埋下伏笔。</li>
 <li><strong>British Empiricists (17-18 世纪)</strong>：Locke、Hume 等人的联想主义（associationism）——观念通过经验中的共现而关联——直接启发了后来的条件反射理论。</li>
 </ul>
-<h3>2.2 实验心理学的诞生</h3>
+<h3 id="n2-2-实验心理学的诞生">2.2 实验心理学的诞生</h3>
 <ul>
 <li><strong>Wundt (1879)</strong>：在莱比锡建立第一个心理学实验室，心理学成为独立的实验科学。</li>
 <li><strong>Ebbinghaus (1885)</strong>：记忆的遗忘曲线（forgetting curve）。这一发现后来启发了经验回放（experience replay）中的优先级采样。</li>
 </ul>
-<h3>2.3 行为主义的黄金时代</h3>
+<h3 id="n2-3-行为主义的黄金时代">2.3 行为主义的黄金时代</h3>
 <ul>
 <li><strong>Pavlov (1897)</strong>：经典条件反射（classical conditioning）。狗听到铃声后分泌唾液——刺激之间的关联学习。</li>
 <li><strong>Thorndike (1898)</strong>：效果律（Law of Effect）。猫在迷箱中的试错学习——<strong>产生满意结果的行为会被强化</strong>。这可视为强化学习的重要心理学原型之一。</li>
@@ -538,14 +538,14 @@
 <li><strong>Hull (1943)</strong>：驱力递减理论（drive reduction theory），试图用数学公式描述学习过程：$sEr = sHr \times D \times K$</li>
 <li><strong>Skinner (1953)</strong>：行为塑造（shaping）——通过逐步强化接近目标的行为来训练复杂行为。这就是奖励塑形（reward shaping）的心理学原型。</li>
 </ul>
-<h3>2.4 认知革命与决策理论</h3>
+<h3 id="n2-4-认知革命与决策理论">2.4 认知革命与决策理论</h3>
 <ul>
 <li><strong>Chomsky (1959)</strong>：对 Skinner 的《言语行为》的著名批评，标志着认知革命的开始。</li>
 <li><strong>Bandura (1977)</strong>：社会学习理论（social learning theory）——人可以通过观察他人来学习，不需要亲身试错。这是模仿学习（imitation learning）的理论基础。</li>
 <li><strong>Kahneman &amp; Tversky (1979)</strong>：前景理论（prospect theory）——人类决策中的系统性偏差。价值函数的 S 形曲线、损失厌恶、概率加权等发现深刻影响了 AI 中的奖励函数设计。</li>
 <li><strong>Mischel (1972)</strong>：延迟满足实验（marshmallow test）——自控力与延迟奖励的关系，对应 RL 中的折扣因子 $\gamma$。</li>
 </ul>
-<h3>2.5 计算心理学与 AI 的融合</h3>
+<h3 id="n2-5-计算心理学与-AI-的融合">2.5 计算心理学与 AI 的融合</h3>
 <ul>
 <li><strong>Rescorla &amp; Wagner (1972)</strong>：提出 Rescorla-Wagner 模型，用数学公式描述条件反射中的学习：$\Delta V = \alpha \beta (\lambda - V)$。这个公式与 TD 学习的更新规则惊人地相似。</li>
 <li><strong>Sutton &amp; Barto (1981)</strong>：明确将心理学的试错学习与计算机科学的强化学习联系起来。</li>
@@ -553,8 +553,8 @@
 <li><strong>Christiano et al. (2017)</strong>：RLHF（Reinforcement Learning from Human Feedback）——用人类偏好作为奖励信号训练 AI，可理解为把人类偏好判断近似转化为奖励模型。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 经典条件反射（Classical Conditioning, Pavlov）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-经典条件反射-Classical-Conditioning-Pavlov">3.1 经典条件反射（Classical Conditioning, Pavlov）</h3>
 <p><strong>心理学机制</strong></p>
 <p>Pavlov 在研究狗的消化系统时偶然发现：如果在喂食前反复播放铃声，狗最终会在仅听到铃声时就分泌唾液。这揭示了一种基本的学习机制——<strong>刺激之间的关联学习</strong>。</p>
 <p>核心要素：</p>
@@ -590,7 +590,7 @@
 <p>$$V(s) \leftarrow V(s) + \alpha \cdot [r + \gamma V(s') - V(s)]$$</p>
 <p>其中 $\delta = r + \gamma V(s') - V(s)$ 就是 TD 误差，对应 Rescorla-Wagner 模型中的 $(\lambda - V_{total})$。两者都是<strong>误差驱动的增量学习</strong>，是强化学习智能体估计未来价值的基本过程。</p>
 <hr>
-<h3>3.2 操作性条件反射（Operant Conditioning, Skinner）</h3>
+<h3 id="n3-2-操作性条件反射-Operant-Conditioning-Skinner">3.2 操作性条件反射（Operant Conditioning, Skinner）</h3>
 <p><strong>心理学机制</strong></p>
 <p>与经典条件反射不同，操作性条件反射关注的是<strong>行为的后果如何影响行为的频率</strong>。Skinner 将后果分为四类：</p>
 <table>
@@ -636,7 +636,7 @@
 <li>可变比率程序的抗消退性 → 稀疏奖励下的鲁棒学习</li>
 </ul>
 <hr>
-<h3>3.3 效果律（Law of Effect, Thorndike）</h3>
+<h3 id="n3-3-效果律-Law-of-Effect-Thorndike">3.3 效果律（Law of Effect, Thorndike）</h3>
 <p><strong>心理学机制</strong></p>
 <p>Thorndike 在 1898 年的博士论文中描述了猫在迷箱（puzzle box）中的行为：猫被关在箱子里，需要按下杠杆才能打开门获得食物。最初猫的行为是随机的（抓、咬、推），但随着试验次数增加，猫越来越快地找到正确动作。</p>
 <p>效果律的核心表述：</p>
@@ -666,7 +666,7 @@
 <li>满意效果（satisfying effect）→ 正奖励（positive reward）</li>
 </ul>
 <hr>
-<h3>3.4 探索-利用权衡（Exploration-Exploitation Tradeoff）</h3>
+<h3 id="n3-4-探索-利用权衡-Exploration-Exploitation-Tradeoff">3.4 探索-利用权衡（Exploration-Exploitation Tradeoff）</h3>
 <p><strong>心理学机制</strong></p>
 <p>每个有机体都面临一个基本困境：</p>
 <ul>
@@ -700,7 +700,7 @@
 <li>风险偏好 → 分布式 RL（distributional RL）中的风险敏感策略</li>
 </ul>
 <hr>
-<h3>3.5 奖励塑形（Reward Shaping）</h3>
+<h3 id="n3-5-奖励塑形-Reward-Shaping">3.5 奖励塑形（Reward Shaping）</h3>
 <p><strong>心理学机制</strong></p>
 <p>Skinner (1953) 描述了<strong>行为塑造</strong>（shaping）技术：要训练鸽子转圈，不能等它自发转完整圈才给奖励（这可能永远不会发生），而是先强化任何向右转头的动作，然后强化转更大角度的动作，逐步逼近目标行为。</p>
 <p>关键原则：</p>
@@ -727,7 +727,7 @@
 <li>稀疏奖励问题 → RL 中的核心挑战之一</li>
 </ul>
 <hr>
-<h3>3.6 RLHF 的心理学根基</h3>
+<h3 id="n3-6-RLHF-的心理学根基">3.6 RLHF 的心理学根基</h3>
 <p><strong>心理学机制</strong></p>
 <p>RLHF（Reinforcement Learning from Human Feedback）的核心思想是：<strong>用人类的偏好判断作为奖励信号来训练 AI</strong>。这一思想深深植根于多个心理学传统：</p>
 <ol>
@@ -772,9 +772,9 @@
 <li>规范性 vs. 描述性 → AI 安全中的价值对齐问题</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>心理学对 AI 的贡献主要体现在：为序贯决策提供行为原型、为人类反馈建模提供实验传统、为偏差与风险提供评测框架（Thorndike, 1898；Bandura, 1977；Kahneman &amp; Tversky, 1979）。下面各项应优先理解为“问题来源与实验参照”，而不是现代算法的唯一技术来源。</p>
-<h3>4.1 强化学习的行为原型</h3>
+<h3 id="n4-1-强化学习的行为原型">4.1 强化学习的行为原型</h3>
 <p>心理学为 RL 提供了完整的行为问题框架：</p>
 <table>
 <thead>
@@ -830,7 +830,7 @@
 </tr>
 </tbody></table>
 <p>这张表最适合被理解为“行为概念如何进入算法语言”。真正把这些思想变成可证明、可训练的系统，依赖的还是后来的数理形式化。</p>
-<h3>4.2 内在动机与探索机制</h3>
+<h3 id="n4-2-内在动机与探索机制">4.2 内在动机与探索机制</h3>
 <p>心理学中的内在动机理论（Deci &amp; Ryan, 1985）启发了 AI 中的好奇心驱动探索：</p>
 <ul>
 <li><strong>能力需求</strong>（competence）→ 预测误差作为内在奖励（Schmidhuber, 1991）</li>
@@ -843,7 +843,7 @@
 <li>RND（Random Network Distillation, Burda et al., 2018）：用随机网络的预测误差衡量新奇性</li>
 <li>Go-Explore（Ecoffet et al., 2019）：先探索再利用的两阶段策略</li>
 </ul>
-<h3>4.3 偏好建模、人机交互与反馈学习</h3>
+<h3 id="n4-3-偏好建模-人机交互与反馈学习">4.3 偏好建模、人机交互与反馈学习</h3>
 <p>除了 RL 主线，心理学还深刻影响了现代 AI 与人的接口层：</p>
 <ul>
 <li><strong>偏好比较范式</strong>：配对比较、Likert 量表、排序实验等方法，为 RLHF、DPO 与人类评测协议提供数据采集思路</li>
@@ -851,7 +851,7 @@
 <li><strong>说服与顺从研究</strong>：帮助分析模型如何影响用户判断，也提醒我们规避诱导式界面与操控性反馈</li>
 <li><strong>信任校准</strong>：心理学中的信任、依赖与自动化偏误研究，可用于设计“模型什么时候应当解释、拒答或请求确认”</li>
 </ul>
-<h3>4.4 认知偏差与 AI 安全</h3>
+<h3 id="n4-4-认知偏差与-AI-安全">4.4 认知偏差与 AI 安全</h3>
 <p>心理学揭示的认知偏差对 AI 安全有重要启示：</p>
 <ul>
 <li><strong>确认偏差</strong>（confirmation bias）→ 模型或评估者可能过度依赖早期样本与已有假设</li>
@@ -861,15 +861,15 @@
 <li><strong>损失厌恶</strong>（loss aversion）→ 风险敏感训练与安全约束设计可借鉴其不对称代价视角</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 当前研究热点</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-当前研究热点">5.1 当前研究热点</h3>
 <ol>
 <li><strong>RLHF 的局限性</strong>：人类偏好的不一致性、标注者之间的分歧、偏好的不可传递性（A &gt; B, B &gt; C, 但 C &gt; A）。</li>
 <li><strong>Constitutional AI（Bai et al., 2022）</strong>：用 AI 自身的判断替代部分人类反馈，减少对人类标注的依赖。</li>
 <li><strong>DPO（Direct Preference Optimization, Rafailov et al., 2023）</strong>：绕过显式奖励模型，直接从偏好数据优化策略。</li>
 <li><strong>多模态 RLHF</strong>：将人类偏好扩展到图像、视频、音频等模态。</li>
 </ol>
-<h3>5.2 开放问题</h3>
+<h3 id="n5-2-开放问题">5.2 开放问题</h3>
 <ol>
 <li><strong>奖励黑客</strong>（reward hacking）：智能体找到最大化奖励但违背设计意图的捷径。心理学中的&quot;教学效应&quot;（teaching to the test）是类似现象。</li>
 <li><strong>价值对齐</strong>（value alignment）：如何确保 AI 的目标与人类价值观一致？心理学中的道德发展理论（Kohlberg, 1958）提供了思考框架。</li>
@@ -877,7 +877,7 @@
 <li><strong>长期偏好 vs. 短期偏好</strong>：人类的即时偏好和深思熟虑后的偏好可能不同。RL 中的折扣因子 $\gamma$ 只是一个粗糙的近似。</li>
 <li><strong>群体偏好聚合</strong>：不同人的偏好如何聚合？Arrow 不可能定理（1951）表明不存在完美的聚合方法。</li>
 </ol>
-<h3>5.3 未来方向</h3>
+<h3 id="n5-3-未来方向">5.3 未来方向</h3>
 <ul>
 <li><strong>发展心理学启发的 AI</strong>：像儿童一样从简单到复杂逐步学习（课程学习的深化）</li>
 <li><strong>情感计算</strong>：将情绪作为内在奖励信号（Picard, 1997）</li>
@@ -885,8 +885,8 @@
 <li><strong>文化学习</strong>：超越个体学习，实现知识的代际传递</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典文献</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典文献">经典文献</h3>
 <ul>
 <li>Thorndike, E. L. (1898). Animal intelligence: An experimental study of the associative processes in animals. <em>Psychological Review Monograph Supplements</em>, 2(4).</li>
 <li>Pavlov, I. P. (1927). <em>Conditioned Reflexes: An Investigation of the Physiological Activity of the Cerebral Cortex</em>. Oxford University Press.</li>
@@ -894,14 +894,14 @@
 <li>Bandura, A. (1977). <em>Social Learning Theory</em>. Prentice Hall.</li>
 <li>Kahneman, D. &amp; Tversky, A. (1979). Prospect theory: An analysis of decision under risk. <em>Econometrica</em>, 47(2), 263-291.</li>
 </ul>
-<h3>桥梁文献（心理学 → AI）</h3>
+<h3 id="桥梁文献-心理学-AI">桥梁文献（心理学 → AI）</h3>
 <ul>
 <li>Rescorla, R. A. &amp; Wagner, A. R. (1972). A theory of Pavlovian conditioning: Variations in the effectiveness of reinforcement and nonreinforcement. In <em>Classical Conditioning II</em>, 64-99.</li>
 <li>Sutton, R. S. &amp; Barto, A. G. (1981). Toward a modern theory of adaptive networks: Expectation and prediction. <em>Psychological Review</em>, 88(2), 135-170.</li>
 <li>Schultz, W., Dayan, P. &amp; Montague, P. R. (1997). A neural substrate of prediction and reward. <em>Science</em>, 275(5306), 1593-1599.</li>
 <li>Sutton, R. S. &amp; Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em> (2nd ed.). MIT Press.</li>
 </ul>
-<h3>AI 前沿文献</h3>
+<h3 id="AI-前沿文献">AI 前沿文献</h3>
 <ul>
 <li>Ng, A. Y., Harada, D. &amp; Russell, S. (1999). Policy invariance under reward transformations: Theory and application to reward shaping. <em>ICML</em>.</li>
 <li>Pathak, D. et al. (2017). Curiosity-driven exploration by self-supervised prediction. <em>ICML</em>.</li>
@@ -909,14 +909,14 @@
 <li>Bai, Y. et al. (2022). Constitutional AI: Harmlessness from AI feedback. <em>arXiv:2212.08073</em>.</li>
 <li>Rafailov, R. et al. (2023). Direct preference optimization: Your language model is secretly a reward model. <em>NeurIPS</em>.</li>
 </ul>
-<h3>推荐教材</h3>
+<h3 id="推荐教材">推荐教材</h3>
 <ul>
 <li>Sutton, R. S. &amp; Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em>. — RL 的圣经，第一章详细讨论了心理学根源</li>
 <li>Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>. — 双过程理论的通俗读物</li>
 <li>Glimcher, P. W. (2011). <em>Foundations of Neuroeconomic Analysis</em>. — 神经科学、心理学与经济学的交叉</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍心理学如何为 AI 提供<strong>行为实验原型、反馈建模框架与偏差评测视角</strong>。它尤其连接了强化学习、偏好学习、人机交互与安全评估这几条主线。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -931,12 +931,74 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要心理学" class="toc-link h2">1. 上帝视角：为什么 AI 需要心理学</a>
+<a href="#n1-1-强化学习的概念来源" class="toc-link h3">1.1 强化学习的概念来源</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前科学时期" class="toc-link h3">2.1 前科学时期</a>
+<a href="#n2-2-实验心理学的诞生" class="toc-link h3">2.2 实验心理学的诞生</a>
+<a href="#n2-3-行为主义的黄金时代" class="toc-link h3">2.3 行为主义的黄金时代</a>
+<a href="#n2-4-认知革命与决策理论" class="toc-link h3">2.4 认知革命与决策理论</a>
+<a href="#n2-5-计算心理学与-AI-的融合" class="toc-link h3">2.5 计算心理学与 AI 的融合</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-经典条件反射-Classical-Conditioning-Pavlov" class="toc-link h3">3.1 经典条件反射（Classical Conditioning, Pavlov）</a>
+<a href="#n3-2-操作性条件反射-Operant-Conditioning-Skinner" class="toc-link h3">3.2 操作性条件反射（Operant Conditioning, Skinner）</a>
+<a href="#n3-3-效果律-Law-of-Effect-Thorndike" class="toc-link h3">3.3 效果律（Law of Effect, Thorndike）</a>
+<a href="#n3-4-探索-利用权衡-Exploration-Exploitation-Tradeoff" class="toc-link h3">3.4 探索-利用权衡（Exploration-Exploitation Tradeoff）</a>
+<a href="#n3-5-奖励塑形-Reward-Shaping" class="toc-link h3">3.5 奖励塑形（Reward Shaping）</a>
+<a href="#n3-6-RLHF-的心理学根基" class="toc-link h3">3.6 RLHF 的心理学根基</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-强化学习的行为原型" class="toc-link h3">4.1 强化学习的行为原型</a>
+<a href="#n4-2-内在动机与探索机制" class="toc-link h3">4.2 内在动机与探索机制</a>
+<a href="#n4-3-偏好建模-人机交互与反馈学习" class="toc-link h3">4.3 偏好建模、人机交互与反馈学习</a>
+<a href="#n4-4-认知偏差与-AI-安全" class="toc-link h3">4.4 认知偏差与 AI 安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-当前研究热点" class="toc-link h3">5.1 当前研究热点</a>
+<a href="#n5-2-开放问题" class="toc-link h3">5.2 开放问题</a>
+<a href="#n5-3-未来方向" class="toc-link h3">5.3 未来方向</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典文献" class="toc-link h3">经典文献</a>
+<a href="#桥梁文献-心理学-AI" class="toc-link h3">桥梁文献（心理学 → AI）</a>
+<a href="#AI-前沿文献" class="toc-link h3">AI 前沿文献</a>
+<a href="#推荐教材" class="toc-link h3">推荐教材</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要心理学" class="toc-link h2">1. 上帝视角：为什么 AI 需要心理学</a>
+<a href="#n1-1-强化学习的概念来源" class="toc-link h3">1.1 强化学习的概念来源</a>
+<a href="#n1-2-与其他学科的关键连接点" class="toc-link h3">1.2 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-前科学时期" class="toc-link h3">2.1 前科学时期</a>
+<a href="#n2-2-实验心理学的诞生" class="toc-link h3">2.2 实验心理学的诞生</a>
+<a href="#n2-3-行为主义的黄金时代" class="toc-link h3">2.3 行为主义的黄金时代</a>
+<a href="#n2-4-认知革命与决策理论" class="toc-link h3">2.4 认知革命与决策理论</a>
+<a href="#n2-5-计算心理学与-AI-的融合" class="toc-link h3">2.5 计算心理学与 AI 的融合</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-经典条件反射-Classical-Conditioning-Pavlov" class="toc-link h3">3.1 经典条件反射（Classical Conditioning, Pavlov）</a>
+<a href="#n3-2-操作性条件反射-Operant-Conditioning-Skinner" class="toc-link h3">3.2 操作性条件反射（Operant Conditioning, Skinner）</a>
+<a href="#n3-3-效果律-Law-of-Effect-Thorndike" class="toc-link h3">3.3 效果律（Law of Effect, Thorndike）</a>
+<a href="#n3-4-探索-利用权衡-Exploration-Exploitation-Tradeoff" class="toc-link h3">3.4 探索-利用权衡（Exploration-Exploitation Tradeoff）</a>
+<a href="#n3-5-奖励塑形-Reward-Shaping" class="toc-link h3">3.5 奖励塑形（Reward Shaping）</a>
+<a href="#n3-6-RLHF-的心理学根基" class="toc-link h3">3.6 RLHF 的心理学根基</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-强化学习的行为原型" class="toc-link h3">4.1 强化学习的行为原型</a>
+<a href="#n4-2-内在动机与探索机制" class="toc-link h3">4.2 内在动机与探索机制</a>
+<a href="#n4-3-偏好建模-人机交互与反馈学习" class="toc-link h3">4.3 偏好建模、人机交互与反馈学习</a>
+<a href="#n4-4-认知偏差与-AI-安全" class="toc-link h3">4.4 认知偏差与 AI 安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-当前研究热点" class="toc-link h3">5.1 当前研究热点</a>
+<a href="#n5-2-开放问题" class="toc-link h3">5.2 开放问题</a>
+<a href="#n5-3-未来方向" class="toc-link h3">5.3 未来方向</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典文献" class="toc-link h3">经典文献</a>
+<a href="#桥梁文献-心理学-AI" class="toc-link h3">桥梁文献（心理学 → AI）</a>
+<a href="#AI-前沿文献" class="toc-link h3">AI 前沿文献</a>
+<a href="#推荐教材" class="toc-link h3">推荐教材</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

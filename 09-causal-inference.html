@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：统计学习让 AI 从数据中发现稳定的相关模式，因果推断则继续追问：如果主动改变系统，会发生什么？哪些规律在分布迁移后仍然成立？一次结果究竟由什么机制产生？从潜在结果框架（potential outcomes）到结构因果模型（structural causal model, SCM），从随机实验到观察性识别、反事实推理与因果发现，因果推断为 AI 的决策、评估、鲁棒泛化与科学发现提供了“相关性之上”的推理语言。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：因果推断建立在统计关联之上，但目标超越单纯相关分析</li>
 <li><a href="05-logic.html">逻辑学与形式推理</a>：反事实推理、因果图解释与结构化表示需要逻辑框架支撑</li>
@@ -446,8 +446,8 @@
 <li><a href="21-psychology.html">心理学</a>：人类如何理解原因、归因与行为后果，是因果认知的重要来源</li>
 <li><a href="25-philosophy.html">哲学</a>：因果性、解释与科学理解本身就是哲学中的经典问题</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要因果推断</h2>
-<h3>1.1 三层问题：关联、干预与反事实</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要因果推断">1. 上帝视角：为什么 AI 需要因果推断</h2>
+<h3 id="n1-1-三层问题-关联-干预与反事实">1.1 三层问题：关联、干预与反事实</h3>
 <p>因果推断区分三个层级的问题，每个层级对应 AI 的不同能力需求：</p>
 <table>
 <thead>
@@ -474,10 +474,10 @@
 </tr>
 </tbody></table>
 <p>大多数监督学习只可靠地回答第一层问题。但一旦 AI 要参与行动，就不能只问“什么经常同时出现”，还必须问“什么会真正导致变化”。</p>
-<h3>1.2 预测不等于决策：相关性的局限</h3>
+<h3 id="n1-2-预测不等于决策-相关性的局限">1.2 预测不等于决策：相关性的局限</h3>
 <p>一个推荐系统可以准确预测“喜欢 A 的用户往往也喜欢 B”，但这不等于“给他推荐 B 就会提高满意度”。前者是观察到的联合分布，后者涉及主动干预后的结果。</p>
 <p>类似地，一个医疗预测模型可以判断“高风险患者更可能接受某种治疗”，但这不代表“给患者这个治疗一定更好”。如果训练数据里原本就存在选择偏差（selection bias），单纯依赖相关性会把历史决策中的偏差一起学进去。</p>
-<h3>1.3 与其他学科的关键连接点</h3>
+<h3 id="n1-3-与其他学科的关键连接点">1.3 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -513,20 +513,20 @@
 </tr>
 </tbody></table>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 哲学起点：因果究竟是什么</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-哲学起点-因果究竟是什么">2.1 哲学起点：因果究竟是什么</h3>
 <ul>
 <li><strong>David Hume (1748)</strong> 在《人类理解研究》中指出，人们并不能直接观察到“必然联系”，只能观察到事件的连续出现。这种怀疑论提醒后世：因果不是简单的共现统计。</li>
 <li><strong>John Stuart Mill (1843)</strong> 在《逻辑体系》中提出求因五法（Mill’s methods），试图用系统比较的方法识别可能的因果关系。虽然这些方法仍然偏经验主义，但已经出现了“干预与比较”的思想雏形。</li>
 </ul>
 <p>这一阶段的核心贡献，是把“因果”从日常直觉问题推进为一个可被明确讨论的方法论问题。</p>
-<h3>2.2 随机实验与统计传统</h3>
+<h3 id="n2-2-随机实验与统计传统">2.2 随机实验与统计传统</h3>
 <ul>
 <li><strong>Ronald Fisher (1935)</strong> 在实验设计中系统强调随机化（randomization）的价值：若处理分配是随机的，处理组与对照组在期望上可比较。</li>
 <li><strong>Jerzy Neyman (1923, 1934)</strong> 发展了潜在结果框架的早期形式，把因果效应理解为“同一个个体在不同处理状态下结果的差异”。</li>
 </ul>
 <p>这一传统经 Rubin (1974)、Imbens &amp; Rubin (2015) 等人的系统化整理，奠定了现代实验科学中“随机对照试验（randomized controlled trial, RCT）”的核心方法地位；互联网产品中的 A/B 测试也可以视为这一实验设计传统在工程环境中的延伸。</p>
-<h3>2.3 计量经济学与观察性识别</h3>
+<h3 id="n2-3-计量经济学与观察性识别">2.3 计量经济学与观察性识别</h3>
 <p>随机实验并不总是可行，因此观察性数据中的因果识别逐渐成为核心问题。</p>
 <ul>
 <li><strong>Trygve Haavelmo (1944)</strong> 将概率论系统引入计量经济学，推动结构方程方法发展。</li>
@@ -535,13 +535,13 @@
 <li><strong>Donald Rubin (1974, 2005)</strong> 将潜在结果框架系统化，形成“Rubin causal model”。</li>
 </ul>
 <p>这一阶段的核心转向是：即使没有随机实验，也可以借助识别假设和设计策略，对因果效应进行有限但严谨的推断。</p>
-<h3>2.4 结构因果模型的建立</h3>
+<h3 id="n2-4-结构因果模型的建立">2.4 结构因果模型的建立</h3>
 <ul>
 <li><strong>Judea Pearl (1988, 2000, 2009)</strong> 将有向无环图（directed acyclic graph, DAG）、结构方程与 do-算子统一为结构因果模型框架。</li>
 <li><strong>Spirtes, Glymour &amp; Scheines (1993, 2000)</strong> 推动因果发现（causal discovery）算法的发展，如 PC 算法。</li>
 </ul>
 <p>Pearl 的贡献在于把“因果结构”“干预运算”“反事实推理”放在同一个形式系统里，使得许多原本分散的方法可以统一理解。</p>
-<h3>2.5 因果推断进入现代 AI</h3>
+<h3 id="n2-5-因果推断进入现代-AI">2.5 因果推断进入现代 AI</h3>
 <ul>
 <li><strong>Pearl (2018)</strong> 明确提出“只有相关性不够，需要因果与反事实层级”这一主张，对 AI 社区产生持续影响。</li>
 <li><strong>Peters, Janzing &amp; Schölkopf (2017)</strong> 将因果视角引入机器学习中的分布迁移、不变预测与因果发现。</li>
@@ -550,8 +550,8 @@
 <li>离线强化学习、策略评估、科学机器学习、因果表征学习等方向，也都在持续吸收因果推断的方法。</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 潜在结果框架（Potential Outcomes）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-潜在结果框架-Potential-Outcomes">3.1 潜在结果框架（Potential Outcomes）</h3>
 <h4>核心定义</h4>
 <p>对每个样本个体 $i$，设：</p>
 <ul>
@@ -580,7 +580,7 @@ $$</p>
 <li><strong>离线策略评估</strong>：评估一个新策略如果上线，是否会比旧策略带来更高收益。</li>
 <li><strong>个体化决策</strong>：根据不同用户的 CATE 做个性化干预或资源分配。</li>
 </ul>
-<h3>3.2 结构因果模型与因果图（SCM and DAG）</h3>
+<h3 id="n3-2-结构因果模型与因果图-SCM-and-DAG">3.2 结构因果模型与因果图（SCM and DAG）</h3>
 <h4>核心定义</h4>
 <p>结构因果模型由变量、结构方程和噪声组成。一个简化的 SCM 可以写为：</p>
 <p>$$
@@ -608,7 +608,7 @@ $$</p>
 <li><strong>模型解释</strong>：区分“真因”与“代理特征”。</li>
 <li><strong>多步决策系统</strong>：为智能体建立更接近环境机制的内部模型。</li>
 </ul>
-<h3>3.3 do-算子与干预推理（Interventional Reasoning）</h3>
+<h3 id="n3-3-do-算子与干预推理-Interventional-Reasoning">3.3 do-算子与干预推理（Interventional Reasoning）</h3>
 <h4>核心定义</h4>
 <p>观察分布回答的是：</p>
 <p>$$
@@ -639,7 +639,7 @@ $$</p>
 <li><strong>策略优化</strong>：估计某个行动的真实效果，而不是历史上与它共现的结果。</li>
 <li><strong>部署评估</strong>：分析模型上线、排序规则变化、预算调整等动作的真实后果。</li>
 </ul>
-<h3>3.4 因果识别策略（Identification Strategies）</h3>
+<h3 id="n3-4-因果识别策略-Identification-Strategies">3.4 因果识别策略（Identification Strategies）</h3>
 <h4>先分清任务：实验、观察性评估与个体解释</h4>
 <p>读到识别方法时，最容易出现的问题不是“不认识方法名”，而是不知道该在什么场景下用哪类工具。一个最小导航可以这样记：</p>
 <table>
@@ -683,7 +683,7 @@ $$</p>
 <li><strong>策略变更评估</strong>：分析新模型、新排序、新定价策略的上线后果。</li>
 <li><strong>离线决策学习</strong>：在缺乏随机实验时，尽量从日志数据中恢复可信的干预信息。</li>
 </ul>
-<h3>3.5 反事实推理（Counterfactual Reasoning）</h3>
+<h3 id="n3-5-反事实推理-Counterfactual-Reasoning">3.5 反事实推理（Counterfactual Reasoning）</h3>
 <h4>核心定义</h4>
 <p>反事实问题关注：在已知事实结果的情况下，如果采取另一种行动会怎样。Pearl 常用三步法来刻画：</p>
 <ol>
@@ -705,7 +705,7 @@ $$</p>
 <li><strong>模型审计</strong>：判断某个敏感属性是否真正影响了结果。</li>
 <li><strong>离线评估</strong>：如果当时采取另一策略，收益是否更高？</li>
 </ul>
-<h3>3.6 因果发现（Causal Discovery）</h3>
+<h3 id="n3-6-因果发现-Causal-Discovery">3.6 因果发现（Causal Discovery）</h3>
 <h4>核心定义</h4>
 <p>因果发现的目标是仅根据数据，推断可能的因果图结构。常见方法分为两类：</p>
 <ul>
@@ -722,38 +722,38 @@ $$</p>
 <li><strong>表示学习</strong>：寻找更接近生成机制的稳定因素。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>从现代 AI 的视角看，因果工具大致可以归入四类用途：提升预测鲁棒性、评估决策效果、做解释与审计、以及服务科学发现。下面几节分别对应这四个方向。</p>
-<h3>4.1 鲁棒泛化与分布外迁移</h3>
+<h3 id="n4-1-鲁棒泛化与分布外迁移">4.1 鲁棒泛化与分布外迁移</h3>
 <p>相关模式往往在环境变化时失效，而更接近因果机制的特征通常更稳定。因果视角推动了不变风险最小化（IRM）、因果表征学习和域泛化研究，试图让模型在分布外（out-of-distribution, OOD）环境中仍然保持有效。</p>
-<h3>4.2 推荐、广告与平台优化中的增量效应</h3>
+<h3 id="n4-2-推荐-广告与平台优化中的增量效应">4.2 推荐、广告与平台优化中的增量效应</h3>
 <p>互联网系统中最重要的问题往往不是“哪个用户更可能点击”，而是“这个动作能否带来新增点击或新增转化”。这正是因果效应估计问题。增量归因（incremental attribution）、uplift 建模和实验平台设计，都深受因果推断影响。</p>
-<h3>4.3 强化学习、离线决策与反事实评估</h3>
+<h3 id="n4-3-强化学习-离线决策与反事实评估">4.3 强化学习、离线决策与反事实评估</h3>
 <p>离线强化学习和策略评估经常面对与因果推断高度相似的问题：只能看到历史日志，无法直接观测新策略上线后的后果。因此，重要性加权、反事实评估、行为策略偏差修正等方法，与因果识别共享很多数学结构。</p>
-<h3>4.4 科学发现与机制建模</h3>
+<h3 id="n4-4-科学发现与机制建模">4.4 科学发现与机制建模</h3>
 <p>现代 AI 不再只做预测，还被用于药物发现、基因调控、气候建模和社会系统分析。在这些任务中，研究者真正关心的是机制与干预，而不是纯粹相关性。因果发现与结构建模为“AI 辅助科学发现”提供了语言框架。</p>
-<h3>4.5 可解释性、审计与安全</h3>
+<h3 id="n4-5-可解释性-审计与安全">4.5 可解释性、审计与安全</h3>
 <p>相关性解释常常会把表面代理特征误当成原因。因果解释和反事实解释则更贴近人类真正想问的问题：为什么会这样？如果改变某个因素会怎样？这对公平性审计、安全评估、责任归因和高风险系统治理都非常重要。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 因果表示学习能否真正提升大模型鲁棒性</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-因果表示学习能否真正提升大模型鲁棒性">5.1 因果表示学习能否真正提升大模型鲁棒性</h3>
 <p>很多工作主张，只要学到“真正因果”的因素，模型就能更稳定地迁移。但在高维感知数据与大模型语境下，什么才算“因果表征”、如何验证其稳定性，仍然远未解决。</p>
-<h3>5.2 从观察数据到干预结论的假设边界</h3>
+<h3 id="n5-2-从观察数据到干预结论的假设边界">5.2 从观察数据到干预结论的假设边界</h3>
 <p>因果识别总是依赖假设：无隐藏混杂、平行趋势、工具变量外生性等。AI 工程里常见的问题是，方法被套用得过快，但识别条件没有被认真检查。如何把“识别假设”变成工程流程中的显式审查项，仍然是重要挑战。</p>
-<h3>5.3 因果推断与强化学习、世界模型的统一</h3>
+<h3 id="n5-3-因果推断与强化学习-世界模型的统一">5.3 因果推断与强化学习、世界模型的统一</h3>
 <p>控制、规划、离线强化学习、因果推断都在讨论“行动如何改变未来”。但目前这些领域的语言体系仍未完全统一。如何把因果图、结构模型与序列决策更自然地结合，是重要前沿。</p>
-<h3>5.4 因果公平性与高风险 AI 治理</h3>
+<h3 id="n5-4-因果公平性与高风险-AI-治理">5.4 因果公平性与高风险 AI 治理</h3>
 <p>公平性不能只看统计平衡，还要问敏感属性是否通过不合理路径影响了结果。反事实公平、路径特定效应（path-specific effects）等方法提供了更细的工具，但其实际落地仍面临法律、伦理和建模假设三重挑战。</p>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>6.1 经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="n6-1-经典教材">6.1 经典教材</h3>
 <ul>
 <li>Pearl, J. (2009). <em>Causality: Models, Reasoning, and Inference</em>. Cambridge University Press.</li>
 <li>Imbens, G. W. &amp; Rubin, D. B. (2015). <em>Causal Inference for Statistics, Social, and Biomedical Sciences</em>. Cambridge University Press.</li>
 <li>Hernán, M. A. &amp; Robins, J. M. (2020). <em>Causal Inference: What If</em>. Chapman &amp; Hall/CRC.</li>
 <li>Peters, J., Janzing, D. &amp; Schölkopf, B. (2017). <em>Elements of Causal Inference</em>. MIT Press.</li>
 </ul>
-<h3>6.2 关键论文</h3>
+<h3 id="n6-2-关键论文">6.2 关键论文</h3>
 <ul>
 <li>Rubin, D. B. (1974). Estimating causal effects of treatments in randomized and nonrandomized studies. <em>Journal of Educational Psychology</em>, 66(5), 688–701.</li>
 <li>Pearl, J. (1995). Causal diagrams for empirical research. <em>Biometrika</em>, 82(4), 669–688.</li>
@@ -761,7 +761,7 @@ $$</p>
 <li>Kusner, M. J., Loftus, J., Russell, C. &amp; Silva, R. (2017). Counterfactual fairness. <em>Advances in Neural Information Processing Systems</em>, 30.</li>
 <li>Arjovsky, M., Bottou, L., Gulrajani, I. &amp; Lopez-Paz, D. (2019). Invariant risk minimization. <em>arXiv preprint arXiv:1907.02893</em>.</li>
 </ul>
-<h3>6.3 AI 相关延伸阅读</h3>
+<h3 id="n6-3-AI-相关延伸阅读">6.3 AI 相关延伸阅读</h3>
 <ul>
 <li>Schölkopf, B. et al. (2021). Toward causal representation learning. <em>Proceedings of the IEEE</em>, 109(5), 612–634.</li>
 <li>Bareinboim, E. &amp; Pearl, J. (2016). Causal inference and the data-fusion problem. <em>Proceedings of the National Academy of Sciences</em>, 113(27), 7345–7352.</li>
@@ -770,7 +770,7 @@ $$</p>
 <li>Hernán, M. A., Hsu, J. &amp; Healy, B. (2019). A second chance to get causal inference right: A classification of data science tasks. <em>CHANCE</em>, 32(1), 42–49.</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了因果推断对 AI/AGI 发展的核心贡献：<strong>从相关性推理跨越到因果推理，为 AI 系统提供了理解&quot;为什么&quot;和&quot;如果...会怎样&quot;的能力</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -795,12 +795,78 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要因果推断" class="toc-link h2">1. 上帝视角：为什么 AI 需要因果推断</a>
+<a href="#n1-1-三层问题-关联-干预与反事实" class="toc-link h3">1.1 三层问题：关联、干预与反事实</a>
+<a href="#n1-2-预测不等于决策-相关性的局限" class="toc-link h3">1.2 预测不等于决策：相关性的局限</a>
+<a href="#n1-3-与其他学科的关键连接点" class="toc-link h3">1.3 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-哲学起点-因果究竟是什么" class="toc-link h3">2.1 哲学起点：因果究竟是什么</a>
+<a href="#n2-2-随机实验与统计传统" class="toc-link h3">2.2 随机实验与统计传统</a>
+<a href="#n2-3-计量经济学与观察性识别" class="toc-link h3">2.3 计量经济学与观察性识别</a>
+<a href="#n2-4-结构因果模型的建立" class="toc-link h3">2.4 结构因果模型的建立</a>
+<a href="#n2-5-因果推断进入现代-AI" class="toc-link h3">2.5 因果推断进入现代 AI</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-潜在结果框架-Potential-Outcomes" class="toc-link h3">3.1 潜在结果框架（Potential Outcomes）</a>
+<a href="#n3-2-结构因果模型与因果图-SCM-and-DAG" class="toc-link h3">3.2 结构因果模型与因果图（SCM and DAG）</a>
+<a href="#n3-3-do-算子与干预推理-Interventional-Reasoning" class="toc-link h3">3.3 do-算子与干预推理（Interventional Reasoning）</a>
+<a href="#n3-4-因果识别策略-Identification-Strategies" class="toc-link h3">3.4 因果识别策略（Identification Strategies）</a>
+<a href="#n3-5-反事实推理-Counterfactual-Reasoning" class="toc-link h3">3.5 反事实推理（Counterfactual Reasoning）</a>
+<a href="#n3-6-因果发现-Causal-Discovery" class="toc-link h3">3.6 因果发现（Causal Discovery）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-鲁棒泛化与分布外迁移" class="toc-link h3">4.1 鲁棒泛化与分布外迁移</a>
+<a href="#n4-2-推荐-广告与平台优化中的增量效应" class="toc-link h3">4.2 推荐、广告与平台优化中的增量效应</a>
+<a href="#n4-3-强化学习-离线决策与反事实评估" class="toc-link h3">4.3 强化学习、离线决策与反事实评估</a>
+<a href="#n4-4-科学发现与机制建模" class="toc-link h3">4.4 科学发现与机制建模</a>
+<a href="#n4-5-可解释性-审计与安全" class="toc-link h3">4.5 可解释性、审计与安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-因果表示学习能否真正提升大模型鲁棒性" class="toc-link h3">5.1 因果表示学习能否真正提升大模型鲁棒性</a>
+<a href="#n5-2-从观察数据到干预结论的假设边界" class="toc-link h3">5.2 从观察数据到干预结论的假设边界</a>
+<a href="#n5-3-因果推断与强化学习-世界模型的统一" class="toc-link h3">5.3 因果推断与强化学习、世界模型的统一</a>
+<a href="#n5-4-因果公平性与高风险-AI-治理" class="toc-link h3">5.4 因果公平性与高风险 AI 治理</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#n6-1-经典教材" class="toc-link h3">6.1 经典教材</a>
+<a href="#n6-2-关键论文" class="toc-link h3">6.2 关键论文</a>
+<a href="#n6-3-AI-相关延伸阅读" class="toc-link h3">6.3 AI 相关延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要因果推断" class="toc-link h2">1. 上帝视角：为什么 AI 需要因果推断</a>
+<a href="#n1-1-三层问题-关联-干预与反事实" class="toc-link h3">1.1 三层问题：关联、干预与反事实</a>
+<a href="#n1-2-预测不等于决策-相关性的局限" class="toc-link h3">1.2 预测不等于决策：相关性的局限</a>
+<a href="#n1-3-与其他学科的关键连接点" class="toc-link h3">1.3 与其他学科的关键连接点</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-哲学起点-因果究竟是什么" class="toc-link h3">2.1 哲学起点：因果究竟是什么</a>
+<a href="#n2-2-随机实验与统计传统" class="toc-link h3">2.2 随机实验与统计传统</a>
+<a href="#n2-3-计量经济学与观察性识别" class="toc-link h3">2.3 计量经济学与观察性识别</a>
+<a href="#n2-4-结构因果模型的建立" class="toc-link h3">2.4 结构因果模型的建立</a>
+<a href="#n2-5-因果推断进入现代-AI" class="toc-link h3">2.5 因果推断进入现代 AI</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-潜在结果框架-Potential-Outcomes" class="toc-link h3">3.1 潜在结果框架（Potential Outcomes）</a>
+<a href="#n3-2-结构因果模型与因果图-SCM-and-DAG" class="toc-link h3">3.2 结构因果模型与因果图（SCM and DAG）</a>
+<a href="#n3-3-do-算子与干预推理-Interventional-Reasoning" class="toc-link h3">3.3 do-算子与干预推理（Interventional Reasoning）</a>
+<a href="#n3-4-因果识别策略-Identification-Strategies" class="toc-link h3">3.4 因果识别策略（Identification Strategies）</a>
+<a href="#n3-5-反事实推理-Counterfactual-Reasoning" class="toc-link h3">3.5 反事实推理（Counterfactual Reasoning）</a>
+<a href="#n3-6-因果发现-Causal-Discovery" class="toc-link h3">3.6 因果发现（Causal Discovery）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-鲁棒泛化与分布外迁移" class="toc-link h3">4.1 鲁棒泛化与分布外迁移</a>
+<a href="#n4-2-推荐-广告与平台优化中的增量效应" class="toc-link h3">4.2 推荐、广告与平台优化中的增量效应</a>
+<a href="#n4-3-强化学习-离线决策与反事实评估" class="toc-link h3">4.3 强化学习、离线决策与反事实评估</a>
+<a href="#n4-4-科学发现与机制建模" class="toc-link h3">4.4 科学发现与机制建模</a>
+<a href="#n4-5-可解释性-审计与安全" class="toc-link h3">4.5 可解释性、审计与安全</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-因果表示学习能否真正提升大模型鲁棒性" class="toc-link h3">5.1 因果表示学习能否真正提升大模型鲁棒性</a>
+<a href="#n5-2-从观察数据到干预结论的假设边界" class="toc-link h3">5.2 从观察数据到干预结论的假设边界</a>
+<a href="#n5-3-因果推断与强化学习-世界模型的统一" class="toc-link h3">5.3 因果推断与强化学习、世界模型的统一</a>
+<a href="#n5-4-因果公平性与高风险-AI-治理" class="toc-link h3">5.4 因果公平性与高风险 AI 治理</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#n6-1-经典教材" class="toc-link h3">6.1 经典教材</a>
+<a href="#n6-2-关键论文" class="toc-link h3">6.2 关键论文</a>
+<a href="#n6-3-AI-相关延伸阅读" class="toc-link h3">6.3 AI 相关延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

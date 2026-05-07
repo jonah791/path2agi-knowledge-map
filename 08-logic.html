@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：逻辑学是 AI 最早的形式语言之一。符号 AI 时代（1956-1990），知识表示与推理主要靠逻辑系统展开。虽然深度学习取代了符号方法的主导地位，但严格推理、可验证解释与规则组合能力仍然是现代 AI 的短板。神经符号整合（Neuro-Symbolic AI）试图结合两者的优势，是当前的前沿方向。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="09-causal-inference.html">因果推断</a>：因果关系不仅需要统计证据，也需要形式化推理框架</li>
 <li><a href="10-computer-science.html">计算机科学</a>：可计算性、自动定理证明与逻辑编程是逻辑学的重要工程延伸</li>
@@ -446,9 +446,9 @@
 <li><a href="22-linguistics.html">语言学</a>：形式语义学与语法结构分析大量借助逻辑表达</li>
 <li><a href="25-philosophy.html">哲学</a>：真理、证明、意义与心灵问题都与逻辑学密切相关</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要逻辑学</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要逻辑学">1. 上帝视角：为什么 AI 需要逻辑学</h2>
 <p>逻辑学为 AI 提供了最基本的能力——<strong>推理</strong>（reasoning）。没有逻辑，AI 只能做模式匹配；有了逻辑，AI 才能做因果推断、规划和解释。</p>
-<h3>1.1 AI 的第一种语言</h3>
+<h3 id="n1-1-AI-的第一种语言">1.1 AI 的第一种语言</h3>
 <p>1956 年达特茅斯会议上，AI 的创始人们几乎全部来自数理逻辑背景。他们的核心信念是：</p>
 <ul>
 <li><strong>智能 = 符号操作</strong>：思维可以被形式化为符号的变换规则</li>
@@ -456,7 +456,7 @@
 <li><strong>推理 = 逻辑推导</strong>：从已知事实推出新结论</li>
 </ul>
 <p>这一范式主导了 AI 的前 35 年（1956-1990），产生了专家系统（Expert Systems）、定理证明器（Theorem Provers）、逻辑编程（Logic Programming）等重要成果。</p>
-<h3>1.2 与其他学科的关键连接</h3>
+<h3 id="n1-2-与其他学科的关键连接">1.2 与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -496,15 +496,15 @@
 <td>概率逻辑、马尔可夫逻辑网络</td>
 </tr>
 </tbody></table>
-<h3>1.3 逻辑学在 AI 中的双重角色</h3>
+<h3 id="n1-3-逻辑学在-AI-中的双重角色">1.3 逻辑学在 AI 中的双重角色</h3>
 <ol>
 <li><strong>作为工具</strong>：逻辑提供了知识表示和推理的形式化框架</li>
 <li><strong>作为标准</strong>：逻辑推理能力是衡量 AI 智能水平的重要指标</li>
 </ol>
 <p>当前大语言模型（LLM）在逻辑推理上的不足——如三段论错误、否定推理失败、多步推理退化——恰恰说明了逻辑学对 AI 的持续重要性。</p>
 <hr>
-<h2>2. 历史脉络：从亚里士多德到神经符号 AI</h2>
-<h3>2.1 古典时期：逻辑学的诞生</h3>
+<h2 id="n2-历史脉络-从亚里士多德到神经符号-AI">2. 历史脉络：从亚里士多德到神经符号 AI</h2>
+<h3 id="n2-1-古典时期-逻辑学的诞生">2.1 古典时期：逻辑学的诞生</h3>
 <p><strong>Aristotle（公元前 384-322）</strong> 创立了形式逻辑，其核心贡献是<strong>三段论</strong>（syllogism）：</p>
 <ul>
 <li><strong>大前提</strong>：所有人都会死（All men are mortal）</li>
@@ -513,7 +513,7 @@
 </ul>
 <p>三段论的重要性在于：推理的有效性<strong>只取决于形式，不取决于内容</strong>，而这一洞见在 Aristotle 的《前分析篇》（约公元前 350 年）中已被明确表述，并成为后世形式化逻辑发展的早期源头之一。</p>
 <p>Aristotle 还区分了<strong>演绎推理</strong>（deduction，从一般到特殊）和<strong>归纳推理</strong>（induction，从特殊到一般），这一区分至今仍是 AI 推理方法的基本分类。</p>
-<h3>2.2 数理逻辑的奠基（19 世纪）</h3>
+<h3 id="n2-2-数理逻辑的奠基-19-世纪">2.2 数理逻辑的奠基（19 世纪）</h3>
 <p><strong>George Boole (1854)</strong>：《思维的法则》（<em>The Laws of Thought</em>）</p>
 <ul>
 <li>将逻辑运算代数化：AND（∧）、OR（∨）、NOT（¬）</li>
@@ -542,7 +542,7 @@ $$</p>
 <li><p>谓词逻辑的表达能力远超命题逻辑，成为 AI 知识表示的标准语言</p>
 </li>
 </ul>
-<h3>2.3 逻辑的黄金时代（20 世纪前半叶）</h3>
+<h3 id="n2-3-逻辑的黄金时代-20-世纪前半叶">2.3 逻辑的黄金时代（20 世纪前半叶）</h3>
 <p><strong>Bertrand Russell &amp; Alfred North Whitehead (1910-1913)</strong>：《数学原理》（<em>Principia Mathematica</em>）</p>
 <ul>
 <li>试图将全部数学建立在逻辑基础上（逻辑主义纲领）</li>
@@ -565,7 +565,7 @@ $$</p>
 <li>提供了另一种计算模型，与图灵机等价（Church-Turing 论题）</li>
 <li>直接影响了函数式编程语言（LISP、Haskell）</li>
 </ul>
-<h3>2.4 符号 AI 的兴起（1950s-1970s）</h3>
+<h3 id="n2-4-符号-AI-的兴起-1950s-1970s">2.4 符号 AI 的兴起（1950s-1970s）</h3>
 <p><strong>Allen Newell &amp; Herbert Simon (1956)</strong>：Logic Theorist</p>
 <ul>
 <li>第一个 AI 程序，能够证明《数学原理》中的定理</li>
@@ -588,7 +588,7 @@ $$</p>
 <li>将逻辑直接作为编程语言：程序 = 逻辑公式，执行 = 推理</li>
 <li>&quot;Algorithm = Logic + Control&quot;</li>
 </ul>
-<h3>2.5 专家系统与知识工程（1970s-1980s）</h3>
+<h3 id="n2-5-专家系统与知识工程-1970s-1980s">2.5 专家系统与知识工程（1970s-1980s）</h3>
 <p><strong>Edward Feigenbaum</strong>：知识工程（Knowledge Engineering）</p>
 <ul>
 <li><strong>DENDRAL (1965)</strong>：化学分子结构分析，第一个成功的专家系统</li>
@@ -601,7 +601,7 @@ $$</p>
 <li><strong>推理引擎</strong>（Inference Engine）：前向链（Forward Chaining）或后向链（Backward Chaining）</li>
 <li><strong>解释模块</strong>（Explanation Module）：解释推理过程</li>
 </ul>
-<h3>2.6 AI 寒冬与反思（1980s-1990s）</h3>
+<h3 id="n2-6-AI-寒冬与反思-1980s-1990s">2.6 AI 寒冬与反思（1980s-1990s）</h3>
 <p>符号 AI 遭遇了根本性困难：</p>
 <ul>
 <li><strong>知识获取瓶颈</strong>（Knowledge Acquisition Bottleneck）：手工编码知识成本极高</li>
@@ -611,7 +611,7 @@ $$</p>
 <li><strong>不确定性处理</strong>：经典逻辑是二值的，现实世界充满不确定性</li>
 </ul>
 <p>这些困难推动了统计方法和机器学习的兴起。</p>
-<h3>2.7 复兴与融合（2000s-至今）</h3>
+<h3 id="n2-7-复兴与融合-2000s-至今">2.7 复兴与融合（2000s-至今）</h3>
 <ul>
 <li><strong>知识图谱</strong>（Knowledge Graphs）：Google (2012)、Wikidata、DBpedia</li>
 <li><strong>概率逻辑</strong>：马尔可夫逻辑网络（Markov Logic Networks, Richardson &amp; Domingos, 2006）</li>
@@ -619,8 +619,8 @@ $$</p>
 <li><strong>LLM + 推理</strong>：Chain-of-Thought (Wei et al., 2022)、Tree-of-Thought (Yao et al., 2023)</li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 命题逻辑（Propositional Logic）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-命题逻辑-Propositional-Logic">3.1 命题逻辑（Propositional Logic）</h3>
 <p>命题逻辑是最简单的逻辑系统，处理的是<strong>命题</strong>（proposition）——具有确定真值的陈述句。</p>
 <h4>基本运算</h4>
 <table>
@@ -678,7 +678,7 @@ $$</p>
 </ul>
 <h4>局限性</h4>
 <p>命题逻辑的表达能力有限——无法表达&quot;所有&quot;、&quot;存在&quot;等量化概念，也无法表达对象之间的关系。这推动了谓词逻辑的发展。</p>
-<h3>3.2 谓词逻辑（Predicate Logic）</h3>
+<h3 id="n3-2-谓词逻辑-Predicate-Logic">3.2 谓词逻辑（Predicate Logic）</h3>
 <p>谓词逻辑（又称一阶逻辑，First-Order Logic, FOL）在命题逻辑基础上增加了：</p>
 <ul>
 <li><strong>个体变量</strong>：x, y, z（代表对象）</li>
@@ -731,7 +731,7 @@ $$</p>
 <li><strong>半可判定性</strong>：一阶逻辑的有效性问题是半可判定的（可以证明有效的公式，但无法总是证明无效的公式）</li>
 <li><strong>表达能力与可计算性的权衡</strong>：更强的逻辑（如二阶逻辑）表达能力更强，但推理更困难</li>
 </ul>
-<h3>3.3 逻辑系统在 AI 中的任务分工</h3>
+<h3 id="n3-3-逻辑系统在-AI-中的任务分工">3.3 逻辑系统在 AI 中的任务分工</h3>
 <p>“逻辑”并不是一个单一系统。不同逻辑面向的 AI 任务不同，表达能力与可计算性也不同：</p>
 <table>
 <thead>
@@ -781,7 +781,7 @@ $$</p>
 <li><strong>系统分层</strong>：命题逻辑常用于底层约束检查，一阶与描述逻辑常用于知识库和本体层，概率逻辑则用于不确定规则推理。</li>
 <li><strong>神经符号接口</strong>：这类分工也为现代系统提供了接口边界，方便把学习模块与规则模块拆开设计。</li>
 </ul>
-<h3>3.4 Gödel 不完备性定理：逻辑的内在极限</h3>
+<h3 id="n3-4-G-del-不完备性定理-逻辑的内在极限">3.4 Gödel 不完备性定理：逻辑的内在极限</h3>
 <p>Kurt Gödel 在 1931 年发表的不完备性定理，是 20 世纪最深刻的数学发现之一。</p>
 <h4>第一不完备性定理</h4>
 <blockquote>
@@ -799,7 +799,7 @@ $$</p>
 <li><strong>Lucas-Penrose 论证</strong>：哲学家 John Lucas (1961) 和物理学家 Roger Penrose (1989) 据此论证人类心智不可能是算法的——因为人类能&quot;看到&quot; Gödel 命题为真，而机器不能。这一论证至今仍有争议</li>
 <li><strong>元认知的重要性</strong>：AI 系统需要某种&quot;跳出系统&quot;的能力，这可能需要超越纯逻辑的方法</li>
 </ol>
-<h3>3.5 符号 AI 的兴与衰</h3>
+<h3 id="n3-5-符号-AI-的兴与衰">3.5 符号 AI 的兴与衰</h3>
 <h4>辉煌时期（1956-1987）</h4>
 <p>符号 AI 的核心假设——<strong>物理符号系统假说</strong>（Physical Symbol System Hypothesis, Newell &amp; Simon, 1976）：</p>
 <blockquote>
@@ -822,7 +822,7 @@ $$</p>
 </ol>
 <h4>AI 中的角色</h4>
 <p>符号 AI 在知识表示、推理引擎和专家系统方面提供了标准化的框架与可解释性保障。即使在神经网络主导的今天，这些系统仍支撑着自动定理证明、知识图谱推理以及对逻辑链路要求极高的应用场景，保证了推理结果的可验证性。</p>
-<h3>3.6 知识图谱（Knowledge Graphs）</h3>
+<h3 id="n3-6-知识图谱-Knowledge-Graphs">3.6 知识图谱（Knowledge Graphs）</h3>
 <p>知识图谱是符号 AI 在大数据时代的复兴形式。</p>
 <h4>基本概念</h4>
 <p>知识图谱是一个有向图，节点表示<strong>实体</strong>（entity），边表示<strong>关系</strong>（relation）：</p>
@@ -883,7 +883,7 @@ $$</p>
 <li><strong>药物发现</strong>：生物医学知识图谱辅助靶点发现</li>
 <li><strong>LLM 增强</strong>：用知识图谱减少大模型的幻觉（hallucination）</li>
 </ul>
-<h3>3.7 神经符号整合（Neuro-Symbolic AI）</h3>
+<h3 id="n3-7-神经符号整合-Neuro-Symbolic-AI">3.7 神经符号整合（Neuro-Symbolic AI）</h3>
 <p>神经符号 AI 试图结合两种范式的优势：</p>
 <table>
 <thead>
@@ -961,8 +961,8 @@ $$</p>
 <li>如何在保持可微分性的同时实现<strong>离散推理</strong>？</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 知识表示（Knowledge Representation）</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-知识表示-Knowledge-Representation">4.1 知识表示（Knowledge Representation）</h3>
 <p>逻辑学为 AI 提供了第一套系统的知识表示方法：</p>
 <ul>
 <li><strong>命题逻辑</strong>：表示简单的事实和规则</li>
@@ -971,21 +971,21 @@ $$</p>
 <li><strong>模态逻辑</strong>（Modal Logic）：表示信念、知识、义务等模态概念</li>
 <li><strong>时态逻辑</strong>（Temporal Logic）：表示时间相关的性质，用于模型检验（Model Checking）</li>
 </ul>
-<h3>4.2 自动推理（Automated Reasoning）</h3>
+<h3 id="n4-2-自动推理-Automated-Reasoning">4.2 自动推理（Automated Reasoning）</h3>
 <ul>
 <li><strong>SAT 求解</strong>：现代 CDCL 求解器能处理工业级问题（数百万变量）</li>
 <li><strong>SMT 求解</strong>（Satisfiability Modulo Theories）：在 SAT 基础上支持算术、数组等理论，广泛用于程序验证</li>
 <li><strong>模型检验</strong>（Model Checking, Clarke &amp; Emerson, 1981）：自动验证系统是否满足规范，2007 年图灵奖</li>
 <li><strong>交互式定理证明</strong>：Coq、Lean、Isabelle 等工具，用于形式化数学和软件验证</li>
 </ul>
-<h3>4.3 逻辑编程与声明式 AI</h3>
+<h3 id="n4-3-逻辑编程与声明式-AI">4.3 逻辑编程与声明式 AI</h3>
 <p>Prolog 和 Answer Set Programming (ASP) 代表了一种独特的 AI 范式：</p>
 <ul>
 <li><strong>声明式</strong>：描述&quot;是什么&quot;而非&quot;怎么做&quot;</li>
 <li><strong>非单调推理</strong>（Non-Monotonic Reasoning）：新信息可以推翻旧结论</li>
 <li><strong>约束求解</strong>：自然地表达和求解约束满足问题</li>
 </ul>
-<h3>4.4 对深度学习的启示</h3>
+<h3 id="n4-4-对深度学习的启示">4.4 对深度学习的启示</h3>
 <p>即使在深度学习主导的今天，逻辑学的影响无处不在：</p>
 <ul>
 <li><strong>注意力机制</strong>：可以看作一种软性的信息检索/推理</li>
@@ -994,8 +994,8 @@ $$</p>
 <li><strong>程序合成</strong>（Program Synthesis）：从规范自动生成程序，结合了逻辑和学习</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 LLM 的推理能力</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-LLM-的推理能力">5.1 LLM 的推理能力</h3>
 <p>大语言模型展现了令人惊讶的推理能力，但也暴露了根本性的局限：</p>
 <p><strong>能力</strong>：</p>
 <ul>
@@ -1011,19 +1011,19 @@ $$</p>
 <li><strong>形式验证</strong>：无法保证推理的正确性</li>
 </ul>
 <p>更深一层的困难在于：经典逻辑通常假设封闭、明确定义且符号稳定的世界，而大语言模型面对的是开放世界文本。实体边界会变化、背景知识不完整、同一句话可能依赖大量未明说常识。于是，LLM 往往擅长“生成像推理的文本”，却不一定在严格意义上维护可验证的推导链。这也是为什么神经符号方法反复出现: 语言模型补足知识获取与柔性表征，逻辑系统补足可验证约束与严格推导。</p>
-<h3>5.2 形式化数学的突破</h3>
+<h3 id="n5-2-形式化数学的突破">5.2 形式化数学的突破</h3>
 <ul>
 <li><strong>Lean 数学库</strong>（Mathlib）：已形式化大量本科和研究生数学</li>
 <li><strong>AlphaProof (2024)</strong>：DeepMind 的系统在 IMO 2024 中解决了 4/6 道题</li>
 <li><strong>自动猜想生成</strong>：AI 辅助发现新的数学猜想</li>
 </ul>
-<h3>5.3 可信 AI 与形式验证</h3>
+<h3 id="n5-3-可信-AI-与形式验证">5.3 可信 AI 与形式验证</h3>
 <ul>
 <li><strong>神经网络验证</strong>：证明神经网络在特定输入范围内的行为</li>
 <li><strong>对抗鲁棒性证明</strong>：形式化证明模型对对抗攻击的抵抗力</li>
 <li><strong>AI 安全</strong>：用逻辑方法确保 AI 系统的行为符合规范</li>
 </ul>
-<h3>5.4 核心开放问题</h3>
+<h3 id="n5-4-核心开放问题">5.4 核心开放问题</h3>
 <ol>
 <li><strong>常识推理</strong>：如何让 AI 具备人类水平的常识？CYC 项目 40 年未解决的问题</li>
 <li><strong>因果推理</strong>：从相关性到因果性的跨越（Judea Pearl 的因果阶梯）</li>
@@ -1032,8 +1032,8 @@ $$</p>
 <li><strong>统一框架</strong>：是否存在一个统一神经网络和符号推理的理论框架？</li>
 </ol>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典教材">经典教材</h3>
 <ul>
 <li>Russell, S. &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th ed.). Pearson.<ul>
 <li>第 7-9 章：逻辑与推理的标准参考</li>
@@ -1048,7 +1048,7 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h3>里程碑论文</h3>
+<h3 id="里程碑论文">里程碑论文</h3>
 <ul>
 <li>Newell, A. &amp; Simon, H. (1956). The Logic Theory Machine. <em>IRE Transactions on Information Theory</em>.</li>
 <li>McCarthy, J. (1959). Programs with Common Sense. <em>Proceedings of the Teddington Conference</em>.</li>
@@ -1057,19 +1057,19 @@ $$</p>
 <li>Newell, A. &amp; Simon, H. (1976). Computer Science as Empirical Inquiry: Symbols and Search. <em>CACM</em>.</li>
 <li>Gödel, K. (1931). Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I. <em>Monatshefte für Mathematik und Physik</em>.</li>
 </ul>
-<h3>神经符号 AI</h3>
+<h3 id="神经符号-AI">神经符号 AI</h3>
 <ul>
 <li>Garcez, A. et al. (2019). Neural-Symbolic Computing: An Effective Methodology for Principled Integration of Machine Learning and Reasoning. <em>JAIR</em>.</li>
 <li>Bordes, A. et al. (2013). Translating Embeddings for Modeling Multi-relational Data. <em>NeurIPS</em>.</li>
 <li>Wei, J. et al. (2022). Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. <em>NeurIPS</em>.</li>
 <li>Yao, S. et al. (2023). Tree of Thoughts: Deliberate Problem Solving with Large Language Models. <em>NeurIPS</em>.</li>
 </ul>
-<h3>知识图谱</h3>
+<h3 id="知识图谱">知识图谱</h3>
 <ul>
 <li>Hogan, A. et al. (2021). Knowledge Graphs. <em>ACM Computing Surveys</em>.</li>
 <li>Ji, S. et al. (2022). A Survey on Knowledge Graphs: Representation, Acquisition, and Applications. <em>IEEE TNNLS</em>.</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇回答的是“AI 如何把知识写成可推理的形式，并在其中做可验证的演绎”。它与全书其他基础篇章形成互补：</p>
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a> 处理不确定性与统计估计；</li>
@@ -1099,12 +1099,84 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要逻辑学" class="toc-link h2">1. 上帝视角：为什么 AI 需要逻辑学</a>
+<a href="#n1-1-AI-的第一种语言" class="toc-link h3">1.1 AI 的第一种语言</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-逻辑学在-AI-中的双重角色" class="toc-link h3">1.3 逻辑学在 AI 中的双重角色</a>
+<a href="#n2-历史脉络-从亚里士多德到神经符号-AI" class="toc-link h2">2. 历史脉络：从亚里士多德到神经符号 AI</a>
+<a href="#n2-1-古典时期-逻辑学的诞生" class="toc-link h3">2.1 古典时期：逻辑学的诞生</a>
+<a href="#n2-2-数理逻辑的奠基-19-世纪" class="toc-link h3">2.2 数理逻辑的奠基（19 世纪）</a>
+<a href="#n2-3-逻辑的黄金时代-20-世纪前半叶" class="toc-link h3">2.3 逻辑的黄金时代（20 世纪前半叶）</a>
+<a href="#n2-4-符号-AI-的兴起-1950s-1970s" class="toc-link h3">2.4 符号 AI 的兴起（1950s-1970s）</a>
+<a href="#n2-5-专家系统与知识工程-1970s-1980s" class="toc-link h3">2.5 专家系统与知识工程（1970s-1980s）</a>
+<a href="#n2-6-AI-寒冬与反思-1980s-1990s" class="toc-link h3">2.6 AI 寒冬与反思（1980s-1990s）</a>
+<a href="#n2-7-复兴与融合-2000s-至今" class="toc-link h3">2.7 复兴与融合（2000s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-命题逻辑-Propositional-Logic" class="toc-link h3">3.1 命题逻辑（Propositional Logic）</a>
+<a href="#n3-2-谓词逻辑-Predicate-Logic" class="toc-link h3">3.2 谓词逻辑（Predicate Logic）</a>
+<a href="#n3-3-逻辑系统在-AI-中的任务分工" class="toc-link h3">3.3 逻辑系统在 AI 中的任务分工</a>
+<a href="#n3-4-G-del-不完备性定理-逻辑的内在极限" class="toc-link h3">3.4 Gödel 不完备性定理：逻辑的内在极限</a>
+<a href="#n3-5-符号-AI-的兴与衰" class="toc-link h3">3.5 符号 AI 的兴与衰</a>
+<a href="#n3-6-知识图谱-Knowledge-Graphs" class="toc-link h3">3.6 知识图谱（Knowledge Graphs）</a>
+<a href="#n3-7-神经符号整合-Neuro-Symbolic-AI" class="toc-link h3">3.7 神经符号整合（Neuro-Symbolic AI）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-知识表示-Knowledge-Representation" class="toc-link h3">4.1 知识表示（Knowledge Representation）</a>
+<a href="#n4-2-自动推理-Automated-Reasoning" class="toc-link h3">4.2 自动推理（Automated Reasoning）</a>
+<a href="#n4-3-逻辑编程与声明式-AI" class="toc-link h3">4.3 逻辑编程与声明式 AI</a>
+<a href="#n4-4-对深度学习的启示" class="toc-link h3">4.4 对深度学习的启示</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-LLM-的推理能力" class="toc-link h3">5.1 LLM 的推理能力</a>
+<a href="#n5-2-形式化数学的突破" class="toc-link h3">5.2 形式化数学的突破</a>
+<a href="#n5-3-可信-AI-与形式验证" class="toc-link h3">5.3 可信 AI 与形式验证</a>
+<a href="#n5-4-核心开放问题" class="toc-link h3">5.4 核心开放问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#神经符号-AI" class="toc-link h3">神经符号 AI</a>
+<a href="#知识图谱" class="toc-link h3">知识图谱</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要逻辑学" class="toc-link h2">1. 上帝视角：为什么 AI 需要逻辑学</a>
+<a href="#n1-1-AI-的第一种语言" class="toc-link h3">1.1 AI 的第一种语言</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-逻辑学在-AI-中的双重角色" class="toc-link h3">1.3 逻辑学在 AI 中的双重角色</a>
+<a href="#n2-历史脉络-从亚里士多德到神经符号-AI" class="toc-link h2">2. 历史脉络：从亚里士多德到神经符号 AI</a>
+<a href="#n2-1-古典时期-逻辑学的诞生" class="toc-link h3">2.1 古典时期：逻辑学的诞生</a>
+<a href="#n2-2-数理逻辑的奠基-19-世纪" class="toc-link h3">2.2 数理逻辑的奠基（19 世纪）</a>
+<a href="#n2-3-逻辑的黄金时代-20-世纪前半叶" class="toc-link h3">2.3 逻辑的黄金时代（20 世纪前半叶）</a>
+<a href="#n2-4-符号-AI-的兴起-1950s-1970s" class="toc-link h3">2.4 符号 AI 的兴起（1950s-1970s）</a>
+<a href="#n2-5-专家系统与知识工程-1970s-1980s" class="toc-link h3">2.5 专家系统与知识工程（1970s-1980s）</a>
+<a href="#n2-6-AI-寒冬与反思-1980s-1990s" class="toc-link h3">2.6 AI 寒冬与反思（1980s-1990s）</a>
+<a href="#n2-7-复兴与融合-2000s-至今" class="toc-link h3">2.7 复兴与融合（2000s-至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-命题逻辑-Propositional-Logic" class="toc-link h3">3.1 命题逻辑（Propositional Logic）</a>
+<a href="#n3-2-谓词逻辑-Predicate-Logic" class="toc-link h3">3.2 谓词逻辑（Predicate Logic）</a>
+<a href="#n3-3-逻辑系统在-AI-中的任务分工" class="toc-link h3">3.3 逻辑系统在 AI 中的任务分工</a>
+<a href="#n3-4-G-del-不完备性定理-逻辑的内在极限" class="toc-link h3">3.4 Gödel 不完备性定理：逻辑的内在极限</a>
+<a href="#n3-5-符号-AI-的兴与衰" class="toc-link h3">3.5 符号 AI 的兴与衰</a>
+<a href="#n3-6-知识图谱-Knowledge-Graphs" class="toc-link h3">3.6 知识图谱（Knowledge Graphs）</a>
+<a href="#n3-7-神经符号整合-Neuro-Symbolic-AI" class="toc-link h3">3.7 神经符号整合（Neuro-Symbolic AI）</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-知识表示-Knowledge-Representation" class="toc-link h3">4.1 知识表示（Knowledge Representation）</a>
+<a href="#n4-2-自动推理-Automated-Reasoning" class="toc-link h3">4.2 自动推理（Automated Reasoning）</a>
+<a href="#n4-3-逻辑编程与声明式-AI" class="toc-link h3">4.3 逻辑编程与声明式 AI</a>
+<a href="#n4-4-对深度学习的启示" class="toc-link h3">4.4 对深度学习的启示</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-LLM-的推理能力" class="toc-link h3">5.1 LLM 的推理能力</a>
+<a href="#n5-2-形式化数学的突破" class="toc-link h3">5.2 形式化数学的突破</a>
+<a href="#n5-3-可信-AI-与形式验证" class="toc-link h3">5.3 可信 AI 与形式验证</a>
+<a href="#n5-4-核心开放问题" class="toc-link h3">5.4 核心开放问题</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典教材" class="toc-link h3">经典教材</a>
+<a href="#里程碑论文" class="toc-link h3">里程碑论文</a>
+<a href="#神经符号-AI" class="toc-link h3">神经符号 AI</a>
+<a href="#知识图谱" class="toc-link h3">知识图谱</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：进化生物学为 AI 提供了一类重要的黑箱搜索与无梯度优化思路，但它并不是梯度学习的普遍替代品。遗传算法、进化策略、神经进化和 NAS 等方法，最擅长处理不可微、离散、结构搜索或高噪声目标；而在大规模可微参数学习上，梯度方法通常仍更高效。理解进化生物学，关键是理解它在哪些问题上特别强、又在哪些问题上不该被神化。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="03-calculus-and-optimization.html">微积分与最优化</a>：梯度下降定义了主流深度学习优化路径，进化方法则提供了黑箱替代</li>
 <li><a href="12-game-theory.html">博弈论</a>：进化博弈与多智能体适应过程天然相连</li>
@@ -447,8 +447,8 @@
 <li><a href="19-neuroscience.html">神经科学</a>：神经进化与神经达尔文主义把生物适应和神经表征联系起来</li>
 </ul>
 <hr>
-<h2>1. 上帝视角：为什么 AI 需要进化生物学</h2>
-<h3>1.1 核心价值：无梯度优化</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要进化生物学">1. 上帝视角：为什么 AI 需要进化生物学</h2>
+<h3 id="n1-1-核心价值-无梯度优化">1.1 核心价值：无梯度优化</h3>
 <p>深度学习的成功建立在梯度下降之上，但梯度下降并不能覆盖全部搜索问题。尤其在以下场景中，它会遇到明显限制：</p>
 <ul>
 <li><strong>目标函数不可微</strong>：离散结构（网络拓扑、超参数组合）无法求导</li>
@@ -456,7 +456,7 @@
 <li><strong>局部最优陷阱</strong>：高维非凸景观中梯度方法容易困在鞍点或局部极小</li>
 </ul>
 <p>进化生物学提供了一套完全不同的优化范式：<strong>只需要评估适应度（fitness），不需要计算梯度</strong>。这使得进化方法可以优化黑箱、不可微、不连续、甚至带噪声的目标函数。</p>
-<h3>1.2 与其他学科的关键连接</h3>
+<h3 id="n1-2-与其他学科的关键连接">1.2 与其他学科的关键连接</h3>
 <table>
 <thead>
 <tr>
@@ -501,7 +501,7 @@
 <td>进化作为无监督的控制策略</td>
 </tr>
 </tbody></table>
-<h3>1.3 进化计算的独特优势</h3>
+<h3 id="n1-3-进化计算的独特优势">1.3 进化计算的独特优势</h3>
 <ul>
 <li><strong>天然并行</strong>：种群中的个体可以同时评估</li>
 <li><strong>全局搜索能力</strong>：通过种群多样性避免局部最优</li>
@@ -509,7 +509,7 @@
 <li><strong>可处理多目标</strong>：Pareto 前沿天然适合进化框架</li>
 </ul>
 <p>但边界同样重要：当目标函数可微、参数规模极大、且每次评估成本极高时，进化方法往往不如梯度方法高效。它最有价值的地方，通常是<strong>搜索结构、策略、超参数与黑箱目标</strong>，而不是取代整个深度学习训练范式。</p>
-<h3>1.4 一个判断框架：什么时候该用进化方法</h3>
+<h3 id="n1-4-一个判断框架-什么时候该用进化方法">1.4 一个判断框架：什么时候该用进化方法</h3>
 <p>可以把“要不要上进化方法”理解成一个工程分流问题：</p>
 <ul>
 <li><strong>情景 A：训练一个可微的大语言模型或视觉模型</strong>。损失函数明确、反向传播稳定、参数规模巨大。这时主角几乎总是梯度下降，进化方法若介入，也通常只放在外层做提示词、结构或超参数搜索。</li>
@@ -518,8 +518,8 @@
 </ul>
 <p>简化成一句话：<strong>能稳定求梯度时，优先用梯度；不能稳定求梯度、或者真正要搜索的是结构与策略空间时，再优先进化方法。</strong></p>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 生物学基础（1859—1960s）</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-生物学基础-1859-1960s">2.1 生物学基础（1859—1960s）</h3>
 <p><strong>Charles Darwin (1859)</strong>：《物种起源》提出自然选择理论。核心思想：</p>
 <ul>
 <li>种群中存在个体变异（variation）</li>
@@ -532,7 +532,7 @@
 <p>$$\frac{d\bar{w}}{dt} = \text{Var}(w)$$</p>
 <p>种群平均适应度的增长率等于适应度的方差。这意味着：<strong>只要种群中存在多样性，进化就会持续改进</strong>。</p>
 <p><strong>Sewall Wright (1932)</strong>：提出适应度景观（fitness landscape）概念。将进化想象为种群在高维景观上的运动，山峰代表高适应度，山谷代表低适应度。这个隐喻深刻影响了后来的优化理论。</p>
-<h3>2.2 进化计算的诞生（1960s—1970s）</h3>
+<h3 id="n2-2-进化计算的诞生-1960s-1970s">2.2 进化计算的诞生（1960s—1970s）</h3>
 <p><strong>Lawrence Fogel (1966)</strong>：进化编程（Evolutionary Programming）。Fogel 用有限状态机表示个体，通过变异和选择来进化预测算法。这是最早将进化思想应用于计算的尝试之一。</p>
 <p><strong>Ingo Rechenberg (1965, 1973)</strong>：进化策略（Evolution Strategies, ES）。在柏林工业大学，Rechenberg 用进化方法优化流体力学中的喷嘴形状。他提出了 (1+1)-ES：单个父代产生单个后代，保留更优者。后来扩展为 (μ+λ)-ES 和 (μ,λ)-ES。</p>
 <p><strong>Hans-Paul Schwefel (1977)</strong>：进一步发展进化策略，引入自适应变异步长（self-adaptive mutation step sizes）。这是一个关键创新：<strong>让进化过程自己学习如何进化</strong>。</p>
@@ -542,18 +542,18 @@
 <li>选择、交叉、变异三个算子</li>
 <li>模式定理（Schema Theorem）：短的、低阶的、高适应度的模式会指数增长</li>
 </ul>
-<h3>2.3 成熟与扩展（1980s—1990s）</h3>
+<h3 id="n2-3-成熟与扩展-1980s-1990s">2.3 成熟与扩展（1980s—1990s）</h3>
 <p><strong>David Goldberg (1989)</strong>：《搜索、优化与机器学习中的遗传算法》。这本教科书使遗传算法广泛普及，推动了大量工程应用。</p>
 <p><strong>John Koza (1992)</strong>：遗传编程（Genetic Programming, GP）。Koza 将进化的对象从固定长度的字符串扩展到树形结构的计算机程序。个体不再是&quot;解&quot;，而是&quot;生成解的程序&quot;。这是自动编程的早期尝试。</p>
 <p><strong>Kalyanmoy Deb (2002)</strong>：NSGA-II（Non-dominated Sorting Genetic Algorithm II）。多目标进化优化的里程碑算法，引入快速非支配排序和拥挤距离，成为多目标优化的标准基准。</p>
-<h3>2.4 与深度学习的融合（2010s—至今）</h3>
+<h3 id="n2-4-与深度学习的融合-2010s-至今">2.4 与深度学习的融合（2010s—至今）</h3>
 <p><strong>Nikolaus Hansen (2001, 2016)</strong>：CMA-ES（Covariance Matrix Adaptation Evolution Strategy）。通过自适应协方差矩阵来引导搜索方向，被认为是连续优化中最强大的无梯度方法之一。</p>
 <p><strong>Real et al. (2019)</strong>：大规模进化神经架构搜索。Google Brain 团队用进化方法在 ImageNet 上搜索网络架构，结果与人工设计的 AmoebaNet 和强化学习搜索的 NASNet 相当。</p>
 <p><strong>OpenAI (2017)</strong>：Evolution Strategies as a Scalable Alternative to Reinforcement Learning。Salimans 等人证明简单的进化策略可以在 Atari 游戏和 MuJoCo 控制任务上与深度强化学习竞争，且天然支持大规模并行。</p>
 <p><strong>Kenneth Stanley (2017—2019)</strong>：提出新颖性搜索（Novelty Search）和质量多样性（Quality-Diversity）算法，挑战&quot;只优化目标函数&quot;的传统范式，强调探索和多样性的价值。</p>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 自然选择与适应度景观</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-自然选择与适应度景观">3.1 自然选择与适应度景观</h3>
 <h4>生物机制</h4>
 <p>自然选择的核心逻辑可以用三个条件概括（Lewontin, 1970）：</p>
 <ol>
@@ -577,7 +577,7 @@
 <p>适应度景观像一张崎岖地形图。进化并不知道“山顶在哪”，只能依赖局部变异和筛选一点点向上爬；而地形是否平滑、是否充满局部峰值，决定了搜索会不会卡住。</p>
 <h4>AI 中的角色</h4>
 <p>适应度景观常被拿来类比优化中的损失景观（loss landscape）。这种类比有助于理解局部峰值、多样性保持与搜索停滞，但两者的动力学、采样方式和更新规则并不相同。</p>
-<h3>3.2 遗传算法（Genetic Algorithm, GA）</h3>
+<h3 id="n3-2-遗传算法-Genetic-Algorithm-GA">3.2 遗传算法（Genetic Algorithm, GA）</h3>
 <h4>生物机制</h4>
 <p>遗传算法直接模拟有性生殖的核心机制：</p>
 <ul>
@@ -631,7 +631,7 @@
 <li><strong>组合优化</strong>：TSP、调度问题、背包问题等 NP-hard 问题</li>
 <li><strong>游戏 AI</strong>：进化游戏策略和行为规则</li>
 </ul>
-<h3>3.3 进化策略（Evolution Strategies, ES）</h3>
+<h3 id="n3-3-进化策略-Evolution-Strategies-ES">3.3 进化策略（Evolution Strategies, ES）</h3>
 <h4>生物机制</h4>
 <p>进化策略更侧重于表现型（phenotype）层面的变异，而非基因型层面。在自然界中，许多性状是连续变化的（身高、体重、代谢速率），这些性状受多基因控制，表现为连续分布。进化策略直接在连续实数空间中操作，更适合连续优化问题。</p>
 <h4>数学化表述</h4>
@@ -659,7 +659,7 @@
 <li><strong>黑箱优化</strong>：当目标函数不可微或梯度不可靠时，CMA-ES 是首选</li>
 <li><strong>机器人控制</strong>：进化机器人的运动策略和形态</li>
 </ul>
-<h3>3.4 遗传编程（Genetic Programming, GP）</h3>
+<h3 id="n3-4-遗传编程-Genetic-Programming-GP">3.4 遗传编程（Genetic Programming, GP）</h3>
 <h4>生物机制</h4>
 <p>如果说遗传算法进化的是&quot;参数&quot;，遗传编程进化的是&quot;结构&quot;。在生物学中，基因不仅编码蛋白质的序列，还通过调控网络控制基因的表达模式。基因调控网络本身就是一种&quot;程序&quot;——它根据输入信号（环境条件）产生输出响应（蛋白质表达）。</p>
 <h4>数学化表述</h4>
@@ -687,7 +687,7 @@
 <li><strong>程序合成</strong>：自动生成满足规约的程序</li>
 <li><strong>可解释 AI</strong>：进化出的公式比神经网络更可解释</li>
 </ul>
-<h3>3.5 神经架构搜索（Neural Architecture Search, NAS）</h3>
+<h3 id="n3-5-神经架构搜索-Neural-Architecture-Search-NAS">3.5 神经架构搜索（Neural Architecture Search, NAS）</h3>
 <h4>生物机制</h4>
 <p>在自然界中，进化不仅优化个体的&quot;参数&quot;（如体型大小），还优化&quot;架构&quot;（如身体结构、器官布局）。寒武纪大爆发（约 5.4 亿年前）在短短几千万年内产生了几乎所有现代动物门类的基本体型（body plan），这是进化在&quot;架构空间&quot;中的一次大规模探索。</p>
 <p>NAS 将同样的思想应用于神经网络：不再由人类专家手工设计网络结构，而是让算法自动搜索最优架构。</p>
@@ -719,7 +719,7 @@
 <li><strong>语言模型</strong>：Evolved Transformer（So et al., 2019）用进化搜索 Transformer 变体</li>
 <li><strong>边缘部署</strong>：搜索满足延迟/内存约束的轻量架构（MnasNet）</li>
 </ul>
-<h3>3.6 Baldwin 效应与元学习</h3>
+<h3 id="n3-6-Baldwin-效应与元学习">3.6 Baldwin 效应与元学习</h3>
 <h4>生物机制</h4>
 <p><strong>Baldwin 效应</strong>（James Mark Baldwin, 1896）描述了学习与进化之间的微妙交互：</p>
 <ol>
@@ -767,9 +767,9 @@
 <li><strong>学习策略进化</strong>：把学习率、结构和更新规则本身也纳入搜索</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
 <p>进化生物学对 AI 的真正影响，主要是通过<strong>进化计算这类工程化方法</strong>进入系统设计，而不是把自然进化逐字翻译成算法。下面几类贡献中，前两类最成熟，后三类更偏探索与扩展。</p>
-<h3>4.1 无梯度优化范式</h3>
+<h3 id="n4-1-无梯度优化范式">4.1 无梯度优化范式</h3>
 <p>进化计算为 AI 提供了一套完整的无梯度优化工具箱。在以下场景中，进化方法具有不可替代的优势：</p>
 <table>
 <thead>
@@ -811,7 +811,7 @@
 </tr>
 </tbody></table>
 <p>边界也必须写清楚：如果问题已经有稳定梯度、数据充分、模型巨大且评估代价极高，那么进化方法通常不是首选；它们更适合做“外层搜索器”，而不是替代内层的大规模参数学习。</p>
-<h3>4.2 自动化机器学习（AutoML）</h3>
+<h3 id="n4-2-自动化机器学习-AutoML">4.2 自动化机器学习（AutoML）</h3>
 <p>进化方法是 AutoML 的核心引擎之一：</p>
 <ul>
 <li><strong>超参数优化</strong>：进化搜索学习率、正则化系数、批大小等</li>
@@ -820,7 +820,7 @@
 <li><strong>架构搜索</strong>：进化设计网络拓扑（NAS）</li>
 <li><strong>数据增强策略</strong>：AutoAugment 用搜索方法发现最优数据增强策略</li>
 </ul>
-<h3>4.3 多样性搜索、开放式进化与创造力</h3>
+<h3 id="n4-3-多样性搜索-开放式进化与创造力">4.3 多样性搜索、开放式进化与创造力</h3>
 <p>传统优化追求单一最优解，但进化的真正力量在于<strong>持续产生新颖性</strong>：</p>
 <ul>
 <li><p><strong>新颖性搜索</strong>（Novelty Search, Lehman &amp; Stanley, 2011）：不优化目标函数，而是奖励行为的新颖性。在欺骗性问题（deceptive problem）中，新颖性搜索反而比目标导向搜索更快找到解。</p>
@@ -830,14 +830,14 @@
 <li><p><strong>开放式进化</strong>（Open-ended Evolution）：模拟自然进化中持续产生复杂性的能力。这是探索 AGI 的一种研究方向，但目前仍更接近实验性框架，而非成熟工程路线。</p>
 </li>
 </ul>
-<h3>4.4 协同进化与多智能体系统</h3>
+<h3 id="n4-4-协同进化与多智能体系统">4.4 协同进化与多智能体系统</h3>
 <p>生物界的军备竞赛（arms race）——捕食者与猎物、寄生虫与宿主——驱动了持续的适应和创新。在 AI 中：</p>
 <ul>
 <li><strong>竞争性协同进化</strong>：两个种群互为对手，互相驱动进化（如 GAN 的对抗训练可以看作一种协同进化）</li>
 <li><strong>合作性协同进化</strong>：将复杂问题分解为子问题，不同种群分别进化子解，组合评估</li>
 <li><strong>多智能体进化</strong>：在多智能体环境中进化通信协议和合作策略</li>
 </ul>
-<h3>4.5 神经进化（Neuroevolution）</h3>
+<h3 id="n4-5-神经进化-Neuroevolution">4.5 神经进化（Neuroevolution）</h3>
 <p>直接用进化方法优化神经网络：</p>
 <ul>
 <li><p><strong>NEAT</strong>（NeuroEvolution of Augmenting Topologies, Stanley &amp; Miikkulainen, 2002）：同时进化网络的权重和拓扑结构。通过历史标记（innovation number）解决交叉时的结构对齐问题。</p>
@@ -848,8 +848,8 @@
 </li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 可扩展性挑战</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-可扩展性挑战">5.1 可扩展性挑战</h3>
 <p>进化方法的主要瓶颈是适应度评估的计算成本。对于深度学习模型，训练一个个体可能需要数小时甚至数天。解决方案包括：</p>
 <ul>
 <li><strong>代理模型</strong>（Surrogate Model）：用廉价的近似模型预测适应度，减少昂贵的真实评估</li>
@@ -857,21 +857,21 @@
 <li><strong>早停策略</strong>（Early Stopping）：根据早期训练曲线预测最终性能，提前淘汰差的个体</li>
 <li><strong>分布式进化</strong>：利用大规模并行计算加速种群评估</li>
 </ul>
-<h3>5.2 进化与学习的深度融合</h3>
+<h3 id="n5-2-进化与学习的深度融合">5.2 进化与学习的深度融合</h3>
 <p>Baldwin 效应只是冰山一角。更深层的问题是：</p>
 <ul>
 <li><strong>进化能否发现梯度下降？</strong> 如果我们进化学习算法本身，会得到什么？</li>
 <li><strong>内在动机的进化起源</strong>：好奇心、探索欲望是否可以通过进化产生？</li>
 <li><strong>可塑性的进化</strong>：大脑的学习能力本身是进化的产物，如何在 AI 中复现？</li>
 </ul>
-<h3>5.3 开放式智能</h3>
+<h3 id="n5-3-开放式智能">5.3 开放式智能</h3>
 <p>最雄心勃勃的目标：创建一个能够像自然进化一样持续产生越来越复杂的智能体的系统。</p>
 <ul>
 <li><strong>最小复杂性标准</strong>（Minimal Criterion）：什么条件下进化系统会持续产生新颖性而不停滞？</li>
 <li><strong>重大进化转变</strong>（Major Evolutionary Transitions）：从单细胞到多细胞、从个体到社会，这些质变如何在计算系统中实现？</li>
 <li><strong>进化的进化</strong>（Evolution of Evolvability）：进化过程本身也在进化——基因调控网络、有性生殖、发育过程都增强了进化的能力</li>
 </ul>
-<h3>5.4 与大语言模型的结合</h3>
+<h3 id="n5-4-与大语言模型的结合">5.4 与大语言模型的结合</h3>
 <p>最新的研究方向多处于“外层搜索”阶段：</p>
 <ul>
 <li><strong>EvoPrompting</strong>（Chen et al., 2023）：用进化方法优化大语言模型的提示词</li>
@@ -879,8 +879,8 @@
 <li><strong>LLM 辅助的适应度景观分析</strong>：用语言模型理解和预测进化动态</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>经典著作</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="经典著作">经典著作</h3>
 <ul>
 <li>Darwin, C. (1859). <em>On the Origin of Species</em>. John Murray.</li>
 <li>Fisher, R. A. (1930). <em>The Genetical Theory of Natural Selection</em>. Clarendon Press.</li>
@@ -888,7 +888,7 @@
 <li>Goldberg, D. E. (1989). <em>Genetic Algorithms in Search, Optimization, and Machine Learning</em>. Addison-Wesley.</li>
 <li>Koza, J. R. (1992). <em>Genetic Programming: On the Programming of Computers by Means of Natural Selection</em>. MIT Press.</li>
 </ul>
-<h3>重要论文</h3>
+<h3 id="重要论文">重要论文</h3>
 <ul>
 <li>Rechenberg, I. (1973). <em>Evolutionsstrategie: Optimierung technischer Systeme nach Prinzipien der biologischen Evolution</em>. Frommann-Holzboog.</li>
 <li>Schwefel, H.-P. (1977). <em>Numerische Optimierung von Computer-Modellen mittels der Evolutionsstrategie</em>. Birkhauser.</li>
@@ -901,20 +901,20 @@
 <li>Real, E. et al. (2019). Regularized evolution for image classifier architecture search. <em>AAAI</em>.</li>
 <li>Finn, C. et al. (2017). Model-agnostic meta-learning for fast adaptation of deep networks. <em>ICML</em>.</li>
 </ul>
-<h3>综述与教材</h3>
+<h3 id="综述与教材">综述与教材</h3>
 <ul>
 <li>Eiben, A. E. &amp; Smith, J. E. (2015). <em>Introduction to Evolutionary Computing</em>. 2nd ed. Springer.</li>
 <li>De Jong, K. A. (2006). <em>Evolutionary Computation: A Unified Approach</em>. MIT Press.</li>
 <li>Stanley, K. O. et al. (2019). Designing neural networks through neuroevolution. <em>Nature Machine Intelligence</em>, 1(1), 24-35.</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li>CMA-ES 官方教程：<a href="https://cma-es.github.io/">https://cma-es.github.io/</a></li>
 <li>OpenAI Evolution Strategies 博客：<a href="https://openai.com/blog/evolution-strategies/">https://openai.com/blog/evolution-strategies/</a></li>
 <li>NEAT 算法主页：<a href="http://nn.cs.utexas.edu/keyword?stanley:ec02">http://nn.cs.utexas.edu/keyword?stanley:ec02</a></li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍进化生物学如何为 AI 提供<strong>黑箱搜索、结构优化、多目标权衡与开放式探索</strong>的思想来源。它不是主流深度学习训练的主引擎，却是很多“难以求导的问题”进入 AI 系统设计时的重要替代路线。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -932,12 +932,80 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要进化生物学" class="toc-link h2">1. 上帝视角：为什么 AI 需要进化生物学</a>
+<a href="#n1-1-核心价值-无梯度优化" class="toc-link h3">1.1 核心价值：无梯度优化</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-进化计算的独特优势" class="toc-link h3">1.3 进化计算的独特优势</a>
+<a href="#n1-4-一个判断框架-什么时候该用进化方法" class="toc-link h3">1.4 一个判断框架：什么时候该用进化方法</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-生物学基础-1859-1960s" class="toc-link h3">2.1 生物学基础（1859—1960s）</a>
+<a href="#n2-2-进化计算的诞生-1960s-1970s" class="toc-link h3">2.2 进化计算的诞生（1960s—1970s）</a>
+<a href="#n2-3-成熟与扩展-1980s-1990s" class="toc-link h3">2.3 成熟与扩展（1980s—1990s）</a>
+<a href="#n2-4-与深度学习的融合-2010s-至今" class="toc-link h3">2.4 与深度学习的融合（2010s—至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-自然选择与适应度景观" class="toc-link h3">3.1 自然选择与适应度景观</a>
+<a href="#n3-2-遗传算法-Genetic-Algorithm-GA" class="toc-link h3">3.2 遗传算法（Genetic Algorithm, GA）</a>
+<a href="#n3-3-进化策略-Evolution-Strategies-ES" class="toc-link h3">3.3 进化策略（Evolution Strategies, ES）</a>
+<a href="#n3-4-遗传编程-Genetic-Programming-GP" class="toc-link h3">3.4 遗传编程（Genetic Programming, GP）</a>
+<a href="#n3-5-神经架构搜索-Neural-Architecture-Search-NAS" class="toc-link h3">3.5 神经架构搜索（Neural Architecture Search, NAS）</a>
+<a href="#n3-6-Baldwin-效应与元学习" class="toc-link h3">3.6 Baldwin 效应与元学习</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-无梯度优化范式" class="toc-link h3">4.1 无梯度优化范式</a>
+<a href="#n4-2-自动化机器学习-AutoML" class="toc-link h3">4.2 自动化机器学习（AutoML）</a>
+<a href="#n4-3-多样性搜索-开放式进化与创造力" class="toc-link h3">4.3 多样性搜索、开放式进化与创造力</a>
+<a href="#n4-4-协同进化与多智能体系统" class="toc-link h3">4.4 协同进化与多智能体系统</a>
+<a href="#n4-5-神经进化-Neuroevolution" class="toc-link h3">4.5 神经进化（Neuroevolution）</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-可扩展性挑战" class="toc-link h3">5.1 可扩展性挑战</a>
+<a href="#n5-2-进化与学习的深度融合" class="toc-link h3">5.2 进化与学习的深度融合</a>
+<a href="#n5-3-开放式智能" class="toc-link h3">5.3 开放式智能</a>
+<a href="#n5-4-与大语言模型的结合" class="toc-link h3">5.4 与大语言模型的结合</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#重要论文" class="toc-link h3">重要论文</a>
+<a href="#综述与教材" class="toc-link h3">综述与教材</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要进化生物学" class="toc-link h2">1. 上帝视角：为什么 AI 需要进化生物学</a>
+<a href="#n1-1-核心价值-无梯度优化" class="toc-link h3">1.1 核心价值：无梯度优化</a>
+<a href="#n1-2-与其他学科的关键连接" class="toc-link h3">1.2 与其他学科的关键连接</a>
+<a href="#n1-3-进化计算的独特优势" class="toc-link h3">1.3 进化计算的独特优势</a>
+<a href="#n1-4-一个判断框架-什么时候该用进化方法" class="toc-link h3">1.4 一个判断框架：什么时候该用进化方法</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-生物学基础-1859-1960s" class="toc-link h3">2.1 生物学基础（1859—1960s）</a>
+<a href="#n2-2-进化计算的诞生-1960s-1970s" class="toc-link h3">2.2 进化计算的诞生（1960s—1970s）</a>
+<a href="#n2-3-成熟与扩展-1980s-1990s" class="toc-link h3">2.3 成熟与扩展（1980s—1990s）</a>
+<a href="#n2-4-与深度学习的融合-2010s-至今" class="toc-link h3">2.4 与深度学习的融合（2010s—至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-自然选择与适应度景观" class="toc-link h3">3.1 自然选择与适应度景观</a>
+<a href="#n3-2-遗传算法-Genetic-Algorithm-GA" class="toc-link h3">3.2 遗传算法（Genetic Algorithm, GA）</a>
+<a href="#n3-3-进化策略-Evolution-Strategies-ES" class="toc-link h3">3.3 进化策略（Evolution Strategies, ES）</a>
+<a href="#n3-4-遗传编程-Genetic-Programming-GP" class="toc-link h3">3.4 遗传编程（Genetic Programming, GP）</a>
+<a href="#n3-5-神经架构搜索-Neural-Architecture-Search-NAS" class="toc-link h3">3.5 神经架构搜索（Neural Architecture Search, NAS）</a>
+<a href="#n3-6-Baldwin-效应与元学习" class="toc-link h3">3.6 Baldwin 效应与元学习</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-无梯度优化范式" class="toc-link h3">4.1 无梯度优化范式</a>
+<a href="#n4-2-自动化机器学习-AutoML" class="toc-link h3">4.2 自动化机器学习（AutoML）</a>
+<a href="#n4-3-多样性搜索-开放式进化与创造力" class="toc-link h3">4.3 多样性搜索、开放式进化与创造力</a>
+<a href="#n4-4-协同进化与多智能体系统" class="toc-link h3">4.4 协同进化与多智能体系统</a>
+<a href="#n4-5-神经进化-Neuroevolution" class="toc-link h3">4.5 神经进化（Neuroevolution）</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-可扩展性挑战" class="toc-link h3">5.1 可扩展性挑战</a>
+<a href="#n5-2-进化与学习的深度融合" class="toc-link h3">5.2 进化与学习的深度融合</a>
+<a href="#n5-3-开放式智能" class="toc-link h3">5.3 开放式智能</a>
+<a href="#n5-4-与大语言模型的结合" class="toc-link h3">5.4 与大语言模型的结合</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#经典著作" class="toc-link h3">经典著作</a>
+<a href="#重要论文" class="toc-link h3">重要论文</a>
+<a href="#综述与教材" class="toc-link h3">综述与教材</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：概率论与数理统计共同构成机器学习处理不确定性的核心语言。概率论负责描述随机机制与分布结构，数理统计负责从有限样本中做估计、检验与评估。从贝叶斯推断到最大似然，从 EM 算法到 A/B 测试，这两条主线一起支撑了现代 AI 对不确定世界的建模与决策。</p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="04-information-theory.html">信息论</a>：熵、KL 散度、互信息等核心概念都建立在概率分布之上</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：最大似然估计、变分推断与参数学习都依赖优化方法</li>
@@ -446,15 +446,15 @@
 <li><a href="15-cybernetics.html">控制论</a>：卡尔曼滤波、状态估计与贝叶斯决策是概率论在动态系统中的体现</li>
 <li><a href="19-neuroscience.html">神经科学</a>：贝叶斯脑假说、预测编码与不确定性感知都与概率建模密切相关</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要概率论</h2>
-<h3>1.1 解决了 AI 中的什么根本问题？</h3>
+<h2 id="n1-上帝视角-为什么-AI-需要概率论">1. 上帝视角：为什么 AI 需要概率论</h2>
+<h3 id="n1-1-解决了-AI-中的什么根本问题">1.1 解决了 AI 中的什么根本问题？</h3>
 <p>概率论为 AI 解决了三大根本问题：</p>
 <ul>
 <li><strong>不确定性建模（Uncertainty Modeling）</strong>：现实世界充满噪声和不完整信息。传感器有误差，数据有缺失，用户意图模糊。概率论提供了一套严格的数学框架，让机器能够量化&quot;我有多不确定&quot;，而不是简单地给出&quot;是&quot;或&quot;否&quot;。</li>
 <li><strong>参数估计（Parameter Estimation）</strong>：神经网络有数十亿参数，如何从有限数据中估计这些参数？最大似然估计（MLE）、最大后验估计（MAP）、贝叶斯推断——这些都是概率论的核心工具。</li>
 <li><strong>生成模型（Generative Models）</strong>：从 GPT 到 Stable Diffusion，生成式 AI 的本质是学习数据的概率分布 $P(x)$，然后从中采样。没有概率论，就没有生成模型。</li>
 </ul>
-<h3>1.2 如果没有概率论，AI 会缺失什么能力？</h3>
+<h3 id="n1-2-如果没有概率论-AI-会缺失什么能力">1.2 如果没有概率论，AI 会缺失什么能力？</h3>
 <ul>
 <li>无法区分&quot;确信的预测&quot;和&quot;不确信的预测&quot;——自动驾驶系统无法判断何时应该交给人类接管</li>
 <li>无法处理缺失数据和噪声——所有现实世界的数据集都不完美</li>
@@ -462,7 +462,7 @@
 <li>无法生成新内容——没有概率分布的概念，就无法&quot;采样&quot;出新图像、新文本</li>
 <li>无法进行模型选择和正则化——奥卡姆剃刀原则的数学表达依赖贝叶斯框架</li>
 </ul>
-<h3>1.3 与其他学科的关键连接点</h3>
+<h3 id="n1-3-与其他学科的关键连接点">1.3 与其他学科的关键连接点</h3>
 <table>
 <thead>
 <tr>
@@ -502,7 +502,7 @@
 <td>非参数贝叶斯方法、高斯过程</td>
 </tr>
 </tbody></table>
-<h3>1.4 概率建模与统计推断是两条并行主线</h3>
+<h3 id="n1-4-概率建模与统计推断是两条并行主线">1.4 概率建模与统计推断是两条并行主线</h3>
 <p>本篇标题同时包含“概率论”和“数理统计”，两者在 AI 中最好分开理解：</p>
 <ul>
 <li><strong>概率论</strong>回答“如果模型与参数已知，数据大致会如何出现”；</li>
@@ -510,9 +510,9 @@
 </ul>
 <p>前者更像建模语言，后者更像从数据到结论的方法学。机器学习实践里二者几乎总是一起出现：我们先假设一个概率模型，再用统计推断去估计、检验和评估它。</p>
 <hr>
-<h2>2. 历史脉络：关键人物与里程碑</h2>
+<h2 id="n2-历史脉络-关键人物与里程碑">2. 历史脉络：关键人物与里程碑</h2>
 <p>概率论的发展横跨四个世纪，从赌博问题到公理化体系，再到机器学习的核心工具。</p>
-<h3>2.1 萌芽期：从赌博到数学（1654—1812）</h3>
+<h3 id="n2-1-萌芽期-从赌博到数学-1654-1812">2.1 萌芽期：从赌博到数学（1654—1812）</h3>
 <ul>
 <li><p><strong>1654 年 — Pascal &amp; Fermat 通信</strong>：概率论的诞生。法国赌徒 Chevalier de Méré 向 Blaise Pascal 提出&quot;点数问题&quot;（Problem of Points）：两个赌徒在游戏中途停止，如何公平分配赌注？Pascal 与 Pierre de Fermat 的通信中，首次用数学方法系统处理随机事件，奠定了组合概率的基础。</p>
 </li>
@@ -525,7 +525,7 @@
 <li><p><strong>1812 年 — Pierre-Simon Laplace《概率的分析理论》（Théorie analytique des probabilités）</strong>：独立重新发现并推广了贝叶斯定理，将概率论发展为一门系统的数学学科。提出&quot;拉普拉斯平滑&quot;（Laplace Smoothing）的思想——在没有先验信息时使用均匀先验，这一思想至今仍在自然语言处理中广泛使用。</p>
 </li>
 </ul>
-<h3>2.2 公理化与现代化（1900—1950）</h3>
+<h3 id="n2-2-公理化与现代化-1900-1950">2.2 公理化与现代化（1900—1950）</h3>
 <ul>
 <li><p><strong>1900 年 — Karl Pearson</strong>：发展了卡方检验（Chi-squared Test）、相关系数（Correlation Coefficient）等统计工具，创立了现代统计学的基础。创办《Biometrika》期刊。</p>
 </li>
@@ -536,7 +536,7 @@
 <li><p><strong>1946 年 — Andrey Markov（子）&amp; Monte Carlo 方法</strong>：Stanislaw Ulam 和 John von Neumann 在洛斯阿拉莫斯国家实验室开发了蒙特卡洛方法（Monte Carlo Method），用随机采样解决确定性数学问题。这一方法后来演变为 MCMC，成为贝叶斯计算的核心工具。</p>
 </li>
 </ul>
-<h3>2.3 信息时代（1948—1990）</h3>
+<h3 id="n2-3-信息时代-1948-1990">2.3 信息时代（1948—1990）</h3>
 <ul>
 <li><p><strong>1948 年 — Claude Shannon《通信的数学理论》</strong>：将概率论应用于通信，定义了熵（Entropy）：<br>$$H(X) = -\sum_i P(x_i) \log P(x_i)$$<br>并建立了信息论。Shannon 熵本质上是概率分布的一个泛函，信息论可以看作概率论的一个应用分支。</p>
 </li>
@@ -551,7 +551,7 @@
 <li><p><strong>1988 年 — Judea Pearl《Probabilistic Reasoning in Intelligent Systems》</strong>：系统化了贝叶斯网络（Bayesian Networks）理论，提出了信念传播（Belief Propagation）算法。Pearl 后来因因果推断（Causal Inference）的工作获得 2011 年图灵奖。</p>
 </li>
 </ul>
-<h3>2.4 机器学习时代（1990—至今）</h3>
+<h3 id="n2-4-机器学习时代-1990-至今">2.4 机器学习时代（1990—至今）</h3>
 <ul>
 <li><p><strong>1996 年 — David MacKay《Bayesian Methods for Adaptive Models》</strong>：系统阐述了贝叶斯方法在神经网络中的应用，包括模型选择、正则化的贝叶斯解释。</p>
 </li>
@@ -567,8 +567,8 @@
 </li>
 </ul>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 贝叶斯推断（Bayesian Inference）</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-贝叶斯推断-Bayesian-Inference">3.1 贝叶斯推断（Bayesian Inference）</h3>
 <h4>数学定义</h4>
 <p>贝叶斯定理的核心公式：</p>
 <p>$$P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}$$</p>
@@ -618,7 +618,7 @@
 <blockquote>
 <p><strong>代码演示</strong>：参见 <a href="../../code/math-foundations/bayesian_inference.py">code/math-foundations/bayesian_inference.py</a> — 硬币抛掷的贝叶斯估计 vs 频率估计对比</p>
 </blockquote>
-<h3>3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</h3>
+<h3 id="n3-2-最大似然估计-Maximum-Likelihood-Estimation-MLE-与-EM-算法">3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</h3>
 <h4>MLE 的数学定义</h4>
 <p>给定独立同分布的观测数据 $D = \{x_1, x_2, \ldots, x_n\}$，最大似然估计寻找使数据出现概率最大的参数：</p>
 <p>$$\hat{\theta}_{MLE} = \arg\max_\theta P(D|\theta) = \arg\max_\theta \prod_{i=1}^{n} P(x_i|\theta)$$</p>
@@ -667,7 +667,7 @@
 <blockquote>
 <p><strong>代码演示</strong>：参见 <a href="../../code/ml-algorithms/em_algorithm.py">code/ml-algorithms/em_algorithm.py</a> — 高斯混合模型的 EM 算法实现</p>
 </blockquote>
-<h3>3.3 马尔可夫链与 MCMC</h3>
+<h3 id="n3-3-马尔可夫链与-MCMC">3.3 马尔可夫链与 MCMC</h3>
 <h4>马尔可夫性质与转移矩阵</h4>
 <p>马尔可夫链（Markov Chain）是一类满足<strong>马尔可夫性质</strong>（无记忆性）的随机过程：</p>
 <p>$$P(X_{t+1}|X_t, X_{t-1}, \ldots, X_1) = P(X_{t+1}|X_t)$$</p>
@@ -721,7 +721,7 @@
 <li><strong>强化学习</strong>：马尔可夫决策过程（Markov Decision Process, MDP）是强化学习的数学框架，状态转移满足马尔可夫性质。</li>
 <li><strong>贝叶斯深度学习</strong>：当变分推断不够精确时，MCMC 提供了渐近精确的后验采样方法。随机梯度 Langevin 动力学（SGLD）将 MCMC 与随机梯度下降结合，使大规模贝叶斯推断成为可能。</li>
 </ul>
-<h3>3.4 概率图模型（Probabilistic Graphical Models）</h3>
+<h3 id="n3-4-概率图模型-Probabilistic-Graphical-Models">3.4 概率图模型（Probabilistic Graphical Models）</h3>
 <p>概率图模型用图结构表示随机变量之间的依赖关系，将高维联合分布分解为局部条件分布的乘积。</p>
 <h4>贝叶斯网络（Bayesian Networks）— 有向图模型</h4>
 <p>贝叶斯网络是有向无环图（DAG），每个节点代表一个随机变量，有向边表示因果或依赖关系。联合分布分解为：</p>
@@ -745,7 +745,7 @@
 <li><strong>知识图谱推理</strong>：概率图模型为知识图谱中的不确定性推理提供了理论框架。</li>
 <li><strong>生成模型</strong>：VAE 可以看作一种深度概率图模型，编码器和解码器分别对应推断网络和生成网络。</li>
 </ul>
-<h3>3.5 交叉熵与 KL 散度的概率论视角</h3>
+<h3 id="n3-5-交叉熵与-KL-散度的概率论视角">3.5 交叉熵与 KL 散度的概率论视角</h3>
 <h4>从概率论角度理解信息论概念</h4>
 <p>**KL 散度（Kullback-Leibler Divergence）**衡量两个概率分布之间的&quot;距离&quot;：</p>
 <p>$$D_{KL}(P \| Q) = \sum_x P(x) \log \frac{P(x)}{Q(x)} = \mathbb{E}_{P}\left[\log \frac{P(x)}{Q(x)}\right]$$</p>
@@ -806,7 +806,7 @@
 <li><p><strong>知识蒸馏</strong>：Hinton et al. (2015) 使用 KL 散度衡量学生模型与教师模型输出分布的差异，使学生学习到教师的”软标签”信息。</p>
 </li>
 </ul>
-<h3>3.6 数理统计：从数据到推断</h3>
+<h3 id="n3-6-数理统计-从数据到推断">3.6 数理统计：从数据到推断</h3>
 <p>虽然概率论提供了理论框架，但<strong>数理统计</strong>关注的是如何从有限的、带噪声的数据中进行可靠的推断。统计学为 AI 提供了模型评估、假设检验和不确定性量化的工具。</p>
 <h4>统计推断的核心问题</h4>
 <p>数理统计解决三大核心问题：</p>
@@ -895,8 +895,8 @@
 </ul>
 <p>在 AI 中，两者紧密结合：概率论提供建模语言，统计学提供推断工具。</p>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 从概率论概念到 AI 应用的转化路径</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-从概率论概念到-AI-应用的转化路径">4.1 从概率论概念到 AI 应用的转化路径</h3>
 <table>
 <thead>
 <tr>
@@ -955,7 +955,7 @@
 <td>Rasmussen &amp; Williams (2006)</td>
 </tr>
 </tbody></table>
-<h3>4.2 概率论视角下的深度学习三大范式</h3>
+<h3 id="n4-2-概率论视角下的深度学习三大范式">4.2 概率论视角下的深度学习三大范式</h3>
 <p><strong>判别模型（Discriminative Models）</strong>：直接建模条件概率 $P(y \mid x)$。</p>
 <ul>
 <li><p>逻辑回归、神经网络分类器都属于此类</p>
@@ -983,7 +983,7 @@
 <li>对比学习（Contrastive Learning）可以解释为能量模型的训练</li>
 <li>配分函数 $Z$ 的计算是核心难题，连接到统计物理</li>
 </ul>
-<h3>4.3 不确定性量化：概率论给 AI 的独特礼物</h3>
+<h3 id="n4-3-不确定性量化-概率论给-AI-的独特礼物">4.3 不确定性量化：概率论给 AI 的独特礼物</h3>
 <p>现代 AI 系统面临的一个关键挑战是<strong>校准（Calibration）</strong>——模型说&quot;我有 90% 的信心&quot;时，是否真的有 90% 的概率是对的？</p>
 <ul>
 <li><strong>认知不确定性（Epistemic Uncertainty）</strong>：由于数据不足导致的不确定性，可以通过收集更多数据来减少。贝叶斯方法通过后验分布的宽度来量化。</li>
@@ -991,15 +991,15 @@
 <li><strong>分布外检测（Out-of-Distribution Detection）</strong>：当输入数据与训练分布差异很大时，模型应该表达高不确定性。这对自动驾驶、医疗 AI 等安全关键应用至关重要。</li>
 </ul>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 可扩展的贝叶斯深度学习</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-可扩展的贝叶斯深度学习">5.1 可扩展的贝叶斯深度学习</h3>
 <p>贝叶斯方法的理论优势（不确定性量化、自动正则化、模型选择）已被广泛认可，但计算成本仍是主要瓶颈。当前的研究方向：</p>
 <ul>
 <li><strong>随机梯度 MCMC（SG-MCMC）</strong>：将 MCMC 与小批量梯度下降结合，如 SGLD（Welling &amp; Teh, 2011）、SGHMC（Chen et al., 2014）</li>
 <li><strong>自然梯度变分推断</strong>：利用 Fisher 信息矩阵加速变分推断的收敛</li>
 <li><strong>神经网络高斯过程（NNGP）</strong>：无限宽神经网络等价于高斯过程（Neal, 1996），为理解深度学习提供了概率论视角</li>
 </ul>
-<h3>5.2 因果推断与 AI</h3>
+<h3 id="n5-2-因果推断与-AI">5.2 因果推断与 AI</h3>
 <p>Pearl 的因果层级揭示了当前 AI 的根本局限：</p>
 <ul>
 <li><strong>第一层（关联）</strong>：$P(y \mid x)$ — 当前深度学习擅长的层面</li>
@@ -1007,9 +1007,9 @@
 <li><strong>第三层（反事实）</strong>：$P(y_x \mid x', y')$ — 需要完整的结构因果模型</li>
 </ul>
 <p>从关联到因果的跨越，被认为是通向 AGI 的关键一步。Yoshua Bengio 等人提出的&quot;系统 2 深度学习&quot;强调了因果推断的重要性。</p>
-<h3>5.3 概率编程（Probabilistic Programming）</h3>
+<h3 id="n5-3-概率编程-Probabilistic-Programming">5.3 概率编程（Probabilistic Programming）</h3>
 <p>概率编程语言（如 Stan、Pyro、NumPyro）让研究者可以用编程的方式定义概率模型，自动进行推断。这降低了贝叶斯建模的门槛，使概率论的工具更加普及。</p>
-<h3>5.4 扩散模型的理论深化</h3>
+<h3 id="n5-4-扩散模型的理论深化">5.4 扩散模型的理论深化</h3>
 <p>扩散模型的成功（DALL-E、Stable Diffusion、Sora）引发了对其理论基础的深入研究：</p>
 <ul>
 <li>与随机微分方程（SDE）的连接（Song et al., 2021）</li>
@@ -1017,15 +1017,15 @@
 <li>采样效率的理论分析</li>
 </ul>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>教材</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="教材">教材</h3>
 <ul>
 <li>Jaynes, E. T. (2003). <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. — 从逻辑学角度理解概率论，贝叶斯学派的经典之作</li>
 <li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>. Springer. — 机器学习中概率方法的标准教材，第 1-2 章是概率论基础的最佳入门</li>
 <li>Murphy, K. P. (2012). <em>Machine Learning: A Probabilistic Perspective</em>. MIT Press. — 从概率论视角系统介绍机器学习</li>
 <li>Koller, D. &amp; Friedman, N. (2009). <em>Probabilistic Graphical Models: Principles and Techniques</em>. MIT Press. — 概率图模型的权威教材</li>
 </ul>
-<h3>关键论文</h3>
+<h3 id="关键论文">关键论文</h3>
 <ul>
 <li>Bayes, T. (1763). An Essay towards solving a Problem in the Doctrine of Chances. <em>Philosophical Transactions of the Royal Society</em>.</li>
 <li>Kolmogorov, A. N. (1933). <em>Grundbegriffe der Wahrscheinlichkeitsrechnung</em>. Springer.</li>
@@ -1036,13 +1036,13 @@
 <li>Kingma, D. P. &amp; Welling, M. (2014). Auto-Encoding Variational Bayes. <em>ICLR</em>.</li>
 <li>Ho, J., Jain, A., &amp; Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. <em>NeurIPS</em>.</li>
 </ul>
-<h3>在线资源</h3>
+<h3 id="在线资源">在线资源</h3>
 <ul>
 <li><a href="https://seeing-theory.brown.edu/">Seeing Theory</a> — 概率论的交互式可视化教程</li>
 <li><a href="https://probml.github.io/pml-book/">Probabilistic Machine Learning</a> — Kevin Murphy 的新书，免费在线阅读</li>
 </ul>
 <hr>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇介绍了概率论与数理统计对 AI/AGI 发展的核心贡献：<strong>为机器学习提供了处理不确定性的数学语言，从参数估计到生成模型，从贝叶斯推断到变分推断</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -1071,12 +1071,74 @@
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要概率论" class="toc-link h2">1. 上帝视角：为什么 AI 需要概率论</a>
+<a href="#n1-1-解决了-AI-中的什么根本问题" class="toc-link h3">1.1 解决了 AI 中的什么根本问题？</a>
+<a href="#n1-2-如果没有概率论-AI-会缺失什么能力" class="toc-link h3">1.2 如果没有概率论，AI 会缺失什么能力？</a>
+<a href="#n1-3-与其他学科的关键连接点" class="toc-link h3">1.3 与其他学科的关键连接点</a>
+<a href="#n1-4-概率建模与统计推断是两条并行主线" class="toc-link h3">1.4 概率建模与统计推断是两条并行主线</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-萌芽期-从赌博到数学-1654-1812" class="toc-link h3">2.1 萌芽期：从赌博到数学（1654—1812）</a>
+<a href="#n2-2-公理化与现代化-1900-1950" class="toc-link h3">2.2 公理化与现代化（1900—1950）</a>
+<a href="#n2-3-信息时代-1948-1990" class="toc-link h3">2.3 信息时代（1948—1990）</a>
+<a href="#n2-4-机器学习时代-1990-至今" class="toc-link h3">2.4 机器学习时代（1990—至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-贝叶斯推断-Bayesian-Inference" class="toc-link h3">3.1 贝叶斯推断（Bayesian Inference）</a>
+<a href="#n3-2-最大似然估计-Maximum-Likelihood-Estimation-MLE-与-EM-算法" class="toc-link h3">3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</a>
+<a href="#n3-3-马尔可夫链与-MCMC" class="toc-link h3">3.3 马尔可夫链与 MCMC</a>
+<a href="#n3-4-概率图模型-Probabilistic-Graphical-Models" class="toc-link h3">3.4 概率图模型（Probabilistic Graphical Models）</a>
+<a href="#n3-5-交叉熵与-KL-散度的概率论视角" class="toc-link h3">3.5 交叉熵与 KL 散度的概率论视角</a>
+<a href="#n3-6-数理统计-从数据到推断" class="toc-link h3">3.6 数理统计：从数据到推断</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-从概率论概念到-AI-应用的转化路径" class="toc-link h3">4.1 从概率论概念到 AI 应用的转化路径</a>
+<a href="#n4-2-概率论视角下的深度学习三大范式" class="toc-link h3">4.2 概率论视角下的深度学习三大范式</a>
+<a href="#n4-3-不确定性量化-概率论给-AI-的独特礼物" class="toc-link h3">4.3 不确定性量化：概率论给 AI 的独特礼物</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-可扩展的贝叶斯深度学习" class="toc-link h3">5.1 可扩展的贝叶斯深度学习</a>
+<a href="#n5-2-因果推断与-AI" class="toc-link h3">5.2 因果推断与 AI</a>
+<a href="#n5-3-概率编程-Probabilistic-Programming" class="toc-link h3">5.3 概率编程（Probabilistic Programming）</a>
+<a href="#n5-4-扩散模型的理论深化" class="toc-link h3">5.4 扩散模型的理论深化</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#教材" class="toc-link h3">教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要概率论" class="toc-link h2">1. 上帝视角：为什么 AI 需要概率论</a>
+<a href="#n1-1-解决了-AI-中的什么根本问题" class="toc-link h3">1.1 解决了 AI 中的什么根本问题？</a>
+<a href="#n1-2-如果没有概率论-AI-会缺失什么能力" class="toc-link h3">1.2 如果没有概率论，AI 会缺失什么能力？</a>
+<a href="#n1-3-与其他学科的关键连接点" class="toc-link h3">1.3 与其他学科的关键连接点</a>
+<a href="#n1-4-概率建模与统计推断是两条并行主线" class="toc-link h3">1.4 概率建模与统计推断是两条并行主线</a>
+<a href="#n2-历史脉络-关键人物与里程碑" class="toc-link h2">2. 历史脉络：关键人物与里程碑</a>
+<a href="#n2-1-萌芽期-从赌博到数学-1654-1812" class="toc-link h3">2.1 萌芽期：从赌博到数学（1654—1812）</a>
+<a href="#n2-2-公理化与现代化-1900-1950" class="toc-link h3">2.2 公理化与现代化（1900—1950）</a>
+<a href="#n2-3-信息时代-1948-1990" class="toc-link h3">2.3 信息时代（1948—1990）</a>
+<a href="#n2-4-机器学习时代-1990-至今" class="toc-link h3">2.4 机器学习时代（1990—至今）</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-贝叶斯推断-Bayesian-Inference" class="toc-link h3">3.1 贝叶斯推断（Bayesian Inference）</a>
+<a href="#n3-2-最大似然估计-Maximum-Likelihood-Estimation-MLE-与-EM-算法" class="toc-link h3">3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</a>
+<a href="#n3-3-马尔可夫链与-MCMC" class="toc-link h3">3.3 马尔可夫链与 MCMC</a>
+<a href="#n3-4-概率图模型-Probabilistic-Graphical-Models" class="toc-link h3">3.4 概率图模型（Probabilistic Graphical Models）</a>
+<a href="#n3-5-交叉熵与-KL-散度的概率论视角" class="toc-link h3">3.5 交叉熵与 KL 散度的概率论视角</a>
+<a href="#n3-6-数理统计-从数据到推断" class="toc-link h3">3.6 数理统计：从数据到推断</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-从概率论概念到-AI-应用的转化路径" class="toc-link h3">4.1 从概率论概念到 AI 应用的转化路径</a>
+<a href="#n4-2-概率论视角下的深度学习三大范式" class="toc-link h3">4.2 概率论视角下的深度学习三大范式</a>
+<a href="#n4-3-不确定性量化-概率论给-AI-的独特礼物" class="toc-link h3">4.3 不确定性量化：概率论给 AI 的独特礼物</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-可扩展的贝叶斯深度学习" class="toc-link h3">5.1 可扩展的贝叶斯深度学习</a>
+<a href="#n5-2-因果推断与-AI" class="toc-link h3">5.2 因果推断与 AI</a>
+<a href="#n5-3-概率编程-Probabilistic-Programming" class="toc-link h3">5.3 概率编程（Probabilistic Programming）</a>
+<a href="#n5-4-扩散模型的理论深化" class="toc-link h3">5.4 扩散模型的理论深化</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#教材" class="toc-link h3">教材</a>
+<a href="#关键论文" class="toc-link h3">关键论文</a>
+<a href="#在线资源" class="toc-link h3">在线资源</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

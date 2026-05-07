@@ -438,7 +438,7 @@
 <p><strong>上帝视角</strong>：现代 AI 不只是算法胜利，也是硬件体系结构与并行计算范式的胜利。反向传播、卷积、注意力、混合精度训练这些方法之所以能改变世界，并不只是因为它们在数学上成立，更因为 GPU、HBM、高速互联、分布式训练和专用加速器让它们在现实资源下终于“算得起”。因此，本篇的核心问题不是“电路本身如何工作”，而是“AI 为何必须依赖专门的硬件组织与并行计算框架”。 </p>
 </blockquote>
 <hr>
-<h2>相关主题</h2>
+<h2 id="相关主题">相关主题</h2>
 <ul>
 <li><a href="13-numerical-analysis.html">数值分析</a>：浮点精度、舍入误差和稳定性约束必须被硬件与并行策略共同实现</li>
 <li><a href="10-computer-science.html">计算机科学</a>：计算复杂度回答“原则上能否算”，本篇回答“工程上能否大规模算”</li>
@@ -446,7 +446,7 @@
 <li><a href="04-information-theory.html">信息论</a>：带宽、编码、互联开销和通信复杂度直接限制分布式 AI</li>
 <li><a href="15-cybernetics.html">控制论</a>：系统调度、功耗管理与在线反馈控制广泛存在于硬件运行时</li>
 </ul>
-<h2>1. 上帝视角：为什么 AI 需要硬件与并行计算</h2>
+<h2 id="n1-上帝视角-为什么-AI-需要硬件与并行计算">1. 上帝视角：为什么 AI 需要硬件与并行计算</h2>
 <p>AI 的很多核心算子都高度依赖大规模并行：</p>
 <ul>
 <li>矩阵乘法；</li>
@@ -461,7 +461,7 @@
 <li><strong>存储</strong>：参数、激活、优化器状态放得下吗；</li>
 <li><strong>带宽</strong>：计算单元之间与显存之间搬数据是否太慢。</li>
 </ul>
-<h3>1.1 一个现实判断：很多 AI 瓶颈其实不是“不会算”，而是“搬不动”</h3>
+<h3 id="n1-1-一个现实判断-很多-AI-瓶颈其实不是-不会算-而是-搬不动">1.1 一个现实判断：很多 AI 瓶颈其实不是“不会算”，而是“搬不动”</h3>
 <p>在大模型训练里，性能瓶颈经常不是浮点运算本身，而是：</p>
 <ul>
 <li>显存不够；</li>
@@ -470,7 +470,7 @@
 <li>参数同步把计算流水线卡住。</li>
 </ul>
 <p>这说明硬件问题并不只是“把算术单元做得更快”，而是系统级问题：计算、内存、互联、调度必须一起设计。</p>
-<h3>1.2 AI 硬件为何与传统通用计算不同</h3>
+<h3 id="n1-2-AI-硬件为何与传统通用计算不同">1.2 AI 硬件为何与传统通用计算不同</h3>
 <table>
 <thead>
 <tr>
@@ -502,8 +502,8 @@
 </tbody></table>
 <p>所以，现代 AI 的硬件基础不是“更快的通用电脑”，而是<strong>围绕张量计算重构的并行基础设施</strong>。</p>
 <hr>
-<h2>2. 历史脉络</h2>
-<h3>2.1 从真空管到晶体管</h3>
+<h2 id="n2-历史脉络">2. 历史脉络</h2>
+<h3 id="n2-1-从真空管到晶体管">2.1 从真空管到晶体管</h3>
 <p>20 世纪中叶之前，计算系统依赖真空管。它们功耗高、体积大、可靠性差，很难支撑大规模数值计算。</p>
 <p><strong>1947 年</strong>，Bell Labs 的 <strong>Bardeen、Brattain、Shockley</strong> 发明晶体管，现代数字计算的硬件基础由此建立。晶体管的意义不只是“更小”，而是：</p>
 <ul>
@@ -512,10 +512,10 @@
 <li>更快；</li>
 <li>更适合大规模集成。</li>
 </ul>
-<h3>2.2 集成电路与摩尔定律</h3>
+<h3 id="n2-2-集成电路与摩尔定律">2.2 集成电路与摩尔定律</h3>
 <p><strong>Kilby (1958)</strong> 与 <strong>Noyce (1959)</strong> 分别推动集成电路诞生，把电路从“人工组装”变成“批量制造”。随后，<strong>Moore (1965)</strong> 总结出摩尔定律，半导体工业几十年都围绕这个节奏前进。</p>
 <p>这一阶段对 AI 的意义在于：通用数字计算的成本持续下降，为后来的机器学习实验提供了现实基础。</p>
-<h3>2.3 从 CPU 主导到并行计算转向</h3>
+<h3 id="n2-3-从-CPU-主导到并行计算转向">2.3 从 CPU 主导到并行计算转向</h3>
 <p>2000 年前后，单核频率提升逐渐触及功耗墙，硬件路线开始从“单核更快”转向：</p>
 <ul>
 <li>多核；</li>
@@ -524,7 +524,7 @@
 <li>异构计算。</li>
 </ul>
 <p>这为 AI 迎来真正的大规模并行时代埋下伏笔。</p>
-<h3>2.4 GPU 与 CUDA 革命</h3>
+<h3 id="n2-4-GPU-与-CUDA-革命">2.4 GPU 与 CUDA 革命</h3>
 <p>GPU 最早为图形渲染设计，但其架构天然适合规则、重复、大批量的并行计算。</p>
 <ul>
 <li><strong>1999</strong>：NVIDIA 首次使用 GPU 概念；</li>
@@ -533,7 +533,7 @@
 <li><strong>2012</strong>：AlexNet 借助 GPU 训练实现 ImageNet 突破。</li>
 </ul>
 <p>这一转折极其关键：<strong>深度学习并不是在 2012 年才在数学上成立，而是在那时终于有了大规模可用的计算平台。</strong></p>
-<h3>2.5 AI 专用加速器时代</h3>
+<h3 id="n2-5-AI-专用加速器时代">2.5 AI 专用加速器时代</h3>
 <p>GPU 证明了张量计算的重要性后，AI 开始驱动专用硬件设计：</p>
 <ul>
 <li><strong>TPU</strong> 采用脉动阵列加速矩阵乘；</li>
@@ -543,8 +543,8 @@
 </ul>
 <p>从这里开始，AI 已不只是“使用硬件”，而是在反过来重塑硬件产业路线。</p>
 <hr>
-<h2>3. 核心知识点详解</h2>
-<h3>3.1 AI 计算栈：算术、存储与互联</h3>
+<h2 id="n3-核心知识点详解">3. 核心知识点详解</h2>
+<h3 id="n3-1-AI-计算栈-算术-存储与互联">3.1 AI 计算栈：算术、存储与互联</h3>
 <p>AI 硬件不能只看 FLOPS。一个更准确的视角是三层约束：</p>
 <h4>算术吞吐</h4>
 <p>矩阵乘法的计算量可写为：</p>
@@ -588,7 +588,7 @@ $$</p>
 <li><strong>系统瓶颈分析</strong>：帮助判断瓶颈在算力、显存还是通信；</li>
 <li><strong>算法协同设计</strong>：推动激活重算、检查点、张量并行等方法出现。</li>
 </ul>
-<h3>3.2 并行计算的三种主线</h3>
+<h3 id="n3-2-并行计算的三种主线">3.2 并行计算的三种主线</h3>
 <h4>数据并行（Data Parallelism）</h4>
 <p>每张卡拿一份模型副本，处理不同批次数据，再同步梯度。</p>
 <p>优点：</p>
@@ -622,7 +622,7 @@ $$</p>
 <li><strong>多机多卡协同</strong>：决定集群利用率和训练吞吐；</li>
 <li><strong>部署优化</strong>：推理阶段同样依赖批处理、分片与缓存并行。</li>
 </ul>
-<h3>3.3 精度、能效与数值格式</h3>
+<h3 id="n3-3-精度-能效与数值格式">3.3 精度、能效与数值格式</h3>
 <p>AI 硬件的一条重要经验是：并不是所有计算都需要 FP32。</p>
 <p>从 FP32 到 FP16、BF16、FP8、INT8/INT4，精度下降带来：</p>
 <ul>
@@ -643,7 +643,7 @@ $$</p>
 <li><strong>量化部署</strong>：让大模型进入边缘设备和低成本推理环境；</li>
 <li><strong>能效优化</strong>：精度选择已经成为系统级性能设计变量。</li>
 </ul>
-<h3>3.4 一个具体例子：Transformer 为什么强依赖系统工程</h3>
+<h3 id="n3-4-一个具体例子-Transformer-为什么强依赖系统工程">3.4 一个具体例子：Transformer 为什么强依赖系统工程</h3>
 <p>设序列长度为 $n$，隐藏维度为 $d$，自注意力的核心相似度计算通常涉及：</p>
 <p>$$
 QK^\top \in \mathbb{R}^{n \times n}
@@ -671,10 +671,10 @@ $$</p>
 <li><strong>训练加速</strong>：把理论可行的注意力计算变成工程可扩展实现。</li>
 </ul>
 <hr>
-<h2>4. 对 AI 的核心贡献</h2>
-<h3>4.1 让大规模训练成为现实</h3>
+<h2 id="n4-对-AI-的核心贡献">4. 对 AI 的核心贡献</h2>
+<h3 id="n4-1-让大规模训练成为现实">4.1 让大规模训练成为现实</h3>
 <p>没有 GPU、加速器、混合精度和分布式训练，现代深度学习的大部分里程碑都只能停留在“小规模可验证”，而无法进入“现实可用”。</p>
-<h3>4.2 把算法创新转化为可扩展基础设施</h3>
+<h3 id="n4-2-把算法创新转化为可扩展基础设施">4.2 把算法创新转化为可扩展基础设施</h3>
 <p>很多方法真正发挥作用，都要依赖硬件与系统共同适配：</p>
 <ul>
 <li>CNN 需要高吞吐卷积实现；</li>
@@ -682,7 +682,7 @@ $$</p>
 <li>扩散模型需要大批量、长时间训练；</li>
 <li>检索增强与 Agent 系统需要推理、缓存、向量检索硬件协同。</li>
 </ul>
-<h3>4.3 反过来塑造 AI 方法本身</h3>
+<h3 id="n4-3-反过来塑造-AI-方法本身">4.3 反过来塑造 AI 方法本身</h3>
 <p>硬件不是被动执行者，它会反过来影响方法设计：</p>
 <ul>
 <li>算子是否适合矩阵化；</li>
@@ -692,7 +692,7 @@ $$</p>
 <li>推理是否适合批处理与缓存。</li>
 </ul>
 <p>今天很多“好模型”的定义里，已经隐含了“适不适合现代硬件体系”。</p>
-<h3>4.4 让 AI 进入真实世界场景</h3>
+<h3 id="n4-4-让-AI-进入真实世界场景">4.4 让 AI 进入真实世界场景</h3>
 <p>训练只是第一步。边缘部署、移动端推理、自动驾驶、机器人、实时多模态系统都要求：</p>
 <ul>
 <li>更低延迟；</li>
@@ -702,8 +702,8 @@ $$</p>
 </ul>
 <p>因此，AI 硬件与并行计算决定的不只是研究上限，也决定产品落地边界。</p>
 <hr>
-<h2>5. 前沿与开放问题</h2>
-<h3>5.1 后摩尔时代如何继续扩展 AI</h3>
+<h2 id="n5-前沿与开放问题">5. 前沿与开放问题</h2>
+<h3 id="n5-1-后摩尔时代如何继续扩展-AI">5.1 后摩尔时代如何继续扩展 AI</h3>
 <p>先进工艺越来越昂贵，纯靠晶体管微缩已难以维持过去那样的增速。新的增长路线包括：</p>
 <ul>
 <li>Chiplet；</li>
@@ -711,7 +711,7 @@ $$</p>
 <li>近存计算；</li>
 <li>更强专用化。</li>
 </ul>
-<h3>5.2 内存墙与通信墙</h3>
+<h3 id="n5-2-内存墙与通信墙">5.2 内存墙与通信墙</h3>
 <p>很多系统已不再主要受算术吞吐限制，而是受：</p>
 <ul>
 <li>显存容量；</li>
@@ -720,7 +720,7 @@ $$</p>
 <li>数据搬运能耗</li>
 </ul>
 <p>限制。未来 AI 系统设计的重点，很可能继续从“加算力”转向“减搬运”。</p>
-<h3>5.3 训练与推理的分化</h3>
+<h3 id="n5-3-训练与推理的分化">5.3 训练与推理的分化</h3>
 <p>训练硬件追求极致吞吐，推理硬件常更关注：</p>
 <ul>
 <li>低延迟；</li>
@@ -729,24 +729,24 @@ $$</p>
 <li>稀疏激活与条件计算。</li>
 </ul>
 <p>因此，同一种模型在训练期与部署期可能需要完全不同的硬件优化策略。</p>
-<h3>5.4 算力、能耗与可持续性</h3>
+<h3 id="n5-4-算力-能耗与可持续性">5.4 算力、能耗与可持续性</h3>
 <p>大模型时代已经把能耗、供应链和资源集中问题推到台前。AI 硬件未来不仅要回答“能不能更强”，还必须回答“能不能更可持续、更可获得”。</p>
 <hr>
-<h2>6. 推荐阅读与参考文献</h2>
-<h3>教材与经典著作</h3>
+<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h3 id="教材与经典著作">教材与经典著作</h3>
 <ul>
 <li>Hennessy, J. L., &amp; Patterson, D. A. (2019). <em>Computer Architecture: A Quantitative Approach</em>. Morgan Kaufmann.</li>
 <li>Patterson, D., &amp; Hennessy, J. (2021). <em>Computer Organization and Design RISC-V Edition</em>. Morgan Kaufmann.</li>
 <li>Sze, V., Chen, Y.-H., Yang, T.-J., &amp; Emer, J. S. (2020). <em>Efficient Processing of Deep Neural Networks</em>. Morgan &amp; Claypool.</li>
 </ul>
-<h3>关键论文与资料</h3>
+<h3 id="关键论文与资料">关键论文与资料</h3>
 <ul>
 <li>Moore, G. E. (1965). Cramming more components onto integrated circuits. <em>Electronics</em>.</li>
 <li>Jouppi, N. P., et al. (2017). In-datacenter performance analysis of a tensor processing unit. <em>ISCA</em>.</li>
 <li>Narayanan, D., et al. (2021). Efficient large-scale language model training on GPU clusters using Megatron-LM. <em>SC</em>.</li>
 <li>Dao, T., et al. (2022). FlashAttention: Fast and memory-efficient exact attention with IO-awareness. <em>NeurIPS</em>.</li>
 </ul>
-<h3>面向 AI 系统的延伸阅读</h3>
+<h3 id="面向-AI-系统的延伸阅读">面向 AI 系统的延伸阅读</h3>
 <ul>
 <li>NVIDIA CUDA documentation.</li>
 <li>OpenXLA / Triton / CUTLASS 相关技术文档。</li>
@@ -758,7 +758,7 @@ $$</p>
 <li>Narayanan, D., et al. (2021). Efficient large-scale language model training on GPU clusters using Megatron-LM. <em>SC</em>.</li>
 <li>Dao, T., et al. (2022). FlashAttention: Fast and memory-efficient exact attention with IO-awareness. <em>NeurIPS</em>.</li>
 </ul>
-<h2>7. 本篇在全书中的位置</h2>
+<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>这篇是“计算与系统工程”模块的落地端。前面的理论告诉我们模型该怎么学、怎么控、怎么组织，本篇回答的是：<strong>这些东西怎样在真实机器上被大规模地算出来。</strong></p>
 <ul>
 <li><a href="10-computer-science.html">计算机科学</a> 给出计算与算法边界；</li>
@@ -778,12 +778,70 @@ $$</p>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">
   <div class="toc-label">目录</div>
-  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+  <a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要硬件与并行计算" class="toc-link h2">1. 上帝视角：为什么 AI 需要硬件与并行计算</a>
+<a href="#n1-1-一个现实判断-很多-AI-瓶颈其实不是-不会算-而是-搬不动" class="toc-link h3">1.1 一个现实判断：很多 AI 瓶颈其实不是“不会算”，而是“搬不动”</a>
+<a href="#n1-2-AI-硬件为何与传统通用计算不同" class="toc-link h3">1.2 AI 硬件为何与传统通用计算不同</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-从真空管到晶体管" class="toc-link h3">2.1 从真空管到晶体管</a>
+<a href="#n2-2-集成电路与摩尔定律" class="toc-link h3">2.2 集成电路与摩尔定律</a>
+<a href="#n2-3-从-CPU-主导到并行计算转向" class="toc-link h3">2.3 从 CPU 主导到并行计算转向</a>
+<a href="#n2-4-GPU-与-CUDA-革命" class="toc-link h3">2.4 GPU 与 CUDA 革命</a>
+<a href="#n2-5-AI-专用加速器时代" class="toc-link h3">2.5 AI 专用加速器时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-AI-计算栈-算术-存储与互联" class="toc-link h3">3.1 AI 计算栈：算术、存储与互联</a>
+<a href="#n3-2-并行计算的三种主线" class="toc-link h3">3.2 并行计算的三种主线</a>
+<a href="#n3-3-精度-能效与数值格式" class="toc-link h3">3.3 精度、能效与数值格式</a>
+<a href="#n3-4-一个具体例子-Transformer-为什么强依赖系统工程" class="toc-link h3">3.4 一个具体例子：Transformer 为什么强依赖系统工程</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-让大规模训练成为现实" class="toc-link h3">4.1 让大规模训练成为现实</a>
+<a href="#n4-2-把算法创新转化为可扩展基础设施" class="toc-link h3">4.2 把算法创新转化为可扩展基础设施</a>
+<a href="#n4-3-反过来塑造-AI-方法本身" class="toc-link h3">4.3 反过来塑造 AI 方法本身</a>
+<a href="#n4-4-让-AI-进入真实世界场景" class="toc-link h3">4.4 让 AI 进入真实世界场景</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-后摩尔时代如何继续扩展-AI" class="toc-link h3">5.1 后摩尔时代如何继续扩展 AI</a>
+<a href="#n5-2-内存墙与通信墙" class="toc-link h3">5.2 内存墙与通信墙</a>
+<a href="#n5-3-训练与推理的分化" class="toc-link h3">5.3 训练与推理的分化</a>
+<a href="#n5-4-算力-能耗与可持续性" class="toc-link h3">5.4 算力、能耗与可持续性</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#教材与经典著作" class="toc-link h3">教材与经典著作</a>
+<a href="#关键论文与资料" class="toc-link h3">关键论文与资料</a>
+<a href="#面向-AI-系统的延伸阅读" class="toc-link h3">面向 AI 系统的延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
 <button class="toc-toggle" id="tocToggle">目录</button>
-<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><a href="#相关主题" class="toc-link h2">相关主题</a>
+<a href="#n1-上帝视角-为什么-AI-需要硬件与并行计算" class="toc-link h2">1. 上帝视角：为什么 AI 需要硬件与并行计算</a>
+<a href="#n1-1-一个现实判断-很多-AI-瓶颈其实不是-不会算-而是-搬不动" class="toc-link h3">1.1 一个现实判断：很多 AI 瓶颈其实不是“不会算”，而是“搬不动”</a>
+<a href="#n1-2-AI-硬件为何与传统通用计算不同" class="toc-link h3">1.2 AI 硬件为何与传统通用计算不同</a>
+<a href="#n2-历史脉络" class="toc-link h2">2. 历史脉络</a>
+<a href="#n2-1-从真空管到晶体管" class="toc-link h3">2.1 从真空管到晶体管</a>
+<a href="#n2-2-集成电路与摩尔定律" class="toc-link h3">2.2 集成电路与摩尔定律</a>
+<a href="#n2-3-从-CPU-主导到并行计算转向" class="toc-link h3">2.3 从 CPU 主导到并行计算转向</a>
+<a href="#n2-4-GPU-与-CUDA-革命" class="toc-link h3">2.4 GPU 与 CUDA 革命</a>
+<a href="#n2-5-AI-专用加速器时代" class="toc-link h3">2.5 AI 专用加速器时代</a>
+<a href="#n3-核心知识点详解" class="toc-link h2">3. 核心知识点详解</a>
+<a href="#n3-1-AI-计算栈-算术-存储与互联" class="toc-link h3">3.1 AI 计算栈：算术、存储与互联</a>
+<a href="#n3-2-并行计算的三种主线" class="toc-link h3">3.2 并行计算的三种主线</a>
+<a href="#n3-3-精度-能效与数值格式" class="toc-link h3">3.3 精度、能效与数值格式</a>
+<a href="#n3-4-一个具体例子-Transformer-为什么强依赖系统工程" class="toc-link h3">3.4 一个具体例子：Transformer 为什么强依赖系统工程</a>
+<a href="#n4-对-AI-的核心贡献" class="toc-link h2">4. 对 AI 的核心贡献</a>
+<a href="#n4-1-让大规模训练成为现实" class="toc-link h3">4.1 让大规模训练成为现实</a>
+<a href="#n4-2-把算法创新转化为可扩展基础设施" class="toc-link h3">4.2 把算法创新转化为可扩展基础设施</a>
+<a href="#n4-3-反过来塑造-AI-方法本身" class="toc-link h3">4.3 反过来塑造 AI 方法本身</a>
+<a href="#n4-4-让-AI-进入真实世界场景" class="toc-link h3">4.4 让 AI 进入真实世界场景</a>
+<a href="#n5-前沿与开放问题" class="toc-link h2">5. 前沿与开放问题</a>
+<a href="#n5-1-后摩尔时代如何继续扩展-AI" class="toc-link h3">5.1 后摩尔时代如何继续扩展 AI</a>
+<a href="#n5-2-内存墙与通信墙" class="toc-link h3">5.2 内存墙与通信墙</a>
+<a href="#n5-3-训练与推理的分化" class="toc-link h3">5.3 训练与推理的分化</a>
+<a href="#n5-4-算力-能耗与可持续性" class="toc-link h3">5.4 算力、能耗与可持续性</a>
+<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#教材与经典著作" class="toc-link h3">教材与经典著作</a>
+<a href="#关键论文与资料" class="toc-link h3">关键论文与资料</a>
+<a href="#面向-AI-系统的延伸阅读" class="toc-link h3">面向 AI 系统的延伸阅读</a>
+<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');

@@ -115,7 +115,18 @@ function buildTopicPage(md, file) {
     mathBlocks.push(match);
     return `@@MATH${idx}@@`;
   });
-  const bodyHtml = marked.parse(mdProtected, { breaks: true, gfm: true })
+  const tmpBody = marked.parse(mdProtected, { breaks: true, gfm: true });
+  // Add heading IDs for TOC links (marked v18 does not auto-generate them)
+  const bodyHtml = tmpBody
+    .replace(/<(h[23])>([\s\S]*?)<\/\1>/g, (match, tag, inner) => {
+      const text = inner.replace(/<[^>]*>/g, '').trim();
+      const id = text
+        .replace(/['"]/g, '')
+        .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .replace(/^(\d)/, 'n$1');
+      return id ? `<${tag} id="${id}">${inner}</${tag}>` : match;
+    })
     .replace(/@@MATH(\d+)@@/g, (_, idx) => {
       // HTML-escape < > & inside math blocks to prevent browser parsing interference
       return mathBlocks[parseInt(idx)].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
