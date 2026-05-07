@@ -5,9 +5,18 @@ import { marked } from 'marked';
 const allAnnotations = JSON.parse(readFileSync('data/annotations.json', 'utf-8'));
 delete allAnnotations._meta; // remove metadata
 
-function getAnnotationsForGroup(groupId) {
+function getAnnotationsForTopic(topicId, groupId) {
   const filtered = {};
   for (const [term, info] of Object.entries(allAnnotations)) {
+    // If term has explicit topic field, match by topic (per-article scoping)
+    if (info.t !== undefined) {
+      const topics = (info.t || '').split(',').map(Number);
+      if (topics.includes(topicId)) {
+        filtered[term] = info.def || info;
+      }
+      continue;
+    }
+    // Fall back to group-level scoping (legacy)
     const groups = (info.g || '').split(',').map(Number);
     if (groups.includes(groupId)) {
       filtered[term] = info.def || info;
@@ -123,7 +132,8 @@ function buildTopicPage(md, file) {
   const title = titleMatch ? titleMatch[1].replace(/\*\*/g, '') : file;
   const topicNum = currentTopic ? String(currentTopic[0]).padStart(2,'0') : '';
   const pageGroup = currentTopic ? currentTopic[3] : 1;
-  const pageAnnotations = getAnnotationsForGroup(pageGroup);
+  const pageTopic = currentTopic ? currentTopic[0] : 1;
+  const pageAnnotations = getAnnotationsForTopic(pageTopic, pageGroup);
   const pageAnnTerms = Object.keys(pageAnnotations).sort((a, b) => b.length - a.length);
 
   // Protect LaTeX math blocks from marked (prevents _ being converted to <em>)
