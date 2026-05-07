@@ -1,0 +1,11 @@
+{
+  "name": "path2agi",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "npx serve ."
+  },
+  "devDependencies": {
+    "marked": "^18.0.3"
+  }
+}

@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法学（Law）：从起源到 AI 时代的核心议题 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item active">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#ff8c42"></span> 社会科学与人文学科</span>
+      <span>学科 28</span>
+      
+      
+      
+    </div><hr>
+<p>title: 法学<br>aliases:</p>
+<ul>
+<li>Law</li>
+<li>Legal Studies<br>category:</li>
+<li>社会科学与人文学科<br>tags:</li>
+<li>ai-foundations</li>
+<li>law</li>
+<li>regulation</li>
+<li>liability<br>type: topic<br>status: stable<br>importance: core<br>version: v1.0<br>date: &#39;2026-04-21&#39;</li>
+</ul>
+<hr>
+<h1>法学（Law）：从起源到 AI 时代的核心议题</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：法学为 AI 提供了制度层面的约束框架。它不讨论技术可行性，而是讨论法律责任、权利边界、监管合规与制度设计。从 AI 生成内容的版权归属到自动驾驶事故的责任分配，从数据保护法的合规要求到 AI 法案的风险分级，法学决定的是 AI 可以做什么、必须做什么、禁止做什么。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="26-ai-ethics.html">AI伦理与治理</a>：伦理讨论&quot;应该做什么&quot;，法学讨论&quot;必须做什么&quot;以及违规后果</li>
+<li><a href="27-sociology.html">社会学</a>：社会学分析社会结构如何被技术改变，法学分析如何通过制度约束这种改变</li>
+<li><a href="24-economics.html">经济学</a>：经济学讨论激励与效率，法学讨论激励的法律化与效率的边界</li>
+<li><a href="05-logic.html">逻辑学与形式推理</a>：法律推理的逻辑结构，AI 推理与法律推理的关系</li>
+<li><a href="12-game-theory.html">博弈论</a>：机制设计的法律约束，激励相容的制度化</li>
+</ul>
+<h2>1. 上帝视角：为什么 AI 需要法学</h2>
+<h3>1.1 AI 作为法律对象的三重身份</h3>
+<p>AI 在法律视角中有三重身份：</p>
+<ul>
+<li><strong>AI 作为产品</strong>：可被买卖、许可、侵权；有知识产权、合同关系</li>
+<li><strong>AI 作为行为主体</strong>：可做出决策、造成损害、承担责任？（这有争议）</li>
+<li><strong>AI 作为监管对象</strong>：需遵守数据保护、安全要求、透明义务</li>
+</ul>
+<p>这三重身份引出不同的法律问题：财产法、侵权法、监管法。</p>
+<h3>1.2 与其他学科的关键连接</h3>
+<table>
+<thead>
+<tr>
+<th>学科</th>
+<th>连接点</th>
+<th>具体体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI伦理</td>
+<td>道德与法律的边界</td>
+<td>道德谴责 vs 法律制裁，伦理准则 vs 法律义务</td>
+</tr>
+<tr>
+<td>社会学</td>
+<td>制度与实践</td>
+<td>法律条文 vs 社会实践中的算法权力</td>
+</tr>
+<tr>
+<td>经济学</td>
+<td>激励与合规</td>
+<td>合规成本 vs 违规成本，市场激励 vs 法律约束</td>
+</tr>
+<tr>
+<td>哲学</td>
+<td>正义与权利</td>
+<td>什么是&quot;法律正义&quot;？AI 权利？</td>
+</tr>
+<tr>
+<td>博弈论</td>
+<td>机制设计的法律化</td>
+<td>激励相容需要法律强制力</td>
+</tr>
+<tr>
+<td>逻辑学</td>
+<td>法律推理形式化</td>
+<td>AI 能否进行法律推理？</td>
+</tr>
+</tbody></table>
+<h3>1.3 法学的独特视角：强制力与可诉性</h3>
+<p>伦理讨论&quot;应该&quot;，社会学讨论&quot;如何&quot;，法学讨论&quot;强制&quot;：</p>
+<ul>
+<li><strong>强制力</strong>：法律规则有国家强制力支撑，违规有制裁</li>
+<li><strong>可诉性</strong>：权利被侵害可以诉诸法院，获得救济</li>
+<li><strong>规范性</strong>：法律提供明确的行为标准（而非模糊的道德呼吁）</li>
+</ul>
+<p>这使得法学成为 AI 治理的&quot;硬约束&quot;层。</p>
+<hr>
+<h2>2. 历史脉络：关键里程碑</h2>
+<h3>2.1 数据保护法的兴起（1970s-2010s）</h3>
+<p><strong>1973 - 瑞典数据法</strong>：世界上第一部数据保护法，确立&quot;数据隐私&quot;概念。</p>
+<p><strong>1978 - 法国数据保护法</strong>：设立 CNIL（国家信息与自由委员会），确立独立监管机构模式。</p>
+<p><strong>1980 - OECD 数据保护指南</strong>：确立八大原则（收集限制、目的明确、使用限制等），成为全球数据保护的基础框架。</p>
+<p><strong>1995 - 欧盟数据保护指令</strong>：统一欧盟成员国的数据保护规则，确立&quot;跨境数据流动&quot;的法律框架。</p>
+<p><strong>2016 - 欧盟 GDPR</strong>（General Data Protection Regulation）：</p>
+<ul>
+<li>全球最严格的数据保护法</li>
+<li>确立&quot;数据主体权利&quot;（访问权、更正权、删除权、可携带权）</li>
+<li>要求&quot;数据保护影响评估&quot;</li>
+<li>引入巨额罚款（最高全球营业额的 4%）</li>
+<li>成为全球数据保护法的标杆</li>
+</ul>
+<p><strong>2018 - 中国个人信息保护法（PIPL）草案</strong>：确立个人信息处理的原则与权利。</p>
+<h3>2.2 AI 相关判例（2010s-2020s）</h3>
+<p><strong>版权纠纷</strong>：</p>
+<ul>
+<li><strong>Authors Guild v. Google (2015)</strong>：Google 图书扫描项目，法院认定&quot;合理使用&quot;</li>
+<li><strong>Andy Warhol Foundation v. Goldsmith (2023)</strong>：美国最高法院收紧&quot;转化性使用&quot;标准，影响 AI 生成内容的版权分析</li>
+<li><strong>Thaler v. Perlmutter (2023)</strong>：美国版权局拒绝将 AI 生成的图像登记为作品，确立&quot;人类作者&quot;要求</li>
+</ul>
+<p><strong>平台责任</strong>：</p>
+<ul>
+<li><strong>Gonzalez v. Google (2023)</strong>：美国最高法院未对算法推荐的责任做出明确裁决，退回下级法院</li>
+<li><strong>欧盟平台责任演进</strong>：从&quot;通知-删除&quot;（E-Commerce Directive）到&quot;风险评估&quot;（AI Act）</li>
+</ul>
+<p><strong>侵权责任</strong>：</p>
+<ul>
+<li><strong>自动驾驶事故</strong>：多起案件，责任分配在制造商、软件开发商、操作者之间摇摆</li>
+<li><strong>医疗 AI 诊断错误</strong>：责任在医生、医院还是 AI 开发者？</li>
+</ul>
+<h3>2.3 AI 监管立法浪潮（2020s-至今）</h3>
+<p><strong>2021 - 中国算法推荐管理规定</strong>：要求推荐算法备案、透明、公平。</p>
+<p><strong>2023 - 欧盟 AI 法案</strong>（AI Act）：</p>
+<ul>
+<li>全球第一部综合性 AI 监管法</li>
+<li>风险分级：禁止级、高风险级、中等风险级、低风险级</li>
+<li>高风险 AI 的严格合规要求（风险评估、数据治理、人类监督）</li>
+<li>强制透明义务（AI 生成的标识）</li>
+</ul>
+<p><strong>2023 - 中国生成式 AI 服务管理办法</strong>：</p>
+<ul>
+<li>内容安全要求</li>
+<li>算法备案</li>
+<li>训练数据合规</li>
+<li>用户保护义务</li>
+</ul>
+<p><strong>2024 - 美国 AI 安全研究机构</strong>：</p>
+<ul>
+<li>NIST AI 风险管理框架</li>
+<li>AI 安全研究所（UK AI Safety Institute）</li>
+</ul>
+<p><strong>全球 AI 治理协调</strong>：</p>
+<ul>
+<li>G7 广岛 AI 进程</li>
+<li>联合国 AI 高级咨询委员会</li>
+<li>全球 AI 安全峰会（Bletchley、首尔、巴黎）</li>
+</ul>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 AI 生成内容的知识产权</h3>
+<h4>核心争议</h4>
+<p><strong>AI 生成的作品有版权吗？</strong></p>
+<p>传统版权法要求：作品必须是<strong>人类的原创表达</strong>。AI 生成的作品问题：</p>
+<ul>
+<li>AI 是&quot;工具&quot;还是&quot;作者&quot;？</li>
+<li>用户输入的提示词算&quot;创作贡献&quot;吗？</li>
+<li>AI 训练数据中的作品有权属问题吗？</li>
+</ul>
+<h4>各国立场</h4>
+<table>
+<thead>
+<tr>
+<th>国家/地区</th>
+<th>立场</th>
+<th>代表性案例/规定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>美国</td>
+<td>否定 AI 作者权</td>
+<td>Thaler v. Perlmutter (2023)：版权局拒绝登记 AI 生成图像</td>
+</tr>
+<tr>
+<td>英国</td>
+<td>有可能（计算机生成作品）</td>
+<td>CDPA 1988 第 9(3) 条：为计算机生成作品安排必要事项的人视为作者</td>
+</tr>
+<tr>
+<td>中国</td>
+<td>争议中</td>
+<td>多个案例判决不一致，倾向要求人类创作贡献</td>
+</tr>
+<tr>
+<td>欧盟</td>
+<td>未明确</td>
+<td>AI Act 未涉及版权归属</td>
+</tr>
+</tbody></table>
+<h4>训练数据的版权问题</h4>
+<p><strong>训练数据是否侵权？</strong></p>
+<ul>
+<li><strong>复制权</strong>：复制训练数据是否需要许可？（大多数观点：临时复制不侵权，但存储可能侵权）</li>
+<li><strong>合理使用/公平处理</strong>：用于训练是否是合理使用？（美国倾向肯定，欧盟倾向否定）</li>
+<li><strong>表达提取</strong>：模型是否&quot;提取&quot;了作品的表达？（争议核心）</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>AI 开发者的合规义务</strong>：训练数据的版权合规</li>
+<li><strong>AI 用户的风险</strong>：生成内容可能侵犯他人版权</li>
+<li><strong>行业规范</strong>：需要版权领域的行业自律或法律明确</li>
+</ul>
+<h3>3.2 AI 侵权责任</h3>
+<h4>核心问题：谁对 AI 造成的损害负责？</h4>
+<p>传统侵权法要求：行为人有过错（故意或过失），造成损害，承担责任。AI 侵权问题：</p>
+<ul>
+<li>AI 没有法律主体地位，不能成为&quot;行为人&quot;</li>
+<li>多方参与：开发者、部署者、用户、平台</li>
+<li>损害链条复杂：从数据到算法到输出到后果</li>
+</ul>
+<h4>责任分配模式</h4>
+<p><strong>产品责任路径</strong>：</p>
+<ul>
+<li>AI 作为&quot;产品&quot;，适用产品责任法</li>
+<li>制造商对产品缺陷承担责任</li>
+<li>问题：AI 的&quot;缺陷&quot;如何定义？（性能不足？错误输出？）</li>
+</ul>
+<p><strong>过失责任路径</strong>：</p>
+<ul>
+<li>开发者/部署者有过失（未尽合理注意义务）</li>
+<li>需证明过失与损害的因果关系</li>
+<li>问题：AI 黑箱特性使因果关系难以证明</li>
+</ul>
+<p><strong>严格责任路径</strong>：</p>
+<ul>
+<li>高风险 AI 适用严格责任（无论有无过失）</li>
+<li>类似于危险产品的严格责任</li>
+<li>欧盟 AI 法案倾向此路径</li>
+</ul>
+<h4>自动驾驶的责任分配</h4>
+<p>典型场景：自动驾驶汽车造成事故。</p>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>可能的责任方</th>
+<th>法律争议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统故障</td>
+<td>制造商</td>
+<td>产品责任</td>
+</tr>
+<tr>
+<td>用户操作不当</td>
+<td>用户</td>
+<td>过失责任</td>
+</tr>
+</tbody></table>
+<ul>
+<li>混合因素 | 多方分担 | 比较过失 |</li>
+<li>不可避免事故 | 无责任或制造商风险责任 | 无过错责任 |</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>AI 开发者的风险控制</strong>：设计阶段考虑责任分配</li>
+<li><strong>保险机制</strong>：AI 相关损害的保险安排</li>
+<li><strong>合同安排</strong>：用户协议中的责任分配条款</li>
+</ul>
+<h3>3.3 数据保护法与 AI</h3>
+<h4>GDPR 的核心要求对 AI 的影响</h4>
+<table>
+<thead>
+<tr>
+<th>GDPR 要求</th>
+<th>对 AI 的含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>目的限制</strong></td>
+<td>AI 系统必须明确、具体的目的，不能泛化使用</td>
+</tr>
+<tr>
+<td><strong>数据最小化</strong></td>
+<td>训练数据不能过度收集</td>
+</tr>
+<tr>
+<td><strong>准确性</strong></td>
+<td>训练数据必须准确，输出必须可靠？</td>
+</tr>
+<tr>
+<td><strong>存储限制</strong></td>
+<td>数据存储时间必须有限</td>
+</tr>
+<tr>
+<td><strong>透明度</strong></td>
+<td>AI 决策必须可解释（自动化决策条款）</td>
+</tr>
+<tr>
+<td><strong>数据主体权利</strong></td>
+<td>访问权、更正权、删除权适用于 AI 训练数据</td>
+</tr>
+<tr>
+<td><strong>数据保护影响评估</strong></td>
+<td>高风险 AI 必须进行 DPIA</td>
+</tr>
+</tbody></table>
+<h4>自动化决策条款（GDPR 第 22 条）</h4>
+<p><strong>核心内容</strong>：</p>
+<ul>
+<li>数据主体有权不接受&quot;完全自动化决策&quot;</li>
+<li>例外情况：必要合同、法律授权、明确同意</li>
+<li>必须有人类干预、解释权、申诉权</li>
+</ul>
+<p><strong>对 AI 的影响</strong>：</p>
+<ul>
+<li>AI 招聘系统、信贷评分系统需提供人类审查</li>
+<li>用户有权要求解释 AI 决策</li>
+<li>完全自动化的高风险系统可能违规</li>
+</ul>
+<h4>GDPR 对 AI 训练的限制</h4>
+<p><strong>训练数据来源合规</strong>：</p>
+<ul>
+<li>收集个人数据需有合法基础（同意、合同、法律义务等）</li>
+<li>用于训练是否在&quot;收集目的&quot;范围内？（目的限制问题）</li>
+</ul>
+<p><strong>删除权的挑战</strong>：</p>
+<ul>
+<li>数据主体有权删除数据，但数据已用于训练模型</li>
+<li>&quot;机器遗忘&quot;技术能否实现删除？</li>
+<li>模型参数是否包含&quot;个人数据&quot;？</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>AI 开发合规</strong>：训练数据的 GDPR 合规审查</li>
+<li><strong>部署合规</strong>：自动化决策的透明义务</li>
+<li><strong>用户权利保障</strong>：访问、更正、删除、解释权的实现</li>
+</ul>
+<h3>3.4 AI 法案与监管框架</h3>
+<h4>欧盟 AI 法案（AI Act）的结构</h4>
+<p><strong>风险分级框架</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>风险等级</th>
+<th>定义</th>
+<th>示例</th>
+<th>法律义务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>禁止级</strong></td>
+<td>不可接受的风险</td>
+<td>社会评分、实时人脸识别（公共场所）</td>
+<td>禁止使用</td>
+</tr>
+<tr>
+<td><strong>高风险级</strong></td>
+<td>可能危害健康、安全、基本权利</td>
+<td>医疗 AI、招聘 AI、教育 AI</td>
+<td>严格合规</td>
+</tr>
+<tr>
+<td><strong>中等风险级</strong></td>
+<td>可能危害透明度</td>
+<td>聊天机器人、AI 生成内容</td>
+<td>透明义务</td>
+</tr>
+<tr>
+<td><strong>低风险级</strong></td>
+<td>一般风险</td>
+<td>游戏 AI、垃圾邮件过滤</td>
+<td>无强制义务</td>
+</tr>
+</tbody></table>
+<p><strong>高风险 AI 的合规要求</strong>：</p>
+<ol>
+<li><strong>风险评估与缓解</strong>：部署前评估风险并设计缓解措施</li>
+<li><strong>数据治理</strong>：训练数据的质量、代表性、偏见控制</li>
+<li><strong>技术文档</strong>：详细记录系统设计、训练、测试</li>
+<li><strong>日志记录</strong>：记录运行过程，便于追溯</li>
+<li><strong>人类监督</strong>：设计人类干预机制</li>
+<li><strong>准确性、鲁棒性</strong>：技术性能标准</li>
+<li><strong>透明义务</strong>：告知用户正在使用 AI</li>
+</ol>
+<h4>中国 AI 监管框架</h4>
+<p><strong>生成式 AI 服务管理办法</strong>（2023）：</p>
+<table>
+<thead>
+<tr>
+<th>要求</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>内容安全</strong></td>
+<td>生成内容不得违反社会主义核心价值观</td>
+</tr>
+<tr>
+<td><strong>算法备案</strong></td>
+<td>服务提供者需向网信办备案</td>
+</tr>
+<tr>
+<td><strong>训练数据合规</strong></td>
+<td>数据来源合法、不侵权、不违法</td>
+</tr>
+<tr>
+<td><strong>用户保护</strong></td>
+<td>保障用户知情权、选择权</td>
+</tr>
+<tr>
+<td><strong>标识义务</strong></td>
+<td>标识 AI 生成的内容</td>
+</tr>
+</tbody></table>
+<h4>美国 AI 监管路径</h4>
+<p>不同于欧盟的综合性立法，美国采取<strong>分散监管</strong>：</p>
+<ul>
+<li><strong>FTC</strong>：关注 AI 欺骗、不公平竞争</li>
+<li><strong>FDA</strong>：监管医疗 AI</li>
+<li><strong>NIST</strong>：制定 AI 风险管理框架（自愿性）</li>
+<li><strong>州立法</strong>：如加州、伊利诺伊州的 AI 招聘透明法</li>
+</ul>
+<p><strong>特点</strong>：行业导向、自愿合规、执法驱动。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>合规设计</strong>：AI 系统设计阶段需考虑监管要求</li>
+<li><strong>风险评估</strong>：部署前的风险评估成为法律义务</li>
+<li><strong>透明机制</strong>：设计用户通知、人类干预、申诉机制</li>
+</ul>
+<h3>3.5 合同法与 AI 服务</h3>
+<h4>AI 服务合同的特殊问题</h4>
+<p><strong>用户协议的核心条款</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>条款类型</th>
+<th>内容</th>
+<th>法律争议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>责任限制</strong></td>
+<td>平台限制自身责任</td>
+<td>是否公平？高风险领域是否有效？</td>
+</tr>
+<tr>
+<td><strong>使用限制</strong></td>
+<td>禁止某些用途（如违法用途）</td>
+<td>用户实际用途难以控制</td>
+</tr>
+<tr>
+<td><strong>知识产权</strong></td>
+<td>输出的版权归属</td>
+<td>是否剥夺用户创作权？</td>
+</tr>
+<tr>
+<td><strong>终止条款</strong></td>
+<td>平台可终止服务</td>
+<td>用户投入如何保护？</td>
+</tr>
+<tr>
+<td><strong>隐私条款</strong></td>
+<td>用户数据的使用</td>
+<td>是否过度提取？</td>
+</tr>
+</tbody></table>
+<p><strong>格式合同的公平性问题</strong>：</p>
+<ul>
+<li>用户无谈判能力，只能接受或拒绝</li>
+<li>重要条款是否有效提示？</li>
+<li>责任限制条款是否显失公平？</li>
+</ul>
+<h4>AI 模型的许可问题</h4>
+<p><strong>开源 AI 模型的许可</strong>：</p>
+<ul>
+<li>传统开源许可（MIT、Apache、GPL）是否适用于 AI 模型？</li>
+<li>模型参数 vs 模型代码 vs 训练数据的不同权属</li>
+<li>新的许可模式：OpenRAIL、CreativeML</li>
+</ul>
+<p><strong>商业许可的特殊条款</strong>：</p>
+<ul>
+<li>使用限制（禁止某些用途）</li>
+<li>责任限制</li>
+<li>更新与终止条款</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>合同设计</strong>：AI 服务合同的公平性与合规性</li>
+<li><strong>用户保护</strong>：重要条款的有效提示与用户理解</li>
+<li><strong>开源规范</strong>：AI 模型许可的新范式</li>
+</ul>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<p>法学对 AI 的贡献体现在四个层面：</p>
+<h3>4.1 合规约束层</h3>
+<ul>
+<li><strong>数据合规</strong>：训练数据必须符合数据保护法</li>
+<li><strong>部署合规</strong>：高风险系统必须满足监管要求</li>
+<li><strong>输出合规</strong>：生成内容必须符合内容安全、版权等要求</li>
+</ul>
+<h3>4.2 权利保障层</h3>
+<ul>
+<li><strong>用户权利</strong>：数据主体权利、知情权、申诉权</li>
+<li><strong>开发者权利</strong>：知识产权保护、合同保护</li>
+<li><strong>第三方权利</strong>：版权、隐私、名誉</li>
+</ul>
+<h3>4.3 责任分配层</h3>
+<ul>
+<li><strong>侵权责任</strong>：损害发生后的责任分配</li>
+<li><strong>合同责任</strong>：违约后的救济</li>
+<li><strong>监管责任</strong>：违规后的行政处罚</li>
+</ul>
+<h3>4.4 制度设计层</h3>
+<ul>
+<li><strong>监管框架</strong>：如何设计 AI 监管法</li>
+<li><strong>权利框架</strong>：如何界定 AI 相关各方的权利</li>
+<li><strong>救济机制</strong>：如何设计申诉、仲裁、诉讼机制</li>
+</ul>
+<hr>
+<h2>5. 前沿与开放问题</h2>
+<h3>5.1 AI 的法律主体地位</h3>
+<p><strong>核心问题</strong>：AI 能否成为法律主体（享有权利、承担义务）？</p>
+<p><strong>现状</strong>：绝大多数国家否定 AI 的法律主体地位。理由：</p>
+<ul>
+<li>AI 没有自由意志，不能承担责任</li>
+<li>AI 没有财产，不能支付损害赔偿</li>
+<li>AI 没有社会参与，不能享有权利</li>
+</ul>
+<p><strong>未来争议</strong>：</p>
+<ul>
+<li>如果 AI 获得法律地位，会影响责任分配吗？</li>
+<li>&quot;电子人格&quot;（欧盟曾提议）是否可行？</li>
+</ul>
+<h3>5.2 算法治理的法律边界</h3>
+<p><strong>核心问题</strong>：算法推荐、内容审核的法律边界在哪里？</p>
+<ul>
+<li>平台有权审核内容吗？（审查权 vs 责任）</li>
+<li>平台有权推荐某些内容吗？（言论影响）</li>
+<li>用户有权拒绝算法吗？（选择权）</li>
+</ul>
+<h3>5.3 跨境 AI 法律冲突</h3>
+<p><strong>核心问题</strong>：不同国家的 AI 法律不一致，跨境 AI 服务如何合规？</p>
+<ul>
+<li>GDPR 的数据跨境限制</li>
+<li>AI 法案的适用范围（欧盟境内服务？境外服务欧盟用户？）</li>
+<li>中国的内容安全要求 vs 欧盟的言论自由</li>
+</ul>
+<h3>5.4 AI 时代的法律推理</h3>
+<p><strong>核心问题</strong>：AI 能否进行法律推理？AI 如何辅助法律决策？</p>
+<ul>
+<li>案例检索 AI：是否准确？是否理解法律语境？</li>
+<li>合同审查 AI：是否可靠？</li>
+<li>判决预测 AI：是否影响司法公正？</li>
+</ul>
+<hr>
+<h2>6. 推荐阅读与参考文献</h2>
+<h3>教材</h3>
+<ul>
+<li>Schwartz, P. M. (2019). <em>The Global Data Privacy Environment</em>. GLP.</li>
+<li>Yeung, K., Howes, A., &amp; Pogel, G. (2020). Algorithmic Regulation. <em>Oxford Handbook of Law, Regulation and Technology</em>.</li>
+</ul>
+<h3>关键论文</h3>
+<ul>
+<li>Floridi, L. (2023). The EU Artificial Intelligence Act: A Framework for Ethical AI? <em>Philosophy &amp; Technology</em>.</li>
+<li>Samuelson, P. (2023). Generative AI and Copyright. <em>Communications of the ACM</em>.</li>
+<li>Lemley, M. A. &amp; Casey, B. (2021). Fair Learning. <em>Texas Law Review</em>.</li>
+<li>Hubbard, F. P. (2014). Do Androids Dream of Electric Cars? <em>Journal of Law, Technology &amp; Policy</em>.</li>
+</ul>
+<h3>数据保护法</h3>
+<ul>
+<li>GDPR（General Data Protection Regulation, 2016）</li>
+<li>Schwartz, P. M. (2019). The Global Data Privacy Environment. <em>GLP</em>.</li>
+<li>Greenleaf, G. (2019). Global Data Privacy Laws 2019. <em>157 Privacy Laws &amp; Business International Report</em>.</li>
+</ul>
+<h3>AI 监管</h3>
+<ul>
+<li>EU AI Act (2024)</li>
+<li>NIST AI Risk Management Framework (2024)</li>
+<li>Floridi, L. (2023). The EU Artificial Intelligence Act: A Framework for Ethical AI? <em>Philosophy &amp; Technology</em>.</li>
+</ul>
+<h3>AI 版权</h3>
+<ul>
+<li>Thaler v. Perlmutter (2023)</li>
+<li>Samuelson, P. (2023). Generative AI and Copyright. <em>Communications of the ACM</em>.</li>
+<li>Lemley, M. A. &amp; Casey, B. (2021). Fair Learning. <em>Texas Law Review</em>.</li>
+</ul>
+<h3>AI 侵权责任</h3>
+<ul>
+<li>Hubbard, F. P. (2014). &quot;Do Androids Dream of Electric Cars?&quot; <em>Journal of Law, Technology &amp; Policy</em>.</li>
+<li>German Ethics Commission on Automated Driving (2020).</li>
+</ul>
+<h3>一般著作</h3>
+<ul>
+<li>Yeung, K., Howes, A., &amp; Pogel, G. (2020). Algorithmic Regulation. <em>Oxford Handbook of Law, Regulation and Technology</em>.</li>
+<li>Pasquale, F. (2015). <em>The Black Box Society</em>. Harvard University Press.</li>
+</ul>
+<h2>7. 本篇在全书中的位置</h2>
+<p>本篇在全书中承担&quot;AI 的制度约束框架&quot;的角色。</p>
+<p><strong>与相邻篇章的关系</strong>：</p>
+<ul>
+<li>与<a href="26-ai-ethics.html">AI伦理与治理</a>连接：伦理讨论&quot;应该&quot;，法学讨论&quot;必须&quot;</li>
+<li>与<a href="27-sociology.html">社会学</a>连接：法学分析制度规则，社会学分析制度实践</li>
+<li>与<a href="24-economics.html">经济学</a>连接：经济学讨论激励，法学将激励制度化</li>
+<li>与<a href="05-logic.html">逻辑学</a>连接：法律推理的逻辑结构</li>
+</ul>
+<p><strong>贡献边界</strong>：<br>法学不替代伦理、社会学或经济学，但它提供了独特的强制力视角——法律规则有国家强制力支撑，违规有制裁。在 AI 时代，治理不只是技术自律或道德呼吁，必须同时建立法律框架。</p>
+<hr>
+<blockquote>
+<p><strong>总结</strong>：法学是 AI 治理的硬约束层。从版权归属到责任分配，从数据保护到监管合规，法律规则决定 AI 可以做什么、必须做什么、禁止做什么。理解 AI 的法律维度，关键在于理解制度如何约束技术、权利如何分配、责任如何界定。</p>
+</blockquote>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="26-ai-ethics.html" class="related-item">
+        <span class="r-num">26</span>
+        <span class="r-name">AI 伦理与治理</span>
+      </a><a href="27-sociology.html" class="related-item">
+        <span class="r-num">27</span>
+        <span class="r-name">社会学</span>
+      </a></div></div><div class="bottom-nav"><a href="27-sociology.html"><span class="dir">&#8592; 上一篇</span><span class="name">27 社会学</span></a><a href="29-anthropology.html"><span class="dir">下一篇 &#8594;</span><span class="name">29 人类学</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>

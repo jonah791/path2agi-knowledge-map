@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图论（Graph Theory）：从离散关系到 AI 结构归纳偏置 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item active">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#8b7aff"></span> 数学与形式基础</span>
+      <span>学科 06</span>
+      
+      
+      
+    </div><hr>
+<p>title: 图论<br>aliases:</p>
+<ul>
+<li>Graph Theory<br>category:</li>
+<li>数学与形式基础<br>tags:</li>
+<li>ai-foundations</li>
+<li>math</li>
+<li>graph-theory</li>
+<li>networks<br>type: topic<br>status: stable<br>importance: important<br>version: v2.0<br>date: &#39;2026-04-08&#39;</li>
+</ul>
+<hr>
+<h1>图论（Graph Theory）：从离散关系到 AI 结构归纳偏置</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：如果线性代数处理的是“量”，拓扑与几何处理的是“形”，那么图论处理的就是“关系”。现实世界里，大量 AI 对象并不是整齐排列在欧几里得网格上的，而是由节点与连接构成的关系系统：社交网络、知识图谱、分子结构、代码调用图、交通网络、推荐系统都属于这一类。图论提供了描述这些结构的最小语言，而图神经网络、谱方法、知识图谱推理则把这种语言变成了现代 AI 的可学习框架。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="02-linear-algebra.html">线性代数</a>：邻接矩阵、拉普拉斯矩阵、谱分解是图论进入 AI 的核心桥梁</li>
+<li><a href="07-topology-and-geometry.html">拓扑与几何</a>：图论研究离散关系结构，拓扑与几何研究连续空间中的形状与度量</li>
+<li><a href="10-computer-science.html">计算机科学</a>：最短路、匹配、最大流和图搜索把图论变成可执行算法</li>
+<li><a href="14-signal-processing.html">信号处理</a>：谱图方法把“图上的信号”推广为非欧几里得域上的滤波与卷积</li>
+<li><a href="22-linguistics.html">语言学</a>：依存句法树、语义图和知识图谱都把语言问题转化为图结构推理</li>
+</ul>
+<h2>1. 上帝视角：为什么 AI 需要图论</h2>
+<p>很多 AI 教科书默认数据是向量、矩阵、张量，因此天然适合放进欧几里得空间里处理。但现实中的很多任务并不是“一个样本 = 一个定长向量”，而是：</p>
+<ul>
+<li>对象之间本身有显式关系，例如用户与商品、蛋白质与蛋白质、论文与引用；</li>
+<li>结构是稀疏的，只有少数局部连接真正重要；</li>
+<li>节点数量可变，且顺序通常没有语义；</li>
+<li>任务目标并不只依赖单个对象本身，还依赖它与邻域、社区、路径和整体结构的关系。</li>
+</ul>
+<p>图论正好回答这些问题。一个图 $G = (V, E)$ 用极简的方式把“对象”写成节点，把“关系”写成边，于是 AI 可以显式建模：</p>
+<ul>
+<li><strong>局部交互</strong>：一个节点主要受哪些邻居影响；</li>
+<li><strong>全局结构</strong>：网络是否分成社区、是否存在桥接节点、是否呈现层级结构；</li>
+<li><strong>关系组合</strong>：两步关系、三步关系是否暗含更深层语义；</li>
+<li><strong>离散归纳偏置</strong>：模型应当对节点重排不敏感，而对连边变化敏感。</li>
+</ul>
+<h3>1.1 一个直观例子：推荐系统为什么天然是图问题</h3>
+<p>设想一个电影推荐系统。把“用户”与“电影”分别看作两类节点，把“看过 / 点赞 / 收藏”看作边，就得到一个二部图（bipartite graph）：</p>
+<pre><code class="language-text">用户 A ── 喜欢 ── 电影 1
+用户 A ── 喜欢 ── 电影 3
+用户 B ── 喜欢 ── 电影 2
+用户 B ── 喜欢 ── 电影 3
+</code></pre>
+<p>如果只看用户 A 的向量，很难知道他是否会喜欢电影 2；但如果把关系图考虑进来，就会发现：</p>
+<ul>
+<li>A 和 B 都喜欢电影 3；</li>
+<li>B 喜欢电影 2；</li>
+<li>因而电影 2 对 A 可能是潜在推荐。</li>
+</ul>
+<p>这不是传统“样本独立同分布”视角下自然出现的信息，而是图结构额外提供的关系推断能力。</p>
+<h3>1.2 图论带给 AI 的四种核心价值</h3>
+<table>
+<thead>
+<tr>
+<th>价值</th>
+<th>图论语言</th>
+<th>AI 中的体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>关系表达</td>
+<td>节点、边、路径、子图</td>
+<td>知识图谱、分子图、社交网络</td>
+</tr>
+<tr>
+<td>结构归纳偏置</td>
+<td>置换不变、局部传播</td>
+<td>GNN、图 Transformer、消息传递</td>
+</tr>
+<tr>
+<td>组合推理</td>
+<td>多跳路径、连通性、图匹配</td>
+<td>推荐、问答、程序分析</td>
+</tr>
+<tr>
+<td>可解释结构</td>
+<td>社区、桥、中心性、割</td>
+<td>网络分析、风险传播、故障诊断</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 历史脉络</h2>
+<p>图论的历史很像 AI 自身的缩影：先从一个看似玩具化的离散问题出发，再逐步演化为连接算法、网络、学习和推理的通用语言。</p>
+<h3>2.1 Euler 与图论的起点（1736）</h3>
+<p><strong>Leonhard Euler</strong> 在研究柯尼斯堡七桥问题时，第一次把现实中的连通问题抽象成节点与边：</p>
+<ul>
+<li>陆地被视为顶点（vertex）</li>
+<li>桥被视为边（edge）</li>
+<li>问题被化为“是否存在经过每条边恰好一次的路径”</li>
+</ul>
+<p>Euler 证明了答案是否定的。更重要的是，他展示了一个方法论转折：<strong>很多关于空间和路径的问题，真正重要的不是精确长度，而是连接关系本身。</strong></p>
+<p>这一思想后来在 19 世纪与 20 世纪上半叶逐步发展为欧拉路径、欧拉回路及系统化图论研究，并被普遍视为图论的历史起点。</p>
+<h3>2.2 19 世纪：树、网络与电路</h3>
+<p>19 世纪的图论开始与更具体的工程问题结合：</p>
+<ul>
+<li><strong>Kirchhoff (1847)</strong> 用生成树与矩阵方法分析电路网络；</li>
+<li><strong>Cayley (1857)</strong> 系统研究树（tree），为化学结构与枚举问题提供工具；</li>
+<li><strong>Hamilton</strong> 研究哈密顿路径问题，推动了遍历类问题的发展。</li>
+</ul>
+<p>这里已经能看到后来 AI 会反复重演的结构：图不只是数学对象，它还是复杂系统的抽象骨架。</p>
+<h3>2.3 20 世纪：算法图论成熟</h3>
+<p>20 世纪图论从“有趣的问题集合”走向“有系统的方法论”：</p>
+<ul>
+<li><strong>Hall (1935)</strong> 的婚配定理推动匹配理论；</li>
+<li><strong>König (1936)</strong> 的专著帮助图论系统化；</li>
+<li><strong>Dijkstra (1959)</strong> 提出最短路径算法；</li>
+<li><strong>Ford-Fulkerson (1956)</strong> 建立最大流框架；</li>
+<li><strong>Fiedler (1973)</strong> 推动谱图理论，让拉普拉斯特征值与图结构性质建立联系。</li>
+</ul>
+<p>从这里开始，图论不再只是离散数学的一支，而成为算法设计、网络分析、组合优化的基础语言。</p>
+<h3>2.4 互联网与知识网络时代</h3>
+<p>1990 年代以后，大规模网络数据让图论重新站到中心位置：</p>
+<ul>
+<li>Web 被看作超大有向图；</li>
+<li><strong>PageRank (1998)</strong> 用随机游走和谱思想衡量网页重要性；</li>
+<li>社交网络分析引入中心性、社区发现、传播动力学；</li>
+<li>生物信息学把蛋白质相互作用、代谢网络和分子结构都写成图。</li>
+</ul>
+<p>这一阶段的关键变化是：<strong>图不再只是“需要偶尔求解的结构”，而是数据本身的自然形态。</strong></p>
+<h3>2.5 图学习时代</h3>
+<p>进入深度学习时代后，研究者开始尝试把卷积、表示学习和关系推理推广到图结构：</p>
+<ul>
+<li><strong>Bruna et al. (2014)</strong> 提出早期谱图卷积框架；</li>
+<li><strong>Defferrard et al. (2016)</strong> 用 Chebyshev 多项式近似谱滤波器；</li>
+<li><strong>Kipf &amp; Welling (2017)</strong> 提出图卷积网络（GCN）；</li>
+<li><strong>Gilmer et al. (2017)</strong> 将分子学习统一为消息传递神经网络（MPNN）；</li>
+<li><strong>Veličković et al. (2018)</strong> 提出图注意力网络（GAT）。</li>
+</ul>
+<p>从此，图论不再只是“为 AI 提供算法工具”，而是直接决定模型架构如何设计。</p>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 图的基本对象与矩阵表示</h3>
+<p>一个图记作：</p>
+<p>$$<br>G = (V, E)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$V$ 是节点集合；</li>
+<li>$E$ 是边集合；</li>
+<li>若边有方向，则为有向图；</li>
+<li>若边带权重，则为加权图；</li>
+<li>若节点可分成不同类型，则形成异构图；</li>
+<li>若一条关系可同时连接多个节点，则可扩展到超图。</li>
+</ul>
+<p>在 AI 中，最常用的是矩阵化表示。</p>
+<h4>邻接矩阵</h4>
+<p>若图有 $n$ 个节点，其邻接矩阵 $A \in \mathbb{R}^{n \times n}$ 定义为：</p>
+<p>$$<br>A_{ij} =<br>\begin{cases}<br>1, &amp; (i,j) \in E \<br>0, &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
+<p>加权图中，$A_{ij}$ 可以直接写成边权。</p>
+<h4>度矩阵</h4>
+<p>节点 $i$ 的度定义为：</p>
+<p>$$<br>d_i = \sum_j A_{ij}<br>$$</p>
+<p>对应的度矩阵 $D$ 是对角矩阵：</p>
+<p>$$<br>D = \operatorname{diag}(d_1, d_2, \dots, d_n)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$A_{ij}$ 表示节点 $i$ 与节点 $j$ 之间是否有边或边权大小；</li>
+<li>$d_i$ 表示节点 $i$ 的连接数；</li>
+<li>$D$ 把每个节点的局部连接强度压缩到对角线上。</li>
+</ul>
+<h4>一个极小示例</h4>
+<p>考虑 4 篇论文的引用关系，其中 1 与 2 都引用 3，3 又连接 4。可写成无向简化图：</p>
+<pre><code class="language-text">1 ─ 3 ─ 4
+2 ─┘
+</code></pre>
+<p>邻接矩阵为：</p>
+<p>$$<br>A =<br>\begin{bmatrix}<br>0 &amp; 0 &amp; 1 &amp; 0 \<br>0 &amp; 0 &amp; 1 &amp; 0 \<br>1 &amp; 1 &amp; 0 &amp; 1 \<br>0 &amp; 0 &amp; 1 &amp; 0<br>\end{bmatrix}<br>$$</p>
+<p>这里节点 3 的度最高，因此它在传播信息时天然更像一个中介节点。这正是很多图学习任务里“结构重要性”比“单点特征”更关键的原因。</p>
+<h4>直觉理解</h4>
+<p>矩阵表示的价值在于：它把“谁和谁相连”从一张关系图，变成了可以直接送进线性代数与机器学习流程的对象。换句话说，图论把关系结构离散化，线性代数再把这种离散结构转成可计算对象。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>图输入统一接口</strong>：知识图谱、分子图、推荐二部图都能统一成节点-边矩阵表示；</li>
+<li><strong>结构特征工程</strong>：度、邻居、子图、邻接关系常直接进入模型输入；</li>
+<li><strong>图算法前处理</strong>：很多图学习系统先做子图提取、采样或稀疏化，再进入训练。</li>
+</ul>
+<h3>3.2 路径、连通性与组合问题</h3>
+<p>图论的很多经典问题，后来都直接转化成 AI 系统中的基础算子。</p>
+<h4>路径与最短路</h4>
+<p>一条路径是节点序列：</p>
+<p>$$<br>v_0 \to v_1 \to \cdots \to v_k<br>$$</p>
+<p>其中相邻节点之间都存在边。若每条边有代价 $w_{ij}$，则路径总代价为：</p>
+<p>$$<br>\operatorname{cost}(P) = \sum_{(i,j)\in P} w_{ij}<br>$$</p>
+<p>最短路径问题广泛出现在：</p>
+<ul>
+<li>机器人路径规划；</li>
+<li>知识图谱多跳推理；</li>
+<li>网络路由与资源调度；</li>
+<li>程序分析中的依赖追踪。</li>
+</ul>
+<h4>连通性与社区</h4>
+<p>如果任意两个节点之间都有路径，则图是连通的。现实网络常常不是完全均匀连通，而是存在：</p>
+<ul>
+<li>社区（community）</li>
+<li>桥接节点（bridge node）</li>
+<li>枢纽节点（hub）</li>
+</ul>
+<p>这类结构在社交网络传播、风险扩散、推荐系统冷启动中都非常关键。</p>
+<h4>匹配、流与资源分配</h4>
+<p>许多看似“工程问题”的任务，其实是标准图论问题：</p>
+<ul>
+<li>用户和服务器的分配是匹配问题；</li>
+<li>物流、带宽、算力调度常可转写为最大流 / 最小割；</li>
+<li>任务依赖图中的关键路径决定系统吞吐上限。</li>
+</ul>
+<p>因此，图论不仅提供结构表示，也提供可执行的优化骨架。</p>
+<h4>直觉理解</h4>
+<p>如果说矩阵表示回答的是“图长什么样”，那么路径、流和匹配回答的是“图上能做什么”。很多 AI 系统中的搜索、调度和多跳推理，本质上都是在图上寻找一条可行且代价合理的结构路径。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>搜索与规划</strong>：A*、最短路、路径约束查询直接支撑机器人与知识推理；</li>
+<li><strong>推荐与检索</strong>：多跳邻域扩展、候选召回和关系传播常依赖路径结构；</li>
+<li><strong>系统调度</strong>：资源分配、任务编排与依赖分析可转写为流和匹配问题。</li>
+</ul>
+<h3>3.3 图拉普拉斯与谱图方法</h3>
+<p>图学习里最核心的矩阵之一是图拉普拉斯矩阵：</p>
+<p>$$<br>L = D - A<br>$$</p>
+<p>它把“局部连接关系”变成了一个可做线性代数分析的对象。</p>
+<p>归一化拉普拉斯常写为：</p>
+<p>$$<br>L_{\text{sym}} = I - D^{-1/2} A D^{-1/2}<br>$$</p>
+<h4>为什么它重要</h4>
+<p>对任意向量 $f \in \mathbb{R}^n$，有：</p>
+<p>$$<br>f^\top L f = \frac{1}{2}\sum_{i,j} A_{ij}(f_i-f_j)^2<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$f_i$ 表示节点 $i$ 上的信号值；</li>
+<li>$A_{ij}$ 表示节点之间的连接强度；</li>
+<li>当相邻节点的信号差异很大时，这个二次型会增大。</li>
+</ul>
+<p>这个式子非常关键，因为它说明：</p>
+<ul>
+<li>如果相邻节点取值相近，则该项更小；</li>
+<li>如果相邻节点差异很大，则代价更高。</li>
+</ul>
+<p>换句话说，$L$ 天然刻画了“图上的平滑性”。这使它成为：</p>
+<ul>
+<li>谱聚类；</li>
+<li>图正则化；</li>
+<li>图信号处理；</li>
+<li>谱图卷积</li>
+</ul>
+<p>的统一入口。</p>
+<h4>直觉理解</h4>
+<p>图拉普拉斯可以粗略理解为“比较一个节点与其邻居是否协调”的算子。若一个信号在相邻节点之间变化很平缓，它更像图上的低频结构；若相邻节点差异剧烈，它更像高频扰动或噪声。</p>
+<h4>一个直觉例子</h4>
+<p>在论文引用图中，如果两篇相邻论文的主题表示差异极大，那么图拉普拉斯对应的平滑代价会变大。谱方法因此倾向于把高频噪声压下去，保留更符合图结构的低频信号。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>谱聚类</strong>：利用拉普拉斯特征向量发现社群和簇结构；</li>
+<li><strong>图正则化</strong>：约束相邻节点表示不要无端剧烈波动；</li>
+<li><strong>图卷积基础</strong>：谱方法是早期 GNN 与图信号处理的重要理论来源。</li>
+</ul>
+<h3>3.4 从图卷积到消息传递</h3>
+<p>图神经网络的核心思想并不神秘：<strong>节点通过边从邻居那里接收信息，再更新自己的表示。</strong></p>
+<h4>GCN 的基本形式</h4>
+<p>Kipf 与 Welling (2017) 的图卷积网络写成：</p>
+<p>$$<br>H^{(l+1)} = \sigma\left(\tilde{D}^{-1/2}\tilde{A}\tilde{D}^{-1/2}H^{(l)}W^{(l)}\right)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$\tilde{A}=A+I$ 表示加入自环；</li>
+<li>$\tilde{D}$ 是对应的度矩阵；</li>
+<li>$H^{(l)}$ 是第 $l$ 层节点表示；</li>
+<li>$W^{(l)}$ 是可学习参数。</li>
+</ul>
+<p>这可以理解为三步：</p>
+<ol>
+<li>每个节点把自己的表示和邻居表示汇总；</li>
+<li>用归一化避免高度节点过度放大；</li>
+<li>用线性变换和非线性激活得到下一层表示。</li>
+</ol>
+<h4>MPNN 的统一表达</h4>
+<p>更一般地，消息传递神经网络可写成：</p>
+<p>$$<br>m_i^{(l+1)}=\sum_{j\in\mathcal{N}(i)} M^{(l)}(h_i^{(l)}, h_j^{(l)}, e_{ij})<br>$$</p>
+<p>$$<br>h_i^{(l+1)} = U^{(l)}(h_i^{(l)}, m_i^{(l+1)})<br>$$</p>
+<p>这里：</p>
+<ul>
+<li>$M$ 是消息函数；</li>
+<li>$U$ 是更新函数；</li>
+<li>$e_{ij}$ 可包含边类型、权重或时间信息。</li>
+</ul>
+<p>GCN、GraphSAGE、GAT、分子图网络都可以视为这个框架的特例。</p>
+<h4>一个具体例子：分子图</h4>
+<p>在分子性质预测中：</p>
+<ul>
+<li>节点 = 原子；</li>
+<li>边 = 化学键；</li>
+<li>节点特征 = 原子序数、价电子、杂化状态；</li>
+<li>边特征 = 单键 / 双键 / 芳香键等。</li>
+</ul>
+<p>每一层消息传递都在做“局部化学环境汇总”，最后得到整个分子的图表示，用于预测毒性、溶解度或结合活性。</p>
+<h4>直觉理解</h4>
+<p>消息传递的本质很像“节点之间反复交换摘要”。每一层只看局部邻域，但层数叠起来以后，节点就能间接吸收更远处的结构信息。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>分子学习</strong>：消息传递把局部键结构转成全局分子表示；</li>
+<li><strong>推荐系统</strong>：偏好信号沿用户-物品图传播；</li>
+<li><strong>程序与知识推理</strong>：调用图、实体图上的关系模式可被逐层聚合。</li>
+</ul>
+<h3>3.5 知识图谱与关系推理</h3>
+<p>图论对 AI 的另一条重要贡献，是把知识组织成可推理的关系网络。知识图谱中的基本单元通常是三元组：</p>
+<p>$$<br>(\text{head}, \text{relation}, \text{tail})<br>$$</p>
+<p>其中：</p>
+<ul>
+<li><code>head</code> 是关系起点实体；</li>
+<li><code>relation</code> 是边类型；</li>
+<li><code>tail</code> 是关系终点实体。</li>
+</ul>
+<p>例如：</p>
+<p>$$<br>(\text{Alan Turing}, \text{founded}, \text{Computability Theory})<br>$$</p>
+<p>在图论语言里，这就是一条带类型的有向边。</p>
+<p>它的 AI 价值在于：</p>
+<ul>
+<li>可以进行多跳推理，例如沿路径寻找隐含关系；</li>
+<li>可以做链路预测，例如补全缺失事实；</li>
+<li>可以把文本、实体、规则、数据库统一成同一种结构接口。</li>
+</ul>
+<p>这也是为什么图论经常出现在：</p>
+<ul>
+<li>知识增强问答；</li>
+<li>检索与推荐；</li>
+<li>医学知识库；</li>
+<li>代码依赖分析；</li>
+<li>多智能体关系建模</li>
+</ul>
+<h4>直觉理解</h4>
+<p>知识图谱把“事实”从一句自然语言压缩成一条结构化关系边。这样做的好处是，模型不必只依赖文本共现，而可以沿着关系路径直接追踪谁与谁、通过什么关系、在几步之内发生联系。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>知识增强问答</strong>：把实体关系作为检索和推理骨架；</li>
+<li><strong>链路预测</strong>：补全知识库中的缺失边；</li>
+<li><strong>结构化检索</strong>：把数据库、规则和文本知识统一到图接口。</li>
+</ul>
+<p>之中。</p>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<h3>4.1 把“关系”提升为一等公民</h3>
+<p>很多 AI 失败并不是因为模型不会拟合，而是因为输入表示把关键关系丢掉了。图论的第一大贡献，就是让节点之间的相互作用被显式保留下来，而不必强行塞进定长向量。</p>
+<h3>4.2 提供结构归纳偏置</h3>
+<p>图学习模型天然满足一类关键约束：</p>
+<ul>
+<li>对节点编号的重排应当不敏感；</li>
+<li>对局部邻域结构应当敏感；</li>
+<li>对多跳依赖应当可以逐层组合。</li>
+</ul>
+<p>这种归纳偏置使模型在分子预测、推荐、程序分析等任务上，比纯粹的无结构 MLP 更有效。</p>
+<h3>4.3 连接算法图论与可学习系统</h3>
+<p>图论并不是被深度学习替代了，而是被重新吸收了：</p>
+<ul>
+<li>最短路、流、匹配等经典算法继续负责精确求解；</li>
+<li>GNN、图嵌入、图 Transformer 负责表示学习与泛化；</li>
+<li>两者结合后，AI 才能在结构化任务里同时拥有“会算”与“会学”的能力。</li>
+</ul>
+<h3>4.4 为复杂系统提供可解释接口</h3>
+<p>与纯粹黑箱向量表示相比，图结构通常更容易解释：</p>
+<ul>
+<li>哪些节点最关键，可以看中心性；</li>
+<li>哪些区域形成社群，可以看社区划分；</li>
+<li>信息沿哪些边传播，可以追踪路径；</li>
+<li>哪些边让系统脆弱，可以分析割与瓶颈。</li>
+</ul>
+<p>因此，图论不仅提高性能，也提高了结构透明度。</p>
+<hr>
+<h2>5. 前沿与开放问题</h2>
+<h3>5.1 图基础模型</h3>
+<p>图学习正从任务专用模型走向更大规模的预训练与通用表示：</p>
+<ul>
+<li>跨图迁移是否可能稳定成立；</li>
+<li>图与文本、多模态如何统一预训练；</li>
+<li>图 Transformer 是否能在长程依赖上系统超越传统消息传递。</li>
+</ul>
+<h3>5.2 动态图、异构图与超图</h3>
+<p>真实世界的图很少是静态同构的：</p>
+<ul>
+<li>金融交易图随时间变化；</li>
+<li>知识图谱包含多种实体与关系；</li>
+<li>多体交互常需要超图或单纯复形表示。</li>
+</ul>
+<p>如何在保留结构真实性的同时维持可扩展训练，仍是难点。</p>
+<h3>5.3 图学习的可扩展性与鲁棒性</h3>
+<p>大图任务经常遭遇：</p>
+<ul>
+<li>邻域爆炸；</li>
+<li>过平滑（oversmoothing）；</li>
+<li>过压缩（oversquashing）；</li>
+<li>对图扰动或错误边敏感。</li>
+</ul>
+<p>这些问题说明：把图结构纳入模型不是终点，真正难的是怎样让结构偏置在大规模下仍然可靠。</p>
+<h3>5.4 图与因果、逻辑的结合</h3>
+<p>当前很多图模型能利用相关关系，但未必真正理解“为什么节点之间存在这种关系”。因此，图论与：</p>
+<ul>
+<li><a href="05-logic.html">逻辑学</a></li>
+<li><a href="09-causal-inference.html">因果推断</a></li>
+</ul>
+<p>的结合，可能决定下一代结构推理系统能否从“关系拟合”走向“机制理解”。</p>
+<hr>
+<h2>6. 推荐阅读与参考文献</h2>
+<h3>经典教材</h3>
+<ul>
+<li>West, D. B. (2001). <em>Introduction to Graph Theory</em>. Prentice Hall.</li>
+<li>Bondy, J. A., &amp; Murty, U. S. R. (2008). <em>Graph Theory</em>. Springer.</li>
+<li>Chung, F. R. K. (1997). <em>Spectral Graph Theory</em>. AMS.</li>
+</ul>
+<h3>关键论文与综述</h3>
+<ul>
+<li>Euler, L. (1736). Solutio problematis ad geometriam situs pertinentis.</li>
+<li>Kirchhoff, G. (1847). Ueber die Auflösung der Gleichungen, auf welche man bei der Untersuchung der linearen Vertheilung galvanischer Ströme geführt wird.</li>
+<li>Page, L., Brin, S., Motwani, R., &amp; Winograd, T. (1998). The PageRank citation ranking: Bringing order to the web.</li>
+<li>Bruna, J., Zaremba, W., Szlam, A., &amp; LeCun, Y. (2014). Spectral networks and locally connected networks on graphs. <em>ICLR Workshop</em>.</li>
+<li>Kipf, T. N., &amp; Welling, M. (2017). Semi-supervised classification with graph convolutional networks. <em>ICLR</em>.</li>
+<li>Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., &amp; Dahl, G. E. (2017). Neural message passing for quantum chemistry. <em>ICML</em>.</li>
+<li>Veličković, P., Cucurull, G., Casanova, A., Romero, A., Liò, P., &amp; Bengio, Y. (2018). Graph attention networks. <em>ICLR</em>.</li>
+</ul>
+<h3>延伸阅读</h3>
+<ul>
+<li>Hamilton, W. L. (2020). <em>Graph Representation Learning</em>. Morgan &amp; Claypool.</li>
+<li>Battaglia, P. W., et al. (2018). Relational inductive biases, deep learning, and graph networks. <em>arXiv:1806.01261</em>.</li>
+<li>Wu, Z., et al. (2021). A comprehensive survey on graph neural networks. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 32(1), 4-24.</li>
+</ul>
+<h2>7. 本篇在全书中的位置</h2>
+<p>这篇位于“数学与形式基础”内部的结构层位置。前几篇文档更多处理连续数值与函数近似，本篇则把焦点转向<strong>离散关系结构</strong>。</p>
+<ul>
+<li><a href="02-linear-algebra.html">线性代数</a> 负责把图转写为矩阵与谱对象；</li>
+<li><a href="07-topology-and-geometry.html">拓扑与几何</a> 继续处理连续空间中的形状、流形与曲率；</li>
+<li><a href="10-computer-science.html">计算机科学</a> 提供最短路、搜索、匹配等可执行算法；</li>
+<li><a href="09-causal-inference.html">因果推断</a> 和 <a href="05-logic.html">逻辑学</a> 则把关系进一步提升到机制与规则层。</li>
+</ul>
+<p>因此，本篇最适合作为“结构化 AI”的入口之一。它告诉我们：当世界不是一张规则网格，而是一张关系网络时，AI 应该如何理解、学习并利用这种结构。</p>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="02-linear-algebra.html" class="related-item">
+        <span class="r-num">02</span>
+        <span class="r-name">线性代数</span>
+      </a><a href="07-topology-and-geometry.html" class="related-item">
+        <span class="r-num">07</span>
+        <span class="r-name">拓扑与几何</span>
+      </a><a href="09-causal-inference.html" class="related-item">
+        <span class="r-num">09</span>
+        <span class="r-name">因果推断</span>
+      </a><a href="10-computer-science.html" class="related-item">
+        <span class="r-num">10</span>
+        <span class="r-name">计算机科学</span>
+      </a></div></div><div class="bottom-nav"><a href="05-approximation-theory.html"><span class="dir">&#8592; 上一篇</span><span class="name">05 逼近论</span></a><a href="07-topology-and-geometry.html"><span class="dir">下一篇 &#8594;</span><span class="name">07 拓扑与几何</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>

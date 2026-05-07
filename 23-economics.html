@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>经济学、偏好与对齐（Economics, Preferences, and Alignment）：从起源到 AI 的完整脉络 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item active">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#ff6b9d"></span> 决策、交互与社会</span>
+      <span>学科 23</span>
+      
+      
+      
+    </div><hr>
+<p>title: 经济学<br>aliases:</p>
+<ul>
+<li>Economics<br>category:</li>
+<li>决策、交互与社会机制<br>tags:</li>
+<li>ai-foundations</li>
+<li>decision</li>
+<li>economics<br>type: topic<br>status: stable<br>importance: important<br>version: v2.1<br>date: &#39;2026-04-08&#39;</li>
+</ul>
+<hr>
+<h1>经济学、偏好与对齐（Economics, Preferences, and Alignment）：从起源到 AI 的完整脉络</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：经济学为 AI 提供的不只是资源配置视角，更是一套讨论<strong>偏好、激励、制度与对齐</strong>的语言。奖励函数设计本质上是激励设计问题：如何让 AI 在追求代理目标时，仍然服务于人类真实意图？行为经济学揭示了人类偏好的非理性与不稳定性，社会选择理论提醒我们群体偏好并不天然一致，而委托—代理框架则解释了为什么 AI 对齐不是“把目标写清楚”这么简单。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="12-game-theory.html">博弈论</a>：博弈论分析互动结构与均衡，经济学进一步处理偏好、制度与激励设计</li>
+<li><a href="11-operations-research.html">运筹学</a>：运筹学更偏求解与资源配置，经济学更偏目标函数、效用与制度安排</li>
+<li><a href="21-psychology.html">心理学</a>：行为经济学大量吸收心理学关于偏差、启发式与偏好不稳定的发现</li>
+<li><a href="09-causal-inference.html">因果推断</a>：计量经济学长期推动了反事实识别与政策评估工具</li>
+<li><a href="25-philosophy.html">哲学</a>：经济学中的福利、偏好与公平问题最终仍与规范哲学相连</li>
+</ul>
+<hr>
+<h2>1. 上帝视角：为什么 AI 需要经济学、偏好与对齐</h2>
+<p>经济学在 AI 中最核心的价值，不是提供一套泛泛的“市场隐喻”，而是帮助我们回答四个更具体的问题：</p>
+<ul>
+<li><strong>AI 到底在替谁优化、优化什么偏好？</strong></li>
+<li><strong>怎样设计激励，使系统行为尽量符合人类目标？</strong></li>
+<li><strong>当多个主体偏好不一致时，如何聚合与协调？</strong></li>
+<li><strong>当人类反馈本身存在偏差时，AI 对齐会遇到什么问题？</strong></li>
+</ul>
+<p>因此，这一章更适合从<strong>偏好、激励、制度与对齐</strong>的角度理解经济学对 AI 的贡献，而不是把所有与经济学相关的方法论都纳入其中。因果识别虽然在计量经济学传统中发展成熟，但在当前 26 学科结构中已经由独立专题”因果推断与结构因果模型”展开。</p>
+<ul>
+<li><strong>奖励函数设计</strong> = 机制设计（mechanism design）：如何设计规则，使参与者（AI 智能体）在追求自身目标时，同时实现设计者（人类）的意图？</li>
+<li><strong>偏好学习</strong> = 效用估计（utility estimation）：如何从人类的选择行为中推断其真实偏好？</li>
+<li><strong>多智能体协调</strong> = 市场均衡（market equilibrium）：多个 AI 智能体如何在共享环境中达成高效协作？</li>
+<li><strong>AI 对齐</strong> = 激励相容（incentive compatibility）：如何确保 AI 的最优策略恰好是人类期望的行为？</li>
+</ul>
+<h3>与其他学科的关键连接</h3>
+<table>
+<thead>
+<tr>
+<th>连接学科</th>
+<th>经济学贡献</th>
+<th>AI 中的体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>博弈论（Game Theory）</td>
+<td>纳什均衡、机制设计</td>
+<td>多智能体强化学习、对抗训练</td>
+</tr>
+<tr>
+<td>心理学（Psychology）</td>
+<td>行为经济学、前景理论</td>
+<td>RLHF 中的人类偏好建模</td>
+</tr>
+<tr>
+<td>运筹学（Operations Research）</td>
+<td>最优化、资源分配</td>
+<td>调度算法、组合优化</td>
+</tr>
+<tr>
+<td>信息论（Information Theory）</td>
+<td>信息不对称、信号博弈</td>
+<td>对抗样本、信息瓶颈</td>
+</tr>
+<tr>
+<td>控制论（Cybernetics）</td>
+<td>反馈机制、系统稳定性</td>
+<td>奖励塑形、训练稳定性</td>
+</tr>
+<tr>
+<td>因果推断 (09)</td>
+<td>计量经济学传统、反事实分析</td>
+<td>评估部署后果、因果发现</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 历史脉络</h2>
+<p>经济学的发展史与 AI 的演进有着深刻的交织。以下按时间线梳理关键里程碑：</p>
+<h3>2.1 古典经济学时期（18-19 世纪）</h3>
+<ul>
+<li><strong>Adam Smith (1776)</strong>：《国富论》（<em>An Inquiry into the Nature and Causes of the Wealth of Nations</em>）提出&quot;看不见的手&quot;（invisible hand），在特定条件下个体追求自利可能带来较高的整体协调效率——这一思想常被用来类比去中心化多智能体系统的设计。</li>
+<li><strong>David Ricardo (1817)</strong>：比较优势理论（comparative advantage），为分工与专业化提供了理论基础，影响了多智能体任务分配。</li>
+<li><strong>Antoine Augustin Cournot (1838)</strong>：首次用数学方法分析寡头竞争，开创了数理经济学，其 Cournot 竞争模型至今用于多智能体博弈分析。</li>
+<li><strong>Léon Walras (1874)</strong>：一般均衡理论（general equilibrium theory），证明了市场可以同时达到所有商品的供需平衡。</li>
+</ul>
+<h3>2.2 边际革命与效用理论（19 世纪末-20 世纪初）</h3>
+<ul>
+<li><strong>William Stanley Jevons, Carl Menger, Léon Walras (1870s)</strong>：边际效用理论（marginal utility theory），将经济学建立在个体选择的数学基础上。</li>
+<li><strong>Vilfredo Pareto (1906)</strong>：Pareto 最优（Pareto optimality），定义了资源配置的效率标准——在多目标优化和 AI 公平性研究中广泛使用。</li>
+<li><strong>Frank Ramsey (1928)</strong>：最优储蓄理论，引入了跨期决策的数学框架，影响了强化学习中的折扣因子设计。</li>
+</ul>
+<h3>2.3 现代经济学的数学化（1940s-1970s）</h3>
+<ul>
+<li><strong>John von Neumann &amp; Oskar Morgenstern (1944)</strong>：《博弈论与经济行为》（<em>Theory of Games and Economic Behavior</em>），建立了期望效用理论（expected utility theory）的公理化基础。效用函数 u 满足：若 A 优于 B，则 u(A) &gt; u(B)。</li>
+<li><strong>Kenneth Arrow (1951)</strong>：不可能定理（impossibility theorem）——不存在满足所有合理条件的社会选择函数。这对 AI 中的偏好聚合问题有深远影响：如何从多个标注者的偏好中得到一致的奖励信号？</li>
+<li><strong>Gerard Debreu (1959)</strong>：一般均衡存在性的严格证明，将经济学推向了高度数学化。</li>
+<li><strong>William Vickrey (1961)</strong>：第二价格密封拍卖（Vickrey auction），证明了真实出价是占优策略——这是机制设计中激励相容的经典范例。</li>
+<li><strong>Leonid Hurwicz (1972)</strong>：正式提出机制设计理论（mechanism design theory），研究如何设计博弈规则以实现特定社会目标。</li>
+<li><strong>Roger Myerson (1981)</strong>：最优拍卖设计（optimal auction design），给出了收益最大化拍卖的一般理论。</li>
+</ul>
+<h3>2.4 行为经济学革命（1970s-2000s）</h3>
+<ul>
+<li><strong>Daniel Kahneman &amp; Amos Tversky (1979)</strong>：前景理论（prospect theory），揭示人类决策中的系统性偏差：<ul>
+<li>损失厌恶（loss aversion）：损失的痛苦约为等量收益快乐的 2 倍</li>
+<li>概率加权（probability weighting）：人们高估小概率事件，低估大概率事件</li>
+<li>参考点依赖（reference dependence）：效用取决于相对变化而非绝对水平</li>
+</ul>
+</li>
+<li><strong>Richard Thaler (1980s-2000s)</strong>：心理账户（mental accounting）、禀赋效应（endowment effect）、助推理论（nudge theory）。</li>
+<li><strong>Colin Camerer (2003)</strong>：行为博弈论（behavioral game theory），将实验数据与博弈论结合。</li>
+</ul>
+<h3>2.5 经济学与 AI 的融合（2010s-至今）</h3>
+<ul>
+<li><strong>Hal Varian (2014)</strong>：Google 首席经济学家，将拍卖理论应用于广告竞价系统。</li>
+<li><strong>Paul Christiano et al. (2017)</strong>：提出 RLHF（Reinforcement Learning from Human Feedback），用人类偏好训练奖励模型，这一过程可借助从行为数据中估计效用的视角来理解。</li>
+<li><strong>OpenAI (2022)</strong>：InstructGPT 大规模应用 RLHF，将经济学的偏好理论工程化。</li>
+<li><strong>Stuart Russell (2019)</strong>：《人类兼容》（<em>Human Compatible</em>）提出合作逆强化学习（CIRL），将 AI 对齐问题形式化为委托-代理问题。</li>
+<li><strong>Susan Athey、Guido Imbens 等（2010s-2020s）</strong>：推动现代计量经济学与机器学习结合，使因果识别正式进入 AI 评估与政策应用场景。</li>
+</ul>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 效用理论与理性选择</h3>
+<h4>经济学理论</h4>
+<p>效用理论是经济学的基石。理性人假设（rational agent hypothesis）认为，决策者拥有完备且传递的偏好关系，并选择最大化期望效用的行动。</p>
+<p>von Neumann-Morgenstern 期望效用定理指出，若偏好满足完备性、传递性、连续性和独立性公理，则存在效用函数 $u$，使得：</p>
+<p>$$EU(L) = \sum_{i} p_i \cdot u(x_i)$$</p>
+<p>其中 $L$ 是彩票（lottery），$p_i$ 是结果 $x_i$ 的概率。</p>
+<h4>数学化表述</h4>
+<p>风险态度由效用函数的曲率决定：</p>
+<ul>
+<li>风险厌恶（risk averse）：$u&#39;&#39;(x) &lt; 0$（凹函数）</li>
+<li>风险中性（risk neutral）：$u&#39;&#39;(x) = 0$（线性函数）</li>
+<li>风险偏好（risk seeking）：$u&#39;&#39;(x) &gt; 0$（凸函数）</li>
+</ul>
+<p>Arrow-Pratt 绝对风险厌恶系数：</p>
+<p>$$r(x) = -\frac{u&#39;&#39;(x)}{u&#39;(x)}$$</p>
+<h4>直觉理解</h4>
+<p>效用理论的重点不是“奖励越多越好”这么简单，而是不同主体会以不同方式感受收益和风险。AI 一旦要替人做决策，就必须明确它到底在最大化哪种偏好结构。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>强化学习中的奖励函数</strong>：智能体最大化累积奖励，本质上就是期望效用最大化。折扣因子 γ 对应经济学中的时间偏好（time preference）。</li>
+<li><strong>RLHF 中的偏好建模</strong>：Bradley-Terry 模型假设人类选择概率由两个选项的效用差决定，其中 r 是隐含的效用函数（奖励模型）。</li>
+<li><strong>多目标优化</strong>：当 AI 需要平衡多个目标时，Pareto 最优提供了效率标准。</li>
+<li><strong>风险敏感强化学习</strong>：将风险厌恶引入策略优化，使 AI 在不确定环境中更加稳健。</li>
+</ul>
+<h3>3.2 机制设计</h3>
+<h4>经济学理论</h4>
+<p>机制设计（mechanism design）被称为&quot;逆博弈论&quot;——博弈论分析给定规则下的均衡，而机制设计是设计规则以实现期望的均衡。</p>
+<p>核心概念：</p>
+<ul>
+<li><strong>社会选择函数</strong>（social choice function）$f: \Theta^n \to X$，将所有参与者的类型映射到结果</li>
+<li><strong>激励相容</strong>（incentive compatibility）：每个参与者如实报告自己的类型是最优策略</li>
+<li><strong>个体理性</strong>（individual rationality）：参与机制不会比不参与更差</li>
+</ul>
+<h4>数学化表述</h4>
+<p><strong>显示原理</strong>（revelation principle）：任何可由某机制实现的社会选择函数，都可以由一个直接机制（参与者直接报告类型）以激励相容的方式实现。</p>
+<p>形式化地，机制由消息空间 M 和结果函数 g 组成。激励相容要求：</p>
+<p>$$u_i(g(\theta_i, \theta_{-i}), \theta_i) \geq u_i(g(\theta_i&#39;, \theta_{-i}), \theta_i), \quad \forall \theta_i, \theta_i&#39;, \theta_{-i}$$</p>
+<p>即如实报告 $\theta_i$ 是占优策略。</p>
+<p><strong>Vickrey-Clarke-Groves (VCG) 机制</strong>：一类满足激励相容和效率的通用机制。参与者 $i$ 的支付为：</p>
+<p>$$t_i = \sum_{j \neq i} v_j(x^<em><em>{-i}) - \sum</em>{j \neq i} v_j(x^</em>)$$</p>
+<p>其中 $x^<em>$ 是社会最优结果，$x^</em>_{-i}$ 是去掉参与者 $i$ 后的最优结果。</p>
+<h4>直觉理解</h4>
+<p>机制设计关心的不是“参与者会怎么做”，而是“我该如何定规则，才能让他们愿意按我希望的方式行动”。这与设计 AI 的奖励函数、本地激励和平台协议有明显的结构相似性，因此常被用作分析这些问题的参照框架。</p>
+<p>可以用一个很具体的对齐场景来理解：如果一个模型要学会“有帮助但不胡编”，那么训练者其实同时在做三件事。第一，定义什么叫“有帮助”，这是偏好问题；第二，设计标注和比较协议，让标注者能稳定表达这些偏好，这是机制设计问题；第三，把这些偏好转成模型能优化的奖励信号，这是代理目标问题。只把它写成一个 loss，并不能自动解决前两层问题。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>奖励函数设计</strong>：训练 AI 的奖励函数就是一个机制——它定义了&quot;游戏规则&quot;，AI 在此规则下优化行为。设计不当的奖励函数会导致奖励黑客（reward hacking）。</li>
+<li><strong>联邦学习中的激励</strong>：如何激励多个数据持有者真实地贡献数据？机制设计提供了理论工具。</li>
+<li><strong>AI 市场设计</strong>：多个 AI 服务提供商竞争时，平台如何设计规则以最大化社会福利？</li>
+</ul>
+<h3>3.3 拍卖理论</h3>
+<h4>经济学理论</h4>
+<p>拍卖是机制设计最成功的应用领域。四种经典拍卖形式：</p>
+<ol>
+<li><strong>英式拍卖</strong>（English auction）：公开递增出价，最高者得</li>
+<li><strong>荷式拍卖</strong>（Dutch auction）：价格递减，第一个接受者得</li>
+<li><strong>第一价格密封拍卖</strong>（first-price sealed-bid）：最高出价者以其出价支付</li>
+<li><strong>第二价格密封拍卖</strong>（second-price sealed-bid / Vickrey auction）：最高出价者以第二高出价支付</li>
+</ol>
+<h4>数学化表述</h4>
+<p><strong>收益等价定理</strong>（revenue equivalence theorem, Myerson 1981）：在独立私有价值（IPV）模型下，若所有竞拍者风险中性且价值独立同分布，则任何满足以下条件的拍卖机制产生相同的期望收益：</p>
+<ol>
+<li>物品分配给估值最高的竞拍者</li>
+<li>估值最低的竞拍者期望支付为零</li>
+</ol>
+<p>在均匀分布且有 n 个竞拍者的情况下：</p>
+<ul>
+<li>第一价格拍卖的均衡出价策略：<br>$$b(v) = \frac{n-1}{n} v$$</li>
+<li>第二价格拍卖的均衡出价策略：$b(v) = v$（真实出价）</li>
+<li>两种拍卖的期望收益均为：<br>$$E[R] = \frac{n-1}{n+1}$$</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>$v$ 表示竞拍者对物品的私人估值</li>
+<li>$b(v)$ 表示在估值为 $v$ 时的均衡出价策略</li>
+<li>$n$ 表示竞拍者数量</li>
+<li>$E[R]$ 表示卖方的期望收益</li>
+</ul>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>在线广告竞价</strong>：Google、Meta 等平台的广告系统通常可用大规模拍卖框架来理解。广义第二价格拍卖（GSP）曾被广泛讨论和采用，VCG 机制则更多作为重要的理论基准。</li>
+<li><strong>计算资源分配</strong>：云计算中的竞价实例（spot instances）使用拍卖机制分配计算资源。</li>
+<li><strong>自动出价代理</strong>：AI 代理代替广告主参与实时竞价（RTB），需要学习最优出价策略。</li>
+</ul>
+<h4>直觉理解</h4>
+<p>拍卖理论关心的是：在不同规则下，理性的参与者会如何出价，以及平台最终会得到什么结果。第一价格拍卖鼓励“压价出手”，因为赢家按自己的报价付款；第二价格拍卖则鼓励真实报价，因为赢家只需支付第二高价。收益等价定理的价值，在于说明很多看起来不同的拍卖规则，在特定条件下可能给出相同的平均收益，但它们对行为透明度、实现复杂度和平台目标的影响并不相同。</p>
+<h3>3.4 行为经济学</h3>
+<h4>经济学理论</h4>
+<p>行为经济学挑战了传统的理性人假设，揭示了人类决策中的系统性偏差。这些发现对 AI 系统设计有深远影响——因为 AI 的训练数据和反馈信号来自非理性的人类。</p>
+<p><strong>前景理论</strong>（prospect theory, Kahneman &amp; Tversky 1979）的核心要素：</p>
+<ol>
+<li><strong>价值函数</strong>（value function）：以参考点为中心，损失区域比收益区域更陡峭</li>
+<li><strong>概率加权函数</strong>（probability weighting function）：主观决策权重与客观概率系统性偏离</li>
+<li><strong>框架效应</strong>（framing effect）：同一问题的不同表述方式影响决策</li>
+</ol>
+<h4>数学化表述</h4>
+<p>前景理论的价值函数：</p>
+<p>$$v(x) = \begin{cases} x^\alpha &amp; \text{if } x \geq 0 \ -\lambda(-x)^\beta &amp; \text{if } x &lt; 0 \end{cases}$$</p>
+<p>其中 $\alpha, \beta \approx 0.88$，$\lambda \approx 2.25$（损失厌恶系数）。</p>
+<p>概率加权函数（Prelec 1998）：</p>
+<p>$$w(p) = \exp(-(-\ln p)^\gamma)$$</p>
+<p>其中 $\gamma \approx 0.65$，导致小概率被高估、大概率被低估。</p>
+<p>其他重要的认知偏差：</p>
+<ul>
+<li><strong>锚定效应</strong>（anchoring）：初始信息对后续判断的不成比例影响</li>
+<li><strong>可得性启发</strong>（availability heuristic）：容易想到的事件被认为更可能发生</li>
+<li><strong>确认偏差</strong>（confirmation bias）：倾向于寻找支持已有信念的证据</li>
+<li><strong>现状偏差</strong>（status quo bias）：偏好维持现状</li>
+<li><strong>双曲折扣</strong>（hyperbolic discounting）：折扣函数为 D(t) = 1/(1+kt)，导致时间不一致的偏好</li>
+</ul>
+<h4>直觉理解</h4>
+<p>行为经济学提醒我们，人类反馈不是“干净标签”，而是夹杂着锚定、框架和损失厌恶的真实心理产物。AI 若直接把这些反馈当成客观真理，就会把偏差一起学进去。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>RLHF 的偏差问题</strong>：人类标注者的偏好受到框架效应、锚定效应等影响，导致奖励模型学到有偏的人类偏好。</li>
+<li><strong>推荐系统中的偏差</strong>：用户的点击行为受位置偏差（position bias）、流行度偏差（popularity bias）等影响，需要去偏（debiasing）技术。</li>
+<li><strong>AI 助推</strong>（AI nudging）：利用行为经济学原理设计 AI 界面，引导用户做出更好的决策——但也引发伦理争议。</li>
+<li><strong>鲁棒偏好学习</strong>：如何从有偏的人类反馈中学到&quot;真实&quot;偏好？需要建模人类的认知偏差并加以校正。</li>
+</ul>
+<h3>3.5 计量经济学与因果问题的接口</h3>
+<p>经济学与因果推断的关系主要体现在<strong>计量经济学</strong>（econometrics）的识别传统中。它关心的问题是：在存在混杂因素、选择偏差和观测噪声时，如何识别某个干预的真实效果？这条传统推动了工具变量、双重差分、断点回归、合成控制等方法的发展。</p>
+<p>在 AI 语境下，这些方法对于推荐系统评估、广告增量收益分析、高影响决策系统以及离线强化学习中的反事实评估都非常重要。但从专题结构上看，这部分问题意识已经超出了本章”偏好、激励与对齐”的核心职责，因此在当前 26 学科结构中，由独立专题<strong>因果推断与结构因果模型</strong>系统展开。</p>
+<p>本章保留这一节，是为了强调历史谱系与接口关系：</p>
+<ul>
+<li>经济学长期推动了因果识别方法的发展</li>
+<li>AI 的部署与评估问题经常借用这一传统</li>
+<li>但完整的因果方法论不再由本章代管</li>
+</ul>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>部署评估</strong>：广告、推荐和平台策略的增量收益分析直接借用计量经济学识别工具。</li>
+<li><strong>反事实分析</strong>：离线强化学习和政策评估常借助工具变量、双重差分等思想处理偏差。</li>
+<li><strong>高影响决策系统</strong>：在教育、医疗、金融等场景中，因果识别帮助区分“预测相关”与“真实干预效果”。</li>
+</ul>
+<h3>3.6 AI 对齐的经济学视角</h3>
+<h4>核心问题</h4>
+<p>AI 对齐（AI alignment）问题可以用经济学的委托-代理框架（principal-agent framework）来理解：</p>
+<ul>
+<li><strong>委托人</strong>（principal）= 人类（设计者/用户）</li>
+<li><strong>代理人</strong>（agent）= AI 系统</li>
+<li><strong>信息不对称</strong>：AI 可能拥有人类不具备的信息或能力</li>
+<li><strong>利益冲突</strong>：AI 的优化目标可能与人类的真实意图不一致</li>
+</ul>
+<h4>数学化表述</h4>
+<p><strong>合作逆强化学习</strong>（Cooperative Inverse Reinforcement Learning, CIRL, Hadfield-Menell et al. 2016）：</p>
+<p>将人机交互建模为双人合作博弈：</p>
+<ul>
+<li>人类的效用函数依赖于未知参数 θ</li>
+<li>机器人的目标是最大化人类的效用：$\max_{a_R} E[u_H | \theta]$</li>
+<li>但机器人不知道 $\theta$，需要从人类的行为中推断</li>
+</ul>
+<p>这产生了一个关键性质：<strong>AI 的最优策略包含主动询问和谦逊行为</strong>——因为它知道自己不确定人类的真实偏好。</p>
+<p><strong>Goodhart 定律的形式化</strong>（Manheim &amp; Garrabrant 2019）：</p>
+<p>当代理优化代理指标 $\hat{u}$ 而非真实目标 $u$ 时：</p>
+<p>$$\text{regret} = u^* - u(\arg\max_a \hat{u}(a))$$</p>
+<p>其中：</p>
+<ul>
+<li>$u^*$ 表示真实目标下的最优效用</li>
+<li>$\hat{u}(a)$ 表示被系统优化的代理指标</li>
+<li>$\arg\max_a \hat{u}(a)$ 表示在代理指标意义下最优的动作</li>
+<li>$\text{regret}$ 表示代理最优与真实最优之间的效用差距</li>
+</ul>
+<p>遗憾（regret）随优化压力增大而增大——优化越强，代理指标与真实目标的偏离越严重。</p>
+<h4>关键机制</h4>
+<ol>
+<li><strong>激励相容的奖励设计</strong>：设计奖励函数使 AI 的最优策略恰好是人类期望的行为</li>
+<li><strong>可验证的承诺</strong>（verifiable commitment）：AI 能否可信地承诺遵守某些约束？</li>
+<li><strong>信息租金</strong>（information rent）：AI 因拥有私有信息而获得的额外&quot;收益&quot;，可能导致操纵行为</li>
+<li><strong>合同理论</strong>（contract theory）：如何设计人机之间的&quot;合同&quot;以约束 AI 行为？</li>
+</ol>
+<h4>直觉理解</h4>
+<p>AI 对齐的经济学问题不只是“把目标写清楚”，而是“在信息不对称和代理优化下，怎样让系统没有动机钻规则空子”。Goodhart 定律和委托-代理模型都在提醒我们：指标一旦变成目标，就会被过度利用。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>对齐建模</strong>：把人机关系形式化为带不确定偏好的合作博弈</li>
+<li><strong>奖励黑客分析</strong>：解释代理指标为何会偏离真实目标</li>
+<li><strong>制度化约束</strong>：为多代理系统的权限、监督与问责提供框架</li>
+</ul>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<h3>4.1 奖励建模与偏好学习</h3>
+<p>经济学的效用理论为 RLHF 提供了理论基础。Bradley-Terry 模型（1952）原本用于体育排名，现在是奖励建模的标准方法：</p>
+<p>$$P(y_w \succ y_l | x) = \sigma(r_\theta(x, y_w) - r_\theta(x, y_l))$$</p>
+<p>训练目标是最大化对数似然：</p>
+<p>$$\mathcal{L}(\theta) = -E_{(x, y_w, y_l)} [\log \sigma(r_\theta(x, y_w) - r_\theta(x, y_l))]$$</p>
+<p>这本质上是从成对比较数据中估计效用函数——经济学中的离散选择模型（discrete choice model）。</p>
+<h3>4.2 拍卖与市场设计</h3>
+<p>互联网广告是经济学理论最大规模的工程应用：</p>
+<ul>
+<li>Google 的广告系统每秒处理数百万次拍卖</li>
+<li>广义第二价格拍卖（GSP）保证了近似激励相容</li>
+<li>自动出价代理使用强化学习优化长期收益</li>
+</ul>
+<h3>4.3 多智能体经济系统</h3>
+<p>经济学的市场均衡理论启发了多智能体系统设计：</p>
+<ul>
+<li><strong>Fisher 市场模型</strong>：多个买家竞争有限资源，均衡价格实现高效分配</li>
+<li><strong>Walrasian 拍卖</strong>：通过价格调整达到供需平衡</li>
+<li><strong>代币经济</strong>（token economy）：在多智能体环境中引入虚拟货币促进合作</li>
+</ul>
+<h3>4.4 计量经济学与因果问题的历史接口</h3>
+<p>计量经济学发展的因果识别方法已经深刻影响 AI 社区，包括工具变量、断点回归、双重差分和合成控制等。它们帮助系统从观察数据中区分相关性改善与真实干预效果。</p>
+<p>不过，在当前 26 学科结构中，这部分内容由独立专题<strong>因果推断与结构因果模型</strong>系统展开；本章仅保留其作为经济学历史谱系的一部分，用来说明偏好、制度与部署后果分析之间的连接。</p>
+<hr>
+<h2>5. 与相邻学科的边界</h2>
+<h3>5.1 与博弈论与机制设计</h3>
+<ul>
+<li><strong>博弈论与机制设计</strong>更偏向战略互动、均衡概念与机制设计的形式框架。</li>
+<li><strong>本章</strong>更偏向偏好、效用、激励、社会选择与 AI 对齐的制度目标。</li>
+</ul>
+<h3>5.2 与因果推断与结构因果模型</h3>
+<ul>
+<li><strong>因果推断与结构因果模型</strong>负责系统展开干预、反事实、结构因果模型与识别方法。</li>
+<li><strong>本章</strong>只保留计量经济学与因果问题之间的历史接口，不再代管完整因果方法论。</li>
+</ul>
+<h3>5.3 与心理学</h3>
+<ul>
+<li><strong>心理学</strong>更关注人类行为偏差、启发式与反馈噪声的认知来源。</li>
+<li><strong>本章</strong>则关注这些偏差如何影响偏好建模、制度设计与对齐目标。</li>
+</ul>
+<hr>
+<h2>6. 前沿与开放问题</h2>
+<h3>6.1 大语言模型时代的经济学问题</h3>
+<ul>
+<li><strong>LLM 作为经济代理</strong>：大语言模型能否模拟理性经济行为？实验表明 LLM 展现出类似人类的认知偏差（Chen et al. 2023）。</li>
+<li><strong>AI 生成内容的定价</strong>：如何为 AI 生成的文本、图像、代码定价？传统的边际成本定价在零边际成本的数字产品中失效。</li>
+<li><strong>数据市场设计</strong>：数据作为生产要素，如何设计公平高效的数据交易机制？</li>
+</ul>
+<h3>6.2 AI 对齐的经济学前沿</h3>
+<ul>
+<li><strong>可扩展的人类监督</strong>（scalable oversight）：当 AI 能力超越人类时，如何设计激励机制确保 AI 仍然可控？</li>
+<li><strong>宪法 AI</strong>（Constitutional AI）：用规则约束 AI 行为，类似于法律和制度设计。</li>
+<li><strong>迭代放大</strong>（iterated amplification）：通过分解任务降低信息不对称。</li>
+</ul>
+<h3>6.3 AI 对劳动市场的影响</h3>
+<ul>
+<li><strong>技能溢价变化</strong>：AI 自动化如何改变不同技能的市场价值？</li>
+<li><strong>人机互补 vs 替代</strong>：哪些任务中 AI 是人类的互补品，哪些是替代品？</li>
+<li><strong>通用基本收入</strong>（UBI）：如果 AI 大规模替代人类劳动，经济体系如何调整？</li>
+</ul>
+<h3>6.4 开放问题</h3>
+<ol>
+<li>如何设计对 Goodhart 定律鲁棒的奖励函数？</li>
+<li>多个 AI 系统在共享环境中博弈时，是否会出现市场失灵（market failure）？</li>
+<li>如何将 Arrow 不可能定理的限制纳入多标注者偏好聚合？</li>
+<li>AI 系统能否学会&quot;公平&quot;——经济学中的公平概念（envy-freeness, proportionality）如何应用于 AI？</li>
+<li>当 AI 代理代替人类参与市场时，传统的均衡理论是否仍然成立？</li>
+</ol>
+<hr>
+<h2>7. 推荐阅读与参考文献</h2>
+<h3>经典教材</h3>
+<ul>
+<li>Mas-Colell, A., Whinston, M. D., &amp; Green, J. R. (1995). <em>Microeconomic Theory</em>. Oxford University Press.</li>
+<li>Nisan, N., Roughgarden, T., Tardos, É., &amp; Vazirani, V. V. (2007). <em>Algorithmic Game Theory</em>. Cambridge University Press.</li>
+<li>Krishna, V. (2009). <em>Auction Theory</em>. Academic Press.</li>
+<li>Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>. Farrar, Straus and Giroux.</li>
+</ul>
+<h3>关键论文</h3>
+<ul>
+<li>von Neumann, J., &amp; Morgenstern, O. (1944). Theory of Games and Economic Behavior. <em>Princeton University Press</em>.</li>
+<li>Arrow, K. J. (1951). Social Choice and Individual Values. <em>Wiley</em>.</li>
+<li>Vickrey, W. (1961). Counterspeculation, Auctions, and Competitive Sealed Tenders. <em>The Journal of Finance</em>, 16(1), 8-37.</li>
+<li>Hurwicz, L. (1972). On Informationally Decentralized Systems. <em>Decision and Organization</em>, 297-336.</li>
+<li>Kahneman, D., &amp; Tversky, A. (1979). Prospect Theory: An Analysis of Decision under Risk. <em>Econometrica</em>, 47(2), 263-291.</li>
+<li>Myerson, R. B. (1981). Optimal Auction Design. <em>Mathematics of Operations Research</em>, 6(1), 58-73.</li>
+<li>Bradley, R. A., &amp; Terry, M. E. (1952). Rank Analysis of Incomplete Block Designs: I. The Method of Paired Comparisons. <em>Biometrika</em>, 39(3/4), 324-345.</li>
+<li>Christiano, P. F., et al. (2017). Deep Reinforcement Learning from Human Preferences. <em>NeurIPS</em>.</li>
+<li>Hadfield-Menell, D., et al. (2016). Cooperative Inverse Reinforcement Learning. <em>NeurIPS</em>.</li>
+<li>Russell, S. (2019). <em>Human Compatible: Artificial Intelligence and the Problem of Control</em>. Viking.</li>
+</ul>
+<h3>AI 对齐与经济学</h3>
+<ul>
+<li>Manheim, D., &amp; Garrabrant, S. (2019). Categorizing Variants of Goodhart&#39;s Law. <em>arXiv:1803.04585</em>.</li>
+<li>Zhuang, S., &amp; Hadfield-Menell, D. (2020). Consequences of Misaligned AI. <em>NeurIPS</em>.</li>
+<li>Ouyang, L., et al. (2022). Training Language Models to Follow Instructions with Human Feedback. <em>NeurIPS</em>.</li>
+</ul>
+<h3>在线资源</h3>
+<ul>
+<li>Coursera: Game Theory (Stanford University)</li>
+<li>MIT OpenCourseWare: Microeconomic Theory</li>
+<li>Alignment Forum (alignmentforum.org): AI 对齐研究社区</li>
+</ul>
+<hr>
+<h2>8. 本篇在全书中的位置</h2>
+<p>本篇负责把 AI 中常见的“偏好、激励、制度、奖励失配”问题组织成一套更清楚的语言。它提醒我们，很多 AI 问题并不是“模型不会优化”，而是“我们没有把人类真实想要的东西稳定地写进优化目标”。</p>
+<p><strong>与相邻篇章的关系</strong>：</p>
+<ul>
+<li>与<a href="12-game-theory.html">博弈论</a>相邻：博弈论更强调互动结构和均衡概念，经济学更系统讨论偏好、福利、制度和机制设计。</li>
+<li>与<a href="11-operations-research.html">运筹学</a>分工：运筹学更像求解器与决策骨架，经济学则更像目标、激励与制度解释层。</li>
+<li>与<a href="21-psychology.html">心理学</a>互补：心理学解释人类反馈为何会有偏差，经济学研究如何在这种偏差下仍设计可用机制。</li>
+<li>与<a href="09-causal-inference.html">因果推断</a>连接：很多部署后效果评估、本地激励设计和政策后果判断都依赖反事实分析。</li>
+</ul>
+<p><strong>贡献边界</strong>：<br>经济学并不直接提供神经网络结构、表示学习或感知建模方法。它最强的地方，是解释“目标怎么定义、偏好怎么聚合、激励怎么设计、制度怎么约束代理行为”，因此它更像 AI 对齐与多主体协调的解释框架层，而不是底层训练算法本身。</p>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="09-causal-inference.html" class="related-item">
+        <span class="r-num">09</span>
+        <span class="r-name">因果推断</span>
+      </a><a href="25-philosophy.html" class="related-item">
+        <span class="r-num">25</span>
+        <span class="r-name">哲学</span>
+      </a></div></div><div class="bottom-nav"><a href="22-game-theory.html"><span class="dir">&#8592; 上一篇</span><span class="name">22 博弈论</span></a><a href="24-statistical-physics.html"><span class="dir">下一篇 &#8594;</span><span class="name">24 统计物理</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>

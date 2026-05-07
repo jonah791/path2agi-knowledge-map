@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>概率论与数理统计（Probability Theory and Mathematical Statistics）：从起源到 AI 的完整脉络 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item active">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#8b7aff"></span> 数学与形式基础</span>
+      <span>学科 01</span>
+      
+      
+      
+    </div><hr>
+<p>title: 概率论与数理统计<br>aliases:</p>
+<ul>
+<li>Probability Theory and Mathematical Statistics<br>category:</li>
+<li>数学与形式基础<br>tags:</li>
+<li>ai-foundations</li>
+<li>math</li>
+<li>probability<br>type: topic<br>status: stable<br>importance: core<br>version: v2.0<br>date: &#39;2026-04-08&#39;</li>
+</ul>
+<hr>
+<h1>概率论与数理统计（Probability Theory and Mathematical Statistics）：从起源到 AI 的完整脉络</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：概率论与数理统计共同构成机器学习处理不确定性的核心语言。概率论负责描述随机机制与分布结构，数理统计负责从有限样本中做估计、检验与评估。从贝叶斯推断到最大似然，从 EM 算法到 A/B 测试，这两条主线一起支撑了现代 AI 对不确定世界的建模与决策。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="04-information-theory.html">信息论</a>：熵、KL 散度、互信息等核心概念都建立在概率分布之上</li>
+<li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：最大似然估计、变分推断与参数学习都依赖优化方法</li>
+<li><a href="09-causal-inference.html">因果推断</a>：概率描述相关性，因果推断进一步回答&quot;为什么会发生&quot;</li>
+<li><a href="15-cybernetics.html">控制论</a>：卡尔曼滤波、状态估计与贝叶斯决策是概率论在动态系统中的体现</li>
+<li><a href="19-neuroscience.html">神经科学</a>：贝叶斯脑假说、预测编码与不确定性感知都与概率建模密切相关</li>
+</ul>
+<h2>1. 上帝视角：为什么 AI 需要概率论</h2>
+<h3>1.1 解决了 AI 中的什么根本问题？</h3>
+<p>概率论为 AI 解决了三大根本问题：</p>
+<ul>
+<li><strong>不确定性建模（Uncertainty Modeling）</strong>：现实世界充满噪声和不完整信息。传感器有误差，数据有缺失，用户意图模糊。概率论提供了一套严格的数学框架，让机器能够量化&quot;我有多不确定&quot;，而不是简单地给出&quot;是&quot;或&quot;否&quot;。</li>
+<li><strong>参数估计（Parameter Estimation）</strong>：神经网络有数十亿参数，如何从有限数据中估计这些参数？最大似然估计（MLE）、最大后验估计（MAP）、贝叶斯推断——这些都是概率论的核心工具。</li>
+<li><strong>生成模型（Generative Models）</strong>：从 GPT 到 Stable Diffusion，生成式 AI 的本质是学习数据的概率分布 $P(x)$，然后从中采样。没有概率论，就没有生成模型。</li>
+</ul>
+<h3>1.2 如果没有概率论，AI 会缺失什么能力？</h3>
+<ul>
+<li>无法区分&quot;确信的预测&quot;和&quot;不确信的预测&quot;——自动驾驶系统无法判断何时应该交给人类接管</li>
+<li>无法处理缺失数据和噪声——所有现实世界的数据集都不完美</li>
+<li>无法进行因果推断——只能发现相关性，不能理解因果</li>
+<li>无法生成新内容——没有概率分布的概念，就无法&quot;采样&quot;出新图像、新文本</li>
+<li>无法进行模型选择和正则化——奥卡姆剃刀原则的数学表达依赖贝叶斯框架</li>
+</ul>
+<h3>1.3 与其他学科的关键连接点</h3>
+<table>
+<thead>
+<tr>
+<th>学科</th>
+<th>连接点</th>
+<th>具体体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>信息论（Information Theory）</strong></td>
+<td>熵、KL 散度、互信息都建立在概率分布之上</td>
+<td>交叉熵损失函数、变分推断中的 ELBO</td>
+</tr>
+<tr>
+<td><strong>优化理论（Optimization Theory）</strong></td>
+<td>MLE 将参数估计转化为优化问题</td>
+<td>梯度下降最大化对数似然、EM 算法</td>
+</tr>
+<tr>
+<td><strong>控制论（Control Theory）</strong></td>
+<td>卡尔曼滤波是贝叶斯推断在动态系统中的应用</td>
+<td>状态估计、强化学习中的部分可观测问题</td>
+</tr>
+<tr>
+<td><strong>神经科学（Neuroscience）</strong></td>
+<td>大脑被认为是一台贝叶斯推断机器</td>
+<td>自由能原理（Free Energy Principle）、预测编码（Predictive Coding）</td>
+</tr>
+<tr>
+<td><strong>线性代数（Linear Algebra）</strong></td>
+<td>协方差矩阵、特征分解、概率 PCA</td>
+<td>高斯分布的参数化、降维方法</td>
+</tr>
+<tr>
+<td><strong>逼近论（Approximation Theory）</strong></td>
+<td>概率分布的函数逼近、核密度估计</td>
+<td>非参数贝叶斯方法、高斯过程</td>
+</tr>
+</tbody></table>
+<h3>1.4 概率建模与统计推断是两条并行主线</h3>
+<p>本篇标题同时包含“概率论”和“数理统计”，两者在 AI 中最好分开理解：</p>
+<ul>
+<li><strong>概率论</strong>回答“如果模型与参数已知，数据大致会如何出现”；</li>
+<li><strong>数理统计</strong>回答“如果只看到有限数据，我们该如何反推参数、比较模型并报告不确定性”。</li>
+</ul>
+<p>前者更像建模语言，后者更像从数据到结论的方法学。机器学习实践里二者几乎总是一起出现：我们先假设一个概率模型，再用统计推断去估计、检验和评估它。</p>
+<hr>
+<h2>2. 历史脉络：关键人物与里程碑</h2>
+<p>概率论的发展横跨四个世纪，从赌博问题到公理化体系，再到机器学习的核心工具。</p>
+<h3>2.1 萌芽期：从赌博到数学（1654—1812）</h3>
+<ul>
+<li><p><strong>1654 年 — Pascal &amp; Fermat 通信</strong>：概率论的诞生。法国赌徒 Chevalier de Méré 向 Blaise Pascal 提出&quot;点数问题&quot;（Problem of Points）：两个赌徒在游戏中途停止，如何公平分配赌注？Pascal 与 Pierre de Fermat 的通信中，首次用数学方法系统处理随机事件，奠定了组合概率的基础。</p>
+</li>
+<li><p><strong>1713 年 — Jacob Bernoulli《猜度术》（Ars Conjectandi）</strong>：提出大数定律（Law of Large Numbers）的最早形式。证明了随着试验次数增加，频率趋近于概率。这是频率学派的理论基石。</p>
+</li>
+<li><p><strong>1733 年 — Abraham de Moivre</strong>：发现正态分布（Normal Distribution）的早期形式，作为二项分布的近似。后来由 Carl Friedrich Gauss 进一步发展，因此也称高斯分布（Gaussian Distribution）。</p>
+</li>
+<li><p><strong>1763 年 — Thomas Bayes 遗作发表</strong>：Richard Price 整理发表了 Bayes 的论文《An Essay towards solving a Problem in the Doctrine of Chances》。提出了贝叶斯定理（Bayes&#39; Theorem）的原始形式：如何根据新证据更新对假设的信念。这篇论文在当时并未引起广泛关注，但两百年后成为机器学习的核心。</p>
+</li>
+<li><p><strong>1812 年 — Pierre-Simon Laplace《概率的分析理论》（Théorie analytique des probabilités）</strong>：独立重新发现并推广了贝叶斯定理，将概率论发展为一门系统的数学学科。提出&quot;拉普拉斯平滑&quot;（Laplace Smoothing）的思想——在没有先验信息时使用均匀先验，这一思想至今仍在自然语言处理中广泛使用。</p>
+</li>
+</ul>
+<h3>2.2 公理化与现代化（1900—1950）</h3>
+<ul>
+<li><p><strong>1900 年 — Karl Pearson</strong>：发展了卡方检验（Chi-squared Test）、相关系数（Correlation Coefficient）等统计工具，创立了现代统计学的基础。创办《Biometrika》期刊。</p>
+</li>
+<li><p><strong>1922 年 — Ronald A. Fisher</strong>：提出最大似然估计（Maximum Likelihood Estimation, MLE），发表《On the Mathematical Foundations of Theoretical Statistics》。Fisher 还发展了充分统计量、Fisher 信息量等核心概念。MLE 后来成为训练几乎所有机器学习模型的基本方法。</p>
+</li>
+<li><p><strong>1933 年 — Andrey Kolmogorov《概率论基础》（Grundbegriffe der Wahrscheinlichkeitsrechnung）</strong>：用测度论（Measure Theory）为概率论建立了严格的公理化基础。三条公理：非负性、规范性、可列可加性。这一框架统一了之前所有的概率理论，使概率论成为现代数学的一个分支。</p>
+</li>
+<li><p><strong>1946 年 — Andrey Markov（子）&amp; Monte Carlo 方法</strong>：Stanislaw Ulam 和 John von Neumann 在洛斯阿拉莫斯国家实验室开发了蒙特卡洛方法（Monte Carlo Method），用随机采样解决确定性数学问题。这一方法后来演变为 MCMC，成为贝叶斯计算的核心工具。</p>
+</li>
+</ul>
+<h3>2.3 信息时代（1948—1990）</h3>
+<ul>
+<li><p><strong>1948 年 — Claude Shannon《通信的数学理论》</strong>：将概率论应用于通信，定义了熵（Entropy）：<br>$$H(X) = -\sum_i P(x_i) \log P(x_i)$$<br>并建立了信息论。Shannon 熵本质上是概率分布的一个泛函，信息论可以看作概率论的一个应用分支。</p>
+</li>
+<li><p><strong>1953 年 — Nicholas Metropolis 等人</strong>：提出 Metropolis 算法，这是 MCMC（Markov Chain Monte Carlo）的第一个实用算法。论文《Equation of State Calculations by Fast Computing Machines》最初用于物理模拟，后来成为贝叶斯统计的计算引擎。</p>
+</li>
+<li><p><strong>1970 年 — W. Keith Hastings</strong>：将 Metropolis 算法推广为 Metropolis-Hastings 算法，允许非对称提议分布，极大扩展了 MCMC 的适用范围。</p>
+</li>
+<li><p><strong>1977 年 — Arthur Dempster, Nan Laird, Donald Rubin</strong>：发表《Maximum Likelihood from Incomplete Data via the EM Algorithm》，提出期望最大化算法（Expectation-Maximization, EM）。EM 算法解决了含隐变量模型的参数估计问题，成为训练高斯混合模型（GMM）、隐马尔可夫模型（HMM）等的标准方法。</p>
+</li>
+<li><p><strong>1984 年 — Stuart Geman &amp; Donald Geman</strong>：提出 Gibbs 采样（Gibbs Sampling），一种特殊的 MCMC 方法。论文《Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images》将贝叶斯方法引入计算机视觉。</p>
+</li>
+<li><p><strong>1988 年 — Judea Pearl《Probabilistic Reasoning in Intelligent Systems》</strong>：系统化了贝叶斯网络（Bayesian Networks）理论，提出了信念传播（Belief Propagation）算法。Pearl 后来因因果推断（Causal Inference）的工作获得 2011 年图灵奖。</p>
+</li>
+</ul>
+<h3>2.4 机器学习时代（1990—至今）</h3>
+<ul>
+<li><p><strong>1996 年 — David MacKay《Bayesian Methods for Adaptive Models》</strong>：系统阐述了贝叶斯方法在神经网络中的应用，包括模型选择、正则化的贝叶斯解释。</p>
+</li>
+<li><p><strong>1998 年 — Michael Jordan 等人</strong>：推动了变分推断（Variational Inference）在机器学习中的应用，将贝叶斯推断从 MCMC 的计算瓶颈中解放出来。</p>
+</li>
+<li><p><strong>2003 年 — David Blei, Andrew Ng, Michael Jordan</strong>：提出隐狄利克雷分配（Latent Dirichlet Allocation, LDA），将贝叶斯方法应用于主题模型，成为自然语言处理的里程碑。</p>
+</li>
+<li><p><strong>2014 年 — Diederik Kingma &amp; Max Welling</strong>：提出变分自编码器（Variational Autoencoder, VAE），将变分推断与深度学习结合，开创了深度生成模型的新范式。VAE 的核心是最大化证据下界（ELBO），这是纯粹的概率论概念。</p>
+</li>
+<li><p><strong>2015 年 — Yarin Gal &amp; Zoubin Ghahramani</strong>：提出 MC Dropout，证明 Dropout 可以解释为贝叶斯近似推断，为深度学习的不确定性估计提供了实用方法。</p>
+</li>
+<li><p><strong>2020 年 — 扩散模型（Diffusion Models）</strong>：Jonathan Ho 等人的 DDPM（Denoising Diffusion Probabilistic Models）将概率论中的随机过程理论应用于图像生成，其数学基础是马尔可夫链和变分推断。</p>
+</li>
+</ul>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 贝叶斯推断（Bayesian Inference）</h3>
+<h4>数学定义</h4>
+<p>贝叶斯定理的核心公式：</p>
+<p>$$P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}$$</p>
+<p>其中：</p>
+<ul>
+<li>$\theta$ — 模型参数（我们想要估计的未知量）</li>
+<li>$D$ — 观测数据</li>
+<li>$P(\theta)$ — <strong>先验分布（Prior）</strong>：在看到数据之前，我们对参数的信念</li>
+<li>$P(D \mid \theta)$ — <strong>似然函数（Likelihood）</strong>：给定参数，观测到数据的概率</li>
+<li>$P(\theta \mid D)$ — <strong>后验分布（Posterior）</strong>：在看到数据之后，我们对参数的更新信念</li>
+<li>$P(D) = \int P(D \mid \theta)P(\theta)d\theta$ — <strong>边际似然（Evidence）</strong>：数据的总概率，起归一化作用</li>
+</ul>
+<h4>直觉理解：先验 → 数据 → 后验的认知更新过程</h4>
+<p>贝叶斯推断的本质是一个<strong>认知更新</strong>过程，可以用一个日常类比来理解：</p>
+<ol>
+<li><strong>先验</strong>：你对某件事有一个初始判断（比如&quot;这枚硬币大概是公平的&quot;）</li>
+<li><strong>数据</strong>：你观察到一些证据（抛了 10 次，8 次正面）</li>
+<li><strong>后验</strong>：你根据证据更新了判断（&quot;这枚硬币可能偏向正面&quot;）</li>
+</ol>
+<p>关键洞察：贝叶斯推断是<strong>序贯的</strong>——今天的后验就是明天的先验。随着数据不断积累，后验分布会越来越集中在真实参数附近，先验的影响逐渐消失。这就是为什么贝叶斯方法在小样本时特别有价值——先验提供了正则化效果。</p>
+<h4>共轭先验（Conjugate Priors）</h4>
+<p>当先验和后验属于同一分布族时，称先验为似然的共轭先验。最经典的例子：</p>
+<ul>
+<li><p><strong>Beta-Bernoulli 共轭</strong>：Beta 先验 + 伯努利似然 → Beta 后验</p>
+<ul>
+<li><p>先验：</p>
+<p>$$\theta \sim \mathrm{Beta}(\alpha, \beta)$$</p>
+</li>
+<li><p>数据：进行 n 次试验，其中成功 k 次</p>
+</li>
+<li><p>后验：</p>
+<p>$$\theta \mid D \sim \mathrm{Beta}(\alpha + k, \beta + n - k)$$</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Normal-Normal 共轭</strong>：正态先验 + 正态似然 → 正态后验</p>
+</li>
+<li><p><strong>Dirichlet-Multinomial 共轭</strong>：LDA 主题模型的数学基础</p>
+</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>贝叶斯神经网络（Bayesian Neural Networks）</strong>：对网络权重赋予概率分布而非点估计，能够量化预测的不确定性。Blundell 等人 (2015) 的&quot;Bayes by Backprop&quot;方法使贝叶斯神经网络的训练变得可行。</li>
+<li><strong>贝叶斯优化（Bayesian Optimization）</strong>：用高斯过程作为代理模型，通过贝叶斯推断选择下一个超参数评估点。这是自动机器学习（AutoML）的核心技术。</li>
+<li><strong>不确定性估计（Uncertainty Estimation）</strong>：在医疗诊断、自动驾驶等安全关键领域，模型不仅要给出预测，还要说明&quot;我有多确信&quot;。</li>
+</ul>
+<blockquote>
+<p><strong>代码演示</strong>：参见 <a href="../../code/math-foundations/bayesian_inference.py">code/math-foundations/bayesian_inference.py</a> — 硬币抛掷的贝叶斯估计 vs 频率估计对比</p>
+</blockquote>
+<h3>3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</h3>
+<h4>MLE 的数学定义</h4>
+<p>给定独立同分布的观测数据 $D = {x_1, x_2, \ldots, x_n}$，最大似然估计寻找使数据出现概率最大的参数：</p>
+<p>$$\hat{\theta}<em>{MLE} = \arg\max</em>\theta P(D|\theta) = \arg\max_\theta \prod_{i=1}^{n} P(x_i|\theta)$$</p>
+<p>其中：</p>
+<ul>
+<li>$D = {x_1, \ldots, x_n}$ 表示观测样本</li>
+<li>$P(x_i \mid \theta)$ 表示参数 $\theta$ 下观测 $x_i$ 的似然</li>
+<li>$\hat{\theta}_{MLE}$ 是使得全样本似然最大的参数</li>
+</ul>
+<p>实践中通常最大化对数似然（Log-Likelihood），因为乘积变求和，数值更稳定：</p>
+<p>$$\hat{\theta}<em>{MLE} = \arg\max</em>\theta \sum_{i=1}^{n} \log P(x_i|\theta)$$</p>
+<p>其中：</p>
+<ul>
+<li>对数似然将乘积转为求和，使得数值更稳定</li>
+<li>其他符号同上</li>
+</ul>
+<h4>直觉理解</h4>
+<p>MLE 的哲学很简单：<strong>选择那个让已观测数据&quot;最不意外&quot;的参数</strong>。如果你抛硬币 100 次得到 70 次正面，MLE 估计 $\hat{p} = 0.7$，因为在 $p=0.7$ 时，这个结果出现的概率最大。</p>
+<p>MLE 与贝叶斯估计的关系：当使用均匀先验时，最大后验估计（MAP）退化为 MLE。换言之，MLE 是贝叶斯框架中&quot;无信息先验&quot;的特例。</p>
+<h4>EM 算法的 E 步和 M 步</h4>
+<p>当模型包含隐变量 $Z$ 时，直接最大化似然通常不可行（求和/积分难以计算）：</p>
+<p>$$P(D \mid \theta) = \sum_Z P(D, Z \mid \theta)$$</p>
+<p>EM 算法通过迭代两步来解决：</p>
+<p><strong>E 步（Expectation Step）</strong>：固定当前参数 $\theta^{(t)}$，计算隐变量的后验分布，构造期望对数似然：</p>
+<p>$$Q(\theta|\theta^{(t)}) = \mathbb{E}_{Z|D,\theta^{(t)}}[\log P(D, Z|\theta)]$$</p>
+<p>其中：</p>
+<ul>
+<li>$Z$ 是隐变量</li>
+<li>$Q(\theta \mid \theta^{(t)})$ 是在当前参数下的期望对数似然</li>
+<li>期望是在隐变量的后验分布下计算的</li>
+</ul>
+<p><strong>M 步（Maximization Step）</strong>：最大化 $Q$ 函数，更新参数：</p>
+<p>$$\theta^{(t+1)} = \arg\max_\theta Q(\theta|\theta^{(t)})$$</p>
+<p>其中：</p>
+<ul>
+<li>$Q(\theta \mid \theta^{(t)})$ 在 E 步计算得到</li>
+<li>迭代直到对数似然收敛或达到最大迭代次数</li>
+</ul>
+<p>EM 算法保证每次迭代不会降低似然值（单调性），但只保证收敛到局部最优。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>高斯混合模型（Gaussian Mixture Model, GMM）</strong>：经典的聚类算法，隐变量是每个数据点的类别归属。EM 算法交替估计类别归属概率（E 步）和更新各高斯分量的参数（M 步）。</li>
+<li><strong>隐马尔可夫模型（Hidden Markov Model, HMM）</strong>：语音识别的经典模型，Baum-Welch 算法本质上就是 EM 算法在 HMM 上的特例。</li>
+<li><strong>变分自编码器（VAE）的 ELBO</strong>：VAE 的训练目标——证据下界（Evidence Lower Bound）——可以看作 EM 算法的变分推断版本。E 步对应编码器推断隐变量，M 步对应解码器重构数据。</li>
+</ul>
+<blockquote>
+<p><strong>代码演示</strong>：参见 <a href="../../code/ml-algorithms/em_algorithm.py">code/ml-algorithms/em_algorithm.py</a> — 高斯混合模型的 EM 算法实现</p>
+</blockquote>
+<h3>3.3 马尔可夫链与 MCMC</h3>
+<h4>马尔可夫性质与转移矩阵</h4>
+<p>马尔可夫链（Markov Chain）是一类满足<strong>马尔可夫性质</strong>（无记忆性）的随机过程：</p>
+<p>$$P(X_{t+1}|X_t, X_{t-1}, \ldots, X_1) = P(X_{t+1}|X_t)$$</p>
+<p>其中：</p>
+<ul>
+<li>$X_t$ 表示第 $t$ 时刻的状态</li>
+<li>条件概率表明未来只依赖当前状态，过去信息的影响被&quot;忘记&quot;</li>
+</ul>
+<p>即未来状态只依赖于当前状态，与历史无关。马尔可夫链由转移矩阵 $T$ 完全描述：</p>
+<p>$$T_{ij} = P(X_{t+1} = j | X_t = i)$$</p>
+<p>其中：</p>
+<ul>
+<li>$T_{ij}$ 是从状态 $i$ 转移到状态 $j$ 的概率</li>
+<li>每一行之和为 1，描述概率流的守恒</li>
+</ul>
+<p>关键定理：Doob (1953) 在极限概率理论中证明，如果马尔可夫链是<strong>不可约的</strong>（任意状态可达）且<strong>非周期的</strong>，则存在唯一的平稳分布，并满足：</p>
+<p>$$\pi T = \pi$$</p>
+<p>Kemeny &amp; Snell (1960) 又在可还原链的上下文中对相关结论做了系统讨论。</p>
+<h4>MCMC 采样</h4>
+<p>MCMC（Markov Chain Monte Carlo）的核心思想：构造一条马尔可夫链，使其平稳分布恰好是我们想要采样的目标分布 $P(\theta \mid D)$。运行足够长时间后，链上的样本就近似服从目标分布。</p>
+<p><strong>Metropolis-Hastings 算法</strong>：</p>
+<ol>
+<li><p>从当前状态出发，根据提议分布生成候选状态：</p>
+<p>$$\theta^{(t)} \xrightarrow{;q(\theta&#39; \mid \theta^{(t)});} \theta&#39;$$</p>
+</li>
+<li><p>计算接受概率：<br>$$\alpha = \min\left(1, \frac{P(\theta&#39; \mid D) \cdot q(\theta^{(t)} \mid \theta&#39;)}{P(\theta^{(t)} \mid D) \cdot q(\theta&#39; \mid \theta^{(t)})}\right)$$</p>
+<p>其中：</p>
+<ul>
+<li>$q(\theta&#39; \mid \theta^{(t)})$ 是从当前状态提出候选的提议分布</li>
+<li>分式的比值使得链的平稳分布恰为目标后验 $P(\theta \mid D)$</li>
+<li>$\min(1, \cdot)$ 保证接受率不超过 1</li>
+</ul>
+</li>
+<li><p>以接受概率决定是否采纳候选状态；若不接受，则保持当前状态。</p>
+</li>
+</ol>
+<p><strong>Gibbs 采样</strong>：Metropolis-Hastings 的特例，每次只更新一个维度，从条件分布中采样：</p>
+<p>$$\theta_i^{(t+1)} \sim P(\theta_i | \theta_1^{(t+1)}, \ldots, \theta_{i-1}^{(t+1)}, \theta_{i+1}^{(t)}, \ldots, \theta_d^{(t)}, D)$$</p>
+<p>其中：</p>
+<ul>
+<li>每次只更新一个维度 $i$，其余维度保持最新状态</li>
+<li>条件分布来自 $D$ 下其他变量的当前值，使接受率恒为 1</li>
+</ul>
+<p>Gibbs 采样的接受率恒为 1，但要求能够从条件分布中直接采样。</p>
+<h4>直觉理解</h4>
+<p>蒙特卡洛链是一个&quot;采样脚本&quot;：每一步先提出下一个候选，再根据目标分布决定是否接受。若候选点落在高概率区域，就更容易被接受，链会在该区域徘徊；若落在低概率区域，就会被拒绝，从而停留在旧点。长期下来，链上的点就按真实分布出现，想要得到平稳分布只需让链运行足够久。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>序列模型</strong>：马尔可夫性质是 RNN、Transformer 中自回归生成的理论基础。语言模型 $P(w_t \mid w_{&lt;t})$ 本质上是在建模一个（高阶）马尔可夫过程。</li>
+<li><strong>扩散模型（Diffusion Models）</strong>：DDPM 的前向过程是一条马尔可夫链，逐步向数据添加高斯噪声；反向过程也是马尔可夫链，逐步去噪。整个框架的数学基础是马尔可夫链的转移核和平稳分布理论。</li>
+<li><strong>强化学习</strong>：马尔可夫决策过程（Markov Decision Process, MDP）是强化学习的数学框架，状态转移满足马尔可夫性质。</li>
+<li><strong>贝叶斯深度学习</strong>：当变分推断不够精确时，MCMC 提供了渐近精确的后验采样方法。随机梯度 Langevin 动力学（SGLD）将 MCMC 与随机梯度下降结合，使大规模贝叶斯推断成为可能。</li>
+</ul>
+<h3>3.4 概率图模型（Probabilistic Graphical Models）</h3>
+<p>概率图模型用图结构表示随机变量之间的依赖关系，将高维联合分布分解为局部条件分布的乘积。</p>
+<h4>贝叶斯网络（Bayesian Networks）— 有向图模型</h4>
+<p>贝叶斯网络是有向无环图（DAG），每个节点代表一个随机变量，有向边表示因果或依赖关系。联合分布分解为：</p>
+<p>$$P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P(X_i | \text{Parents}(X_i))$$</p>
+<p>Pearl (1988) 提出的信念传播（Belief Propagation）算法可以在树结构的贝叶斯网络上进行精确推断。对于一般图结构，需要使用近似推断方法（变分推断或 MCMC）。</p>
+<h4>直觉理解</h4>
+<p>概率图模型的核心价值，是把一个高维联合分布拆成许多局部依赖关系。图上的边告诉你“哪些变量直接相关”，而图上的分解则让原本难以处理的整体概率问题变成局部推断与消息传递问题。</p>
+<h4>马尔可夫随机场（Markov Random Fields, MRF）— 无向图模型</h4>
+<p>马尔可夫随机场使用无向图表示变量间的对称依赖关系。联合分布通过势函数（Potential Functions）定义：</p>
+<p>$$P(X) = \frac{1}{Z} \prod_{c \in \mathcal{C}} \psi_c(X_c)$$</p>
+<p>其中：</p>
+<ul>
+<li>$Z$ 是配分函数（Partition Function）</li>
+<li>团集合记为 C（Cliques）</li>
+<li>团势函数记为 ψ_c</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>结构化预测（Structured Prediction）</strong>：条件随机场（Conditional Random Field, CRF）是判别式的无向图模型，广泛用于序列标注（命名实体识别、词性标注）。BiLSTM-CRF 曾是 NLP 序列标注的标准架构。</li>
+<li><strong>因果推断（Causal Inference）</strong>：Pearl 的因果层级（关联→干预→反事实）建立在贝叶斯网络之上。do-calculus 提供了从观测数据推断因果效应的数学工具。这是当前 AI 从&quot;相关性&quot;走向&quot;因果性&quot;的关键理论。</li>
+<li><strong>知识图谱推理</strong>：概率图模型为知识图谱中的不确定性推理提供了理论框架。</li>
+<li><strong>生成模型</strong>：VAE 可以看作一种深度概率图模型，编码器和解码器分别对应推断网络和生成网络。</li>
+</ul>
+<h3>3.5 交叉熵与 KL 散度的概率论视角</h3>
+<h4>从概率论角度理解信息论概念</h4>
+<p>**KL 散度（Kullback-Leibler Divergence）**衡量两个概率分布之间的&quot;距离&quot;：</p>
+<p>$$D_{KL}(P | Q) = \sum_x P(x) \log \frac{P(x)}{Q(x)} = \mathbb{E}_{P}\left[\log \frac{P(x)}{Q(x)}\right]$$</p>
+<p>其中：</p>
+<ul>
+<li>$P(x)$ 是真实分布</li>
+<li>$Q(x)$ 是模型近似分布</li>
+<li>期望 $\mathbb{E}_P$ 强调这是在真实分布下测量的信息损失</li>
+</ul>
+<p>KL 散度的概率论解释：如果真实分布是 $P$，而我们用 $Q$ 来近似它，那么这种近似带来的信息损失可以写为：</p>
+<p>$$D_{KL}(P \parallel Q)$$</p>
+<p>KL 散度非负（Gibbs 不等式），且当且仅当 $P = Q$ 时为零。</p>
+<p><strong>交叉熵（Cross-Entropy）</strong>：</p>
+<p>$$H(P, Q) = -\sum_x P(x) \log Q(x) = H(P) + D_{KL}(P | Q)$$</p>
+<p>其中：</p>
+<ul>
+<li><p>真实分布的熵为：</p>
+<p>$$H(P) = -\sum_{x} P(x)\log P(x)$$</p>
+</li>
+<li><p>交叉熵与真实熵之间的差值记为：</p>
+<p>$$D_{KL}(P \parallel Q)$$</p>
+</li>
+<li><p>固定真实分布后，最小化交叉熵等价于最小化 KL 散度，也就是让模型分布 $Q$ 逼近真实分布。</p>
+</li>
+</ul>
+<p>其中 $H(P)$ 是 $P$ 的熵。由于 $H(P)$ 对于固定的真实分布是常数，最小化交叉熵等价于最小化 KL 散度。</p>
+<h4>连接到损失函数设计</h4>
+<p>这就是为什么交叉熵损失在分类任务中如此普遍：</p>
+<ul>
+<li><strong>分类任务</strong>：<ul>
+<li>标签的真实分布 $P$ 是 one-hot 向量</li>
+<li>模型输出 $Q$ 是 softmax 概率</li>
+<li>$H(P, Q)$ 的最小化等价于最大化正确类别的对数似然——这就是 MLE。</li>
+</ul>
+</li>
+<li><strong>语言模型</strong>：预测下一个 token 的交叉熵损失，本质上是在最小化模型分布与真实语言分布之间的 KL 散度。GPT 系列模型的训练目标就是最小化交叉熵。</li>
+<li><strong>VAE 的 ELBO</strong>：证据下界可以分解为重构损失（交叉熵）和正则化项（KL 散度）：</li>
+</ul>
+<p>$$\text{ELBO} = \mathbb{E}<em>{q(z|x)}[\log p(x|z)] - D</em>{KL}(q(z|x) | p(z))$$</p>
+<ul>
+<li><strong>知识蒸馏（Knowledge Distillation）</strong>：Hinton 等人 (2015) 提出用 KL 散度衡量学生模型和教师模型输出分布的差异，作为蒸馏损失。</li>
+</ul>
+<h4>直觉理解</h4>
+<p>KL 散度可以理解为&quot;如果用 $Q$ 替代 $P$，平均会多付出多少信息&quot;。</p>
+<p>当 $Q$ 偏离 $P$ 时，对数比值会变大：</p>
+<p>$$\log \frac{P(x)}{Q(x)}$$</p>
+<p>这说明模型系统性低估了某些区域的概率。交叉熵则是&quot;在真实标签下，模型输出的平均负对数似然&quot;，对小概率的惩罚更强，使得模型必须把正确类别的概率拉高。</p>
+<h4>AI 中的角色</h4>
+<ul>
+<li><p><strong>分类任务</strong>：标签的真实分布通常是 one-hot。最小化交叉熵 $H(P, Q)$ 等价于最大化正确类别的对数似然，是分类任务的标准损失。</p>
+</li>
+<li><p><strong>语言模型</strong>：GPT、BERT 等模型通过最小化下一个 token 的交叉熵来逼近真实语言分布（Brown et al., 2020）。</p>
+</li>
+<li><p><strong>VAE</strong>：ELBO 的第二项是 KL 散度正则项：</p>
+<p>$$D_{KL}(q(z|x) \parallel p(z))$$</p>
+<p>它用于让近似后验靠近先验，保障生成分布的一致性。</p>
+</li>
+<li><p><strong>知识蒸馏</strong>：Hinton et al. (2015) 使用 KL 散度衡量学生模型与教师模型输出分布的差异，使学生学习到教师的”软标签”信息。</p>
+</li>
+</ul>
+<h3>3.6 数理统计：从数据到推断</h3>
+<p>虽然概率论提供了理论框架，但<strong>数理统计</strong>关注的是如何从有限的、带噪声的数据中进行可靠的推断。统计学为 AI 提供了模型评估、假设检验和不确定性量化的工具。</p>
+<h4>统计推断的核心问题</h4>
+<p>数理统计解决三大核心问题：</p>
+<ol>
+<li><strong>参数估计（Parameter Estimation）</strong>：从数据估计模型参数（点估计：MLE、MAP；区间估计：置信区间）</li>
+<li><strong>假设检验（Hypothesis Testing）</strong>：判断数据是否支持某个假设（p值、显著性检验）</li>
+<li><strong>模型选择（Model Selection）</strong>：在多个候选模型中选择最优模型（AIC、BIC、交叉验证）</li>
+</ol>
+<h4>充分统计量与 Fisher 信息</h4>
+<p><strong>充分统计量（Sufficient Statistic）</strong>：包含了数据中关于参数的所有信息的统计量。</p>
+<ul>
+<li>对于正态分布，样本均值与样本方差构成关于参数的充分统计量</li>
+<li>Fisher-Neyman 分解定理给出了充分统计量的判定准则</li>
+</ul>
+<p><strong>Fisher 信息（Fisher Information）</strong>：衡量数据对参数的”信息量”：</p>
+<p>$$I(\theta) = \mathbb{E}\left[\left(\frac{\partial \log p(X|\theta)}{\partial \theta}\right)^2\right]$$</p>
+<ul>
+<li>Fisher 信息越大，参数估计的方差越小（Cramér-Rao 下界）</li>
+<li>在深度学习中，Fisher 信息矩阵用于自然梯度优化</li>
+</ul>
+<h4>假设检验与 p 值</h4>
+<p><strong>假设检验</strong>的基本框架：</p>
+<ul>
+<li>零假设 $H_0$：待检验的假设（如”两组均值相等”）</li>
+<li>备择假设 $H_1$：与零假设对立的假设</li>
+<li>检验统计量：从数据计算的量（如 t 统计量、卡方统计量）</li>
+<li>p 值：在零假设为真的前提下，观察到当前数据或更极端数据的概率</li>
+</ul>
+<p><strong>在 AI 中的应用</strong>：</p>
+<ul>
+<li><strong>A/B 测试</strong>：比较两个模型或策略的性能差异是否显著</li>
+<li><strong>特征选择</strong>：通过假设检验判断特征是否与目标变量相关</li>
+<li><strong>模型诊断</strong>：检验残差是否满足正态性、独立性等假设</li>
+</ul>
+<h4>一个统一小例子：A/B 测试如何串起估计、检验与区间</h4>
+<p>假设我们要比较两个推荐策略：</p>
+<ul>
+<li>A 组：1000 次曝光里有 80 次点击，点击率 $\hat{p}_A = 0.08$</li>
+<li>B 组：1000 次曝光里有 110 次点击，点击率 $\hat{p}_B = 0.11$</li>
+</ul>
+<p>这时统计链条可以写得很清楚：</p>
+<ol>
+<li><strong>点估计</strong>：我们先估计增量效果为 $0.11 - 0.08 = 0.03$，也就是 B 组点击率高出 3 个百分点。</li>
+<li><strong>假设检验</strong>：设零假设为“两组真实点击率相等”，用双样本比例检验可得到 z 统计量约 2.29，对应双侧 p 值约 0.022。这说明如果两组真实无差异，观察到这样大的样本差距并不常见。</li>
+<li><strong>置信区间</strong>：该差值的 95% 置信区间约为 $[0.4%, 5.6%]$。相比只说“显著”或“不显著”，区间还能告诉我们效果可能有多大。</li>
+</ol>
+<p>这个例子也正好说明概率论与统计学的分工：概率模型告诉我们点击可被看作 Bernoulli / 二项分布，统计推断则把有限样本转化为“差值估计 + 显著性判断 + 不确定性区间”。</p>
+<h4>直觉理解</h4>
+<p>如果说概率论更像是在描述“世界可能怎样生成数据”，那么数理统计做的事情就是反过来：只拿到一小段样本，判断背后的机制大概是什么、结论有多稳。A/B 测试之所以重要，不是因为它能给出一个神秘的 $p$ 值，而是因为它把“观察到的差异”拆解成三个层次：效果大小、是否足够异常、区间有多宽。</p>
+<h4>置信区间与不确定性量化</h4>
+<p><strong>置信区间（Confidence Interval）</strong>：参数的可能取值范围。</p>
+<ul>
+<li>95% 置信区间：如果重复采样，95% 的区间会包含真实参数</li>
+<li>与贝叶斯可信区间（Credible Interval）的区别：频率学派 vs 贝叶斯学派</li>
+</ul>
+<p><strong>在 AI 中的应用</strong>：</p>
+<ul>
+<li><strong>模型性能评估</strong>：报告准确率的置信区间，而不仅仅是点估计</li>
+<li><strong>预测区间</strong>：不仅预测值，还给出预测的不确定性范围</li>
+<li><strong>贝叶斯神经网络</strong>：通过后验分布提供参数的可信区间</li>
+</ul>
+<h4>模型选择准则</h4>
+<p><strong>AIC（Akaike Information Criterion）</strong>：</p>
+<p>$$\text{AIC} = 2k - 2\ln(\hat{L})$$</p>
+<p>其中 $k$ 是参数数量，$\hat{L}$ 是最大似然。AIC 平衡了模型拟合度与复杂度。</p>
+<p><strong>BIC（Bayesian Information Criterion）</strong>：</p>
+<p>$$\text{BIC} = k\ln(n) - 2\ln(\hat{L})$$</p>
+<p>其中 $n$ 是样本数量。BIC 对模型复杂度的惩罚比 AIC 更强。</p>
+<p><strong>交叉验证（Cross-Validation）</strong>：</p>
+<ul>
+<li>k-fold 交叉验证：将数据分为 k 份，轮流用 k-1 份训练、1 份验证</li>
+<li>留一法（Leave-One-Out）：k = n 的特殊情况</li>
+<li>在深度学习中，验证集损失是最常用的模型选择标准</li>
+</ul>
+<h4>AI 中的角色</h4>
+<ul>
+<li><strong>实验评估</strong>：A/B 测试、离线评测与线上回滚策略都依赖统计显著性与区间估计。</li>
+<li><strong>模型比较</strong>：看似只差 0.2% 准确率的两个模型，是否真有稳定差异，需要统计检验而不是肉眼判断。</li>
+<li><strong>不确定性汇报</strong>：高风险 AI 场景不能只报一个点预测，还要报方差、区间与校准误差。</li>
+<li><strong>训练与验证分工</strong>：概率模型负责写出似然，统计学负责告诉我们如何评估这个似然学出来的模型是否可靠。</li>
+</ul>
+<h4>统计学与概率论的分工</h4>
+<ul>
+<li><strong>概率论</strong>：给定模型和参数，推导数据的分布（演绎推理）</li>
+<li><strong>数理统计</strong>：给定数据，推断模型和参数（归纳推理）</li>
+</ul>
+<p>在 AI 中，两者紧密结合：概率论提供建模语言，统计学提供推断工具。</p>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<h3>4.1 从概率论概念到 AI 应用的转化路径</h3>
+<table>
+<thead>
+<tr>
+<th>概率论概念</th>
+<th>转化路径</th>
+<th>AI 应用</th>
+<th>关键论文</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>贝叶斯定理</td>
+<td>先验+似然→后验</td>
+<td>贝叶斯神经网络、贝叶斯优化</td>
+<td>Blundell et al. (2015) <em>Weight Uncertainty in Neural Networks</em></td>
+</tr>
+<tr>
+<td>最大似然估计</td>
+<td>对数似然→损失函数</td>
+<td>几乎所有监督学习模型的训练</td>
+<td>Fisher (1922)</td>
+</tr>
+<tr>
+<td>EM 算法</td>
+<td>隐变量→迭代优化</td>
+<td>GMM 聚类、HMM 语音识别、VAE</td>
+<td>Dempster et al. (1977)</td>
+</tr>
+<tr>
+<td>马尔可夫链</td>
+<td>状态转移→序列建模</td>
+<td>语言模型、扩散模型、强化学习</td>
+<td>Ho et al. (2020) <em>DDPM</em></td>
+</tr>
+<tr>
+<td>KL 散度</td>
+<td>分布距离→损失函数</td>
+<td>交叉熵损失、VAE 正则化、知识蒸馏</td>
+<td>Hinton et al. (2015)</td>
+</tr>
+<tr>
+<td>变分推断</td>
+<td>优化代替采样</td>
+<td>VAE、变分 RNN、摊销推断</td>
+<td>Kingma &amp; Welling (2014) <em>Auto-Encoding Variational Bayes</em></td>
+</tr>
+<tr>
+<td>概率图模型</td>
+<td>图结构→结构化预测</td>
+<td>CRF 序列标注、因果推断</td>
+<td>Lafferty et al. (2001) <em>CRF</em></td>
+</tr>
+<tr>
+<td>高斯过程</td>
+<td>非参数贝叶斯→函数分布</td>
+<td>贝叶斯优化、不确定性估计</td>
+<td>Rasmussen &amp; Williams (2006)</td>
+</tr>
+</tbody></table>
+<h3>4.2 概率论视角下的深度学习三大范式</h3>
+<p><strong>判别模型（Discriminative Models）</strong>：直接建模条件概率 $P(y \mid x)$。</p>
+<ul>
+<li><p>逻辑回归、神经网络分类器都属于此类</p>
+</li>
+<li><p>训练目标：最大化条件对数似然</p>
+<p>$$\sum_i \log P(y_i \mid x_i; \theta)$$</p>
+</li>
+<li><p>优势：直接优化预测性能，不需要建模输入分布</p>
+</li>
+</ul>
+<p><strong>生成模型（Generative Models）</strong>：建模联合分布 $P(x, y)$ 或数据分布 $P(x)$。</p>
+<ul>
+<li><p>朴素贝叶斯、GMM、VAE、GAN、扩散模型</p>
+</li>
+<li><p>可以生成新样本、处理缺失数据、进行半监督学习</p>
+</li>
+<li><p>GPT 系列本质上是自回归生成模型：</p>
+<p>$$P(x) = \prod_t P(x_t \mid x_{&lt;t})$$</p>
+</li>
+</ul>
+<p><strong>能量模型（Energy-Based Models）</strong>：通过能量函数定义未归一化的概率：</p>
+<p>$$P(x) = \frac{\exp(-E(x))}{Z}$$</p>
+<ul>
+<li>玻尔兹曼机、受限玻尔兹曼机（RBM）</li>
+<li>对比学习（Contrastive Learning）可以解释为能量模型的训练</li>
+<li>配分函数 $Z$ 的计算是核心难题，连接到统计物理</li>
+</ul>
+<h3>4.3 不确定性量化：概率论给 AI 的独特礼物</h3>
+<p>现代 AI 系统面临的一个关键挑战是<strong>校准（Calibration）</strong>——模型说&quot;我有 90% 的信心&quot;时，是否真的有 90% 的概率是对的？</p>
+<ul>
+<li><strong>认知不确定性（Epistemic Uncertainty）</strong>：由于数据不足导致的不确定性，可以通过收集更多数据来减少。贝叶斯方法通过后验分布的宽度来量化。</li>
+<li><strong>偶然不确定性（Aleatoric Uncertainty）</strong>：数据本身的固有噪声，无法通过更多数据消除。可以通过异方差模型来建模。</li>
+<li><strong>分布外检测（Out-of-Distribution Detection）</strong>：当输入数据与训练分布差异很大时，模型应该表达高不确定性。这对自动驾驶、医疗 AI 等安全关键应用至关重要。</li>
+</ul>
+<hr>
+<h2>5. 前沿与开放问题</h2>
+<h3>5.1 可扩展的贝叶斯深度学习</h3>
+<p>贝叶斯方法的理论优势（不确定性量化、自动正则化、模型选择）已被广泛认可，但计算成本仍是主要瓶颈。当前的研究方向：</p>
+<ul>
+<li><strong>随机梯度 MCMC（SG-MCMC）</strong>：将 MCMC 与小批量梯度下降结合，如 SGLD（Welling &amp; Teh, 2011）、SGHMC（Chen et al., 2014）</li>
+<li><strong>自然梯度变分推断</strong>：利用 Fisher 信息矩阵加速变分推断的收敛</li>
+<li><strong>神经网络高斯过程（NNGP）</strong>：无限宽神经网络等价于高斯过程（Neal, 1996），为理解深度学习提供了概率论视角</li>
+</ul>
+<h3>5.2 因果推断与 AI</h3>
+<p>Pearl 的因果层级揭示了当前 AI 的根本局限：</p>
+<ul>
+<li><strong>第一层（关联）</strong>：$P(y \mid x)$ — 当前深度学习擅长的层面</li>
+<li><strong>第二层（干预）</strong>：$P(y \mid \mathrm{do}(x))$ — 需要因果模型，不能仅从观测数据获得</li>
+<li><strong>第三层（反事实）</strong>：$P(y_x \mid x&#39;, y&#39;)$ — 需要完整的结构因果模型</li>
+</ul>
+<p>从关联到因果的跨越，被认为是通向 AGI 的关键一步。Yoshua Bengio 等人提出的&quot;系统 2 深度学习&quot;强调了因果推断的重要性。</p>
+<h3>5.3 概率编程（Probabilistic Programming）</h3>
+<p>概率编程语言（如 Stan、Pyro、NumPyro）让研究者可以用编程的方式定义概率模型，自动进行推断。这降低了贝叶斯建模的门槛，使概率论的工具更加普及。</p>
+<h3>5.4 扩散模型的理论深化</h3>
+<p>扩散模型的成功（DALL-E、Stable Diffusion、Sora）引发了对其理论基础的深入研究：</p>
+<ul>
+<li>与随机微分方程（SDE）的连接（Song et al., 2021）</li>
+<li>与最优传输（Optimal Transport）的关系</li>
+<li>采样效率的理论分析</li>
+</ul>
+<hr>
+<h2>6. 推荐阅读与参考文献</h2>
+<h3>教材</h3>
+<ul>
+<li>Jaynes, E. T. (2003). <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. — 从逻辑学角度理解概率论，贝叶斯学派的经典之作</li>
+<li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>. Springer. — 机器学习中概率方法的标准教材，第 1-2 章是概率论基础的最佳入门</li>
+<li>Murphy, K. P. (2012). <em>Machine Learning: A Probabilistic Perspective</em>. MIT Press. — 从概率论视角系统介绍机器学习</li>
+<li>Koller, D. &amp; Friedman, N. (2009). <em>Probabilistic Graphical Models: Principles and Techniques</em>. MIT Press. — 概率图模型的权威教材</li>
+</ul>
+<h3>关键论文</h3>
+<ul>
+<li>Bayes, T. (1763). An Essay towards solving a Problem in the Doctrine of Chances. <em>Philosophical Transactions of the Royal Society</em>.</li>
+<li>Kolmogorov, A. N. (1933). <em>Grundbegriffe der Wahrscheinlichkeitsrechnung</em>. Springer.</li>
+<li>Shannon, C. E. (1948). A Mathematical Theory of Communication. <em>Bell System Technical Journal</em>.</li>
+<li>Dempster, A. P., Laird, N. M., &amp; Rubin, D. B. (1977). Maximum Likelihood from Incomplete Data via the EM Algorithm. <em>Journal of the Royal Statistical Society</em>.</li>
+<li>Pearl, J. (1988). <em>Probabilistic Reasoning in Intelligent Systems</em>. Morgan Kaufmann.</li>
+<li>Neal, R. M. (1996). <em>Bayesian Learning for Neural Networks</em>. Springer.</li>
+<li>Kingma, D. P. &amp; Welling, M. (2014). Auto-Encoding Variational Bayes. <em>ICLR</em>.</li>
+<li>Ho, J., Jain, A., &amp; Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. <em>NeurIPS</em>.</li>
+</ul>
+<h3>在线资源</h3>
+<ul>
+<li><a href="https://seeing-theory.brown.edu/">Seeing Theory</a> — 概率论的交互式可视化教程</li>
+<li><a href="https://probml.github.io/pml-book/">Probabilistic Machine Learning</a> — Kevin Murphy 的新书，免费在线阅读</li>
+</ul>
+<hr>
+<h2>7. 本篇在全书中的位置</h2>
+<p>本篇介绍了概率论与数理统计对 AI/AGI 发展的核心贡献：<strong>为机器学习提供了处理不确定性的数学语言，从参数估计到生成模型，从贝叶斯推断到变分推断</strong>。</p>
+<p><strong>与相邻篇章的关系</strong>：</p>
+<ul>
+<li>与<a href="04-information-theory.html">信息论</a>共同构成信息处理的理论基础：熵、KL 散度等核心概念都建立在概率分布之上</li>
+<li>为<a href="03-calculus-and-optimization.html">微积分与优化理论</a>提供应用场景：最大似然估计、变分推断都是优化问题</li>
+<li>与<a href="09-causal-inference.html">因果推断</a>形成递进关系：概率论描述相关性，因果推断回答&quot;为什么&quot;</li>
+<li>为<a href="15-cybernetics.html">控制论</a>提供不确定性处理工具：卡尔曼滤波、状态估计依赖概率方法</li>
+<li>与<a href="19-neuroscience.html">神经科学</a>在贝叶斯脑假说上形成连接</li>
+</ul>
+<p><strong>贡献边界</strong>：<br>概率论主要解决了<strong>如何量化和推理不确定性</strong>，但在以下方面需要其他学科补充：（1）<strong>因果关系</strong>：概率论只能描述相关性，因果推断需要额外的结构假设；（2）<strong>计算效率</strong>：精确的贝叶斯推断在高维空间中往往不可行，需要优化理论和近似算法；（3）<strong>模型选择</strong>：概率论提供了模型比较的工具（如贝叶斯因子），但如何设计合适的先验和似然函数仍需要领域知识；（4）<strong>表示学习</strong>：概率论假设变量和分布已知，但如何从原始数据中学习有意义的表示需要深度学习的支持。因此，概率论为 AI 提供了核心的数学框架，但需要与其他学科结合才能构建完整的智能系统。</p>
+<hr>
+<blockquote>
+<p><strong>可视化演示</strong>：参见 <a href="../../code/visualizations/viz_bayesian_update.py">code/visualizations/viz_bayesian_update.py</a> — 贝叶斯后验更新的动态可视化</p>
+</blockquote>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="03-calculus-and-optimization.html" class="related-item">
+        <span class="r-num">03</span>
+        <span class="r-name">微积分与优化理论</span>
+      </a><a href="04-information-theory.html" class="related-item">
+        <span class="r-num">04</span>
+        <span class="r-name">信息论</span>
+      </a><a href="09-causal-inference.html" class="related-item">
+        <span class="r-num">09</span>
+        <span class="r-name">因果推断</span>
+      </a></div></div><div class="bottom-nav"><a href="index.html"><span class="dir">&#8592; 返回</span><span class="name">知识地图</span></a><a href="02-linear-algebra.html"><span class="dir">下一篇 &#8594;</span><span class="name">02 线性代数</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社会学（Sociology）：从起源到 AI 时代的核心议题 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item active">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#ff8c42"></span> 社会科学与人文学科</span>
+      <span>学科 27</span>
+      
+      
+      
+    </div><hr>
+<p>title: 社会学<br>aliases:</p>
+<ul>
+<li>Sociology<br>category:</li>
+<li>社会科学与人文学科<br>tags:</li>
+<li>ai-foundations</li>
+<li>sociology</li>
+<li>social-impact</li>
+<li>platform-governance<br>type: topic<br>status: stable<br>importance: core<br>version: v1.0<br>date: &#39;2026-04-21&#39;</li>
+</ul>
+<hr>
+<h1>社会学（Sociology）：从起源到 AI 时代的核心议题</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：社会学为 AI 提供了理解&quot;技术如何嵌入社会结构&quot;的视角。它不研究算法本身，而是研究算法如何改变社会关系、权力结构、信息流动与分层机制。从平台社会到数字劳动，从算法治理到社会不平等，社会学揭示的是 AI 作为社会基础设施的宏观效应。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="24-economics.html">经济学</a>：经济学研究市场与激励，社会学研究社会结构与权力关系，两者构成社会科学双支柱</li>
+<li><a href="26-ai-ethics.html">AI伦理与治理</a>：伦理讨论个体与价值层面，社会学揭示制度与社会结构层面的影响</li>
+<li><a href="28-law.html">法学</a>：法学研究制度与规则，社会学研究制度如何被实践、被挑战、被重构</li>
+<li><a href="16-complexity-science.html">复杂性科学</a>：社会系统是复杂适应系统，涌现与网络效应是社会学核心议题</li>
+<li><a href="22-linguistics.html">语言学</a>：语言是社会交往的媒介，AI语言模型塑造新的交往形态</li>
+</ul>
+<h2>1. 上帝视角：为什么 AI 需要社会学</h2>
+<h3>1.1 AI 不只是技术，更是社会基础设施</h3>
+<p>当 AI 系统影响数十亿人的信息获取、消费选择、就业机会与社会交往时，它已超越&quot;工具&quot;范畴，成为<strong>社会基础设施</strong>。社会学提出的问题是：</p>
+<ul>
+<li>AI 如何改变社会分层？（谁受益、谁受损？）</li>
+<li>AI 如何重构权力关系？（平台权力、数据权力、算法权力）</li>
+<li>AI 如何影响社会交往？（信息茧房、数字社交、虚拟社区）</li>
+<li>AI 如何嵌入社会制度？（教育、医疗、司法、就业）</li>
+</ul>
+<p>这些问题无法用技术指标回答，需要社会学的分析框架。</p>
+<h3>1.2 与其他学科的关键连接</h3>
+<table>
+<thead>
+<tr>
+<th>学科</th>
+<th>连接点</th>
+<th>具体体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>经济学（Economics）</td>
+<td>市场与社会的关系</td>
+<td>平台经济的市场逻辑 vs 社会嵌入</td>
+</tr>
+<tr>
+<td>AI伦理（AI Ethics）</td>
+<td>个体伤害 vs 结构不平等</td>
+<td>偏见不仅是伦理问题，更是社会分层问题</td>
+</tr>
+<tr>
+<td>法学（Law）</td>
+<td>制度与实践</td>
+<td>法律条文 vs 社会实践中的算法权力</td>
+</tr>
+<tr>
+<td>复杂性科学（Complexity Science）</td>
+<td>涌现与网络</td>
+<td>社会系统的非线性效应</td>
+</tr>
+<tr>
+<td>人类学（Anthropology）</td>
+<td>文化与社会</td>
+<td>AI 在不同社会中的接受与排斥</td>
+</tr>
+<tr>
+<td>政治学（Political Science）</td>
+<td>权力与治理</td>
+<td>算法治理的政治维度</td>
+</tr>
+</tbody></table>
+<h3>1.3 社会学的独特视角：从个体到结构</h3>
+<p>经济学关注个体选择与激励，心理学关注个体认知与行为，伦理学关注个体价值与责任。社会学关注的是：</p>
+<ul>
+<li><strong>结构层面</strong>：社会制度、权力关系、分层机制如何塑造个体机会</li>
+<li><strong>关系层面</strong>：人与人之间的连接如何被技术改变</li>
+<li><strong>过程层面</strong>：技术如何通过制度化、扩散、抵抗嵌入社会</li>
+</ul>
+<p>这三层视角使社会学能够回答&quot;AI 的社会后果是什么&quot;，而非仅回答&quot;AI 技术是否有效&quot;。</p>
+<hr>
+<h2>2. 历史脉络：关键人物与里程碑</h2>
+<h3>2.1 古典社会学奠基（19世纪-20世纪初）</h3>
+<p><strong>Auguste Comte (1830s)</strong>：创立&quot;社会学&quot;一词，提出社会演化的三阶段定律（神学→形而上→科学）。虽然他的实证主义过于乐观，但确立了&quot;社会可以作为科学研究对象&quot;的基本信念。</p>
+<p><strong>Karl Marx (1867)</strong>：《资本论》分析资本主义的社会结构。核心概念：阶级、剥削、异化。对 AI 的启示：技术不只是生产力，更是社会关系的载体；数字劳动、平台资本主义延续着 Marx 揭示的结构逻辑。</p>
+<p><strong>Max Weber (1904-1922)</strong>：</p>
+<ul>
+<li><strong>理性化</strong>：现代社会日益被工具理性支配，AI 是理性化的极致形态</li>
+<li><strong>官僚制</strong>：AI 系统承担了大量官僚职能（审批、分类、分配）</li>
+<li><strong>铁笼</strong>：理性化创造的新束缚——算法铁笼</li>
+<li><strong>权力类型</strong>：传统权力、魅力权力、法理权力——AI 平台正在创造新的权力形态</li>
+</ul>
+<p><strong>Émile Durkheim (1895)</strong>：《社会学方法的规则》确立社会事实的独立性。核心概念：社会团结、分工、规范。对 AI 的启示：社会规范如何被算法侵蚀或强化；数字时代的&quot;失范&quot;问题。</p>
+<p><strong>Georg Simmel (1900s)</strong>：研究社会交往的形式。核心概念：社交形式、距离、陌生人。对 AI 的启示：数字媒介如何改变社会交往的距离与形式。</p>
+<h3>2.2 美国社会学与社会影响研究（20世纪中叶）</h3>
+<p><strong>Talcott Parsons (1950s)</strong>：结构功能主义，分析社会系统的功能需求。虽然被批评过于静态，但其框架可用于分析 AI 作为社会子系统的功能。</p>
+<p><strong>Robert Merton (1968)</strong>：</p>
+<ul>
+<li><strong>功能分析</strong>：显性功能 vs 隐性功能（AI 的显性功能是效率，隐性功能是监控）</li>
+<li><strong>意外后果</strong>：社会行动总有意外后果（AI 的社会影响远超设计意图）</li>
+<li><strong>自我实现预言</strong>：算法推荐塑造行为，行为反过来强化算法假设</li>
+</ul>
+<p><strong>C. Wright Mills (1959)</strong>：《社会学的想象力》，批判&quot;宏大理论&quot;与&quot;抽象经验主义&quot;，呼吁连接个人困扰与社会议题。对 AI 的启示：个体的算法困境（如被错误分类）背后是社会结构问题。</p>
+<h3>2.3 批判社会学与技术批判（1960s-1990s）</h3>
+<p><strong>Herbert Marcuse (1964)</strong>：《单向度的人》，批判技术理性如何消解批判意识。AI 系统的&quot;个性化推荐&quot;可能创造单向度的信息环境。</p>
+<p><strong>Jürgen Habermas (1984)</strong>：交往行动理论，区分系统整合与社会整合。AI 可能侵蚀公共领域的交往理性。</p>
+<p><strong>Michel Foucault (1975)</strong>：《规训与惩罚》，分析权力如何通过空间、时间与分类来运作。AI 系统是新的规训机制：分类、排序、分配。</p>
+<p><strong>Pierre Bourdieu (1979)</strong>：《区分》，分析文化资本与社会分层。AI 系统可能强化或重构文化资本的分配逻辑。</p>
+<p><strong>Manuel Castells (1996)</strong>：《信息时代》，提出&quot;网络社会&quot;概念。AI 是网络社会的核心基础设施。</p>
+<h3>2.4 数字社会学兴起（2000s-至今）</h3>
+<p>** danah boyd (2007-2014)**：研究青少年社交媒体使用，揭示数字社交的社会学维度。</p>
+<p><strong>Shoshana Zuboff (2019)</strong>：《监控资本主义时代》，系统分析数据提取与行为预测的社会后果。核心概念：监控资本主义、行为剩余、行为期货市场。</p>
+<p><strong>Nick Couldry &amp; Ulises Mejias (2019)</strong>：《数据殖民主义》，将数据提取类比于殖民主义，提出&quot;数据关系&quot;概念。</p>
+<p><strong>Virginia Eubanks (2018)</strong>：《自动化的不平等》，研究自动化系统如何加剧对贫困人群的歧视。</p>
+<p><strong>Safiya Noble (2018)</strong>：《算法压迫》，分析搜索引擎如何延续种族偏见。</p>
+<p><strong>Tarleton Gillespie (2018)</strong>：《算法咬合》，分析平台如何通过算法治理内容。</p>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 社会分层与技术不平等</h3>
+<h4>核心概念</h4>
+<p><strong>社会分层</strong>：社会成员按某种标准被排列成等级序列。传统分层维度：阶级、种族、性别、教育。</p>
+<p><strong>数字分层</strong>：AI 时代的新分层维度：</p>
+<ul>
+<li><strong>数字接入</strong>：能否使用 AI 服务（宽带、设备、技能）</li>
+<li><strong>算法分类</strong>：被算法如何分类（高风险/低风险、合格/不合格）</li>
+<li><strong>数据权力</strong>：拥有多少数据控制权（平台 vs 用户）</li>
+<li><strong>算法透明度</strong>：能否理解算法决策（专家 vs 普通人）</li>
+</ul>
+<h4>数字不平等的机制</h4>
+<table>
+<thead>
+<tr>
+<th>传统分层</th>
+<th>数字分层</th>
+<th>AI 中的体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>经济资本</td>
+<td>数据资本</td>
+<td>数据越多，服务越精准；数据贫困者被边缘化</td>
+</tr>
+<tr>
+<td>文化资本</td>
+<td>数字素养</td>
+<td>懂 AI 的人获得优势，不懂的人被排除</td>
+</tr>
+<tr>
+<td>社会资本</td>
+<td>网络位置</td>
+<td>中心节点获得更多推荐曝光</td>
+</tr>
+<tr>
+<td>符号资本</td>
+<td>算法声誉</td>
+<td>评分系统创造新的符号等级</td>
+</tr>
+</tbody></table>
+<h4>Eubanks 的发现：自动化系统加剧贫困歧视</h4>
+<p>Eubanks (2018) 研究了三个案例：</p>
+<ul>
+<li><strong>印第安纳州福利系统</strong>：自动化资格审查错误拒绝了大量合法申请者</li>
+<li><strong>洛杉矶流浪者管理系统</strong>：算法分配住房时系统性地歧视有色人种</li>
+<li><strong>宾夕法尼亚州儿童福利系统</strong>：风险预测模型将贫困标记为风险</li>
+</ul>
+<p>结论：自动化系统不是中立的，它们<strong>将历史不平等编码为未来决策</strong>。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>公平性研究的结构视角</strong>：不只是调整算法参数，还要理解社会结构如何嵌入数据</li>
+<li><strong>影响评估</strong>：部署 AI 前评估对不同群体的分层效应</li>
+<li><strong>补救机制</strong>：如何为被错误分类的人提供申诉路径</li>
+</ul>
+<h3>3.2 平台社会与信息生态</h3>
+<h4>核心概念</h4>
+<p><strong>平台社会</strong>（Platform Society）：由数字平台主导的社会形态。Van Dijck, Poell &amp; Waern (2018) 的三个核心机制：</p>
+<ul>
+<li><strong>数据化</strong>：将社会行为转化为数据</li>
+<li><strong>商品化</strong>：将数据转化为商品</li>
+<li><strong>选择性</strong>：平台如何筛选与排序内容</li>
+</ul>
+<p><strong>信息生态</strong>：信息流动的整体环境，包括生产者、传播者、消费者与规则。</p>
+<h4>平台权力</h4>
+<p>平台拥有三种权力：</p>
+<table>
+<thead>
+<tr>
+<th>权力类型</th>
+<th>内容</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>分类权力</strong></td>
+<td>决定什么是可见/不可见</td>
+<td>搜索排名、推荐顺序</td>
+</tr>
+<tr>
+<td><strong>规训权力</strong></td>
+<td>塑造用户行为规范</td>
+<td>内容审核、账号封禁</td>
+</tr>
+<tr>
+<td><strong>提取权力</strong></td>
+<td>从用户行为中提取价值</td>
+<td>广告收入、数据出售</td>
+</tr>
+</tbody></table>
+<h4>信息茧房与过滤气泡</h4>
+<p><strong>信息茧房</strong>（Sunstein, 2001）：人们只接触与自己观点一致的信息。AI 推荐算法可能强化这一效应。</p>
+<p><strong>过滤气泡</strong>（Pariser, 2011）：算法个性化过滤创造的信息隔离。</p>
+<p>社会学视角强调：信息茧房不只是个体选择的结果，更是<strong>平台结构</strong>的产物。平台设计（如推荐逻辑）塑造了用户的信息环境。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>平台设计的社会影响评估</strong>：不只评估效率，还要评估生态效应</li>
+<li><strong>推荐系统的社会学维度</strong>：推荐不只是优化点击率，还塑造信息生态</li>
+<li><strong>平台治理</strong>：如何在商业目标与社会责任之间平衡</li>
+</ul>
+<h3>3.3 数字劳动与平台资本主义</h3>
+<h4>核心概念</h4>
+<p><strong>数字劳动</strong>：在数字平台上的劳动形式。包括：</p>
+<ul>
+<li><strong>显性劳动</strong>：网约车司机、外卖骑手、众包标注员</li>
+<li><strong>隐性劳动</strong>：用户生产内容、数据贡献、算法反馈</li>
+</ul>
+<p><strong>平台资本主义</strong>：以平台为组织形式、以数据提取为核心的资本主义模式。</p>
+<h4>Zuboff 的监控资本主义框架</h4>
+<p><strong>行为剩余</strong>（Behavioral Surplus）：超出服务需求的行为数据，被转化为商品。</p>
+<p><strong>行为期货市场</strong>：预测用户行为并出售预测结果（广告定向、信用评分）。</p>
+<p><strong>工具主义权力</strong>：监控资本主义的核心权力——干预用户行为以实现商业目标。</p>
+<h4>数字劳动的特征</h4>
+<table>
+<thead>
+<tr>
+<th>传统劳动</th>
+<th>数字劳动</th>
+<th>社会学问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>固定场所</td>
+<td>灵活场所</td>
+<td>空间的去制度化</td>
+</tr>
+<tr>
+<td>明确工时</td>
+<td>弹性工时</td>
+<td>时间的模糊化</td>
+</tr>
+</tbody></table>
+<ul>
+<li>雇佣关系 | 平台关系 | 劳动保护的缺失 |<br>| 工会组织 | 分散个体 | 集体行动的困难 |<br>| 可见劳动 | 隐性劳动 | 劳动的不可见化 |</li>
+</ul>
+<h4>众包标注员的案例</h4>
+<p>AI 训练需要大量标注数据，标注员通常是：</p>
+<ul>
+<li>全球南方国家的低薪工人</li>
+<li>没有劳动保障的平台工人</li>
+<li>从事心理压力巨大的工作（如审核暴力内容）</li>
+</ul>
+<p>社会学揭示：AI 的&quot;智能&quot;背后是大量隐性劳动。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>AI 开发的劳动社会学</strong>：理解训练数据的劳动来源与条件</li>
+<li><strong>公平 AI 的扩展定义</strong>：不只是输出公平，还要考虑劳动公平</li>
+<li><strong>组织责任</strong>：AI 公司对数字劳动者的社会责任</li>
+</ul>
+<h3>3.4 算法治理与社会控制</h3>
+<h4>核心概念</h4>
+<p><strong>算法治理</strong>：通过算法系统进行社会治理。包括：</p>
+<ul>
+<li><strong>风险预测</strong>：犯罪预测、信用评分、福利资格审查</li>
+<li><strong>资源分配</strong>：住房分配、医疗资源、教育机会</li>
+<li><strong>行为规训</strong>：内容审核、交通监控、消费限制</li>
+</ul>
+<p><strong>社会控制</strong>：社会对成员行为的约束机制。传统机制：法律、道德、习俗。新机制：算法。</p>
+<h4>Foucault 的规训机制与算法</h4>
+<p>Foucault 分析的三种规训技术：</p>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>传统形态</th>
+<th>算法形态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>层级监视</strong></td>
+<td>全景监狱</td>
+<td>数据监控</td>
+</tr>
+<tr>
+<td><strong>规范化裁决</strong></td>
+<td>标准 vs 偏差</td>
+<td>算法分类 vs 异常检测</td>
+</tr>
+<tr>
+<td><strong>检查</strong></td>
+<td>考试、评审</td>
+<td>评分系统</td>
+</tr>
+</tbody></table>
+<p>算法系统是规训技术的升级版：更细粒度、更持续、更隐蔽。</p>
+<h4>算法治理的双刃剑</h4>
+<p><strong>正面效应</strong>：</p>
+<ul>
+<li>提高效率（减少人工审核）</li>
+<li>客观化标准（减少主观偏见？）</li>
+<li>可追溯决策（有日志记录）</li>
+</ul>
+<p><strong>负面效应</strong>：</p>
+<ul>
+<li>黑箱决策（无法理解原因）</li>
+<li>不可申诉（无法挑战结论）</li>
+<li>系统性歧视（历史偏见被固化）</li>
+<li>责任模糊（谁对结果负责？）</li>
+</ul>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>治理系统设计</strong>：如何在效率与公平之间平衡</li>
+<li><strong>申诉机制</strong>：如何为被算法治理影响的人提供救济</li>
+<li><strong>透明度要求</strong>：算法治理的最低透明标准</li>
+</ul>
+<h3>3.5 算法偏见的社会根源</h3>
+<h4>核心概念</h4>
+<p><strong>算法偏见</strong>：算法系统对不同群体的系统性差别对待。</p>
+<p>社会学视角强调：偏见不只是技术问题，更是<strong>社会结构</strong>在技术中的投射。</p>
+<h4>偏见的三个层次</h4>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>内容</th>
+<th>社会学视角</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据偏见</strong></td>
+<td>训练数据反映历史歧视</td>
+<td>数据是社会关系的产物，历史不平等被编码</td>
+</tr>
+<tr>
+<td><strong>算法偏见</strong></td>
+<td>模型放大偏见</td>
+<td>算法逻辑可能强化已有差异</td>
+</tr>
+<tr>
+<td><strong>部署偏见</strong></td>
+<td>应用场景引入偏见</td>
+<td>社会情境决定谁能使用、如何使用</td>
+</tr>
+</tbody></table>
+<h4>Noble 的算法压迫研究</h4>
+<p>Noble (2018) 分析 Google 搜索对黑人群体的压迫：</p>
+<ul>
+<li>搜索&quot;Black girls&quot;返回大量色情内容</li>
+<li>商业逻辑与社会偏见交织</li>
+<li>搜索结果塑造了黑人群体的符号表征</li>
+</ul>
+<p>结论：算法不是中立的，它们延续并强化社会压迫。</p>
+<h4>偏见缓解的社会学条件</h4>
+<p>技术上的偏见缓解（如调整阈值、对抗训练）必要但不充分。社会学条件：</p>
+<ol>
+<li><strong>权力分析</strong>：谁定义&quot;公平&quot;？谁的公平？</li>
+<li><strong>历史审视</strong>：数据编码了怎样的历史？</li>
+<li><strong>利益相关者参与</strong>：被影响群体如何参与设计？</li>
+<li><strong>持续监测</strong>：部署后如何追踪社会效应？</li>
+</ol>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>偏见研究的社会学框架</strong>：不只是技术修复，还要结构分析</li>
+<li><strong>参与式设计</strong>：将利益相关者纳入 AI 设计过程</li>
+<li><strong>影响追踪</strong>：部署后的社会学监测方法</li>
+</ul>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<p>社会学对 AI 的贡献体现在四个层面：</p>
+<h3>4.1 问题定义层</h3>
+<ul>
+<li><strong>&quot;AI 影响&quot;的定义</strong>：不只是技术指标，还包括社会分层、权力关系、信息生态</li>
+<li><strong>&quot;公平&quot;的结构化理解</strong>：公平不只是统计指标，更是社会结构的平衡</li>
+<li><strong>&quot;治理&quot;的社会维度</strong>：治理不只是规则制定，更是权力分配与利益协调</li>
+</ul>
+<h3>4.2 分析框架层</h3>
+<ul>
+<li><strong>分层分析</strong>：AI 如何影响不同社会群体</li>
+<li><strong>权力分析</strong>：AI 如何改变权力关系</li>
+<li><strong>网络分析</strong>：AI 如何嵌入社会网络</li>
+<li><strong>制度分析</strong>：AI 如何与现有制度互动</li>
+</ul>
+<h3>4.3 评估方法层</h3>
+<ul>
+<li><strong>影响评估</strong>：部署前的社会学预测</li>
+<li><strong>追踪研究</strong>：部署后的效应监测</li>
+<li><strong>案例研究</strong>：特定 AI 系统的社会学分析</li>
+<li><strong>参与式研究</strong>：利益相关者的声音纳入</li>
+</ul>
+<h3>4.4 治理建议层</h3>
+<ul>
+<li><strong>分层补救</strong>：为不同群体提供差异化救济</li>
+<li><strong>权力平衡</strong>：在平台、用户、监管之间分配权力</li>
+<li><strong>制度嵌入</strong>：如何将 AI 嵌入而非破坏现有制度</li>
+<li><strong>社会协商</strong>：AI 治理如何通过社会讨论而非技术独断</li>
+</ul>
+<hr>
+<h2>5. 前沿与开放问题</h2>
+<h3>5.1 数字社会学方法论</h3>
+<p><strong>数据获取困难</strong>：平台数据不公开，研究者难以验证平台声称。</p>
+<p><strong>研究伦理</strong>：研究社交媒体用户需要考虑隐私与知情同意。</p>
+<p><strong>跨学科整合</strong>：如何将社会学分析与技术分析结合？</p>
+<h3>5.2 全球南方视角</h3>
+<p><strong>数字殖民主义</strong>：全球北方的 AI 公司如何提取全球南方的数据？</p>
+<p><strong>本地化问题</strong>：在欧美开发的 AI 如何适应其他社会？</p>
+<p><strong>数字依赖</strong>：全球南方对 AI 平台的结构性依赖？</p>
+<h3>5.3 社会抵抗与算法权力</h3>
+<p><strong>用户抵抗</strong>：用户如何对抗算法权力？（如假数据、隐匿行为）</p>
+<p><strong>社会运动</strong>：数字时代的集体行动如何组织？</p>
+<p><strong>监管反抗</strong>：平台如何规避或对抗监管？</p>
+<h3>5.4 未来社会形态</h3>
+<p><strong>算法社会</strong>：如果 AI 系统主导更多社会决策，社会将如何演变？</p>
+<p><strong>后平台社会</strong>：平台权力的边界在哪里？</p>
+<p><strong>人机共生社会</strong>：人与 AI 如何共同组织社会？</p>
+<hr>
+<h2>6. 推荐阅读与参考文献</h2>
+<h3>教材</h3>
+<ul>
+<li>Giddens, A. (2013). <em>Sociology</em>. Polity.</li>
+<li>Ritzer, G. (2010). <em>Sociological Theory</em>. McGraw-Hill.</li>
+<li>Castells, M. (1996). <em>The Rise of the Network Society</em>. Blackwell.</li>
+</ul>
+<h3>关键论文</h3>
+<ul>
+<li>Zuboff, S. (2019). The Age of Surveillance Capitalism. <em>PublicAffairs</em>.</li>
+<li>Noble, S. U. (2018). Algorithms of Oppression. <em>NYU Press</em>.</li>
+<li>Eubanks, V. (2018). Automating Inequality. <em>St. Martin&#39;s Press</em>.</li>
+<li>Couldry, N., &amp; Mejias, U. A. (2019). The Costs of Connection. <em>Stanford University Press</em>.</li>
+</ul>
+<h3>核心著作</h3>
+<ul>
+<li>Castells, M. (1996). <em>The Rise of the Network Society</em>. Blackwell.</li>
+<li>Zuboff, S. (2019). <em>The Age of Surveillance Capitalism</em>. PublicAffairs.</li>
+<li>Noble, S. U. (2018). <em>Algorithms of Oppression</em>. NYU Press.</li>
+<li>Eubanks, V. (2018). <em>Automating Inequality</em>. St. Martin&#39;s Press.</li>
+<li>van Dijck, J., Poell, T., &amp; Waern, M. (2018). <em>The Platform Society</em>. Oxford University Press.</li>
+<li>Couldry, N., &amp; Mejias, U. A. (2019). <em>The Costs of Connection</em>. Stanford University Press.</li>
+</ul>
+<h3>经典社会学理论</h3>
+<ul>
+<li>Weber, M. (1904/1922). <em>Economy and Society</em>. (理性化、官僚制)</li>
+<li>Foucault, M. (1975). <em>Discipline and Punish</em>. (规训)</li>
+<li>Bourdieu, P. (1979). <em>Distinction</em>. (文化资本)</li>
+<li>Mills, C. W. (1959). <em>The Sociological Imagination</em>. (社会想象力)</li>
+<li>Merton, R. K. (1968). <em>Social Theory and Social Structure</em>. (功能分析、意外后果)</li>
+</ul>
+<h3>数字社会学研究</h3>
+<ul>
+<li>boyd, d. (2014). <em>It&#39;s Complicated: The Social Lives of Networked Teens</em>. Yale University Press.</li>
+<li>Gillespie, T. (2018). <em>Custodians of the Internet</em>. Yale University Press.</li>
+<li>Sunstein, C. (2001). <em>Republic.com</em>. Princeton University Press.</li>
+<li>Pariser, E. (2011). <em>The Filter Bubble</em>. Penguin.</li>
+</ul>
+<h2>7. 本篇在全书中的位置</h2>
+<p>本篇在全书中承担&quot;揭示 AI 的社会结构效应&quot;的角色。</p>
+<p><strong>与相邻篇章的关系</strong>：</p>
+<ul>
+<li>与<a href="24-economics.html">经济学</a>互补：经济学分析市场与激励，社会学分析结构与权力</li>
+<li>与<a href="26-ai-ethics.html">AI伦理与治理</a>连接：伦理关注个体层面，社会学揭示结构层面</li>
+<li>与<a href="28-law.html">法学</a>连接：法学分析制度规则，社会学分析制度实践</li>
+<li>与<a href="16-complexity-science.html">复杂性科学</a>连接：社会系统的涌现与网络效应</li>
+</ul>
+<p><strong>贡献边界</strong>：<br>社会学不替代经济学、伦理学或法学，但它提供了独特的结构视角——理解 AI 如何嵌入、改变或强化社会结构。在 AI 时代，技术评估不能只看性能指标，必须同时评估社会效应。</p>
+<hr>
+<blockquote>
+<p><strong>总结</strong>：社会学提醒我们：AI 不只是技术工具，更是社会基础设施。从平台社会到数字劳动，从算法治理到社会不平等，社会学揭示的是 AI 作为社会权力载体的宏观效应。理解 AI 的社会后果，关键在于理解社会结构如何被技术改变、又如何反过来塑造技术。</p>
+</blockquote>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="26-ai-ethics.html" class="related-item">
+        <span class="r-num">26</span>
+        <span class="r-name">AI 伦理与治理</span>
+      </a><a href="28-law.html" class="related-item">
+        <span class="r-num">28</span>
+        <span class="r-name">法学</span>
+      </a></div></div><div class="bottom-nav"><a href="26-ai-ethics.html"><span class="dir">&#8592; 上一篇</span><span class="name">26 AI 伦理与治理</span></a><a href="28-law.html"><span class="dir">下一篇 &#8594;</span><span class="name">28 法学</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>

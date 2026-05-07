@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>因果推断与结构因果模型（Causal Inference and Structural Causal Models）：从起源到 AI 的完整脉络 — Path2AGI</title>
+<style>
+  :root {
+    --bg: #080816; --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
+    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
+    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
+    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .2s; }
+  a:hover { color: #fff; }
+
+  /* Reading progress */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 1000; transition: width .1s; width: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px; height: 48px;
+    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
+  .top-bar a:hover { color: var(--accent2); }
+  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .top-bar .nav-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
+    transition: .2s; display: none;
+  }
+  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .top-nav { display: flex; align-items: center; gap: 8px; }
+  .top-nav a, .top-nav span {
+    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
+    border-radius: 5px; transition: .2s;
+  }
+  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
+  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; position: relative; }
+
+  /* Sidebar nav */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+    padding: 12px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar-group { margin-bottom: 4px; }
+  .sidebar-group-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
+  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+  .sidebar-group-header .g-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 14px 5px 28px; font-size: 12.5px;
+    color: var(--text-dim); cursor: pointer; transition: .1s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--surface); color: var(--text); }
+  .sidebar-item.active {
+    color: var(--heading); background: rgba(108,99,255,0.08);
+    border-left-color: var(--accent1);
+  }
+  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
+  .sidebar-item.active .sn { color: var(--accent2); }
+  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
+  .sidebar-item a:hover { color: inherit; }
+
+  /* Main content */
+  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
+  .content { font-size: 0.95rem; }
+  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .content .topic-meta {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
+  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
+  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  .content p { margin-bottom: 14px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
+    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    margin: 16px 0; border: 1px solid var(--border);
+  }
+  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
+  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
+  .content li { margin-bottom: 5px; }
+  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
+  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
+  .content strong { color: var(--heading); }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
+  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
+
+  /* Related topics */
+  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .related-item {
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s;
+  }
+  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
+  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
+  .related-item .r-name { color: var(--text); }
+  .related-item:hover .r-name { color: var(--accent2); }
+
+  /* TOC sidebar */
+  .toc-sidebar {
+    width: var(--toc-w); flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 16px 10px; font-size: 12px;
+    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 3px; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .toc-link:hover { background: var(--surface); color: var(--text); }
+  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
+  .toc-link.h2 { padding-left: 8px; }
+  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
+
+  /* Nav buttons */
+  .bottom-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .bottom-nav a {
+    padding: 10px 18px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; transition: .2s; flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bottom-nav a:first-child { text-align: left; }
+  .bottom-nav a:last-child { text-align: right; }
+  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
+  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
+  .bottom-nav .name { color: var(--text); font-weight: 500; }
+  .bottom-nav a:hover .name { color: var(--accent2); }
+
+  /* Loading / Error */
+  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
+  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { text-align: center; padding: 80px 20px; }
+  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
+  .error p { color: var(--text-dim); font-size: 14px; }
+
+  /* Mobile */
+  .sidebar-overlay { display: none; }
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+    .main { padding: 24px 20px; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+    .sidebar-overlay.open { display: block; }
+    .top-bar .nav-btn { display: inline-flex; align-items: center; }
+    .main { padding: 16px; }
+    .content h1 { font-size: 1.4rem; }
+    .content .topic-meta { gap: 8px; font-size: 12px; }
+    .top-nav { gap: 4px; }
+    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Back to top */
+  .back-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 50;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
+
+  /* Mobile TOC toggle */
+  .toc-toggle {
+    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .toc-drawer {
+    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
+    width: 240px; max-height: 50vh; overflow-y: auto;
+    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
+    font-size: 13px;
+  }
+  .toc-drawer.open { display: block; }
+  .toc-drawer .toc-link { padding: 4px 8px; }
+  @media (max-width: 1024px) {
+    .toc-toggle { display: inline-flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="progress-bar"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
+  <a href="index.html">&larr; 知识地图</a>
+  <div class="top-nav" id="topNav"></div>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+
+
+<nav class="sidebar" id="sidebar">
+  
+<div class="sidebar-group">
+<div class="sidebar-group-header" data-group="0">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#8b7aff"></span>
+数学与形式基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">01-09</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">01</span>
+<a href="01-probability-and-statistics.html">概率论与数理统计</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">02</span>
+<a href="02-linear-algebra.html">线性代数</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">03</span>
+<a href="03-calculus-and-optimization.html">微积分与优化理论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">04</span>
+<a href="04-information-theory.html">信息论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">05</span>
+<a href="05-approximation-theory.html">逼近论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">06</span>
+<a href="06-graph-theory.html">图论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">07</span>
+<a href="07-topology-and-geometry.html">拓扑与几何</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">08</span>
+<a href="08-logic.html">逻辑学与形式推理</a>
+</div>
+<div class="sidebar-item active">
+<span class="sn">09</span>
+<a href="09-causal-inference.html">因果推断</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="1">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#00d4ff"></span>
+计算与系统工程 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">10-15</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">10</span>
+<a href="10-computer-science.html">计算机科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">11</span>
+<a href="11-numerical-analysis.html">数值分析</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">12</span>
+<a href="12-signal-processing.html">信号处理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">13</span>
+<a href="13-cybernetics.html">控制论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">14</span>
+<a href="14-complexity-science.html">复杂性科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">15</span>
+<a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="2">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#6bcb77"></span>
+认知、生物与语言 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">16-20</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">16</span>
+<a href="16-neuroscience.html">神经科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">17</span>
+<a href="17-cognitive-science.html">认知科学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">18</span>
+<a href="18-psychology.html">心理学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">19</span>
+<a href="19-linguistics.html">语言学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">20</span>
+<a href="20-evolutionary-biology.html">进化生物学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="3">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff6b9d"></span>
+决策、交互与社会 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">21-23</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">21</span>
+<a href="21-operations-research.html">运筹学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">22</span>
+<a href="22-game-theory.html">博弈论</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">23</span>
+<a href="23-economics.html">经济学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="4">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ffd93d"></span>
+物理与哲学基础 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">24-25</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">24</span>
+<a href="24-statistical-physics.html">统计物理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">25</span>
+<a href="25-philosophy.html">哲学</a>
+</div></div>
+<div class="sidebar-group">
+<div class="sidebar-group-header collapsed" data-group="5">
+<span class="arrow">&#9660;</span>
+<span class="g-dot" style="background:#ff8c42"></span>
+社会科学与人文学科 <span style="color:var(--text-dimmer);font-weight:400;font-size:10px">26-29</span>
+</div>
+<div class="sidebar-item">
+<span class="sn">26</span>
+<a href="26-ai-ethics.html">AI 伦理与治理</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">27</span>
+<a href="27-sociology.html">社会学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">28</span>
+<a href="28-law.html">法学</a>
+</div>
+<div class="sidebar-item">
+<span class="sn">29</span>
+<a href="29-anthropology.html">人类学</a>
+</div></div>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<main class="main">
+  <div class="content">
+    <div class="topic-meta">
+      <span><span class="dot" style="background:#8b7aff"></span> 数学与形式基础</span>
+      <span>学科 09</span>
+      
+      
+      
+    </div><hr>
+<p>title: 因果推断<br>aliases:</p>
+<ul>
+<li>Causal Inference<br>category:</li>
+<li>数学与形式基础<br>tags:</li>
+<li>ai-foundations</li>
+<li>causality</li>
+<li>inference<br>type: topic<br>status: stable<br>importance: core<br>version: v2.0<br>date: &#39;2026-04-08&#39;</li>
+</ul>
+<hr>
+<h1>因果推断与结构因果模型（Causal Inference and Structural Causal Models）：从起源到 AI 的完整脉络</h1>
+<blockquote>
+<p><strong>上帝视角</strong>：统计学习让 AI 从数据中发现稳定的相关模式，因果推断则继续追问：如果主动改变系统，会发生什么？哪些规律在分布迁移后仍然成立？一次结果究竟由什么机制产生？从潜在结果框架（potential outcomes）到结构因果模型（structural causal model, SCM），从随机实验到观察性识别、反事实推理与因果发现，因果推断为 AI 的决策、评估、鲁棒泛化与科学发现提供了“相关性之上”的推理语言。</p>
+</blockquote>
+<hr>
+<h2>相关主题</h2>
+<ul>
+<li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：因果推断建立在统计关联之上，但目标超越单纯相关分析</li>
+<li><a href="05-logic.html">逻辑学与形式推理</a>：反事实推理、因果图解释与结构化表示需要逻辑框架支撑</li>
+<li><a href="15-cybernetics.html">控制论</a>：干预、反馈与策略调整本质上都涉及&quot;行动如何改变系统&quot;</li>
+<li><a href="21-psychology.html">心理学</a>：人类如何理解原因、归因与行为后果，是因果认知的重要来源</li>
+<li><a href="25-philosophy.html">哲学</a>：因果性、解释与科学理解本身就是哲学中的经典问题</li>
+</ul>
+<h2>1. 上帝视角：为什么 AI 需要因果推断</h2>
+<h3>1.1 三层问题：关联、干预与反事实</h3>
+<p>因果推断区分三个层级的问题，每个层级对应 AI 的不同能力需求：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>核心问题</th>
+<th>AI 中的典型任务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>关联（Association）</td>
+<td>观察到 $X$ 时，$Y$ 往往怎样？</td>
+<td>预测模型、推荐排序、表征学习</td>
+</tr>
+<tr>
+<td>干预（Intervention）</td>
+<td>如果主动改变 $X$，$Y$ 会怎样？</td>
+<td>策略优化、产品实验、资源配置</td>
+</tr>
+<tr>
+<td>反事实（Counterfactual）</td>
+<td>如果当时采取另一种动作，会发生什么？</td>
+<td>归因、审计、离线评估、责任分析</td>
+</tr>
+</tbody></table>
+<p>大多数监督学习只可靠地回答第一层问题。但一旦 AI 要参与行动，就不能只问“什么经常同时出现”，还必须问“什么会真正导致变化”。</p>
+<h3>1.2 预测不等于决策：相关性的局限</h3>
+<p>一个推荐系统可以准确预测“喜欢 A 的用户往往也喜欢 B”，但这不等于“给他推荐 B 就会提高满意度”。前者是观察到的联合分布，后者涉及主动干预后的结果。</p>
+<p>类似地，一个医疗预测模型可以判断“高风险患者更可能接受某种治疗”，但这不代表“给患者这个治疗一定更好”。如果训练数据里原本就存在选择偏差（selection bias），单纯依赖相关性会把历史决策中的偏差一起学进去。</p>
+<h3>1.3 与其他学科的关键连接点</h3>
+<table>
+<thead>
+<tr>
+<th>连接学科</th>
+<th>连接方式</th>
+<th>AI 中的体现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>概率论与数理统计</td>
+<td>因果推断以概率为语言，但在概率之上增加结构与方向</td>
+<td>条件概率 $P(Y\mid X)$ 与干预分布 $P(Y\mid do(X))$ 的区分</td>
+</tr>
+<tr>
+<td>经济学、偏好与对齐</td>
+<td>计量经济学推动了识别方法的发展</td>
+<td>工具变量、双重差分、政策评估</td>
+</tr>
+<tr>
+<td>逻辑学与形式推理</td>
+<td>因果图提供可组合的形式表示</td>
+<td>DAG、结构方程、可解释推理</td>
+</tr>
+<tr>
+<td>控制论</td>
+<td>控制本质上是对系统施加干预</td>
+<td>强化学习、策略评估、闭环决策</td>
+</tr>
+<tr>
+<td>哲学</td>
+<td>因果是解释、责任与理解的重要基础</td>
+<td>反事实解释、模型审计、科学发现</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 历史脉络</h2>
+<h3>2.1 哲学起点：因果究竟是什么</h3>
+<ul>
+<li><strong>David Hume (1748)</strong> 在《人类理解研究》中指出，人们并不能直接观察到“必然联系”，只能观察到事件的连续出现。这种怀疑论提醒后世：因果不是简单的共现统计。</li>
+<li><strong>John Stuart Mill (1843)</strong> 在《逻辑体系》中提出求因五法（Mill’s methods），试图用系统比较的方法识别可能的因果关系。虽然这些方法仍然偏经验主义，但已经出现了“干预与比较”的思想雏形。</li>
+</ul>
+<p>这一阶段的核心贡献，是把“因果”从日常直觉问题推进为一个可被明确讨论的方法论问题。</p>
+<h3>2.2 随机实验与统计传统</h3>
+<ul>
+<li><strong>Ronald Fisher (1935)</strong> 在实验设计中系统强调随机化（randomization）的价值：若处理分配是随机的，处理组与对照组在期望上可比较。</li>
+<li><strong>Jerzy Neyman (1923, 1934)</strong> 发展了潜在结果框架的早期形式，把因果效应理解为“同一个个体在不同处理状态下结果的差异”。</li>
+</ul>
+<p>这一传统经 Rubin (1974)、Imbens &amp; Rubin (2015) 等人的系统化整理，奠定了现代实验科学中“随机对照试验（randomized controlled trial, RCT）”的核心方法地位；互联网产品中的 A/B 测试也可以视为这一实验设计传统在工程环境中的延伸。</p>
+<h3>2.3 计量经济学与观察性识别</h3>
+<p>随机实验并不总是可行，因此观察性数据中的因果识别逐渐成为核心问题。</p>
+<ul>
+<li><strong>Trygve Haavelmo (1944)</strong> 将概率论系统引入计量经济学，推动结构方程方法发展。</li>
+<li><strong>James Heckman (1970s-1990s)</strong> 系统研究选择偏差（selection bias）与样本选择模型。</li>
+<li><strong>Joshua Angrist &amp; Guido Imbens (1990s)</strong> 推动工具变量（instrumental variables）和局部平均处理效应（local average treatment effect, LATE）的现代解释。</li>
+<li><strong>Donald Rubin (1974, 2005)</strong> 将潜在结果框架系统化，形成“Rubin causal model”。</li>
+</ul>
+<p>这一阶段的核心转向是：即使没有随机实验，也可以借助识别假设和设计策略，对因果效应进行有限但严谨的推断。</p>
+<h3>2.4 结构因果模型的建立</h3>
+<ul>
+<li><strong>Judea Pearl (1988, 2000, 2009)</strong> 将有向无环图（directed acyclic graph, DAG）、结构方程与 do-算子统一为结构因果模型框架。</li>
+<li><strong>Spirtes, Glymour &amp; Scheines (1993, 2000)</strong> 推动因果发现（causal discovery）算法的发展，如 PC 算法。</li>
+</ul>
+<p>Pearl 的贡献在于把“因果结构”“干预运算”“反事实推理”放在同一个形式系统里，使得许多原本分散的方法可以统一理解。</p>
+<h3>2.5 因果推断进入现代 AI</h3>
+<ul>
+<li><strong>Pearl (2018)</strong> 明确提出“只有相关性不够，需要因果与反事实层级”这一主张，对 AI 社区产生持续影响。</li>
+<li><strong>Peters, Janzing &amp; Schölkopf (2017)</strong> 将因果视角引入机器学习中的分布迁移、不变预测与因果发现。</li>
+<li><strong>Arjovsky et al. (2019)</strong> 的不变风险最小化（IRM）推动了因果与鲁棒泛化的结合。</li>
+<li><strong>Kusner et al. (2017)</strong> 提出反事实公平（counterfactual fairness），把公平性问题转化为因果问题。</li>
+<li>离线强化学习、策略评估、科学机器学习、因果表征学习等方向，也都在持续吸收因果推断的方法。</li>
+</ul>
+<hr>
+<h2>3. 核心知识点详解</h2>
+<h3>3.1 潜在结果框架（Potential Outcomes）</h3>
+<h4>核心定义</h4>
+<p>对每个样本个体 $i$，设：</p>
+<ul>
+<li>$Y_i(1)$：接受处理时的潜在结果</li>
+<li>$Y_i(0)$：不接受处理时的潜在结果</li>
+</ul>
+<p>个体层面的处理效应是：</p>
+<p>$$<br>\tau_i = Y_i(1) - Y_i(0)<br>$$</p>
+<p>总体平均处理效应（average treatment effect, ATE）为：</p>
+<p>$$<br>ATE = \mathbb{E}[Y(1) - Y(0)]<br>$$</p>
+<p>其中：$Y(1)$ 表示接受处理时的潜在结果，$Y(0)$ 表示未接受处理时的潜在结果，$\mathbb{E}[\cdot]$ 表示总体期望。</p>
+<p>条件平均处理效应（conditional average treatment effect, CATE）为：</p>
+<p>$$<br>CATE(x) = \mathbb{E}[Y(1) - Y(0) \mid X=x]<br>$$</p>
+<p>关键困难在于：对同一个个体，$Y(1)$ 和 $Y(0)$ 不可能同时被观察到。这就是因果推断最基本的“反事实缺失”问题。</p>
+<h4>直觉理解</h4>
+<p>潜在结果框架把因果问题理解为“两个平行世界之间的差异”。现实里你只能看到一个世界：治疗做了，或者没做；广告投了，或者没投；推荐给了，或者没给。另一个世界必须靠设计、假设或模型来推断。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>增量建模（uplift modeling）</strong>：估计“给用户看某个推荐”相对于“不看”的真实增量效果。</li>
+<li><strong>离线策略评估</strong>：评估一个新策略如果上线，是否会比旧策略带来更高收益。</li>
+<li><strong>个体化决策</strong>：根据不同用户的 CATE 做个性化干预或资源分配。</li>
+</ul>
+<h3>3.2 结构因果模型与因果图（SCM and DAG）</h3>
+<h4>核心定义</h4>
+<p>结构因果模型由变量、结构方程和噪声组成。一个简化的 SCM 可以写为：</p>
+<p>$$<br>X := f_X(U_X), \quad Y := f_Y(X, U_Y)<br>$$</p>
+<p>其中 $U_X, U_Y$ 是外生变量（exogenous variables），$X, Y$ 是内生变量（endogenous variables）。</p>
+<p>若用因果图表示：</p>
+<ul>
+<li>节点表示变量</li>
+<li>有向边表示直接因果影响</li>
+<li>有向无环图（DAG）排除了反馈环</li>
+</ul>
+<p>典型概念包括：</p>
+<ul>
+<li><strong>混杂变量（confounder）</strong>：同时影响处理和结果的变量</li>
+<li><strong>碰撞点（collider）</strong>：两个变量共同指向的变量</li>
+<li><strong>中介变量（mediator）</strong>：位于因果链中间的变量</li>
+<li><strong>后门路径（backdoor path）</strong>：从处理到结果的非因果路径</li>
+</ul>
+<h4>直觉理解</h4>
+<p>潜在结果框架强调“定义效应”，结构因果模型更强调“世界的生成机制长什么样”。它不是只问“差异是多少”，而是试图把变量之间的作用方向画出来，这样才能判断该控制谁、不该控制谁，以及哪些变量会引入偏差。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>因果表征学习</strong>：寻找更加稳定、可迁移的生成因素。</li>
+<li><strong>模型解释</strong>：区分“真因”与“代理特征”。</li>
+<li><strong>多步决策系统</strong>：为智能体建立更接近环境机制的内部模型。</li>
+</ul>
+<h3>3.3 do-算子与干预推理（Interventional Reasoning）</h3>
+<h4>核心定义</h4>
+<p>观察分布回答的是：</p>
+<p>$$<br>P(Y \mid X=x)<br>$$</p>
+<p>干预分布回答的是：</p>
+<p>$$<br>P(Y \mid do(X=x))<br>$$</p>
+<p>其中 $do(X=x)$ 表示外部强制把 $X$ 设为 $x$，切断所有原本流入 $X$ 的因果边。若满足后门准则（backdoor criterion），则可用调整公式：</p>
+<p>$$<br>P(Y \mid do(X=x)) = \sum_z P(Y \mid X=x, Z=z)P(Z=z)<br>$$</p>
+<p>这里 $Z$ 是一组足以阻断后门路径的调整变量。</p>
+<h4>直觉理解</h4>
+<p>条件概率像是在问：“我看到今天下雨时，地面为什么经常湿？”干预则是在问：“如果我现在打开喷头，地面会不会湿？”两者都涉及变量变化，但一个是观察到的共现，另一个是主动改变世界后的结果。</p>
+<h4>一个统一案例：优惠券到底有没有用</h4>
+<p>设 $X$ 表示“是否发放优惠券”，$Y$ 表示“是否下单”。那么三类常见问题分别是：</p>
+<ul>
+<li><strong>关联问题</strong>：$P(Y=1 \mid X=1)$，回答“拿到优惠券的用户有多常下单？”</li>
+<li><strong>干预问题</strong>：$P(Y=1 \mid do(X=1))$，回答“如果主动给用户发券，下单率会怎样变化？”</li>
+<li><strong>反事实问题</strong>：对某个最终没有下单的用户，如果当时给他发券，他是否会下单？</li>
+</ul>
+<p>这三个问题看起来只差一点记号，但对应的是三种不同的科学问题：描述、决策和个体解释。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>产品实验分析</strong>：区分“看到变化”与“造成变化”。</li>
+<li><strong>策略优化</strong>：估计某个行动的真实效果，而不是历史上与它共现的结果。</li>
+<li><strong>部署评估</strong>：分析模型上线、排序规则变化、预算调整等动作的真实后果。</li>
+</ul>
+<h3>3.4 因果识别策略（Identification Strategies）</h3>
+<h4>先分清任务：实验、观察性评估与个体解释</h4>
+<p>读到识别方法时，最容易出现的问题不是“不认识方法名”，而是不知道该在什么场景下用哪类工具。一个最小导航可以这样记：</p>
+<table>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>典型问题</th>
+<th>优先工具</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>随机实验</td>
+<td>新排序上线是否提升转化？</td>
+<td>A/B 测试、随机对照实验</td>
+</tr>
+<tr>
+<td>观察性评估</td>
+<td>无法随机分流时，某策略的真实效果是多少？</td>
+<td>调整公式、工具变量、双重差分、断点回归、合成控制</td>
+</tr>
+<tr>
+<td>个体解释</td>
+<td>对这个具体用户/病例，如果换个动作会怎样？</td>
+<td>反事实推理、结构因果模型</td>
+</tr>
+</tbody></table>
+<p>如果能做随机实验，通常先做实验；不能做实验时，才转向观察性识别；而当问题落到“这个具体个体本来会怎样”时，就要进入反事实层面。</p>
+<h4>随机实验与 A/B 测试</h4>
+<p>随机化可以在期望上消除混杂，因此成为最强的识别设计之一。现代互联网实验平台中的 A/B 测试，本质上就是 Fisher 传统在 AI 产品中的工程化延续。</p>
+<h4>工具变量（Instrumental Variables）</h4>
+<p>当处理变量与结果之间存在未观测混杂时，可以借助工具变量 $Z$：它影响处理 $X$，但只通过 $X$ 影响结果 $Y$。经典例子包括自然实验、资格门槛、外生政策变化等。</p>
+<h4>双重差分（Difference-in-Differences）</h4>
+<p>双重差分通过比较处理组与对照组在政策前后的变化差异，识别处理效应。关键假设是平行趋势（parallel trends）。</p>
+<h4>断点回归（Regression Discontinuity）</h4>
+<p>当处理由某个阈值规则决定时，可以比较阈值附近样本两侧的结果差异，识别局部因果效应。</p>
+<h4>合成控制（Synthetic Control）</h4>
+<p>当只有少量处理对象时，可构造一个由多个对照对象加权形成的“合成对照组”，用于评估政策或系统变化的影响。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>广告与推荐评估</strong>：测量增量收益、点击提升和真实转化效果。</li>
+<li><strong>策略变更评估</strong>：分析新模型、新排序、新定价策略的上线后果。</li>
+<li><strong>离线决策学习</strong>：在缺乏随机实验时，尽量从日志数据中恢复可信的干预信息。</li>
+</ul>
+<h3>3.5 反事实推理（Counterfactual Reasoning）</h3>
+<h4>核心定义</h4>
+<p>反事实问题关注：在已知事实结果的情况下，如果采取另一种行动会怎样。Pearl 常用三步法来刻画：</p>
+<ol>
+<li><strong>Abduction</strong>：根据观测结果更新对潜在噪声的信念</li>
+<li><strong>Action</strong>：施加新的干预</li>
+<li><strong>Prediction</strong>：在新世界中预测结果</li>
+</ol>
+<p>反事实条件概率可写为：</p>
+<p>$$<br>P(Y_{x&#39;} = y \mid X=x, Y=y&#39;)<br>$$</p>
+<p>其中：$Y_{x&#39;}$ 表示把处理变量设为 $x&#39;$ 时的潜在结果，$X=x, Y=y&#39;$ 表示现实世界中观察到的处理和结果。</p>
+<p>它表示：已知现实中 $X=x, Y=y&#39;$，如果把 $X$ 改成 $x&#39;$，结果会不会变成 $y$？</p>
+<h4>直觉理解</h4>
+<p>反事实比普通干预更难，因为它不仅要问“如果改动作会怎样”，还要保留“这个具体个体在现实中已经表现出的特征”。也正因此，反事实是解释、责任、归因与审计中最自然的问题形式。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>个体级解释</strong>：为什么这条贷款申请被拒？如果收入再高一点会怎样？</li>
+<li><strong>模型审计</strong>：判断某个敏感属性是否真正影响了结果。</li>
+<li><strong>离线评估</strong>：如果当时采取另一策略，收益是否更高？</li>
+</ul>
+<h3>3.6 因果发现（Causal Discovery）</h3>
+<h4>核心定义</h4>
+<p>因果发现的目标是仅根据数据，推断可能的因果图结构。常见方法分为两类：</p>
+<ul>
+<li><strong>约束型方法（constraint-based）</strong>：如 PC、FCI，利用条件独立关系恢复图结构</li>
+<li><strong>得分型方法（score-based）</strong>：如 GES，为不同图结构打分并搜索最优图</li>
+</ul>
+<p>在存在潜在混杂或隐藏变量时，问题会显著更难；如 Spirtes, Glymour &amp; Scheines (2000) 与 Pearl (2009) 所强调的那样，此时通常只能恢复马尔可夫等价类（Markov equivalence class）而非唯一因果图。</p>
+<h4>直觉理解</h4>
+<p>因果发现像是在没有系统设计图的情况下，从运行日志和变量联动关系里反推“这个系统大概是怎么连起来的”。这件事非常诱人，但也非常脆弱：假设一变，结论就可能变化。</p>
+<h4>在 AI 中的角色</h4>
+<ul>
+<li><strong>科学机器学习</strong>：从生物、材料、气候等数据中挖掘机制结构。</li>
+<li><strong>自动建模</strong>：为复杂系统构建更具解释力的图结构先验。</li>
+<li><strong>表示学习</strong>：寻找更接近生成机制的稳定因素。</li>
+</ul>
+<hr>
+<h2>4. 对 AI 的核心贡献</h2>
+<p>从现代 AI 的视角看，因果工具大致可以归入四类用途：提升预测鲁棒性、评估决策效果、做解释与审计、以及服务科学发现。下面几节分别对应这四个方向。</p>
+<h3>4.1 鲁棒泛化与分布外迁移</h3>
+<p>相关模式往往在环境变化时失效，而更接近因果机制的特征通常更稳定。因果视角推动了不变风险最小化（IRM）、因果表征学习和域泛化研究，试图让模型在分布外（out-of-distribution, OOD）环境中仍然保持有效。</p>
+<h3>4.2 推荐、广告与平台优化中的增量效应</h3>
+<p>互联网系统中最重要的问题往往不是“哪个用户更可能点击”，而是“这个动作能否带来新增点击或新增转化”。这正是因果效应估计问题。增量归因（incremental attribution）、uplift 建模和实验平台设计，都深受因果推断影响。</p>
+<h3>4.3 强化学习、离线决策与反事实评估</h3>
+<p>离线强化学习和策略评估经常面对与因果推断高度相似的问题：只能看到历史日志，无法直接观测新策略上线后的后果。因此，重要性加权、反事实评估、行为策略偏差修正等方法，与因果识别共享很多数学结构。</p>
+<h3>4.4 科学发现与机制建模</h3>
+<p>现代 AI 不再只做预测，还被用于药物发现、基因调控、气候建模和社会系统分析。在这些任务中，研究者真正关心的是机制与干预，而不是纯粹相关性。因果发现与结构建模为“AI 辅助科学发现”提供了语言框架。</p>
+<h3>4.5 可解释性、审计与安全</h3>
+<p>相关性解释常常会把表面代理特征误当成原因。因果解释和反事实解释则更贴近人类真正想问的问题：为什么会这样？如果改变某个因素会怎样？这对公平性审计、安全评估、责任归因和高风险系统治理都非常重要。</p>
+<hr>
+<h2>5. 前沿与开放问题</h2>
+<h3>5.1 因果表示学习能否真正提升大模型鲁棒性</h3>
+<p>很多工作主张，只要学到“真正因果”的因素，模型就能更稳定地迁移。但在高维感知数据与大模型语境下，什么才算“因果表征”、如何验证其稳定性，仍然远未解决。</p>
+<h3>5.2 从观察数据到干预结论的假设边界</h3>
+<p>因果识别总是依赖假设：无隐藏混杂、平行趋势、工具变量外生性等。AI 工程里常见的问题是，方法被套用得过快，但识别条件没有被认真检查。如何把“识别假设”变成工程流程中的显式审查项，仍然是重要挑战。</p>
+<h3>5.3 因果推断与强化学习、世界模型的统一</h3>
+<p>控制、规划、离线强化学习、因果推断都在讨论“行动如何改变未来”。但目前这些领域的语言体系仍未完全统一。如何把因果图、结构模型与序列决策更自然地结合，是重要前沿。</p>
+<h3>5.4 因果公平性与高风险 AI 治理</h3>
+<p>公平性不能只看统计平衡，还要问敏感属性是否通过不合理路径影响了结果。反事实公平、路径特定效应（path-specific effects）等方法提供了更细的工具，但其实际落地仍面临法律、伦理和建模假设三重挑战。</p>
+<hr>
+<h2>6. 推荐阅读与参考文献</h2>
+<h3>6.1 经典教材</h3>
+<ul>
+<li>Pearl, J. (2009). <em>Causality: Models, Reasoning, and Inference</em>. Cambridge University Press.</li>
+<li>Imbens, G. W. &amp; Rubin, D. B. (2015). <em>Causal Inference for Statistics, Social, and Biomedical Sciences</em>. Cambridge University Press.</li>
+<li>Hernán, M. A. &amp; Robins, J. M. (2020). <em>Causal Inference: What If</em>. Chapman &amp; Hall/CRC.</li>
+<li>Peters, J., Janzing, D. &amp; Schölkopf, B. (2017). <em>Elements of Causal Inference</em>. MIT Press.</li>
+</ul>
+<h3>6.2 关键论文</h3>
+<ul>
+<li>Rubin, D. B. (1974). Estimating causal effects of treatments in randomized and nonrandomized studies. <em>Journal of Educational Psychology</em>, 66(5), 688–701.</li>
+<li>Pearl, J. (1995). Causal diagrams for empirical research. <em>Biometrika</em>, 82(4), 669–688.</li>
+<li>Angrist, J. D., Imbens, G. W. &amp; Rubin, D. B. (1996). Identification of causal effects using instrumental variables. <em>Journal of the American Statistical Association</em>, 91(434), 444–455.</li>
+<li>Kusner, M. J., Loftus, J., Russell, C. &amp; Silva, R. (2017). Counterfactual fairness. <em>Advances in Neural Information Processing Systems</em>, 30.</li>
+<li>Arjovsky, M., Bottou, L., Gulrajani, I. &amp; Lopez-Paz, D. (2019). Invariant risk minimization. <em>arXiv preprint arXiv:1907.02893</em>.</li>
+</ul>
+<h3>6.3 AI 相关延伸阅读</h3>
+<ul>
+<li>Schölkopf, B. et al. (2021). Toward causal representation learning. <em>Proceedings of the IEEE</em>, 109(5), 612–634.</li>
+<li>Bareinboim, E. &amp; Pearl, J. (2016). Causal inference and the data-fusion problem. <em>Proceedings of the National Academy of Sciences</em>, 113(27), 7345–7352.</li>
+<li>Bottou, L. et al. (2013). Counterfactual reasoning and learning systems. <em>arXiv preprint arXiv:1302.4929</em>.</li>
+<li>Pearl, J. &amp; Mackenzie, D. (2018). <em>The Book of Why</em>. Basic Books.</li>
+<li>Hernán, M. A., Hsu, J. &amp; Healy, B. (2019). A second chance to get causal inference right: A classification of data science tasks. <em>CHANCE</em>, 32(1), 42–49.</li>
+</ul>
+<hr>
+<h2>7. 本篇在全书中的位置</h2>
+<p>本篇介绍了因果推断对 AI/AGI 发展的核心贡献：<strong>从相关性推理跨越到因果推理，为 AI 系统提供了理解&quot;为什么&quot;和&quot;如果...会怎样&quot;的能力</strong>。</p>
+<p><strong>与相邻篇章的关系</strong>：</p>
+<ul>
+<li>与<a href="01-probability-and-statistics.html">概率论与数理统计</a>形成递进关系：概率论描述相关性 <code>P(Y|X)</code>，因果推断回答干预效果 <code>P(Y|do(X))</code></li>
+<li>与<a href="04-information-theory.html">信息论</a>在因果发现上相关：条件独立性测试是因果结构学习的基础</li>
+<li>与<a href="15-cybernetics.html">控制论</a>在干预与反馈上形成连接：控制论处理如何干预，因果推断解释干预的效果</li>
+<li>与<a href="11-operations-research.html">运筹学</a>在决策优化上互补：因果推断提供反事实推理，运筹学提供优化方法</li>
+<li>与<a href="24-economics.html">经济学</a>共享方法论基础：工具变量、断点回归等方法源自计量经济学</li>
+</ul>
+<p><strong>贡献边界</strong>：<br>因果推断主要解决了<strong>如何从数据中识别因果关系和估计干预效果</strong>，但在以下方面存在局限：（1）<strong>识别假设的验证</strong>：因果识别总是依赖不可检验的假设（如无隐藏混杂、工具变量外生性），这些假设在实践中难以完全保证；（2）<strong>高维复杂系统</strong>：当变量数量巨大、因果关系复杂时，因果图的构建和识别变得极其困难；（3）<strong>与深度学习的结合</strong>：如何在端到端学习中嵌入因果约束，如何从高维感知数据中学习因果表示，仍是开放问题；（4）<strong>计算复杂性</strong>：许多因果推断算法（如因果发现、反事实推理）的计算复杂度很高。因此，因果推断为 AI 提供了从相关到因果的关键跨越，但需要与概率论、优化理论、深度学习等学科结合才能在实际系统中发挥作用。</p>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="01-probability-and-statistics.html" class="related-item">
+        <span class="r-num">01</span>
+        <span class="r-name">概率论与数理统计</span>
+      </a><a href="04-information-theory.html" class="related-item">
+        <span class="r-num">04</span>
+        <span class="r-name">信息论</span>
+      </a><a href="25-philosophy.html" class="related-item">
+        <span class="r-num">25</span>
+        <span class="r-name">哲学</span>
+      </a></div></div><div class="bottom-nav"><a href="08-logic.html"><span class="dir">&#8592; 上一篇</span><span class="name">08 逻辑学与形式推理</span></a><a href="10-computer-science.html"><span class="dir">下一篇 &#8594;</span><span class="name">10 计算机科学</span></a></div>
+  </div>
+</main>
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">目录</div>
+  <span style="color:var(--text-dimmer);font-size:11px">无目录</span>
+</aside>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
+<button class="toc-toggle" id="tocToggle">目录</button>
+<div class="toc-drawer" id="tocDrawer"><div id="tocDrawerList"><span style="color:var(--text-dimmer);font-size:11px">无目录</span></div></div>
+<script>
+// Initial sidebar state: collapse non-active groups
+const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
+document.querySelectorAll('.sidebar-group').forEach(g => {
+  if (g !== curGroup) {
+    g.querySelector('.sidebar-group-header')?.classList.add('collapsed');
+    g.querySelectorAll('.sidebar-item').forEach(i => i.style.display = 'none');
+  }
+});
+document.querySelectorAll('.sidebar-group-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const collapsed = h.classList.toggle('collapsed');
+    h.parentElement.querySelectorAll('.sidebar-item').forEach(i => i.style.display = collapsed ? 'none' : 'flex');
+  });
+});
+document.getElementById('menuBtn')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('sidebarOverlay')?.classList.toggle('open');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('open');
+});
+const tocLinks = document.querySelectorAll('.toc-link');
+const headings = document.querySelectorAll('h2,h3');
+function updateTOC() {
+  let current = '';
+  for (let i = headings.length-1; i>= 0; i--) {
+    if (headings[i].getBoundingClientRect().top <= 120) { current = headings[i].id; break; }
+  }
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('progress-bar').style.width = Math.min((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100, 100) + '%';
+  updateTOC();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+document.getElementById('backTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+document.getElementById('tocToggle').addEventListener('click', function() {
+  document.getElementById('tocDrawer').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  const drawer = document.getElementById('tocDrawer');
+  const btn = document.getElementById('tocToggle');
+  if (!drawer?.contains(e.target) && !btn?.contains(e.target)) drawer?.classList.remove('open');
+});
+</script>
+</body>
+</html>
