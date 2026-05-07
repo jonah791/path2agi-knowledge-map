@@ -1,10 +1,20 @@
 import { readFileSync, writeFileSync, readdirSync } from 'fs';
 import { marked } from 'marked';
 
-// Load annotations
-const annotations = JSON.parse(readFileSync('data/annotations.json', 'utf-8'));
-// Sort by length descending so longer terms match first
-const annTerms = Object.keys(annotations).sort((a, b) => b.length - a.length);
+// Load annotations (full dict)
+const allAnnotations = JSON.parse(readFileSync('data/annotations.json', 'utf-8'));
+delete allAnnotations._meta; // remove metadata
+
+function getAnnotationsForGroup(groupId) {
+  const filtered = {};
+  for (const [term, info] of Object.entries(allAnnotations)) {
+    const groups = (info.g || '').split(',').map(Number);
+    if (groups.includes(groupId)) {
+      filtered[term] = info.def || info;
+    }
+  }
+  return filtered;
+}
 
 const TOPICS = [
   [1,'概率论与数理统计','01-probability-and-statistics.md',1],[2,'线性代数','02-linear-algebra.md',1],
@@ -112,6 +122,9 @@ function buildTopicPage(md, file) {
   const titleMatch = md.match(/^#\s+(.+)/m);
   const title = titleMatch ? titleMatch[1].replace(/\*\*/g, '') : file;
   const topicNum = currentTopic ? String(currentTopic[0]).padStart(2,'0') : '';
+  const pageGroup = currentTopic ? currentTopic[3] : 1;
+  const pageAnnotations = getAnnotationsForGroup(pageGroup);
+  const pageAnnTerms = Object.keys(pageAnnotations).sort((a, b) => b.length - a.length);
 
   // Protect LaTeX math blocks from marked (prevents _ being converted to <em>)
   const mathBlocks = [];
@@ -310,8 +323,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = ${JSON.stringify(annotations)};
-const ANN_TERMS = ${JSON.stringify(annTerms)};
+const ANN = ${JSON.stringify(pageAnnotations)};
+const ANN_TERMS = ${JSON.stringify(pageAnnTerms)};
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;
@@ -355,10 +368,44 @@ const ANN_TERMS = ${JSON.stringify(annTerms)};
 
   function annotateContent(root) {
     if (!root) return;
-    const treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
     const textNodes = [];
-    while (treeWalker.nextNode()) textNodes.push(treeWalker.currentNode);
-    for (const node of textNodes) annotateNode(node);
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    // Per-paragraph dedup
+    const paraUsed = new Map();
+    for (const node of textNodes) {
+      const text = node.textContent;
+      const parent = node.parentNode;
+      const para = parent?.closest('p,li,td,th') || parent;
+      if (!para || parent.closest('.annt,.katex,code,pre,a,h1,h2,h3,h4,blockquote')) continue;
+      if (!paraUsed.has(para)) paraUsed.set(para, new Set());
+      const used = paraUsed.get(para);
+      const matches = [];
+      for (const t of ANN_TERMS) {
+        if (used.has(t)) continue;
+        let p = 0;
+        while ((p = text.indexOf(t, p)) !== -1) { matches.push({t,p}); p += t.length; }
+      }
+      if (matches.length === 0) continue;
+      matches.sort((a,b) => a.p - b.p || b.t.length - a.t.length);
+      const filtered = [matches[0]];
+      for (let i = 1; i < matches.length; i++) {
+        const last = filtered[filtered.length-1];
+        if (matches[i].p >= last.p + last.t.length) filtered.push(matches[i]);
+      }
+      const frag = document.createDocumentFragment();
+      let cursor = 0;
+      for (const m of filtered) {
+        if (m.p > cursor) frag.appendChild(document.createTextNode(text.slice(cursor, m.p)));
+        const span = document.createElement('span');
+        span.className = 'annt'; span.textContent = m.t; span.dataset.term = m.t;
+        frag.appendChild(span);
+        used.add(m.t);
+        cursor = m.p + m.t.length;
+      }
+      if (cursor < text.length) frag.appendChild(document.createTextNode(text.slice(cursor)));
+      parent.replaceChild(frag, node);
+    }
   }
 
   function initAnnotation() {
