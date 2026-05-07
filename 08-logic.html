@@ -521,8 +521,12 @@
 <li>布尔代数（Boolean Algebra）直接成为数字电路和计算机的数学基础</li>
 </ul>
 <p><strong>Augustus De Morgan (1847)</strong>：De Morgan 定律</p>
-<p>$$<br>\neg(A \wedge B) = \neg A \vee \neg B<br>$$</p>
-<p>$$<br>\neg(A \vee B) = \neg A \wedge \neg B<br>$$</p>
+<p>$$
+\neg(A \wedge B) = \neg A \vee \neg B
+$$</p>
+<p>$$
+\neg(A \vee B) = \neg A \wedge \neg B
+$$</p>
 <p>这些定律在电路设计和逻辑优化中无处不在。</p>
 <p><strong>Gottlob Frege (1879)</strong>：《概念文字》（<em>Begriffsschrift</em>）</p>
 <ul>
@@ -531,7 +535,9 @@
 <li><p>引入量词：全称量词 ∀（for all）和存在量词 ∃（there exists）</p>
 </li>
 <li><p>将&quot;所有人都会死&quot;形式化为：</p>
-<p>$$<br>\forall x (Human(x) \rightarrow Mortal(x))<br>$$</p>
+<p>$$
+  \forall x (Human(x) \rightarrow Mortal(x))
+  $$</p>
 </li>
 <li><p>谓词逻辑的表达能力远超命题逻辑，成为 AI 知识表示的标准语言</p>
 </li>
@@ -704,11 +710,15 @@
 <li><p>事实：$Takes(Alice, Logic)$</p>
 </li>
 <li><p>规则：</p>
-<p>$$<br>\forall x \forall c ; (Student(x) \wedge Takes(x,c) \rightarrow Eligible(x,c))<br>$$</p>
+<p>$$
+  \forall x \forall c \; (Student(x) \wedge Takes(x,c) \rightarrow Eligible(x,c))
+  $$</p>
 </li>
 </ul>
 <p>现在提出查询：</p>
-<p>$$<br>Eligible(Alice, Logic);?<br>$$</p>
+<p>$$
+Eligible(Alice, Logic)\;?
+$$</p>
 <p>推理过程分三步：</p>
 <ol>
 <li>用全称实例化把规则中的 <code>x, c</code> 分别替换为 <code>Alice, Logic</code>；</li>

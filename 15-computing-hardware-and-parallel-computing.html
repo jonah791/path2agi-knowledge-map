@@ -548,7 +548,9 @@
 <p>AI 硬件不能只看 FLOPS。一个更准确的视角是三层约束：</p>
 <h4>算术吞吐</h4>
 <p>矩阵乘法的计算量可写为：</p>
-<p>$$<br>C = O(mnk)<br>$$</p>
+<p>$$
+C = O(mnk)
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$m,n,k$ 表示矩阵乘法的维度规模；</li>
@@ -563,7 +565,9 @@
 <li>优化器状态。</li>
 </ul>
 <p>若模型有 $P$ 个参数，采用 Adam，训练态内存常接近：</p>
-<p>$$<br>M \approx P \times (\text{weights} + \text{grads} + \text{moments})<br>$$</p>
+<p>$$
+M \approx P \times (\text{weights} + \text{grads} + \text{moments})
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$P$ 表示参数数量；</li>
@@ -572,7 +576,9 @@
 <p>在实践里，这往往是单卡装不下大模型的直接原因。</p>
 <h4>互联带宽</h4>
 <p>多卡训练时，问题变成：</p>
-<p>$$<br>T_{\text{total}} \approx T_{\text{compute}} + T_{\text{memory}} + T_{\text{communication}}<br>$$</p>
+<p>$$
+T_{\text{total}} \approx T_{\text{compute}} + T_{\text{memory}} + T_{\text{communication}}
+$$</p>
 <p>即使单卡算得很快，如果通信太慢，总吞吐仍会上不去。</p>
 <h4>直觉理解</h4>
 <p>训练大模型很像经营一条超级流水线。算术单元只是其中一个环节，显存像仓库，互联像运输线。只要仓库太小或运输太慢，再强的算术单元也会空转。</p>
@@ -639,7 +645,9 @@
 </ul>
 <h3>3.4 一个具体例子：Transformer 为什么强依赖系统工程</h3>
 <p>设序列长度为 $n$，隐藏维度为 $d$，自注意力的核心相似度计算通常涉及：</p>
-<p>$$<br>QK^\top \in \mathbb{R}^{n \times n}<br>$$</p>
+<p>$$
+QK^\top \in \mathbb{R}^{n \times n}
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$n$ 表示序列长度；</li>

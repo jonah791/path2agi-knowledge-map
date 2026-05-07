@@ -558,7 +558,9 @@
 <h2>3. 核心知识点详解</h2>
 <h3>3.1 图的基本对象与矩阵表示</h3>
 <p>一个图记作：</p>
-<p>$$<br>G = (V, E)<br>$$</p>
+<p>$$
+G = (V, E)
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$V$ 是节点集合；</li>
@@ -571,13 +573,23 @@
 <p>在 AI 中，最常用的是矩阵化表示。</p>
 <h4>邻接矩阵</h4>
 <p>若图有 $n$ 个节点，其邻接矩阵 $A \in \mathbb{R}^{n \times n}$ 定义为：</p>
-<p>$$<br>A_{ij} =<br>\begin{cases}<br>1, &amp; (i,j) \in E \<br>0, &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
+<p>$$
+A_{ij} =
+\begin{cases}
+1, & (i,j) \in E \\
+0, & \text{otherwise}
+\end{cases}
+$$</p>
 <p>加权图中，$A_{ij}$ 可以直接写成边权。</p>
 <h4>度矩阵</h4>
 <p>节点 $i$ 的度定义为：</p>
-<p>$$<br>d_i = \sum_j A_{ij}<br>$$</p>
+<p>$$
+d_i = \sum_j A_{ij}
+$$</p>
 <p>对应的度矩阵 $D$ 是对角矩阵：</p>
-<p>$$<br>D = \operatorname{diag}(d_1, d_2, \dots, d_n)<br>$$</p>
+<p>$$
+D = \operatorname{diag}(d_1, d_2, \dots, d_n)
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$A_{ij}$ 表示节点 $i$ 与节点 $j$ 之间是否有边或边权大小；</li>
@@ -590,7 +602,15 @@
 2 ─┘
 </code></pre>
 <p>邻接矩阵为：</p>
-<p>$$<br>A =<br>\begin{bmatrix}<br>0 &amp; 0 &amp; 1 &amp; 0 \<br>0 &amp; 0 &amp; 1 &amp; 0 \<br>1 &amp; 1 &amp; 0 &amp; 1 \<br>0 &amp; 0 &amp; 1 &amp; 0<br>\end{bmatrix}<br>$$</p>
+<p>$$
+A =
+\begin{bmatrix}
+0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 0 \\
+1 & 1 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+$$</p>
 <p>这里节点 3 的度最高，因此它在传播信息时天然更像一个中介节点。这正是很多图学习任务里“结构重要性”比“单点特征”更关键的原因。</p>
 <h4>直觉理解</h4>
 <p>矩阵表示的价值在于：它把“谁和谁相连”从一张关系图，变成了可以直接送进线性代数与机器学习流程的对象。换句话说，图论把关系结构离散化，线性代数再把这种离散结构转成可计算对象。</p>
@@ -604,9 +624,13 @@
 <p>图论的很多经典问题，后来都直接转化成 AI 系统中的基础算子。</p>
 <h4>路径与最短路</h4>
 <p>一条路径是节点序列：</p>
-<p>$$<br>v_0 \to v_1 \to \cdots \to v_k<br>$$</p>
+<p>$$
+v_0 \to v_1 \to \cdots \to v_k
+$$</p>
 <p>其中相邻节点之间都存在边。若每条边有代价 $w_{ij}$，则路径总代价为：</p>
-<p>$$<br>\operatorname{cost}(P) = \sum_{(i,j)\in P} w_{ij}<br>$$</p>
+<p>$$
+\operatorname{cost}(P) = \sum_{(i,j)\in P} w_{ij}
+$$</p>
 <p>最短路径问题广泛出现在：</p>
 <ul>
 <li>机器人路径规划；</li>
@@ -640,13 +664,19 @@
 </ul>
 <h3>3.3 图拉普拉斯与谱图方法</h3>
 <p>图学习里最核心的矩阵之一是图拉普拉斯矩阵：</p>
-<p>$$<br>L = D - A<br>$$</p>
+<p>$$
+L = D - A
+$$</p>
 <p>它把“局部连接关系”变成了一个可做线性代数分析的对象。</p>
 <p>归一化拉普拉斯常写为：</p>
-<p>$$<br>L_{\text{sym}} = I - D^{-1/2} A D^{-1/2}<br>$$</p>
+<p>$$
+L_{\text{sym}} = I - D^{-1/2} A D^{-1/2}
+$$</p>
 <h4>为什么它重要</h4>
 <p>对任意向量 $f \in \mathbb{R}^n$，有：</p>
-<p>$$<br>f^\top L f = \frac{1}{2}\sum_{i,j} A_{ij}(f_i-f_j)^2<br>$$</p>
+<p>$$
+f^\top L f = \frac{1}{2}\sum_{i,j} A_{ij}(f_i-f_j)^2
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$f_i$ 表示节点 $i$ 上的信号值；</li>
@@ -680,7 +710,9 @@
 <p>图神经网络的核心思想并不神秘：<strong>节点通过边从邻居那里接收信息，再更新自己的表示。</strong></p>
 <h4>GCN 的基本形式</h4>
 <p>Kipf 与 Welling (2017) 的图卷积网络写成：</p>
-<p>$$<br>H^{(l+1)} = \sigma\left(\tilde{D}^{-1/2}\tilde{A}\tilde{D}^{-1/2}H^{(l)}W^{(l)}\right)<br>$$</p>
+<p>$$
+H^{(l+1)} = \sigma\left(\tilde{D}^{-1/2}\tilde{A}\tilde{D}^{-1/2}H^{(l)}W^{(l)}\right)
+$$</p>
 <p>其中：</p>
 <ul>
 <li>$\tilde{A}=A+I$ 表示加入自环；</li>
@@ -696,8 +728,12 @@
 </ol>
 <h4>MPNN 的统一表达</h4>
 <p>更一般地，消息传递神经网络可写成：</p>
-<p>$$<br>m_i^{(l+1)}=\sum_{j\in\mathcal{N}(i)} M^{(l)}(h_i^{(l)}, h_j^{(l)}, e_{ij})<br>$$</p>
-<p>$$<br>h_i^{(l+1)} = U^{(l)}(h_i^{(l)}, m_i^{(l+1)})<br>$$</p>
+<p>$$
+m_i^{(l+1)}=\sum_{j\in\mathcal{N}(i)} M^{(l)}(h_i^{(l)}, h_j^{(l)}, e_{ij})
+$$</p>
+<p>$$
+h_i^{(l+1)} = U^{(l)}(h_i^{(l)}, m_i^{(l+1)})
+$$</p>
 <p>这里：</p>
 <ul>
 <li>$M$ 是消息函数；</li>
@@ -724,7 +760,9 @@
 </ul>
 <h3>3.5 知识图谱与关系推理</h3>
 <p>图论对 AI 的另一条重要贡献，是把知识组织成可推理的关系网络。知识图谱中的基本单元通常是三元组：</p>
-<p>$$<br>(\text{head}, \text{relation}, \text{tail})<br>$$</p>
+<p>$$
+(\text{head}, \text{relation}, \text{tail})
+$$</p>
 <p>其中：</p>
 <ul>
 <li><code>head</code> 是关系起点实体；</li>
@@ -732,7 +770,9 @@
 <li><code>tail</code> 是关系终点实体。</li>
 </ul>
 <p>例如：</p>
-<p>$$<br>(\text{Alan Turing}, \text{founded}, \text{Computability Theory})<br>$$</p>
+<p>$$
+(\text{Alan Turing}, \text{founded}, \text{Computability Theory})
+$$</p>
 <p>在图论语言里，这就是一条带类型的有向边。</p>
 <p>它的 AI 价值在于：</p>
 <ul>

@@ -539,7 +539,7 @@
 <li><strong>Leibniz（1684）</strong>：独立发明微积分，引入了我们今天仍在使用的导数符号 dy/dx 和积分符号 ∫。Leibniz 的符号系统更适合链式法则的表达，这对后来的反向传播至关重要。</li>
 <li><strong>Newton-Leibniz 公式</strong>：微积分基本定理将微分与积分统一起来：</li>
 </ul>
-<p>$$\int_a^b f&#39;(x) dx = f(b) - f(a)$$</p>
+<p>$$\int_a^b f'(x) dx = f(b) - f(a)$$</p>
 <h3>2.2 变分法的兴起（18 世纪）</h3>
 <ul>
 <li><strong>Euler（1744）</strong>：发表《寻找具有极大极小性质曲线的方法》，奠定变分法基础。变分法处理的是函数的函数（泛函）的极值问题。</li>
@@ -549,7 +549,7 @@
 <ul>
 <li><strong>Euler-Lagrange 方程</strong>：</li>
 </ul>
-<p>$$\frac{\partial F}{\partial y} - \frac{d}{dx}\frac{\partial F}{\partial y&#39;} = 0$$</p>
+<p>$$\frac{\partial F}{\partial y} - \frac{d}{dx}\frac{\partial F}{\partial y'} = 0$$</p>
 <p>这个方程是现代变分推断（variational inference）的数学根基。</p>
 <h3>2.3 梯度下降的发明（19 世纪）</h3>
 <ul>
@@ -561,7 +561,7 @@
 <li><strong>Kantorovich（1939）</strong>：线性规划，为运筹学和优化理论奠基。</li>
 <li><strong>Karush-Kuhn-Tucker 条件（1951）</strong>：约束优化的必要条件，推广了 Lagrange 乘数法：</li>
 </ul>
-<p>$$\nabla f(x^<em>) + \sum_{i} \mu_i \nabla g_i(x^</em>) + \sum_{j} \lambda_j \nabla h_j(x^*) = 0$$</p>
+<p>$$\nabla f(x^*) + \sum_{i} \mu_i \nabla g_i(x^*) + \sum_{j} \lambda_j \nabla h_j(x^*) = 0$$</p>
 <ul>
 <li><strong>Dantzig（1947）</strong>：单纯形法（simplex method），线性规划的实用算法。</li>
 <li><strong>Rockafellar（1970）</strong>：《凸分析》系统化了凸优化理论。</li>
@@ -604,15 +604,34 @@
 <p>链式法则的直觉是&quot;影响的传递&quot;：如果 $x$ 的微小变化导致 $g$ 变化了 $\Delta g$，而 $g$ 的变化又导致 $f$ 变化了 $\Delta f$，那么 $x$ 对 $f$ 的总影响就是两个影响的乘积。</p>
 <h4>一个两层网络的手算梯度例子</h4>
 <p>考虑一个只有单个隐藏单元的两层网络：</p>
-<p>$$<br>z_1 = w_1 x,\quad h = \mathrm{ReLU}(z_1),\quad \hat{y} = w_2 h,\quad L = \frac{1}{2}(\hat{y}-y)^2<br>$$</p>
+<p>$$
+z_1 = w_1 x,\quad h = \mathrm{ReLU}(z_1),\quad \hat{y} = w_2 h,\quad L = \frac{1}{2}(\hat{y}-y)^2
+$$</p>
 <p>取一个具体样本：$x=1$、$y=3$、$w_1=2$、$w_2=0.5$。前向传播得到：</p>
-<p>$$<br>z_1 = 2,\quad h = 2,\quad \hat{y} = 1,\quad L = \frac{1}{2}(1-3)^2 = 2<br>$$</p>
+<p>$$
+z_1 = 2,\quad h = 2,\quad \hat{y} = 1,\quad L = \frac{1}{2}(1-3)^2 = 2
+$$</p>
 <p>现在反向传播：</p>
-<p>$$<br>\frac{\partial L}{\partial \hat{y}} = \hat{y} - y = -2<br>$$</p>
+<p>$$
+\frac{\partial L}{\partial \hat{y}} = \hat{y} - y = -2
+$$</p>
 <p>对第二层权重，</p>
-<p>$$<br>\frac{\partial L}{\partial w_2}<br>= \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial w_2}<br> = (-2)\cdot h<br> = -4<br>$$</p>
+<p>$$
+\frac{\partial L}{\partial w_2}
+= \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial w_2}
+ = (-2)\cdot h
+ = -4
+$$</p>
 <p>对第一层权重，</p>
-<p>$$<br>\frac{\partial L}{\partial w_1}<br>= \frac{\partial L}{\partial \hat{y}}<br>\cdot \frac{\partial \hat{y}}{\partial h}<br>\cdot \frac{\partial h}{\partial z_1}<br>\cdot \frac{\partial z_1}{\partial w_1}<br>= (-2)\cdot 0.5 \cdot 1 \cdot 1<br>= -1<br>$$</p>
+<p>$$
+\frac{\partial L}{\partial w_1}
+= \frac{\partial L}{\partial \hat{y}}
+\cdot \frac{\partial \hat{y}}{\partial h}
+\cdot \frac{\partial h}{\partial z_1}
+\cdot \frac{\partial z_1}{\partial w_1}
+= (-2)\cdot 0.5 \cdot 1 \cdot 1
+= -1
+$$</p>
 <p>这个例子把“复合函数求导”落成了一个具体过程：误差先从输出层返回，再经过隐藏层的局部导数，一步步传回更早的参数。这正是反向传播的最小工作单元。</p>
 <h4>在 AI 中的角色：反向传播算法</h4>
 <p>考虑一个简单的 2 层网络：</p>
@@ -655,7 +674,7 @@
 <p>$$\theta_{t+1,i} = \theta_{t,i} - \frac{\eta}{\sqrt{G_{t,ii} + \epsilon}} \cdot g_{t,i}$$</p>
 <p>其中 $g_{t,i}$ 是第 $i$ 个参数在第 $t$ 步的梯度，$G_{t,ii}$ 是该参数梯度平方的累积和，$\epsilon$ 是防止除零的常数。频繁更新的参数分母变大，学习率收敛，罕见参数保留较大步长。</p>
 <p><strong>RMSProp（2012）</strong>：Hinton 的修正，使用指数移动平均代替累积和：</p>
-<p>$$E[g^2]<em>t = \gamma E[g^2]</em>{t-1} + (1-\gamma) g_t^2$$<br>$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t$$</p>
+<p>$$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma) g_t^2$$<br>$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t$$</p>
 <p>其中 $E[g^2]_t$ 是梯度平方的指数权重平均，$\gamma$ 控制平滑程度，$\epsilon$ 是稳定项。RMSProp 让更新步长根据梯度的近期尺度自适应调整，避免学习率全局固定。</p>
 <p><strong>Adam（2014）</strong>：结合 Momentum（一阶矩估计）和 RMSProp（二阶矩估计）：</p>
 <p>$$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t \quad \text{（一阶矩/均值）}$$<br>$$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2 \quad \text{（二阶矩/方差）}$$</p>
@@ -727,18 +746,18 @@
 <h3>3.5 变分法与变分推断</h3>
 <h4>从变分法到变分推断</h4>
 <p>经典变分法求解泛函的极值：</p>
-<p>$$J[y] = \int_a^b F(x, y, y&#39;) dx$$</p>
-<p>其中 $F(x, y, y&#39;)$ 是要极小化的泛函密度，$y&#39;$ 表示 $y$ 对 $x$ 的导数。</p>
+<p>$$J[y] = \int_a^b F(x, y, y') dx$$</p>
+<p>其中 $F(x, y, y')$ 是要极小化的泛函密度，$y'$ 表示 $y$ 对 $x$ 的导数。</p>
 <p>变分推断（variational inference）将贝叶斯推断转化为优化问题。给定观测数据 $x$，我们想求后验分布 $p(z|x)$，但直接计算通常不可行。</p>
 <p>变分推断的核心思想：用一个简单的分布族 $q_\phi(z)$ 去逼近真实后验 $p(z|x)$，通过最小化 KL 散度：</p>
-<p>$$\phi^* = \arg\min_\phi \text{KL}(q_\phi(z) | p(z|x))$$</p>
+<p>$$\phi^* = \arg\min_\phi \text{KL}(q_\phi(z) \| p(z|x))$$</p>
 <p>其中 $q_\phi(z)$ 是可训练的近似分布，$p(z|x)$ 是真实后验，而 KL 散度衡量两个分布的差异。</p>
 <p>等价于最大化<strong>证据下界（ELBO, Evidence Lower Bound）</strong>：</p>
-<p>$$\text{ELBO}(\phi) = \mathbb{E}<em>{q</em>\phi(z)}[\log p(x, z) - \log q_\phi(z)]$$</p>
+<p>$$\text{ELBO}(\phi) = \mathbb{E}_{q_\phi(z)}[\log p(x, z) - \log q_\phi(z)]$$</p>
 <p>其中期望是关于近似后验分布计算的，log p(x, z) 是联合对数似然，log q(z) 是近似后验的对数密度。</p>
 <h4>变分自编码器（VAE）</h4>
 <p>Kingma &amp; Welling（2013）提出的 VAE 是变分推断在深度学习中最成功的应用：</p>
-<p>$$\mathcal{L}(\theta, \phi; x) = -\text{KL}(q_\phi(z|x) | p(z)) + \mathbb{E}<em>{q</em>\phi(z|x)}[\log p_\theta(x|z)]$$</p>
+<p>$$\mathcal{L}(\theta, \phi; x) = -\text{KL}(q_\phi(z|x) \| p(z)) + \mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x|z)]$$</p>
 <p>其中 $q_\phi(z|x)$ 是编码器输出的近似后验，$p(z)$ 是先验，$p_\theta(x|z)$ 是解码器给定 $z$ 的生成分布。</p>
 <p>第一项是正则化项（让编码分布接近先验），第二项是重构项（让解码器能还原输入）。</p>
 <p><strong>重参数化技巧（reparameterization trick）</strong>：为了让梯度能通过随机采样传播，将采样过程重写为确定性变换加上独立噪声：</p>

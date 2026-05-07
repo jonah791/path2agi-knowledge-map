@@ -569,7 +569,7 @@
 <p>$$H(X) = -\sum_{x \in \mathcal{X}} p(x) \log p(x)$$</p>
 <p>其中对数通常取以 2 为底（单位为 bit）或以 e 为底（单位为 nat）。约定 0 log 0 = 0。</p>
 <p>对于连续随机变量，定义微分熵（differential entropy）：</p>
-<p>$$h(X) = -\int_{-\infty}^{\infty} f(x) \log f(x) , dx$$</p>
+<p>$$h(X) = -\int_{-\infty}^{\infty} f(x) \log f(x) \, dx$$</p>
 <h4>关键性质</h4>
 <ol>
 <li><p><strong>非负性</strong>：</p>
@@ -618,24 +618,24 @@
 <p>给定真实分布 $P$ 和模型分布 $Q$，交叉熵定义为：</p>
 <p>$$H(P, Q) = -\sum_{x} p(x) \log q(x)$$</p>
 <p>连续情况下：</p>
-<p>$$H(P, Q) = -\int p(x) \log q(x) , dx$$</p>
+<p>$$H(P, Q) = -\int p(x) \log q(x) \, dx$$</p>
 <h4>与熵和 KL 散度的关系</h4>
 <p>交叉熵可以分解为熵与 KL 散度之和：</p>
-<p>$$H(P, Q) = H(P) + D_{KL}(P | Q)$$</p>
+<p>$$H(P, Q) = H(P) + D_{KL}(P \| Q)$$</p>
 <p>由于 $H(P)$ 是常数（真实分布固定），最小化交叉熵等价于最小化 KL 散度，即让模型分布 $Q$ 尽可能接近真实分布 $P$。</p>
 <h4>直觉理解</h4>
 <p>交叉熵可以理解为：如果真实世界按分布 $P$ 生成样本，而你却用分布 $Q$ 去编码这些样本，那么平均每个样本需要付出多少“额外编码代价”。模型越偏离真实分布，这个代价就越高。</p>
 <h4>为什么是分类任务的标准损失函数</h4>
 <p>考虑一个 $K$ 类分类问题。对于样本 $(x_i, y_i)$，真实标签的 one-hot 编码为 $\mathbf{y}_i$，模型输出的概率分布为 $\hat{\mathbf{y}}_i$。交叉熵损失为：</p>
-<p>$$\mathcal{L}<em>{CE} = -\sum</em>{k=1}^{K} y_{i,k} \log \hat{y}_{i,k}$$</p>
+<p>$$\mathcal{L}_{CE} = -\sum_{k=1}^{K} y_{i,k} \log \hat{y}_{i,k}$$</p>
 <p>对于 one-hot 标签，这简化为：</p>
-<p>$$\mathcal{L}<em>{CE} = -\log \hat{y}</em>{i, c}$$</p>
+<p>$$\mathcal{L}_{CE} = -\log \hat{y}_{i, c}$$</p>
 <p>其中 $c$ 是真实类别。这就是负对数似然（negative log-likelihood）。</p>
 <p><strong>二分类的特殊情况</strong>（binary cross-entropy）：</p>
 <p>$$\mathcal{L}_{BCE} = -[y \log \hat{y} + (1-y) \log(1-\hat{y})]$$</p>
 <h4>与最大似然估计的等价性</h4>
 <p>设数据集由 N 个样本组成，模型参数为 θ。最大似然估计：</p>
-<p>$$\hat{\theta}<em>{MLE} = \arg\max</em>\theta \sum_{i=1}^{N} \log p_\theta(y_i | x_i)$$</p>
+<p>$$\hat{\theta}_{MLE} = \arg\max_\theta \sum_{i=1}^{N} \log p_\theta(y_i | x_i)$$</p>
 <p>取负号后就是最小化交叉熵损失。因此，<strong>最小化交叉熵 = 最大似然估计 = 最小化 KL 散度</strong>，三者在数学上完全等价。</p>
 <h4>AI 中的角色</h4>
 <ul>
@@ -646,21 +646,21 @@
 <h3>3.3 KL 散度（Kullback-Leibler Divergence）</h3>
 <h4>数学定义</h4>
 <p>从分布 $P$ 到分布 $Q$ 的 KL 散度定义为：</p>
-<p>$$D_{KL}(P | Q) = \sum_{x} p(x) \log \frac{p(x)}{q(x)}$$</p>
+<p>$$D_{KL}(P \| Q) = \sum_{x} p(x) \log \frac{p(x)}{q(x)}$$</p>
 <p>连续情况下：</p>
-<p>$$D_{KL}(P | Q) = \int p(x) \log \frac{p(x)}{q(x)} , dx$$</p>
+<p>$$D_{KL}(P \| Q) = \int p(x) \log \frac{p(x)}{q(x)} \, dx$$</p>
 <h4>关键性质</h4>
 <ol>
 <li><p><strong>非负性</strong>（Gibbs 不等式）：</p>
-<p>$$D_{KL}(P | Q) \geq 0$$</p>
+<p>$$D_{KL}(P \| Q) \geq 0$$</p>
 <p>等号成立当且仅当 $P = Q$。</p>
 </li>
 <li><p><strong>非对称性</strong>：</p>
-<p>$$D_{KL}(P | Q) \neq D_{KL}(Q | P)$$</p>
+<p>$$D_{KL}(P \| Q) \neq D_{KL}(Q \| P)$$</p>
 <p>因此 KL 散度不是真正的“距离”。</p>
 </li>
 <li><p><strong>不满足三角不等式</strong>：</p>
-<p>$$D_{KL}(P | R) \not\leq D_{KL}(P | Q) + D_{KL}(Q | R)$$</p>
+<p>$$D_{KL}(P \| R) \not\leq D_{KL}(P \| Q) + D_{KL}(Q \| R)$$</p>
 </li>
 </ol>
 <h4>直觉理解</h4>
@@ -669,22 +669,22 @@
 <p>这两种方向有截然不同的行为：</p>
 <ul>
 <li><p><strong>前向 KL</strong>（mean-seeking）：</p>
-<p>$$D_{KL}(P | Q)$$</p>
-<p>当 $P(x) &gt; 0$ 而 $Q(x) \to 0$ 时，惩罚趋于无穷。因此 $Q$ 倾向于覆盖 $P$ 的所有模式，即使这意味着在 $P$ 为零的区域也赋予概率。适用于：变分推断中的期望传播（EP）。</p>
+<p>$$D_{KL}(P \| Q)$$</p>
+<p>当 $P(x) > 0$ 而 $Q(x) \to 0$ 时，惩罚趋于无穷。因此 $Q$ 倾向于覆盖 $P$ 的所有模式，即使这意味着在 $P$ 为零的区域也赋予概率。适用于：变分推断中的期望传播（EP）。</p>
 </li>
 <li><p><strong>反向 KL</strong>（mode-seeking）：</p>
-<p>$$D_{KL}(Q | P)$$</p>
-<p>当 $Q(x) &gt; 0$ 而 $P(x) \to 0$ 时，惩罚趋于无穷。因此 $Q$ 倾向于集中在 $P$ 的某个模式上，可能忽略其他模式。适用于：变分推断（VI）。</p>
+<p>$$D_{KL}(Q \| P)$$</p>
+<p>当 $Q(x) > 0$ 而 $P(x) \to 0$ 时，惩罚趋于无穷。因此 $Q$ 倾向于集中在 $P$ 的某个模式上，可能忽略其他模式。适用于：变分推断（VI）。</p>
 </li>
 </ul>
 <h4>高斯分布的 KL 散度</h4>
 <p>对于两个一维高斯分布 P 和 Q（分别具有均值 μ₁, μ₂ 和方差 σ₁², σ₂²）：</p>
-<p>$$D_{KL}(P | Q) = \log\frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2} - \frac{1}{2}$$</p>
+<p>$$D_{KL}(P \| Q) = \log\frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2} - \frac{1}{2}$$</p>
 <p>这个闭式解在 VAE 中被广泛使用。</p>
 <h4>AI 中的角色</h4>
 <ul>
 <li><p><strong>VAE 的正则项</strong>：变分自编码器（VAE）的损失函数为：</p>
-<p>$$\mathcal{L} = \mathbb{E}<em>{q(z|x)}[\log p(x|z)] - D</em>{KL}(q(z|x) | p(z))$$</p>
+<p>$$\mathcal{L} = \mathbb{E}_{q(z|x)}[\log p(x|z)] - D_{KL}(q(z|x) \| p(z))$$</p>
 <p>其中 KL 项约束编码器输出的分布接近先验 $p(z)$。</p>
 </li>
 <li><p><strong>知识蒸馏（Knowledge Distillation）</strong>：Hinton et al. (2015) 使用 KL 散度让学生模型的输出分布匹配教师模型的软标签</p>
@@ -701,7 +701,7 @@
 <p>等价表达：</p>
 <p>$$I(X; Y) = H(X) - H(X|Y) = H(Y) - H(Y|X) = H(X) + H(Y) - H(X, Y)$$</p>
 <p>也可以写成 KL 散度的形式：</p>
-<p>$$I(X; Y) = D_{KL}(p(x, y) | p(x) p(y))$$</p>
+<p>$$I(X; Y) = D_{KL}(p(x, y) \| p(x) p(y))$$</p>
 <p>其中：</p>
 <ul>
 <li>p(x,y) 是联合分布</li>
@@ -793,7 +793,9 @@
 <li><strong>给定均值（非负变量）</strong>：最大熵分布是指数分布</li>
 </ul>
 <p>例如，如果我们只知道某个等待时间变量非负且均值为 10，却不知道更多结构，那么最大熵原理会给出指数分布</p>
-<p>$$<br>p(x) = \frac{1}{10} e^{-x/10}, \quad x \ge 0<br>$$</p>
+<p>$$
+p(x) = \frac{1}{10} e^{-x/10}, \quad x \ge 0
+$$</p>
 <p>它的含义不是“世界一定服从指数分布”，而是“在已知信息只有这些时，这是最少额外假设的一种选择”。</p>
 <h4>Softmax 函数的理论来源</h4>
 <p>考虑 $K$ 类分类问题，约束条件为特征函数的期望值。最大熵模型给出：</p>
@@ -830,7 +832,7 @@
 </tr>
 <tr>
 <td>KL 散度损失</td>
-<td>$D_{KL}(P | Q)$</td>
+<td>$D_{KL}(P \| Q)$</td>
 <td>VAE 正则项、知识蒸馏</td>
 </tr>
 <tr>
@@ -848,7 +850,7 @@
 <p>信息论为生成模型提供了理论框架：</p>
 <ul>
 <li><strong>VAE（Variational Autoencoder）</strong>：ELBO（Evidence Lower Bound）= 重构项 - KL 正则项。KL 项确保潜在空间的结构化。</li>
-<li><strong>GAN（Generative Adversarial Network）</strong>：原始 GAN 的目标函数等价于最小化 Jensen-Shannon 散度 $JSD(P_{data} | P_{model})$。后续的 f-GAN 将其推广到任意 f-散度。</li>
+<li><strong>GAN（Generative Adversarial Network）</strong>：原始 GAN 的目标函数等价于最小化 Jensen-Shannon 散度 $JSD(P_{data} \| P_{model})$。后续的 f-GAN 将其推广到任意 f-散度。</li>
 <li><strong>Flow 模型</strong>：通过可逆变换精确计算对数似然，直接优化交叉熵。</li>
 <li><strong>扩散模型（Diffusion Models）</strong>：训练目标可以理解为变分下界，与 VAE 的 ELBO 有深刻联系。</li>
 </ul>

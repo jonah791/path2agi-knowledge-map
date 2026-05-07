@@ -589,7 +589,7 @@
 <h4>数学化表述</h4>
 <p>标准遗传算法的流程：</p>
 <ol>
-<li><strong>初始化</strong>：随机生成种群 $P_0 = {x_1, x_2, \ldots, x_N}$</li>
+<li><strong>初始化</strong>：随机生成种群 $P_0 = \{x_1, x_2, \ldots, x_N\}$</li>
 <li><strong>评估</strong>：计算每个个体的适应度 $f(x_i)$</li>
 <li><strong>选择</strong>：按适应度比例选择父代（轮盘赌选择）：<br>$$p(x_i) = \frac{f(x_i)}{\sum_{j=1}^{N} f(x_j)}$$</li>
 <li><strong>交叉</strong>：以概率 $p_c$ 对父代进行交叉操作</li>
@@ -635,7 +635,7 @@
 <h4>生物机制</h4>
 <p>进化策略更侧重于表现型（phenotype）层面的变异，而非基因型层面。在自然界中，许多性状是连续变化的（身高、体重、代谢速率），这些性状受多基因控制，表现为连续分布。进化策略直接在连续实数空间中操作，更适合连续优化问题。</p>
 <h4>数学化表述</h4>
-<p><strong>(μ, λ)-ES</strong>：$\mu$ 个父代产生 $\lambda$ 个后代（$\lambda &gt; \mu$），从后代中选择最优的 $\mu$ 个作为下一代父代。注意：父代不参与选择，这提供了更强的选择压力。</p>
+<p><strong>(μ, λ)-ES</strong>：$\mu$ 个父代产生 $\lambda$ 个后代（$\lambda > \mu$），从后代中选择最优的 $\mu$ 个作为下一代父代。注意：父代不参与选择，这提供了更强的选择压力。</p>
 <p><strong>(μ + λ)-ES</strong>：$\mu$ 个父代产生 $\lambda$ 个后代，从父代和后代的并集中选择最优的 $\mu$ 个。父代可以存活到下一代，这是精英策略。</p>
 <p>基本的 (μ, λ)-ES 更新规则：</p>
 <ol>
@@ -645,7 +645,7 @@
 <li>更新变异步长 $\sigma$（自适应）</li>
 </ol>
 <p><strong>1/5 成功规则</strong>（Rechenberg）：如果成功变异（后代优于父代）的比例大于 1/5，增大 $\sigma$；如果小于 1/5，减小 $\sigma$：</p>
-<p>$$\sigma^{(t+1)} = \begin{cases} \sigma^{(t)} \cdot c_d &amp; \text{如果成功率} &gt; 1/5 \ \sigma^{(t)} / c_d &amp; \text{如果成功率} &lt; 1/5 \ \sigma^{(t)} &amp; \text{如果成功率} = 1/5 \end{cases}$$</p>
+<p>$$\sigma^{(t+1)} = \begin{cases} \sigma^{(t)} \cdot c_d & \text{如果成功率} > 1/5 \\ \sigma^{(t)} / c_d & \text{如果成功率} < 1/5 \\ \sigma^{(t)} & \text{如果成功率} = 1/5 \end{cases}$$</p>
 <p>其中 $c_d \approx 0.817$。</p>
 <p><strong>CMA-ES</strong>（Hansen &amp; Ostermeier, 2001）是进化策略的巅峰之作。它不仅自适应步长，还自适应搜索方向：</p>
 <p>$$x_i^{(t+1)} \sim \mathcal{N}\left(m^{(t)}, (\sigma^{(t)})^2 C^{(t)}\right)$$</p>
@@ -665,8 +665,8 @@
 <h4>数学化表述</h4>
 <p>遗传编程中，个体是树形结构的程序：</p>
 <ul>
-<li><strong>函数集</strong> $F = {+, -, \times, \div, \sin, \cos, \text{if}, \ldots}$</li>
-<li><strong>终端集</strong> $T = {x, y, z, 0, 1, 2, \ldots}$</li>
+<li><strong>函数集</strong> $F = \{+, -, \times, \div, \sin, \cos, \text{if}, \ldots\}$</li>
+<li><strong>终端集</strong> $T = \{x, y, z, 0, 1, 2, \ldots\}$</li>
 </ul>
 <p>交叉操作：随机选择两棵树的子树并交换。<br>变异操作：随机选择一个子树并替换为随机生成的新子树。</p>
 <p>适应度通常定义为程序在训练数据上的误差：</p>
@@ -693,7 +693,7 @@
 <p>NAS 将同样的思想应用于神经网络：不再由人类专家手工设计网络结构，而是让算法自动搜索最优架构。</p>
 <h4>数学化表述</h4>
 <p>NAS 问题可以形式化为：</p>
-<p>$$a^* = \arg\max_{a \in \mathcal{A}} \text{Acc}<em>{\text{val}}(\text{train}(a, D</em>{\text{train}}))$$</p>
+<p>$$a^* = \arg\max_{a \in \mathcal{A}} \text{Acc}_{\text{val}}(\text{train}(a, D_{\text{train}}))$$</p>
 <p>其中 A 是架构搜索空间，a 是一个具体架构，训练后在验证集上评估准确率。</p>
 <p><strong>进化 NAS 的流程</strong>：</p>
 <ol>
@@ -742,7 +742,7 @@
 <ul>
 <li><strong>MAML</strong>（Model-Agnostic Meta-Learning, Finn et al., 2017）：学习一个好的初始化参数，使得在新任务上只需少量梯度步就能快速适应。这正是 Baldwin 效应的计算实现——进化（外层优化）找到一个容易学习的起点，学习（内层优化）完成具体任务的适应。</li>
 </ul>
-<p>$$\theta^* = \arg\min_\theta \sum_{\mathcal{T}<em>i} \mathcal{L}</em>{\mathcal{T}<em>i}\left(\theta - \alpha \nabla</em>\theta \mathcal{L}_{\mathcal{T}_i}(\theta)\right)$$</p>
+<p>$$\theta^* = \arg\min_\theta \sum_{\mathcal{T}_i} \mathcal{L}_{\mathcal{T}_i}\left(\theta - \alpha \nabla_\theta \mathcal{L}_{\mathcal{T}_i}(\theta)\right)$$</p>
 <p>其中：</p>
 <ul>
 <li><p>$\theta$ 表示元学习共享的初始化参数</p>

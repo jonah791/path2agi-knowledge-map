@@ -637,17 +637,17 @@
 <h3>3.2 数值稳定性（梯度消失/爆炸、softmax 技巧、log-sum-exp）</h3>
 <h4>数学定义</h4>
 <p>一个算法是<strong>数值稳定的</strong>（numerically stable），如果输入的微小扰动只导致输出的微小变化。形式化地，对于函数 $f$ 和扰动输入 $\tilde{x} = x + \delta x$：</p>
-<p>$$\frac{|f(\tilde{x}) - f(x)|}{|f(x)|} \leq C \cdot \frac{|\delta x|}{|x|}$$</p>
+<p>$$\frac{\|f(\tilde{x}) - f(x)\|}{\|f(x)\|} \leq C \cdot \frac{\|\delta x\|}{\|x\|}$$</p>
 <p>其中 $C$ 是与问题规模相关的常数。当 $C$ 很大时，问题是<strong>病态的</strong>（ill-conditioned）。</p>
 <h4>梯度消失与爆炸</h4>
 <p>考虑一个 $L$ 层的全连接网络，反向传播时梯度为：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial h_L} \cdot \prod_{l=2}^{L} \left( W_l^T \cdot \text{diag}(\sigma&#39;(z_l)) \right) \cdot x$$</p>
+<p>$$\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial h_L} \cdot \prod_{l=2}^{L} \left( W_l^T \cdot \text{diag}(\sigma'(z_l)) \right) \cdot x$$</p>
 <p>关键在于连乘项。设每层的雅可比矩阵最大奇异值为 λ：</p>
 <ul>
 <li>若 λ &lt; 1：梯度以指数速率衰减 → <strong>梯度消失</strong>（vanishing gradient）</li>
 <li>若 λ &gt; 1：梯度以指数速率增长 → <strong>梯度爆炸</strong>（exploding gradient）</li>
 </ul>
-<p>对于 sigmoid 激活函数，$\sigma&#39;(x) = \sigma(x)(1-\sigma(x)) \leq 0.25$，因此每层至少将梯度缩小 4 倍。100 层网络中，梯度衰减为 $0.25^{100} \approx 10^{-60}$，完全消失。</p>
+<p>对于 sigmoid 激活函数，$\sigma'(x) = \sigma(x)(1-\sigma(x)) \leq 0.25$，因此每层至少将梯度缩小 4 倍。100 层网络中，梯度衰减为 $0.25^{100} \approx 10^{-60}$，完全消失。</p>
 <h4>直觉理解</h4>
 <p>想象一个&quot;传话游戏&quot;：100 个人排成一排，每人把听到的话传给下一个人。如果每个人都会丢失一点信息（梯度消失），到最后一个人时信息已经面目全非。如果每个人都会夸大一点（梯度爆炸），最后的信息会变得荒谬。</p>
 <h4>Softmax 数值溢出与修复</h4>
@@ -716,15 +716,15 @@
 <li><strong>误差如何传播？</strong></li>
 </ul>
 <p>对线性系统 $Ax=b$，条件数定义为：</p>
-<p>$$\kappa(A) = |A| \cdot |A^{-1}|$$</p>
+<p>$$\kappa(A) = \|A\| \cdot \|A^{-1}\|$$</p>
 <p>其中：</p>
 <ul>
 <li>$\kappa(A)$ 表示矩阵 $A$ 的条件数</li>
-<li>$|A|$ 表示矩阵范数，用来刻画线性变换对向量长度的放大程度</li>
-<li>$|A^{-1}|$ 表示逆矩阵的范数，刻画求逆过程对误差的敏感性</li>
+<li>$\|A\|$ 表示矩阵范数，用来刻画线性变换对向量长度的放大程度</li>
+<li>$\|A^{-1}\|$ 表示逆矩阵的范数，刻画求逆过程对误差的敏感性</li>
 </ul>
 <p>若 $\kappa(A)$ 很大，则输入中的微小误差会被显著放大。前向误差关心结果偏离真解多少：</p>
-<p>$$\frac{|x - \hat{x}|}{|x|}$$</p>
+<p>$$\frac{\|x - \hat{x}\|}{\|x\|}$$</p>
 <p>后向误差关心算法是否等价于“精确解了一个轻微扰动后的问题”：</p>
 <p>$$(A + \delta A)\hat{x} = b + \delta b$$</p>
 <p>稳定算法追求的是小后向误差；病态问题即使配上稳定算法，也可能有不小的前向误差。</p>
@@ -791,19 +791,19 @@
 <li>$g(\cdot)$ 表示把旧解映射为新解的迭代算子</li>
 <li>$x^*$ 表示最终收敛到的不动点或最优解</li>
 </ul>
-<p>若序列收敛到不动点 $x^<em>$，则 $x^</em> = g(x^*)$。</p>
-<p><strong>收敛阶数</strong>：若存在常数 $C &gt; 0$ 和 $p \geq 1$，使得：</p>
-<p>$$|x_{n+1} - x^<em>| \leq C \cdot |x_n - x^</em>|^p$$</p>
+<p>若序列收敛到不动点 $x^*$，则 $x^* = g(x^*)$。</p>
+<p><strong>收敛阶数</strong>：若存在常数 $C > 0$ 和 $p \geq 1$，使得：</p>
+<p>$$\|x_{n+1} - x^*\| \leq C \cdot \|x_n - x^*\|^p$$</p>
 <p>则称迭代法具有 $p$ 阶收敛性。$p=1$ 为线性收敛，$p=2$ 为二次收敛（如 Newton 法）。</p>
 <h4>梯度下降的收敛性分析</h4>
 <p>对于 $L$-光滑（$L$-smooth）凸函数 $f$，梯度下降 $x_{n+1} = x_n - \eta \nabla f(x_n)$ 的收敛速率为：</p>
-<p>$$f(x_n) - f(x^<em>) \leq \frac{|x_0 - x^</em>|^2}{2\eta n}$$</p>
+<p>$$f(x_n) - f(x^*) \leq \frac{\|x_0 - x^*\|^2}{2\eta n}$$</p>
 <p>即 $O(1/n)$ 的次线性收敛。若函数还是 $\mu$-强凸的，则：</p>
-<p>$$|x_n - x^<em>|^2 \leq \left(1 - \frac{\mu}{L}\right)^n |x_0 - x^</em>|^2$$</p>
+<p>$$\|x_n - x^*\|^2 \leq \left(1 - \frac{\mu}{L}\right)^n \|x_0 - x^*\|^2$$</p>
 <p>即线性收敛，速率取决于条件数 $\kappa = L/\mu$。条件数越大，收敛越慢——这就是为什么预处理（preconditioning）如此重要。</p>
 <h4>随机梯度下降（SGD）的收敛性</h4>
 <p>SGD 使用随机梯度 $\tilde{g}$ 代替真实梯度 $\nabla f$，满足：</p>
-<p>$$\mathbb{E}[\tilde{g}] = \nabla f(x), \quad \mathbb{E}[|\tilde{g} - \nabla f(x)|^2] \leq \sigma^2$$</p>
+<p>$$\mathbb{E}[\tilde{g}] = \nabla f(x), \quad \mathbb{E}[\|\tilde{g} - \nabla f(x)\|^2] \leq \sigma^2$$</p>
 <p>SGD 的收敛速率为 $O(1/\sqrt{n})$，比确定性梯度下降慢，但每步计算量小得多。这是一个经典的<strong>方差-效率权衡</strong>（variance-efficiency tradeoff）。</p>
 <h4>直觉理解</h4>
 <p>迭代法就像&quot;逐步逼近&quot;：你不知道答案的精确值，但你知道一个改进规则，每一步都比上一步更接近答案。收敛速率告诉你&quot;逼近的速度&quot;——线性收敛每步消除固定比例的误差，二次收敛每步让有效数字翻倍。</p>
@@ -844,7 +844,7 @@
 <p>连续数学对象必须先被<strong>离散化</strong>（discretization）才能进入计算机。设连续时间系统满足：</p>
 <p>$$\frac{dh(t)}{dt} = f(h(t), t)$$</p>
 <p>用欧拉法离散化得到：</p>
-<p>$$h_{k+1} = h_k + \Delta t , f(h_k, t_k)$$</p>
+<p>$$h_{k+1} = h_k + \Delta t \, f(h_k, t_k)$$</p>
 <p>其中：</p>
 <ul>
 <li>$h_k$ 表示第 $k$ 个离散时间步的系统状态</li>
@@ -877,7 +877,7 @@
 <p><strong>欧拉法</strong>（一阶）：</p>
 <p>$$y_{n+1} = y_n + h \cdot f(t_n, y_n), \quad \text{局部截断误差} = O(h^2)$$</p>
 <p><strong>经典四阶 Runge-Kutta（RK4）</strong>：</p>
-<p>$$k_1 = f(t_n, y_n)$$<br>$$k_2 = f(t_n + h/2, ; y_n + h k_1/2)$$<br>$$k_3 = f(t_n + h/2, ; y_n + h k_2/2)$$<br>$$k_4 = f(t_n + h, ; y_n + h k_3)$$<br>$$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4), \quad \text{局部截断误差} = O(h^5)$$</p>
+<p>$$k_1 = f(t_n, y_n)$$<br>$$k_2 = f(t_n + h/2, \; y_n + h k_1/2)$$<br>$$k_3 = f(t_n + h/2, \; y_n + h k_2/2)$$<br>$$k_4 = f(t_n + h, \; y_n + h k_3)$$<br>$$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4), \quad \text{局部截断误差} = O(h^5)$$</p>
 <p>RK4 每步需要 4 次函数求值，但精度远高于欧拉法。在 Neural ODE 中，&quot;函数求值&quot;就是一次神经网络前向传播。</p>
 <h4>自适应步长控制</h4>
 <p>Neural ODE 的一大优势是可以使用<strong>自适应步长</strong> ODE 求解器（如 Dormand-Prince 方法）。求解器根据局部误差估计自动调整步长：</p>

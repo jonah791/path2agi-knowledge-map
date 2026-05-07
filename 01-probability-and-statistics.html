@@ -620,16 +620,16 @@
 </blockquote>
 <h3>3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</h3>
 <h4>MLE 的数学定义</h4>
-<p>给定独立同分布的观测数据 $D = {x_1, x_2, \ldots, x_n}$，最大似然估计寻找使数据出现概率最大的参数：</p>
-<p>$$\hat{\theta}<em>{MLE} = \arg\max</em>\theta P(D|\theta) = \arg\max_\theta \prod_{i=1}^{n} P(x_i|\theta)$$</p>
+<p>给定独立同分布的观测数据 $D = \{x_1, x_2, \ldots, x_n\}$，最大似然估计寻找使数据出现概率最大的参数：</p>
+<p>$$\hat{\theta}_{MLE} = \arg\max_\theta P(D|\theta) = \arg\max_\theta \prod_{i=1}^{n} P(x_i|\theta)$$</p>
 <p>其中：</p>
 <ul>
-<li>$D = {x_1, \ldots, x_n}$ 表示观测样本</li>
+<li>$D = \{x_1, \ldots, x_n\}$ 表示观测样本</li>
 <li>$P(x_i \mid \theta)$ 表示参数 $\theta$ 下观测 $x_i$ 的似然</li>
 <li>$\hat{\theta}_{MLE}$ 是使得全样本似然最大的参数</li>
 </ul>
 <p>实践中通常最大化对数似然（Log-Likelihood），因为乘积变求和，数值更稳定：</p>
-<p>$$\hat{\theta}<em>{MLE} = \arg\max</em>\theta \sum_{i=1}^{n} \log P(x_i|\theta)$$</p>
+<p>$$\hat{\theta}_{MLE} = \arg\max_\theta \sum_{i=1}^{n} \log P(x_i|\theta)$$</p>
 <p>其中：</p>
 <ul>
 <li>对数似然将乘积转为求和，使得数值更稳定</li>
@@ -691,12 +691,12 @@
 <p><strong>Metropolis-Hastings 算法</strong>：</p>
 <ol>
 <li><p>从当前状态出发，根据提议分布生成候选状态：</p>
-<p>$$\theta^{(t)} \xrightarrow{;q(\theta&#39; \mid \theta^{(t)});} \theta&#39;$$</p>
+<p>$$\theta^{(t)} \xrightarrow{\;q(\theta' \mid \theta^{(t)})\;} \theta'$$</p>
 </li>
-<li><p>计算接受概率：<br>$$\alpha = \min\left(1, \frac{P(\theta&#39; \mid D) \cdot q(\theta^{(t)} \mid \theta&#39;)}{P(\theta^{(t)} \mid D) \cdot q(\theta&#39; \mid \theta^{(t)})}\right)$$</p>
+<li><p>计算接受概率：<br>$$\alpha = \min\left(1, \frac{P(\theta' \mid D) \cdot q(\theta^{(t)} \mid \theta')}{P(\theta^{(t)} \mid D) \cdot q(\theta' \mid \theta^{(t)})}\right)$$</p>
 <p>其中：</p>
 <ul>
-<li>$q(\theta&#39; \mid \theta^{(t)})$ 是从当前状态提出候选的提议分布</li>
+<li>$q(\theta' \mid \theta^{(t)})$ 是从当前状态提出候选的提议分布</li>
 <li>分式的比值使得链的平稳分布恰为目标后验 $P(\theta \mid D)$</li>
 <li>$\min(1, \cdot)$ 保证接受率不超过 1</li>
 </ul>
@@ -716,7 +716,7 @@
 <p>蒙特卡洛链是一个&quot;采样脚本&quot;：每一步先提出下一个候选，再根据目标分布决定是否接受。若候选点落在高概率区域，就更容易被接受，链会在该区域徘徊；若落在低概率区域，就会被拒绝，从而停留在旧点。长期下来，链上的点就按真实分布出现，想要得到平稳分布只需让链运行足够久。</p>
 <h4>在 AI 中的角色</h4>
 <ul>
-<li><strong>序列模型</strong>：马尔可夫性质是 RNN、Transformer 中自回归生成的理论基础。语言模型 $P(w_t \mid w_{&lt;t})$ 本质上是在建模一个（高阶）马尔可夫过程。</li>
+<li><strong>序列模型</strong>：马尔可夫性质是 RNN、Transformer 中自回归生成的理论基础。语言模型 $P(w_t \mid w_{<t})$ 本质上是在建模一个（高阶）马尔可夫过程。</li>
 <li><strong>扩散模型（Diffusion Models）</strong>：DDPM 的前向过程是一条马尔可夫链，逐步向数据添加高斯噪声；反向过程也是马尔可夫链，逐步去噪。整个框架的数学基础是马尔可夫链的转移核和平稳分布理论。</li>
 <li><strong>强化学习</strong>：马尔可夫决策过程（Markov Decision Process, MDP）是强化学习的数学框架，状态转移满足马尔可夫性质。</li>
 <li><strong>贝叶斯深度学习</strong>：当变分推断不够精确时，MCMC 提供了渐近精确的后验采样方法。随机梯度 Langevin 动力学（SGLD）将 MCMC 与随机梯度下降结合，使大规模贝叶斯推断成为可能。</li>
@@ -748,7 +748,7 @@
 <h3>3.5 交叉熵与 KL 散度的概率论视角</h3>
 <h4>从概率论角度理解信息论概念</h4>
 <p>**KL 散度（Kullback-Leibler Divergence）**衡量两个概率分布之间的&quot;距离&quot;：</p>
-<p>$$D_{KL}(P | Q) = \sum_x P(x) \log \frac{P(x)}{Q(x)} = \mathbb{E}_{P}\left[\log \frac{P(x)}{Q(x)}\right]$$</p>
+<p>$$D_{KL}(P \| Q) = \sum_x P(x) \log \frac{P(x)}{Q(x)} = \mathbb{E}_{P}\left[\log \frac{P(x)}{Q(x)}\right]$$</p>
 <p>其中：</p>
 <ul>
 <li>$P(x)$ 是真实分布</li>
@@ -759,7 +759,7 @@
 <p>$$D_{KL}(P \parallel Q)$$</p>
 <p>KL 散度非负（Gibbs 不等式），且当且仅当 $P = Q$ 时为零。</p>
 <p><strong>交叉熵（Cross-Entropy）</strong>：</p>
-<p>$$H(P, Q) = -\sum_x P(x) \log Q(x) = H(P) + D_{KL}(P | Q)$$</p>
+<p>$$H(P, Q) = -\sum_x P(x) \log Q(x) = H(P) + D_{KL}(P \| Q)$$</p>
 <p>其中：</p>
 <ul>
 <li><p>真实分布的熵为：</p>
@@ -784,7 +784,7 @@
 <li><strong>语言模型</strong>：预测下一个 token 的交叉熵损失，本质上是在最小化模型分布与真实语言分布之间的 KL 散度。GPT 系列模型的训练目标就是最小化交叉熵。</li>
 <li><strong>VAE 的 ELBO</strong>：证据下界可以分解为重构损失（交叉熵）和正则化项（KL 散度）：</li>
 </ul>
-<p>$$\text{ELBO} = \mathbb{E}<em>{q(z|x)}[\log p(x|z)] - D</em>{KL}(q(z|x) | p(z))$$</p>
+<p>$$\text{ELBO} = \mathbb{E}_{q(z|x)}[\log p(x|z)] - D_{KL}(q(z|x) \| p(z))$$</p>
 <ul>
 <li><strong>知识蒸馏（Knowledge Distillation）</strong>：Hinton 等人 (2015) 提出用 KL 散度衡量学生模型和教师模型输出分布的差异，作为蒸馏损失。</li>
 </ul>
@@ -851,7 +851,7 @@
 <ol>
 <li><strong>点估计</strong>：我们先估计增量效果为 $0.11 - 0.08 = 0.03$，也就是 B 组点击率高出 3 个百分点。</li>
 <li><strong>假设检验</strong>：设零假设为“两组真实点击率相等”，用双样本比例检验可得到 z 统计量约 2.29，对应双侧 p 值约 0.022。这说明如果两组真实无差异，观察到这样大的样本差距并不常见。</li>
-<li><strong>置信区间</strong>：该差值的 95% 置信区间约为 $[0.4%, 5.6%]$。相比只说“显著”或“不显著”，区间还能告诉我们效果可能有多大。</li>
+<li><strong>置信区间</strong>：该差值的 95% 置信区间约为 $[0.4\%, 5.6\%]$。相比只说“显著”或“不显著”，区间还能告诉我们效果可能有多大。</li>
 </ol>
 <p>这个例子也正好说明概率论与统计学的分工：概率模型告诉我们点击可被看作 Bernoulli / 二项分布，统计推断则把有限样本转化为“差值估计 + 显著性判断 + 不确定性区间”。</p>
 <h4>直觉理解</h4>
@@ -973,7 +973,7 @@
 <li><p>可以生成新样本、处理缺失数据、进行半监督学习</p>
 </li>
 <li><p>GPT 系列本质上是自回归生成模型：</p>
-<p>$$P(x) = \prod_t P(x_t \mid x_{&lt;t})$$</p>
+<p>$$P(x) = \prod_t P(x_t \mid x_{<t})$$</p>
 </li>
 </ul>
 <p><strong>能量模型（Energy-Based Models）</strong>：通过能量函数定义未归一化的概率：</p>
@@ -1004,7 +1004,7 @@
 <ul>
 <li><strong>第一层（关联）</strong>：$P(y \mid x)$ — 当前深度学习擅长的层面</li>
 <li><strong>第二层（干预）</strong>：$P(y \mid \mathrm{do}(x))$ — 需要因果模型，不能仅从观测数据获得</li>
-<li><strong>第三层（反事实）</strong>：$P(y_x \mid x&#39;, y&#39;)$ — 需要完整的结构因果模型</li>
+<li><strong>第三层（反事实）</strong>：$P(y_x \mid x', y')$ — 需要完整的结构因果模型</li>
 </ul>
 <p>从关联到因果的跨越，被认为是通向 AGI 的关键一步。Yoshua Bengio 等人提出的&quot;系统 2 深度学习&quot;强调了因果推断的重要性。</p>
 <h3>5.3 概率编程（Probabilistic Programming）</h3>

@@ -108,8 +108,15 @@ function buildTopicPage(md, file) {
   const title = titleMatch ? titleMatch[1].replace(/\*\*/g, '') : file;
   const topicNum = currentTopic ? String(currentTopic[0]).padStart(2,'0') : '';
 
-  // Render markdown
-  const bodyHtml = marked.parse(md, { breaks: true, gfm: true });
+  // Protect LaTeX math blocks from marked (prevents _ being converted to <em>)
+  const mathBlocks = [];
+  let mdProtected = md.replace(/(\$\$[\s\S]*?\$\$|\$(?:[^$\n]+?)\$)/g, (match) => {
+    const idx = mathBlocks.length;
+    mathBlocks.push(match);
+    return `@@MATH${idx}@@`;
+  });
+  const bodyHtml = marked.parse(mdProtected, { breaks: true, gfm: true })
+    .replace(/@@MATH(\d+)@@/g, (_, idx) => mathBlocks[parseInt(idx)]);
 
   // Build meta
   const g = currentTopic ? currentTopic[3]-1 : 0;

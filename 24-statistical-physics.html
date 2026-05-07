@@ -607,7 +607,7 @@
 </ul>
 <h3>3.2 Boltzmann 分布与配分函数</h3>
 <h4>数学定义</h4>
-<p>对于一个具有离散状态 ${x_i}$ 的系统，每个状态的能量为 $E(x_i)$，在温度 $T$ 下，系统处于状态 $x_i$ 的概率为：</p>
+<p>对于一个具有离散状态 $\{x_i\}$ 的系统，每个状态的能量为 $E(x_i)$，在温度 $T$ 下，系统处于状态 $x_i$ 的概率为：</p>
 <p>$$P(x_i) = \frac{1}{Z} \exp\left(-\frac{E(x_i)}{k_B T}\right)$$</p>
 <p>其中配分函数（partition function）为：</p>
 <p>$$Z = \sum_i \exp\left(-\frac{E(x_i)}{k_B T}\right)$$</p>
@@ -632,14 +632,14 @@
 </ol>
 <h3>3.3 Ising 模型与相变</h3>
 <h4>数学定义</h4>
-<p>二维 Ising 模型定义在 $N \times N$ 的格点上，每个格点 $i$ 有自旋 $s_i \in {-1, +1}$，系统的能量为：</p>
+<p>二维 Ising 模型定义在 $N \times N$ 的格点上，每个格点 $i$ 有自旋 $s_i \in \{-1, +1\}$，系统的能量为：</p>
 <p>$$E(\mathbf{s}) = -J \sum_{\langle i,j \rangle} s_i s_j - h \sum_i s_i$$</p>
 <p>其中 $J$ 是耦合常数，$h$ 是外磁场，$\langle i,j \rangle$ 表示最近邻格点对。</p>
 <h4>相变现象</h4>
 <p>在二维 Ising 模型中，存在临界温度 $T_c$（Onsager 精确解给出 $T_c = 2J / (k_B \ln(1+\sqrt{2}))$）：</p>
 <ul>
-<li>$T &lt; T_c$：系统呈现长程有序（铁磁相），大部分自旋同向排列</li>
-<li>$T &gt; T_c$：系统无序（顺磁相），自旋随机取向</li>
+<li>$T < T_c$：系统呈现长程有序（铁磁相），大部分自旋同向排列</li>
+<li>$T > T_c$：系统无序（顺磁相），自旋随机取向</li>
 <li>$T = T_c$：临界点，关联长度发散，系统呈现幂律行为（scale-free）</li>
 </ul>
 <h4>直觉理解</h4>
@@ -657,10 +657,10 @@
 <ol>
 <li>初始化：选择初始解，并设定初始温度</li>
 <li>在当前温度下生成邻域解</li>
-<li>计算能量差 $\Delta E = E(x&#39;) - E(x)$</li>
+<li>计算能量差 $\Delta E = E(x') - E(x)$</li>
 <li>接受准则（Metropolis 准则）：</li>
 </ol>
-<p>$$P(\text{accept}) = \begin{cases} 1 &amp; \text{if } \Delta E &lt; 0 \ \exp(-\Delta E / T) &amp; \text{if } \Delta E \geq 0 \end{cases}$$</p>
+<p>$$P(\text{accept}) = \begin{cases} 1 & \text{if } \Delta E < 0 \\ \exp(-\Delta E / T) & \text{if } \Delta E \geq 0 \end{cases}$$</p>
 <p>其中：</p>
 <ul>
 <li>$\Delta E$ 表示新解与当前解的能量差</li>
@@ -693,7 +693,7 @@
 <h3>3.5 非平衡过程、朗之万动力学与扩散模型</h3>
 <h4>朗之万动力学（Langevin Dynamics）</h4>
 <p>朗之万方程描述粒子在势场中受随机力驱动的运动：</p>
-<p>$$dx = -\nabla E(x) , dt + \sqrt{2T} , dW_t$$</p>
+<p>$$dx = -\nabla E(x) \, dt + \sqrt{2T} \, dW_t$$</p>
 <p>其中 $\nabla E(x)$ 是势场的梯度力，$dW_t$ 是 Wiener 过程（布朗运动）。</p>
 <p>在平衡态下（$t \to \infty$），粒子的分布收敛到 Boltzmann 分布：</p>
 <p>$$p_{\text{eq}}(x) \propto \exp(-E(x) / T)$$</p>
@@ -703,20 +703,20 @@
 <p>如果 $p(x) \propto \exp(-E(x))$，则 $\mathbf{s}(x) = -\nabla_x E(x)$，即得分函数就是负能量梯度。</p>
 <h4>扩散模型的前向过程</h4>
 <p>给定原始数据，前向过程会逐步加噪：</p>
-<p>$$q(x_t | x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t} , x_{t-1}, \beta_t \mathbf{I})$$</p>
+<p>$$q(x_t | x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t} \, x_{t-1}, \beta_t \mathbf{I})$$</p>
 <p>经过足够多步后，最终状态近似服从标准高斯分布。</p>
 <p>利用重参数化技巧，可以直接从 $x_0$ 采样任意时刻 $t$ 的 $x_t$：</p>
-<p>$$q(x_t | x_0) = \mathcal{N}(x_t; \sqrt{\bar{\alpha}_t} , x_0, (1-\bar{\alpha}_t) \mathbf{I})$$</p>
+<p>$$q(x_t | x_0) = \mathcal{N}(x_t; \sqrt{\bar{\alpha}_t} \, x_0, (1-\bar{\alpha}_t) \mathbf{I})$$</p>
 <p>其中：</p>
 <ul>
 <li>$\alpha_t = 1 - \beta_t$</li>
-<li>$\bar{\alpha}<em>t = \prod</em>{s=1}^{t} \alpha_s$</li>
+<li>$\bar{\alpha}_t = \prod_{s=1}^{t} \alpha_s$</li>
 </ul>
 <h4>扩散模型的反向过程</h4>
 <p>反向过程学习从噪声恢复数据：</p>
 <p>$$p_\theta(x_{t-1} | x_t) = \mathcal{N}(x_{t-1}; \mu_\theta(x_t, t), \sigma_t^2 \mathbf{I})$$</p>
 <p>训练目标是预测噪声 $\epsilon$：</p>
-<p>$$\mathcal{L} = \mathbb{E}<em>{t, x_0, \epsilon} \left[ | \epsilon - \epsilon</em>\theta(x_t, t) |^2 \right]$$</p>
+<p>$$\mathcal{L} = \mathbb{E}_{t, x_0, \epsilon} \left[ \| \epsilon - \epsilon_\theta(x_t, t) \|^2 \right]$$</p>
 <p>这等价于学习得分函数，也就是对数密度关于 $x_t$ 的梯度。</p>
 <h4>直觉理解</h4>
 <ul>
@@ -775,7 +775,7 @@
 <li><strong>自由能原理</strong>：变分推断中的 ELBO 就是自由能的变分形式</li>
 </ul>
 <p>$$F = \langle E \rangle - TS = -T \ln Z$$</p>
-<p>$$\text{ELBO} = \mathbb{E}<em>{q(z|x)}[\log p(x|z)] - D</em>{\text{KL}}(q(z|x) | p(z))$$</p>
+<p>$$\text{ELBO} = \mathbb{E}_{q(z|x)}[\log p(x|z)] - D_{\text{KL}}(q(z|x) \| p(z))$$</p>
 <ul>
 <li><strong>最大熵原理</strong>：在给定约束下，熵最大的分布是最&quot;无偏&quot;的选择，这为正则化提供了物理直觉</li>
 </ul>

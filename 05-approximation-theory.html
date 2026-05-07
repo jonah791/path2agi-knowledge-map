@@ -557,8 +557,8 @@
 <h2>3. 核心知识点详解</h2>
 <h3>3.1 Weierstrass 逼近定理</h3>
 <h4>数学定义</h4>
-<p><strong>定理（Weierstrass, 1885）</strong>：设 $f: [a, b] \to \mathbb{R}$ 是连续函数，则对任意 $\varepsilon &gt; 0$，存在多项式 $p(x)$ 使得：</p>
-<p>$$\sup_{x \in [a,b]} |f(x) - p(x)| &lt; \varepsilon$$</p>
+<p><strong>定理（Weierstrass, 1885）</strong>：设 $f: [a, b] \to \mathbb{R}$ 是连续函数，则对任意 $\varepsilon > 0$，存在多项式 $p(x)$ 使得：</p>
+<p>$$\sup_{x \in [a,b]} |f(x) - p(x)| < \varepsilon$$</p>
 <p>等价地，多项式在 $C([a,b])$（配备上确界范数的连续函数空间）中稠密。</p>
 <h4>Bernstein 多项式构造</h4>
 <p>Bernstein 给出了显式构造：</p>
@@ -575,8 +575,8 @@
 <hr>
 <h3>3.2 万能逼近定理（Universal Approximation Theorem）</h3>
 <h4>数学定义</h4>
-<p><strong>定理（Cybenko, 1989）</strong>：设 $\sigma: \mathbb{R} \to \mathbb{R}$ 是连续的 sigmoid 型函数（即 $\sigma(t) \to 1$ 当 $t \to +\infty$，$\sigma(t) \to 0$ 当 $t \to -\infty$）。则对任意紧致集 $K \subset \mathbb{R}^n$、任意连续函数 $f: K \to \mathbb{R}$ 和任意 $\varepsilon &gt; 0$，存在整数 $N$、实数 $w_i, b_i, v_i$ 使得：</p>
-<p>$$\sup_{x \in K} \left| f(x) - \sum_{i=1}^{N} v_i \sigma(w_i^T x + b_i) \right| &lt; \varepsilon$$</p>
+<p><strong>定理（Cybenko, 1989）</strong>：设 $\sigma: \mathbb{R} \to \mathbb{R}$ 是连续的 sigmoid 型函数（即 $\sigma(t) \to 1$ 当 $t \to +\infty$，$\sigma(t) \to 0$ 当 $t \to -\infty$）。则对任意紧致集 $K \subset \mathbb{R}^n$、任意连续函数 $f: K \to \mathbb{R}$ 和任意 $\varepsilon > 0$，存在整数 $N$、实数 $w_i, b_i, v_i$ 使得：</p>
+<p>$$\sup_{x \in K} \left| f(x) - \sum_{i=1}^{N} v_i \sigma(w_i^T x + b_i) \right| < \varepsilon$$</p>
 <p>其中：$K$ 是输入空间中的紧致集，$f$ 是目标连续函数，$N$ 是隐层神经元数量，$w_i, b_i, v_i$ 分别表示第 $i$ 个神经元的输入权重、偏置和输出系数，$\varepsilon$ 是允许的逼近误差。</p>
 <h4>Hornik 的推广</h4>
 <p><strong>定理（Hornik et al., 1989）</strong>：上述结论对任何非常值的有界可测激活函数 $\sigma$ 都成立。更进一步，Hornik (1991) 证明了单隐层网络不仅可以逼近函数值，还可以逼近其任意阶导数。</p>
@@ -602,8 +602,8 @@
 <hr>
 <h3>3.3 深度 vs 宽度——为什么深层网络更高效</h3>
 <h4>深度分离定理</h4>
-<p><strong>定理（Telgarsky, 2016）</strong>：存在由深度为 $k$ 的 ReLU 网络表示的函数，任何深度为 $k&#39; &lt; k$ 的网络要逼近它，宽度必须是指数级的。</p>
-<p>具体地，深度为 $k$ 的网络可以表示具有 $2^k$ 个振荡的函数，而深度为 $k&#39;$ 的网络要逼近这样的函数，宽度至少需要 $2^{k-k&#39;}$。</p>
+<p><strong>定理（Telgarsky, 2016）</strong>：存在由深度为 $k$ 的 ReLU 网络表示的函数，任何深度为 $k' < k$ 的网络要逼近它，宽度必须是指数级的。</p>
+<p>具体地，深度为 $k$ 的网络可以表示具有 $2^k$ 个振荡的函数，而深度为 $k'$ 的网络要逼近这样的函数，宽度至少需要 $2^{k-k'}$。</p>
 <h4>组合爆炸论证</h4>
 <p>深层网络的高效性可以从<strong>组合</strong>角度理解。考虑一个深度为 $L$、每层宽度为 $w$ 的网络：</p>
 <ul>
@@ -661,12 +661,12 @@
 </tr>
 <tr>
 <td>RBF（高斯）核</td>
-<td>$k(x,y) = \exp(-\gamma |x-y|^2)$</td>
+<td>$k(x,y) = \exp(-\gamma \|x-y\|^2)$</td>
 <td>$\infty$（无穷）</td>
 </tr>
 <tr>
 <td>Laplace 核</td>
-<td>$k(x,y) = \exp(-\gamma |x-y|_1)$</td>
+<td>$k(x,y) = \exp(-\gamma \|x-y\|_1)$</td>
 <td>$\infty$（无穷）</td>
 </tr>
 </tbody></table>
@@ -678,7 +678,7 @@
 <p>直白地说，RKHS 解决的是“我们要在哪个函数空间里讨论逼近、正则化和最优解”这个问题。它把“函数”也当作几何对象来处理，于是长度、相似性与复杂度都可以被严格定义。</p>
 <h4>表示定理（Representer Theorem）</h4>
 <p><strong>定理</strong>：在 RKHS 中，正则化经验风险最小化问题：</p>
-<p>$$\min_{f \in \mathcal{H}} \sum_{i=1}^{n} L(y_i, f(x_i)) + \lambda |f|_{\mathcal{H}}^2$$</p>
+<p>$$\min_{f \in \mathcal{H}} \sum_{i=1}^{n} L(y_i, f(x_i)) + \lambda \|f\|_{\mathcal{H}}^2$$</p>
 <p>的解具有形式：</p>
 <p>$$f^*(x) = \sum_{i=1}^{n} \alpha_i k(x, x_i)$$</p>
 <p>这意味着：<strong>无穷维优化问题的解可以用有限个训练样本的核函数线性组合表示</strong>。这是核方法计算可行性的理论基石。</p>
@@ -689,7 +689,9 @@
 <h4>一个极小例子：XOR 为什么需要核技巧</h4>
 <p>设四个点分别为 $(0,0)$、$(0,1)$、$(1,0)$、$(1,1)$，其中异或标签规定“恰有一个坐标为 1 时标签为正类”。在原二维空间里，正类点位于对角线两侧，任何直线都无法把它们与负类同时分开。</p>
 <p>如果改用映射</p>
-<p>$$<br>\phi(x_1, x_2) = (x_1, x_2, x_1x_2)<br>$$</p>
+<p>$$
+\phi(x_1, x_2) = (x_1, x_2, x_1x_2)
+$$</p>
 <p>那么 $(1,1)$ 会被抬到第三维，而另外三个点的第三维不同，问题就可能被一个平面分开。这个例子说明：核方法并不是“神奇地变复杂”，而是在高维函数空间里把原本难分的数据重新组织成更简单的几何形状。</p>
 <h4>AI 中的角色</h4>
 <ul>
@@ -710,19 +712,19 @@
 <p>NTK 理论为这些问题提供了统一的解释框架。</p>
 <h4>数学定义</h4>
 <p>考虑参数为 $\theta$ 的神经网络 $f(x; \theta)$。<strong>神经正切核</strong>定义为：</p>
-<p>$$\Theta(x, x&#39;) = \left\langle \frac{\partial f(x; \theta)}{\partial \theta}, \frac{\partial f(x&#39;; \theta)}{\partial \theta} \right\rangle$$</p>
+<p>$$\Theta(x, x') = \left\langle \frac{\partial f(x; \theta)}{\partial \theta}, \frac{\partial f(x'; \theta)}{\partial \theta} \right\rangle$$</p>
 <p>即网络输出关于参数的梯度的内积。</p>
 <h4>核心结论</h4>
 <p><strong>定理（Jacot et al., 2018）</strong>：当网络宽度趋于无穷时：</p>
 <ol>
-<li><strong>NTK 在初始化时收敛到确定性核</strong>：$\Theta_0(x, x&#39;) \to \Theta^*(x, x&#39;)$</li>
+<li><strong>NTK 在初始化时收敛到确定性核</strong>：$\Theta_0(x, x') \to \Theta^*(x, x')$</li>
 <li><strong>NTK 在训练过程中保持不变</strong>：$\Theta_t \approx \Theta_0$（lazy training regime）</li>
 <li><strong>梯度下降等价于核回归</strong>：网络的训练动态等价于在 NTK 对应的 RKHS 中做核回归</li>
 </ol>
 <p>具体地，在连续时间梯度下降下，网络输出的演化满足：</p>
 <p>$$\frac{d f_t(x)}{dt} = -\Theta^*(x, X)(f_t(X) - Y)$$</p>
 <p>其中 $X, Y$ 是训练数据。这是一个线性 ODE，解为：</p>
-<p>$$f_t(x) = f_0(x) + \Theta^<em>(x, X)\Theta^</em>(X, X)^{-1}(I - e^{-\Theta^*(X,X)t})(Y - f_0(X))$$</p>
+<p>$$f_t(x) = f_0(x) + \Theta^*(x, X)\Theta^*(X, X)^{-1}(I - e^{-\Theta^*(X,X)t})(Y - f_0(X))$$</p>
 <p>当 $t \to \infty$ 时，收敛到核回归的解。</p>
 <h4>直觉理解</h4>
 <p>NTK 理论揭示了一个深刻的联系：<strong>无限宽的神经网络 = 核方法</strong>。训练神经网络就是在一个由网络架构决定的 RKHS 中做函数逼近。</p>

@@ -623,7 +623,7 @@
 <p>&quot;You shall know a word by the company it keeps.&quot;（观其伴，知其义。）</p>
 </blockquote>
 <p><strong>数学化表述</strong>：</p>
-<p>设词汇表为 $V = {w_1, w_2, \ldots, w_N}$，上下文窗口大小为 $k$。对于词 $w_i$，其上下文向量为：</p>
+<p>设词汇表为 $V = \{w_1, w_2, \ldots, w_N\}$，上下文窗口大小为 $k$。对于词 $w_i$，其上下文向量为：</p>
 <p>$$\mathbf{c}(w_i) = [c_{i1}, c_{i2}, \ldots, c_{iN}]$$</p>
 <p>其中 $c_{ij}$ 表示词 $w_j$ 在 $w_i$ 的上下文窗口中出现的次数（或经过 TF-IDF、PMI 等加权后的值）。</p>
 <p>两个词的语义相似度可以用余弦相似度衡量：</p>
@@ -643,18 +643,18 @@
 <p><strong>Word2Vec（Mikolov et al., 2013）</strong>：</p>
 <p>两种架构：</p>
 <ol>
-<li><p><strong>CBOW（Continuous Bag of Words）</strong>：用上下文预测中心词 $P(w_t | w_{t-k}, \ldots, w_{t-1}, w_{t+1}, \ldots, w_{t+k})$<br>其中上下文集合 ${w_{t-k}, \ldots, w_{t+k}}\setminus {w_t}$ 提供了条件信息，模型试图在所有可能的中心词中选出最有可能的那个。</p>
+<li><p><strong>CBOW（Continuous Bag of Words）</strong>：用上下文预测中心词 $P(w_t | w_{t-k}, \ldots, w_{t-1}, w_{t+1}, \ldots, w_{t+k})$<br>其中上下文集合 $\{w_{t-k}, \ldots, w_{t+k}\}\setminus \{w_t\}$ 提供了条件信息，模型试图在所有可能的中心词中选出最有可能的那个。</p>
 </li>
-<li><p><strong>Skip-gram</strong>：用中心词预测上下文 $P(w_{t+j} | w_t), \quad -k \leq j \leq k, ; j \neq 0$<br>其中 $j$ 表示上下文位置的偏移，负值对应过去，正值对应未来，模型为每个位置学习相应的分布。</p>
+<li><p><strong>Skip-gram</strong>：用中心词预测上下文 $P(w_{t+j} | w_t), \quad -k \leq j \leq k, \; j \neq 0$<br>其中 $j$ 表示上下文位置的偏移，负值对应过去，正值对应未来，模型为每个位置学习相应的分布。</p>
 </li>
 </ol>
 <p>Skip-gram 的目标函数：</p>
 <p>$$J = -\frac{1}{T} \sum_{t=1}^{T} \sum_{-k \leq j \leq k, j \neq 0} \log P(w_{t+j} | w_t)$$</p>
 <p>其中：</p>
-<p>$$P(w_O | w_I) = \frac{\exp(\mathbf{v}&#39;<em>{w_O} \cdot \mathbf{v}</em>{w_I})}{\sum_{w=1}^{W} \exp(\mathbf{v}&#39;<em>w \cdot \mathbf{v}</em>{w_I})}$$</p>
+<p>$$P(w_O | w_I) = \frac{\exp(\mathbf{v}'_{w_O} \cdot \mathbf{v}_{w_I})}{\sum_{w=1}^{W} \exp(\mathbf{v}'_w \cdot \mathbf{v}_{w_I})}$$</p>
 <p><strong>负采样（Negative Sampling）</strong>：</p>
 <p>由于 softmax 的分母需要遍历整个词汇表，计算代价极高。负采样将问题转化为二分类：</p>
-<p>$$J_{\text{NEG}} = \log \sigma(\mathbf{v}&#39;<em>{w_O} \cdot \mathbf{v}</em>{w_I}) + \sum_{i=1}^{k} \mathbb{E}<em>{w_i \sim P_n(w)} [\log \sigma(-\mathbf{v}&#39;</em>{w_i} \cdot \mathbf{v}_{w_I})]$$</p>
+<p>$$J_{\text{NEG}} = \log \sigma(\mathbf{v}'_{w_O} \cdot \mathbf{v}_{w_I}) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n(w)} [\log \sigma(-\mathbf{v}'_{w_i} \cdot \mathbf{v}_{w_I})]$$</p>
 <p>其中 $\sigma$ 是 sigmoid 函数，$P_n(w)$ 是噪声分布（通常取词频的 3/4 次方）。</p>
 <p><strong>词向量的代数性质</strong>：</p>
 <p>Word2Vec 学到的向量空间具有令人惊叹的线性结构：</p>
@@ -687,7 +687,7 @@
 </ul>
 <p><strong>困惑度（Perplexity）</strong>：</p>
 <p>语言模型的标准评估指标：</p>
-<p>$$\text{PPL} = P(w_1, w_2, \ldots, w_T)^{-1/T} = \exp\left(-\frac{1}{T}\sum_{t=1}^{T} \log P(w_t | w_{&lt;t})\right)$$<br>其中 $P(w_{&lt;t})$ 是第 $t$ 步前的上下文序列，在评估时将所有概率取对数并归一化到每个 token 的平均损失。</p>
+<p>$$\text{PPL} = P(w_1, w_2, \ldots, w_T)^{-1/T} = \exp\left(-\frac{1}{T}\sum_{t=1}^{T} \log P(w_t | w_{<t})\right)$$<br>其中 $P(w_{<t})$ 是第 $t$ 步前的上下文序列，在评估时将所有概率取对数并归一化到每个 token 的平均损失。</p>
 <p>困惑度越低，模型对测试数据的预测越好。直觉上，困惑度表示模型在每一步平均面临多少个等概率的选择。</p>
 <p><strong>神经语言模型</strong>：</p>
 <p>Bengio et al. (2003) 提出了第一个神经概率语言模型（Neural Probabilistic Language Model），用神经网络替代 n-gram 的查表操作：</p>

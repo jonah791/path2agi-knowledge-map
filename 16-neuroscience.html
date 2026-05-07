@@ -608,8 +608,8 @@
 <p>$$y = \theta\left(\sum_{i=1}^{n} w_i x_i - T\right)$$</p>
 <p>其中：</p>
 <ul>
-<li>$x_i \in {0, 1}$：二值输入（对应突触前神经元是否放电）</li>
-<li>$w_i \in {-1, +1}$：权重（+1 为兴奋性，-1 为抑制性）</li>
+<li>$x_i \in \{0, 1\}$：二值输入（对应突触前神经元是否放电）</li>
+<li>$w_i \in \{-1, +1\}$：权重（+1 为兴奋性，-1 为抑制性）</li>
 <li>$T$：阈值（threshold）</li>
 <li>θ(·)：阶跃函数，当输入 ≥ 0 时输出 1，否则输出 0</li>
 </ul>
@@ -681,8 +681,10 @@
 <p>视觉系统自下而上的层级结构意味着：早期层检测局部的边缘方向，中间层合成平移不变的组合特征，后期层则识别复杂形状——这一过程对应了 CNN 中卷积、池化与逐层堆叠的直觉。</p>
 <h4>数学模型</h4>
 <p>简单细胞的空间响应常用 Gabor 滤波器表示：</p>
-<p>$$<br>G(x, y) = \exp\left(-\frac{x&#39;^2 + \gamma^2 y&#39;^2}{2\sigma^2}\right) \cos\left(\frac{2\pi x&#39;}{\lambda} + \phi\right)<br>$$</p>
-<p>其中 $x&#39; = x \cos \theta + y \sin \theta$、$y&#39; = -x \sin \theta + y \cos \theta$ 表示沿方向 $\theta$ 旋转后的坐标，$\gamma$ 控制空间长宽比，$\sigma$ 是高斯包络的标准差，$\lambda$ 是波长，$\phi$ 是相位偏移，$\theta$ 表示响应方向。</p>
+<p>$$
+G(x, y) = \exp\left(-\frac{x'^2 + \gamma^2 y'^2}{2\sigma^2}\right) \cos\left(\frac{2\pi x'}{\lambda} + \phi\right)
+$$</p>
+<p>其中 $x' = x \cos \theta + y \sin \theta$、$y' = -x \sin \theta + y \cos \theta$ 表示沿方向 $\theta$ 旋转后的坐标，$\gamma$ 控制空间长宽比，$\sigma$ 是高斯包络的标准差，$\lambda$ 是波长，$\phi$ 是相位偏移，$\theta$ 表示响应方向。</p>
 <h4>AI 中的角色</h4>
 <table>
 <thead>
@@ -755,7 +757,7 @@
 </thead>
 <tbody><tr>
 <td>多巴胺放电增加</td>
-<td>$\delta_t &gt; 0$</td>
+<td>$\delta_t > 0$</td>
 <td>结果好于预期</td>
 </tr>
 <tr>
@@ -765,7 +767,7 @@
 </tr>
 <tr>
 <td>多巴胺放电减少</td>
-<td>$\delta_t &lt; 0$</td>
+<td>$\delta_t < 0$</td>
 <td>结果差于预期</td>
 </tr>
 <tr>

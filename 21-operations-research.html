@@ -566,10 +566,10 @@
 <li><p>$A$：动作空间（action space），所有可能动作的集合</p>
 </li>
 <li><p>状态转移概率记为：</p>
-<p>$$P(s&#39; | s, a) = \Pr(S_{t+1} = s&#39; | S_t = s, A_t = a)$$</p>
+<p>$$P(s' | s, a) = \Pr(S_{t+1} = s' | S_t = s, A_t = a)$$</p>
 </li>
 <li><p>奖励函数记为：</p>
-<p>$$R(s, a, s&#39;)$$</p>
+<p>$$R(s, a, s')$$</p>
 <p>也可简写为 $R(s, a)$。</p>
 </li>
 <li><p>$\gamma \in [0, 1)$：折扣因子（discount factor），衡量未来奖励的当前价值</p>
@@ -581,7 +581,7 @@
 <li>随机策略：<br>$$\pi(a|s) = \Pr(A_t = a | S_t = s)$$</li>
 </ul>
 <p>目标是找到最优策略 π*，使得期望累积折扣奖励最大化：</p>
-<p>$$\pi^* = \arg\max_\pi \mathbb{E}<em>\pi \left[ \sum</em>{t=0}^{\infty} \gamma^t R(S_t, A_t) \right]$$</p>
+<p>$$\pi^* = \arg\max_\pi \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(S_t, A_t) \right]$$</p>
 <p>其中：</p>
 <ul>
 <li>π 表示策略</li>
@@ -610,15 +610,15 @@
 <h3>3.2 Bellman 方程与动态规划</h3>
 <h4>数学定义</h4>
 <p><strong>状态值函数</strong>（state-value function）：在策略 π 下，从状态 s 出发的期望累积奖励：</p>
-<p>$$V^\pi(s) = \mathbb{E}<em>\pi \left[ \sum</em>{t=0}^{\infty} \gamma^t R(S_t, A_t) \mid S_0 = s \right]$$</p>
+<p>$$V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(S_t, A_t) \mid S_0 = s \right]$$</p>
 <p><strong>动作值函数</strong>（action-value function）：在策略 π 下，从状态 s 执行动作 a 后的期望累积奖励：</p>
-<p>$$Q^\pi(s, a) = \mathbb{E}<em>\pi \left[ \sum</em>{t=0}^{\infty} \gamma^t R(S_t, A_t) \mid S_0 = s, A_0 = a \right]$$</p>
+<p>$$Q^\pi(s, a) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(S_t, A_t) \mid S_0 = s, A_0 = a \right]$$</p>
 <p><strong>Bellman 期望方程</strong>（Bellman expectation equation）：</p>
-<p>$$V^\pi(s) = \sum_{a} \pi(a|s) \sum_{s&#39;} P(s&#39;|s,a) \left[ R(s,a,s&#39;) + \gamma V^\pi(s&#39;) \right]$$</p>
+<p>$$V^\pi(s) = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\pi(s') \right]$$</p>
 <p><strong>Bellman 最优方程</strong>（Bellman optimality equation）：</p>
-<p>$$V^<em>(s) = \max_{a} \sum_{s&#39;} P(s&#39;|s,a) \left[ R(s,a,s&#39;) + \gamma V^</em>(s&#39;) \right]$$</p>
-<p>$$Q^<em>(s, a) = \sum_{s&#39;} P(s&#39;|s,a) \left[ R(s,a,s&#39;) + \gamma \max_{a&#39;} Q^</em>(s&#39;, a&#39;) \right]$$</p>
-<p>其中：$V^<em>(s)$ 表示状态 $s$ 的最优值，$Q^</em>(s,a)$ 表示在状态 $s$ 执行动作 $a$ 的最优动作值，$P(s&#39;|s,a)$ 是转移概率，$R(s,a,s&#39;)$ 是即时奖励。</p>
+<p>$$V^*(s) = \max_{a} \sum_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^*(s') \right]$$</p>
+<p>$$Q^*(s, a) = \sum_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma \max_{a'} Q^*(s', a') \right]$$</p>
+<p>其中：$V^*(s)$ 表示状态 $s$ 的最优值，$Q^*(s,a)$ 表示在状态 $s$ 执行动作 $a$ 的最优动作值，$P(s'|s,a)$ 是转移概率，$R(s,a,s')$ 是即时奖励。</p>
 <h4>直觉理解</h4>
 <p>Bellman 方程的核心思想是<strong>递归分解</strong>：一个状态的价值 = 当前一步的奖励 + 折扣后的下一状态价值。这就像计算一条路线的总价值时，你只需要知道&quot;走第一步能得到多少&quot;加上&quot;剩余路程值多少&quot;。</p>
 <p>Bellman 最优性原理（principle of optimality）：<strong>最优策略的任何子策略也必须是最优的</strong>。这意味着我们不需要枚举所有可能的完整策略，只需要在每一步做局部最优选择（前提是我们知道后续状态的最优值）。</p>
@@ -637,23 +637,23 @@
 <li>初始化所有状态的值函数为 0。</li>
 <li>重复直到收敛：</li>
 </ol>
-<p>$$V_{k+1}(s) = \max_{a} \sum_{s&#39;} P(s&#39;|s,a) \left[ R(s,a,s&#39;) + \gamma V_k(s&#39;) \right]$$</p>
+<p>$$V_{k+1}(s) = \max_{a} \sum_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V_k(s') \right]$$</p>
 <ol start="3">
-<li>提取最优策略：<br>  $$\pi^<em>(s) = \arg\max_{a} \sum_{s&#39;} P(s&#39;|s,a) [R(s,a,s&#39;) + \gamma V^</em>(s&#39;)]$$</li>
+<li>提取最优策略：<br>  $$\pi^*(s) = \arg\max_{a} \sum_{s'} P(s'|s,a) [R(s,a,s') + \gamma V^*(s')]$$</li>
 </ol>
 <p>其中：</p>
 <ul>
 <li>$V_k(s)$ 表示第 k 轮迭代时状态 s 的估计值</li>
 <li>$\pi^*(s)$ 表示最优策略在状态 s 下选择的动作</li>
 </ul>
-<p>收敛性：值迭代是 Bellman 最优算子的不动点迭代，在 $\gamma &lt; 1$ 时保证收敛，收敛速率为 $O(\gamma^k)$。</p>
+<p>收敛性：值迭代是 Bellman 最优算子的不动点迭代，在 $\gamma < 1$ 时保证收敛，收敛速率为 $O(\gamma^k)$。</p>
 <h4>策略迭代（Policy Iteration）</h4>
 <p>算法流程：</p>
 <ol>
 <li>初始化任意策略 π₀。</li>
 <li>重复直到策略不再变化：<ul>
 <li><strong>策略评估</strong>（policy evaluation）：求解当前策略对应的值函数（解线性方程组或迭代）</li>
-<li><strong>策略改进</strong>（policy improvement）：<br>$$\pi_{k+1}(s) = \arg\max_{a} \sum_{s&#39;} P(s&#39;|s,a) [R + \gamma V^{\pi_k}(s&#39;)]$$</li>
+<li><strong>策略改进</strong>（policy improvement）：<br>$$\pi_{k+1}(s) = \arg\max_{a} \sum_{s'} P(s'|s,a) [R + \gamma V^{\pi_k}(s')]$$</li>
 </ul>
 </li>
 </ol>
@@ -705,8 +705,8 @@
 <h4>Q-Learning：无模型的突破</h4>
 <p>Q-Learning（Watkins, 1989）是第一个收敛的 off-policy 控制算法。它不需要知道环境的转移概率 $P$，而是通过与环境交互来学习最优 Q 函数。</p>
 <p>更新规则：</p>
-<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;) - Q(s, a) \right]$$</p>
-<p>其中 $\alpha$ 是学习率，$r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;)$ 是 TD 目标（temporal difference target），$r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;) - Q(s, a)$ 是 TD 误差。</p>
+<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$</p>
+<p>其中 $\alpha$ 是学习率，$r + \gamma \max_{a'} Q(s', a')$ 是 TD 目标（temporal difference target），$r + \gamma \max_{a'} Q(s', a') - Q(s, a)$ 是 TD 误差。</p>
 <p>关键特性：</p>
 <ul>
 <li><strong>Off-policy</strong>：行为策略（用于探索）和目标策略（用于评估）可以不同</li>
@@ -716,19 +716,19 @@
 <h4>DQN：用神经网络逼近 Q 函数</h4>
 <p>当状态空间巨大（如 Atari 游戏的像素输入）时，表格 Q-Learning 不可行。DQN（Mnih et al., 2015）用深度神经网络 $Q(s, a; \theta)$ 逼近 $Q^*(s, a)$。</p>
 <p>损失函数：</p>
-<p>$$L(\theta) = \mathbb{E}<em>{(s,a,r,s&#39;) \sim \mathcal{D}} \left[ \left( r + \gamma \max</em>{a&#39;} Q(s&#39;, a&#39;; \theta^-) - Q(s, a; \theta) \right)^2 \right]$$</p>
+<p>$$L(\theta) = \mathbb{E}_{(s,a,r,s') \sim \mathcal{D}} \left[ \left( r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta) \right)^2 \right]$$</p>
 <p>两个关键创新：</p>
 <ul>
-<li><strong>经验回放</strong>（experience replay）：将交互数据 $(s, a, r, s&#39;)$ 存入缓冲区，随机采样训练，打破数据相关性</li>
+<li><strong>经验回放</strong>（experience replay）：将交互数据 $(s, a, r, s')$ 存入缓冲区，随机采样训练，打破数据相关性</li>
 <li><strong>目标网络</strong>（target network）：使用参数 $\theta^-$ 的旧网络计算 TD 目标，定期同步，稳定训练</li>
 </ul>
 <h4>PPO：稳定的策略梯度</h4>
 <p>策略梯度方法直接优化参数化策略。REINFORCE 算法的梯度估计为：</p>
-<p>$$\nabla_\theta J(\theta) = \mathbb{E}<em>{\pi</em>\theta} \left[ \nabla_\theta \log \pi_\theta(a|s) \cdot A^\pi(s, a) \right]$$</p>
+<p>$$\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta} \left[ \nabla_\theta \log \pi_\theta(a|s) \cdot A^\pi(s, a) \right]$$</p>
 <p>其中优势函数定义为：</p>
 <p>$$A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s)$$</p>
 <p>PPO（Schulman et al., 2017）通过裁剪（clipping）限制策略更新幅度：</p>
-<p>$$L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, ; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$</p>
+<p>$$L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$</p>
 <p>其中概率比定义为：</p>
 <p>$$r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$$</p>
 <h4>演进路线总结</h4>
@@ -759,7 +759,7 @@ MAPPO / RLHF (2022+)
 <li>π₀：初始状态分布</li>
 </ul>
 <p>Viterbi 算法求解最可能的状态序列：</p>
-<p>$$s_1^<em>, s_2^</em>, \ldots, s_T^* = \arg\max_{s_1, \ldots, s_T} P(s_1, \ldots, s_T | o_1, \ldots, o_T; \lambda)$$</p>
+<p>$$s_1^*, s_2^*, \ldots, s_T^* = \arg\max_{s_1, \ldots, s_T} P(s_1, \ldots, s_T | o_1, \ldots, o_T; \lambda)$$</p>
 <p>定义 Viterbi 变量：</p>
 <p>$$\delta_t(j) = \max_{s_1, \ldots, s_{t-1}} P(s_1, \ldots, s_{t-1}, s_t = j, o_1, \ldots, o_t | \lambda)$$</p>
 <p>递推关系：</p>
@@ -793,7 +793,7 @@ MAPPO / RLHF (2022+)
 <li><strong>奖励建模</strong>：从人类偏好数据中学习奖励函数 $R(s, a)$（Bradley-Terry 模型）</li>
 <li><strong>策略优化</strong>：使用 PPO 在奖励函数下优化语言模型策略，同时用 KL 散度约束防止偏离太远：</li>
 </ol>
-<p>$$\max_\pi \mathbb{E}<em>{x \sim \mathcal{D}, y \sim \pi(\cdot|x)} \left[ R(x, y) - \beta \text{KL}(\pi | \pi</em>{ref}) \right]$$</p>
+<p>$$\max_\pi \mathbb{E}_{x \sim \mathcal{D}, y \sim \pi(\cdot|x)} \left[ R(x, y) - \beta \text{KL}(\pi \| \pi_{ref}) \right]$$</p>
 <p>这正是一个带约束的 MDP 优化问题。</p>
 <h3>4.3 组合优化与规划</h3>
 <p>运筹学中的经典问题——旅行商问题（TSP）、车辆路径问题（VRP）、调度问题——正在被深度学习方法重新审视：</p>

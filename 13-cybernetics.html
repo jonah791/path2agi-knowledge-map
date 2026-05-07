@@ -627,11 +627,11 @@
 <li>$R_k$：观测噪声协方差</li>
 </ul>
 <p><strong>预测步骤</strong>（先验估计）：</p>
-<p>$$\hat{x}<em>{k|k-1} = F_k \hat{x}</em>{k-1|k-1} + B_k u_k$$</p>
+<p>$$\hat{x}_{k|k-1} = F_k \hat{x}_{k-1|k-1} + B_k u_k$$</p>
 <p>$$P_{k|k-1} = F_k P_{k-1|k-1} F_k^T + Q_k$$</p>
 <p><strong>更新步骤</strong>（后验估计）：</p>
 <p>$$K_k = P_{k|k-1} H_k^T (H_k P_{k|k-1} H_k^T + R_k)^{-1}$$</p>
-<p>$$\hat{x}<em>{k|k} = \hat{x}</em>{k|k-1} + K_k (z_k - H_k \hat{x}_{k|k-1})$$</p>
+<p>$$\hat{x}_{k|k} = \hat{x}_{k|k-1} + K_k (z_k - H_k \hat{x}_{k|k-1})$$</p>
 <p>$$P_{k|k} = (I - K_k H_k) P_{k|k-1}$$</p>
 <p>其中 $K_k$ 是<strong>卡尔曼增益</strong>（Kalman gain），它自动权衡&quot;相信预测&quot;还是&quot;相信观测&quot;。</p>
 <h4>直觉理解</h4>
@@ -650,7 +650,7 @@
 </ul>
 <h3>3.3 最优控制与 LQR（Linear Quadratic Regulator）</h3>
 <h4>数学定义</h4>
-<p>最优控制问题的一般形式：在动态约束下，找到控制序列 ${u_0, u_1, \ldots}$ 使得代价函数最小：</p>
+<p>最优控制问题的一般形式：在动态约束下，找到控制序列 $\{u_0, u_1, \ldots\}$ 使得代价函数最小：</p>
 <p>$$\min_{u_0, u_1, \ldots} J = \sum_{k=0}^{N} l(x_k, u_k) + \phi(x_N)$$</p>
 <p>$$\text{s.t.} \quad x_{k+1} = f(x_k, u_k)$$</p>
 <p>对于线性系统 $x_{k+1} = A x_k + B u_k$ 和二次代价函数：</p>
@@ -712,7 +712,7 @@
 <p>$$x(k+1) = A(\theta) x(k) + B(\theta) u(k)$$</p>
 <p><strong>自适应律</strong>（在线更新参数估计）：</p>
 <p>$$\hat{\theta}(k+1) = \hat{\theta}(k) + \gamma e(k) x(k)^T$$</p>
-<p>其中 $e(k) = x(k) - x_m(k)$ 是跟踪误差，$\gamma &gt; 0$ 是自适应增益。</p>
+<p>其中 $e(k) = x(k) - x_m(k)$ 是跟踪误差，$\gamma > 0$ 是自适应增益。</p>
 <p>目标是使被控对象的行为逐渐逼近参考模型：$\lim_{k \to \infty} e(k) = 0$。</p>
 <h4>直觉理解</h4>
 <p>自适应控制就像一个<strong>边开车边学习路况的司机</strong>：</p>
@@ -752,8 +752,8 @@
 </tr>
 <tr>
 <td>状态方程 $x_{k+1} = f(x_k, u_k)$</td>
-<td>转移概率 $P(s&#39;</td>
-<td>s,a)$</td>
+<td>转移概率 $P(s'|s,a)$</td>
+<td>系统动力学</td>
 </tr>
 <tr>
 <td>代价函数 Σl(x_k, u_k)</td>

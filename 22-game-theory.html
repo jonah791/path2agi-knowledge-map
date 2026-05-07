@@ -539,7 +539,7 @@
 <h4>数学定义</h4>
 <p>考虑一个 $n$ 人博弈 $G = (N, S, u)$，其中：</p>
 <ul>
-<li><p>$N = {1, 2, \ldots, n}$ 是参与者集合</p>
+<li><p>$N = \{1, 2, \ldots, n\}$ 是参与者集合</p>
 </li>
 <li><p>策略空间记为：</p>
 <p>$$S = S_1 \times S_2 \times \cdots \times S_n$$</p>
@@ -550,14 +550,14 @@
 <p>其中 $u_i: S \to \mathbb{R}$。</p>
 </li>
 </ul>
-<p><strong>纳什均衡</strong>是一个策略组合 $s^* = (s_1^<em>, s_2^</em>, \ldots, s_n^*)$，满足：</p>
-<p>$$\forall i \in N, \forall s_i \in S_i: \quad u_i(s_i^<em>, s_{-i}^</em>) \geq u_i(s_i, s_{-i}^*)$$</p>
+<p><strong>纳什均衡</strong>是一个策略组合 $s^* = (s_1^*, s_2^*, \ldots, s_n^*)$，满足：</p>
+<p>$$\forall i \in N, \forall s_i \in S_i: \quad u_i(s_i^*, s_{-i}^*) \geq u_i(s_i, s_{-i}^*)$$</p>
 <p>其中 $s_{-i}^*$ 表示除参与者 $i$ 以外所有人的策略。</p>
 <p>直觉理解：在纳什均衡中，<strong>没有任何参与者有动机单方面改变自己的策略</strong>。每个人的策略都是对其他人策略的最佳响应（best response）。</p>
 <h4>混合策略均衡</h4>
 <p>当纯策略均衡不存在时（如石头剪刀布），我们需要<strong>混合策略</strong>（mixed strategy）。参与者 $i$ 的混合策略是其纯策略集 $S_i$ 上的一个概率分布 $\sigma_i \in \Delta(S_i)$。</p>
 <p>对于 2×2 博弈，设参与者 1 以概率 $p$ 选择策略 A、以概率 $1-p$ 选择策略 B，参与者 2 以概率 $q$ 选择策略 A、以概率 $1-q$ 选择策略 B。混合策略纳什均衡要求每个参与者在均衡混合策略下对各纯策略<strong>无差异</strong>（indifference condition）：</p>
-<p>$$E[u_1(A, \sigma_2^<em>)] = E[u_1(B, \sigma_2^</em>)]$$</p>
+<p>$$E[u_1(A, \sigma_2^*)] = E[u_1(B, \sigma_2^*)]$$</p>
 <p>这个条件给出了对方的均衡混合概率。</p>
 <h4>Nash 存在性定理</h4>
 <p><strong>定理</strong>（Nash, 1950）：每个有限博弈（参与者有限、策略有限）至少存在一个混合策略纳什均衡。</p>
@@ -579,7 +579,7 @@
 <p>考虑二人零和博弈，参与者 1 的收益矩阵为 $A \in \mathbb{R}^{m \times n}$，参与者 2 的收益矩阵为 $-A$。</p>
 <p><strong>极小化极大定理</strong>（von Neumann, 1928）：</p>
 <p>$$\max_{p \in \Delta_m} \min_{q \in \Delta_n} p^T A q = \min_{q \in \Delta_n} \max_{p \in \Delta_m} p^T A q = v^*$$</p>
-<p>其中 $\Delta_m$ 和 $\Delta_n$ 分别是 $m$ 维和 $n$ 维概率单纯形，$v^<em>$ 称为博弈的*<em>值</em></em>（value of the game）。</p>
+<p>其中 $\Delta_m$ 和 $\Delta_n$ 分别是 $m$ 维和 $n$ 维概率单纯形，$v^*$ 称为博弈的<strong>值</strong>（value of the game）。</p>
 <p>直觉理解：在零和博弈中，&quot;先行动后观察&quot;和&quot;先观察后行动&quot;的最优结果相同。这意味着<strong>不存在先手优势或后手优势</strong>（在混合策略意义下）。</p>
 <h4>与线性规划的对偶</h4>
 <p>极小化极大定理与线性规划的强对偶定理密切相关。求解零和博弈等价于求解一对对偶线性规划：</p>
@@ -589,7 +589,7 @@
 <ul>
 <li><strong>对抗搜索</strong>：Alpha-Beta 剪枝算法是极小化极大思想的经典实现，用于国际象棋、围棋等完全信息博弈</li>
 <li><strong>GAN 的目标函数</strong>：$\min_G \max_D V(D, G)$ 可以写成极小化极大形式</li>
-<li><strong>对抗鲁棒训练</strong>：<br>$$\min_\theta \max_{|\delta| \leq \epsilon} \mathcal{L}(f_\theta(x + \delta), y)$$</li>
+<li><strong>对抗鲁棒训练</strong>：<br>$$\min_\theta \max_{\|\delta\| \leq \epsilon} \mathcal{L}(f_\theta(x + \delta), y)$$</li>
 </ul>
 <hr>
 <h3>3.3 GAN 的博弈论视角</h3>
@@ -601,7 +601,7 @@
 <li><strong>判别器</strong> $D$：判断输入样本是真实的还是生成的，目标是正确区分</li>
 </ul>
 <p>目标函数（价值函数）：</p>
-<p>$$\min_G \max_D V(D, G) = \mathbb{E}<em>{x \sim p</em>{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]$$</p>
+<p>$$\min_G \max_D V(D, G) = \mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]$$</p>
 <h4>均衡分析</h4>
 <p><strong>定理</strong>（Goodfellow et al., 2014）：当 $G$ 和 $D$ 的容量足够大时，上述博弈的纳什均衡满足：</p>
 <ol>
@@ -609,8 +609,8 @@
 <li>在最优判别器下，生成器的最优解满足真实分布与生成分布一致。</li>
 <li>此时价值函数达到平衡点 -log 4。</li>
 </ol>
-<p>证明思路：固定 G，对 D 求导令其为零，得到 $D^<em>$。将 $D^</em>$ 代入 $V$，得到关于 G 的目标函数，可以证明它等价于最小化：</p>
-<p>$$2 \cdot JSD(p_{\text{data}} | p_g) - \log 4$$</p>
+<p>证明思路：固定 G，对 D 求导令其为零，得到 $D^*$。将 $D^*$ 代入 $V$，得到关于 G 的目标函数，可以证明它等价于最小化：</p>
+<p>$$2 \cdot JSD(p_{\text{data}} \| p_g) - \log 4$$</p>
 <p>其中 JSD 是 Jensen-Shannon 散度。</p>
 <h4>训练不稳定性的博弈论解释</h4>
 <p>GAN 训练的困难，可部分从<strong>博弈均衡计算与对抗优化动态</strong>的角度来理解：</p>
@@ -644,7 +644,7 @@
 <p>在多智能体环境中，每个智能体的奖励不仅取决于自己的策略，还取决于其他智能体的策略。这使得环境从单个智能体的视角看是<strong>非平稳的</strong>（non-stationary）——其他智能体也在学习和改变策略。</p>
 <h4>随机博弈（Stochastic Game）</h4>
 <p>多智能体 RL 的标准形式化是<strong>随机博弈</strong>（也称马尔可夫博弈）：</p>
-<p>$$\mathcal{G} = (N, \mathcal{S}, {A_i}<em>{i \in N}, T, {R_i}</em>{i \in N}, \gamma)$$</p>
+<p>$$\mathcal{G} = (N, \mathcal{S}, \{A_i\}_{i \in N}, T, \{R_i\}_{i \in N}, \gamma)$$</p>
 <p>其中：</p>
 <ul>
 <li><p>$N$：智能体集合</p>
@@ -734,7 +734,7 @@
 </ul>
 <p>$$g: \Sigma \to \mathcal{O}$$</p>
 <p><strong>激励相容</strong>（incentive compatibility）：如果诚实报告类型是每个参与者的占优策略，则机制是激励相容的：</p>
-<p>$$\forall i, \forall \theta_i, \forall \theta_i&#39;: \quad u_i(g(\theta_i, \theta_{-i}), \theta_i) \geq u_i(g(\theta_i&#39;, \theta_{-i}), \theta_i)$$</p>
+<p>$$\forall i, \forall \theta_i, \forall \theta_i': \quad u_i(g(\theta_i, \theta_{-i}), \theta_i) \geq u_i(g(\theta_i', \theta_{-i}), \theta_i)$$</p>
 <p>其中 $u_i$ 表示参与者 $i$ 的效用函数，$\theta_{-i}$ 表示除 $i$ 以外的其他参与者的类型，$g$ 是机制输出结果的映射。</p>
 <p>关键定理：</p>
 <ul>
@@ -747,7 +747,7 @@
 <li>预训练语言模型作为基线模型</li>
 <li>收集人类偏好数据：给定 prompt x，人类比较两个回答 y₁、y₂</li>
 <li>训练奖励模型 $r_\phi(x, y)$ 拟合人类偏好</li>
-<li>用 PPO 优化策略：<br>  $$\max_\pi \mathbb{E}<em>{x, y \sim \pi}[r</em>\phi(x, y)] - \beta \cdot KL(\pi | \pi_{\text{base}})$$</li>
+<li>用 PPO 优化策略：<br>  $$\max_\pi \mathbb{E}_{x, y \sim \pi}[r_\phi(x, y)] - \beta \cdot KL(\pi \| \pi_{\text{base}})$$</li>
 </ol>
 <p>其中：</p>
 <ul>

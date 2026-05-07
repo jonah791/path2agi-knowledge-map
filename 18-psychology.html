@@ -582,13 +582,13 @@
 <li>$\lambda_{US}$：无条件刺激能支持的最大关联强度</li>
 <li>$V_{total}$：所有当前呈现的 CS 的关联强度之和</li>
 </ul>
-<p>这个模型的核心洞察是：<strong>学习由预测误差驱动</strong>。当 $V_{total} &lt; \lambda$ 时，存在正的预测误差，关联增强；当 $V_{total} = \lambda$ 时，学习停止；当 $V_{total} &gt; \lambda$ 时，关联减弱。</p>
+<p>这个模型的核心洞察是：<strong>学习由预测误差驱动</strong>。当 $V_{total} < \lambda$ 时，存在正的预测误差，关联增强；当 $V_{total} = \lambda$ 时，学习停止；当 $V_{total} > \lambda$ 时，关联减弱。</p>
 <h4>直觉理解</h4>
 <p>Rescorla-Wagner 模型揭示了一个简单的&quot;错误纠正&quot;循环：每次出现 CS-US 配对时，系统会估算当前的期望（$V_{total}$）与最大可达关联（$\lambda$）之间的差异，正负预测误差分别推动关联增强或减弱。这就是 TD 误差的心理原型——信息传播只需要当前的残差信号，而无须完整模型。</p>
 <h4>AI 中的角色</h4>
 <p>Rescorla-Wagner 模型与 TD 学习（Temporal Difference Learning）共享结构：</p>
-<p>$$V(s) \leftarrow V(s) + \alpha \cdot [r + \gamma V(s&#39;) - V(s)]$$</p>
-<p>其中 $\delta = r + \gamma V(s&#39;) - V(s)$ 就是 TD 误差，对应 Rescorla-Wagner 模型中的 $(\lambda - V_{total})$。两者都是<strong>误差驱动的增量学习</strong>，是强化学习智能体估计未来价值的基本过程。</p>
+<p>$$V(s) \leftarrow V(s) + \alpha \cdot [r + \gamma V(s') - V(s)]$$</p>
+<p>其中 $\delta = r + \gamma V(s') - V(s)$ 就是 TD 误差，对应 Rescorla-Wagner 模型中的 $(\lambda - V_{total})$。两者都是<strong>误差驱动的增量学习</strong>，是强化学习智能体估计未来价值的基本过程。</p>
 <hr>
 <h3>3.2 操作性条件反射（Operant Conditioning, Skinner）</h3>
 <p><strong>心理学机制</strong></p>
@@ -623,7 +623,7 @@
 <p><strong>数学化表述</strong></p>
 <p>操作性条件反射可以形式化为马尔可夫决策过程（MDP）：</p>
 <p>$$\text{MDP} = (S, A, P, R, \gamma)$$</p>
-<p>其中 $S$ 是状态空间，$A$ 是动作空间，$P(s&#39;|s,a)$ 是状态转移概率，$R(s,a,s&#39;)$ 是奖励函数，$\gamma$ 是折扣因子（代表对未来奖励的衰减程度）。</p>
+<p>其中 $S$ 是状态空间，$A$ 是动作空间，$P(s'|s,a)$ 是状态转移概率，$R(s,a,s')$ 是奖励函数，$\gamma$ 是折扣因子（代表对未来奖励的衰减程度）。</p>
 <p>策略 π(a|s) 对应有机体在特定状态下选择特定行为的概率。最优策略 π* 最大化累积奖励：</p>
 <p>$$\pi^* = \arg\max_\pi \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid \pi\right]$$</p>
 <h4>直觉理解</h4>
@@ -653,7 +653,7 @@
 <li>$r$：实际获得的奖励（&quot;满意效果&quot;或&quot;不适效果&quot;）</li>
 <li>$\alpha$：学习率（对应试验次数增加后学习速度的变化）</li>
 </ul>
-<p>&quot;满意效果&quot; → $r &gt; Q(s,a)$ → 价值增加 → 行为更可能重复<br>&quot;不适效果&quot; → $r &lt; Q(s,a)$ → 价值减少 → 行为更不可能重复</p>
+<p>&quot;满意效果&quot; → $r > Q(s,a)$ → 价值增加 → 行为更可能重复<br>&quot;不适效果&quot; → $r < Q(s,a)$ → 价值减少 → 行为更不可能重复</p>
 <h4>直觉理解</h4>
 <p>效果律体现的是一个简单的反馈循环：每个动作都有一个预期价值 $Q(s,a)$，实际奖励 $r$ 与预期之间的差异会即时修正这个价值。满意的结果提升该动作的期望，失败则降低，这正是智能体策略迭代中的值函数更新逻辑。</p>
 <h4>AI 中的角色</h4>
@@ -683,7 +683,7 @@
 <p><strong>数学化表述</strong></p>
 <p>三种经典的探索策略：</p>
 <p><strong>$\epsilon$-贪心（$\epsilon$-greedy）</strong>：以概率 $1-\epsilon$ 选择当前最优动作，以概率 $\epsilon$ 随机探索。</p>
-<p>$$a_t = \begin{cases} \arg\max_a Q(a) &amp; \text{概率 } 1-\epsilon \ \text{随机动作} &amp; \text{概率 } \epsilon \end{cases}$$</p>
+<p>$$a_t = \begin{cases} \arg\max_a Q(a) & \text{概率 } 1-\epsilon \\ \text{随机动作} & \text{概率 } \epsilon \end{cases}$$</p>
 <p>其中 $Q(a)$ 表示动作 $a$ 的当前预期价值，$\epsilon$ 控制随机探索与利用之间的权衡。</p>
 <p><strong>UCB（Upper Confidence Bound）</strong>：选择置信上界最大的动作，平衡估计值与不确定性。</p>
 <p>$$a_t = \arg\max_a \left[ Q(a) + c \sqrt{\frac{\ln t}{N(a)}} \right]$$</p>
@@ -711,10 +711,10 @@
 </ul>
 <p><strong>数学化表述</strong></p>
 <p>Ng et al. (1999) 将奖励塑形形式化。给定原始奖励函数 $R$，添加基于势函数（potential function）$\Phi$ 的塑形奖励：</p>
-<p>$$R&#39;(s, a, s&#39;) = R(s, a, s&#39;) + \gamma \Phi(s&#39;) - \Phi(s)$$</p>
-<p>其中 $R(s, a, s&#39;)$ 是原始奖励，$\Phi$ 是状态势函数，$\gamma$ 是折扣因子，势函数差带来的奖励不会改变长期价值判断。</p>
+<p>$$R'(s, a, s') = R(s, a, s') + \gamma \Phi(s') - \Phi(s)$$</p>
+<p>其中 $R(s, a, s')$ 是原始奖励，$\Phi$ 是状态势函数，$\gamma$ 是折扣因子，势函数差带来的奖励不会改变长期价值判断。</p>
 <p>关键定理：如果塑形奖励基于势函数，则最优策略不变（policy invariance）。即：</p>
-<p>$$\pi^<em>_{R&#39;} = \pi^</em>_R$$</p>
+<p>$$\pi^*_{R'} = \pi^*_R$$</p>
 <p>其中 π* 表示在塑形奖励下的最优策略与原始奖励下的最优策略相同，等式说明塑形不会改变策略。</p>
 <p>这保证了奖励塑形只加速学习，不改变最终学到的策略。</p>
 <h4>直觉理解</h4>
@@ -744,7 +744,7 @@
 <p>RLHF 的标准流程：</p>
 <p><strong>第一步：训练奖励模型</strong></p>
 <p>给定人类偏好数据（包含 prompt x、偏好回答 y_w 和不偏好回答 y_l），训练奖励模型：</p>
-<p>$$\mathcal{L}(\phi) = -\mathbb{E}<em>{(x, y_w, y_l) \sim \mathcal{D}} \left[ \log \sigma(r</em>\phi(x, y_w) - r_\phi(x, y_l)) \right]$$</p>
+<p>$$\mathcal{L}(\phi) = -\mathbb{E}_{(x, y_w, y_l) \sim \mathcal{D}} \left[ \log \sigma(r_\phi(x, y_w) - r_\phi(x, y_l)) \right]$$</p>
 <p>这里使用了 Bradley-Terry 模型，源自心理物理学中的配对比较方法。</p>
 <p>其中：</p>
 <ul>
@@ -754,7 +754,7 @@
 <li>$r_\phi(x, y)$ 表示奖励模型对回答的打分，$\sigma$ 是 sigmoid 函数</li>
 </ul>
 <p><strong>第二步：用 PPO 优化策略</strong></p>
-<p>$$\max_\theta \mathbb{E}<em>{x \sim \mathcal{D}, y \sim \pi</em>\theta(\cdot|x)} \left[ r_\phi(x, y) - \beta \cdot \text{KL}(\pi_\theta | \pi_{\text{ref}}) \right]$$</p>
+<p>$$\max_\theta \mathbb{E}_{x \sim \mathcal{D}, y \sim \pi_\theta(\cdot|x)} \left[ r_\phi(x, y) - \beta \cdot \text{KL}(\pi_\theta \| \pi_{\text{ref}}) \right]$$</p>
 <p>其中：</p>
 <ul>
 <li>$\theta$ 是待优化策略参数</li>
@@ -798,7 +798,7 @@
 <td>Pavlov</td>
 <td>1897</td>
 <td>TD 学习</td>
-<td>$V \leftarrow V + \alpha(r + \gamma V&#39; - V)$</td>
+<td>$V \leftarrow V + \alpha(r + \gamma V' - V)$</td>
 </tr>
 <tr>
 <td>操作性条件反射</td>
@@ -812,7 +812,7 @@
 <td>Skinner</td>
 <td>1953</td>
 <td>奖励塑形</td>
-<td>$R&#39; = R + \gamma\Phi(s&#39;) - \Phi(s)$</td>
+<td>$R' = R + \gamma\Phi(s') - \Phi(s)$</td>
 </tr>
 <tr>
 <td>社会学习</td>

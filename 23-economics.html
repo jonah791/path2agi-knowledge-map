@@ -557,12 +557,12 @@
 <h4>数学化表述</h4>
 <p>风险态度由效用函数的曲率决定：</p>
 <ul>
-<li>风险厌恶（risk averse）：$u&#39;&#39;(x) &lt; 0$（凹函数）</li>
-<li>风险中性（risk neutral）：$u&#39;&#39;(x) = 0$（线性函数）</li>
-<li>风险偏好（risk seeking）：$u&#39;&#39;(x) &gt; 0$（凸函数）</li>
+<li>风险厌恶（risk averse）：$u''(x) < 0$（凹函数）</li>
+<li>风险中性（risk neutral）：$u''(x) = 0$（线性函数）</li>
+<li>风险偏好（risk seeking）：$u''(x) > 0$（凸函数）</li>
 </ul>
 <p>Arrow-Pratt 绝对风险厌恶系数：</p>
-<p>$$r(x) = -\frac{u&#39;&#39;(x)}{u&#39;(x)}$$</p>
+<p>$$r(x) = -\frac{u''(x)}{u'(x)}$$</p>
 <h4>直觉理解</h4>
 <p>效用理论的重点不是“奖励越多越好”这么简单，而是不同主体会以不同方式感受收益和风险。AI 一旦要替人做决策，就必须明确它到底在最大化哪种偏好结构。</p>
 <h4>AI 中的角色</h4>
@@ -584,11 +584,11 @@
 <h4>数学化表述</h4>
 <p><strong>显示原理</strong>（revelation principle）：任何可由某机制实现的社会选择函数，都可以由一个直接机制（参与者直接报告类型）以激励相容的方式实现。</p>
 <p>形式化地，机制由消息空间 M 和结果函数 g 组成。激励相容要求：</p>
-<p>$$u_i(g(\theta_i, \theta_{-i}), \theta_i) \geq u_i(g(\theta_i&#39;, \theta_{-i}), \theta_i), \quad \forall \theta_i, \theta_i&#39;, \theta_{-i}$$</p>
+<p>$$u_i(g(\theta_i, \theta_{-i}), \theta_i) \geq u_i(g(\theta_i', \theta_{-i}), \theta_i), \quad \forall \theta_i, \theta_i', \theta_{-i}$$</p>
 <p>即如实报告 $\theta_i$ 是占优策略。</p>
 <p><strong>Vickrey-Clarke-Groves (VCG) 机制</strong>：一类满足激励相容和效率的通用机制。参与者 $i$ 的支付为：</p>
-<p>$$t_i = \sum_{j \neq i} v_j(x^<em><em>{-i}) - \sum</em>{j \neq i} v_j(x^</em>)$$</p>
-<p>其中 $x^<em>$ 是社会最优结果，$x^</em>_{-i}$ 是去掉参与者 $i$ 后的最优结果。</p>
+<p>$$t_i = \sum_{j \neq i} v_j(x^*_{-i}) - \sum_{j \neq i} v_j(x^*)$$</p>
+<p>其中 $x^*$ 是社会最优结果，$x^*_{-i}$ 是去掉参与者 $i$ 后的最优结果。</p>
 <h4>直觉理解</h4>
 <p>机制设计关心的不是“参与者会怎么做”，而是“我该如何定规则，才能让他们愿意按我希望的方式行动”。这与设计 AI 的奖励函数、本地激励和平台协议有明显的结构相似性，因此常被用作分析这些问题的参照框架。</p>
 <p>可以用一个很具体的对齐场景来理解：如果一个模型要学会“有帮助但不胡编”，那么训练者其实同时在做三件事。第一，定义什么叫“有帮助”，这是偏好问题；第二，设计标注和比较协议，让标注者能稳定表达这些偏好，这是机制设计问题；第三，把这些偏好转成模型能优化的奖励信号，这是代理目标问题。只把它写成一个 loss，并不能自动解决前两层问题。</p>
@@ -645,7 +645,7 @@
 </ol>
 <h4>数学化表述</h4>
 <p>前景理论的价值函数：</p>
-<p>$$v(x) = \begin{cases} x^\alpha &amp; \text{if } x \geq 0 \ -\lambda(-x)^\beta &amp; \text{if } x &lt; 0 \end{cases}$$</p>
+<p>$$v(x) = \begin{cases} x^\alpha & \text{if } x \geq 0 \\ -\lambda(-x)^\beta & \text{if } x < 0 \end{cases}$$</p>
 <p>其中 $\alpha, \beta \approx 0.88$，$\lambda \approx 2.25$（损失厌恶系数）。</p>
 <p>概率加权函数（Prelec 1998）：</p>
 <p>$$w(p) = \exp(-(-\ln p)^\gamma)$$</p>

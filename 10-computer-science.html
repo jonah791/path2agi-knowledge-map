@@ -599,7 +599,7 @@
 <li>$Q$ 是有限状态集合</li>
 <li>$\Sigma$ 是输入字母表（不含空白符 $\sqcup$）</li>
 <li>$\Gamma$ 是纸带字母表（$\Sigma \subseteq \Gamma$，且 $\sqcup \in \Gamma$）</li>
-<li>$\delta: Q \times \Gamma \to Q \times \Gamma \times {L, R}$ 是转移函数</li>
+<li>$\delta: Q \times \Gamma \to Q \times \Gamma \times \{L, R\}$ 是转移函数</li>
 <li>$q_0 \in Q$ 是初始状态</li>
 <li>$q_{\text{accept}} \in Q$ 是接受状态</li>
 <li>$q_{\text{reject}} \in Q$ 是拒绝状态（$q_{\text{accept}} \neq q_{\text{reject}}$）</li>
@@ -621,12 +621,12 @@
 <h3>3.2 可计算性与停机问题</h3>
 <h4>停机问题的数学表述</h4>
 <p><strong>停机问题（Halting Problem）</strong>：是否存在一个图灵机 $H$，对于任意图灵机 $M$ 和输入 $w$，$H$ 能判定 $M$ 在输入 $w$ 上是否会停机？</p>
-<p>$$H(\langle M, w \rangle) = \begin{cases} 1 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上停机} \ 0 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上不停机} \end{cases}$$</p>
+<p>$$H(\langle M, w \rangle) = \begin{cases} 1 & \text{如果 } M \text{ 在输入 } w \text{ 上停机} \\ 0 & \text{如果 } M \text{ 在输入 } w \text{ 上不停机} \end{cases}$$</p>
 <p>其中 $\langle M, w \rangle$ 表示将图灵机 $M$ 和输入 $w$ 编码为一个可计算的字符串，$H$ 的输出 1/0 区分停机/不停机的二值，公式的目标是判定函数的不可判定性。</p>
 <h4>Turing 的对角化证明</h4>
 <p><strong>定理</strong>：停机问题是不可判定的（undecidable）。</p>
 <p><strong>证明</strong>（反证法）：假设存在这样的图灵机 $H$。构造一个新的图灵机 $D$：</p>
-<p>$$D(\langle M \rangle) = \begin{cases} \text{停机} &amp; \text{如果 } H(\langle M, \langle M \rangle \rangle) = 0 \ \text{不停机} &amp; \text{如果 } H(\langle M, \langle M \rangle \rangle) = 1 \end{cases}$$</p>
+<p>$$D(\langle M \rangle) = \begin{cases} \text{停机} & \text{如果 } H(\langle M, \langle M \rangle \rangle) = 0 \\ \text{不停机} & \text{如果 } H(\langle M, \langle M \rangle \rangle) = 1 \end{cases}$$</p>
 <p>考虑 $D(\langle D \rangle)$：</p>
 <ul>
 <li>如果 D 在输入 ⟨D⟩ 上停机，则判定器会输出 1，于是 D 应该不停机——矛盾。</li>
@@ -657,7 +657,7 @@
 <li>$L \in \mathbf{NP}$</li>
 <li>对所有属于 NP 的问题，都可以在多项式时间内归约到问题 L。</li>
 </ol>
-<p>其中 $L&#39; \leq_p L$ 表示能在多项式时间内构造一个函数，将 $L&#39;$ 的实例映射到 $L$ 的实例，这正是 Cook（1971）和 Karp（1972）建立 NP 完全性体系的关键。</p>
+<p>其中 $L' \leq_p L$ 表示能在多项式时间内构造一个函数，将 $L'$ 的实例映射到 $L$ 的实例，这正是 Cook（1971）和 Karp（1972）建立 NP 完全性体系的关键。</p>
 <h4>P vs NP 问题</h4>
 <p>$$\mathbf{P} \stackrel{?}{=} \mathbf{NP}$$</p>
 <p>其中 $\mathbf{P}$ 是确定性多项式时间可解问题，$\mathbf{NP}$ 是可在多项式时间验证的问题。等式的真假决定了 AI 问题是否可以通过通用算法高效地求解。</p>
@@ -681,8 +681,8 @@
 <ul>
 <li>目标概念记为 c，属于概念类 C</li>
 <li>数据分布记为 D</li>
-<li>精度参数 $\epsilon &gt; 0$</li>
-<li>置信参数 $\delta &gt; 0$</li>
+<li>精度参数 $\epsilon > 0$</li>
+<li>置信参数 $\delta > 0$</li>
 </ul>
 <p>当样本量 $m \geq p(1/\epsilon, 1/\delta, n)$ 时（$n$ 为输入维度），算法 $A$ 以概率至少 $1 - \delta$ 输出假设 $h$，满足：</p>
 <p>$$P_{x \sim \mathcal{D}}[h(x) \neq c(x)] \leq \epsilon$$<br>其中：</p>
@@ -718,7 +718,7 @@
 <h4>VC 维的数学定义</h4>
 <p><strong>打散（Shattering）</strong>：如果假设类 H 对集合 S 的每种二分类标注，都存在一个假设 h 与之一致，就称 H 打散了集合 S。</p>
 <p><strong>VC 维（Vapnik-Chervonenkis Dimension）</strong>：</p>
-<p>$$\text{VCdim}(\mathcal{H}) = \max{m : \exists S, |S| = m, \mathcal{H} \text{ 打散 } S}$$</p>
+<p>$$\text{VCdim}(\mathcal{H}) = \max\{m : \exists S, |S| = m, \mathcal{H} \text{ 打散 } S\}$$</p>
 <p>其中 S 遍历所有大小为 m 的样本集合；H 能打散 S，意味着它可以实现 S 的全部 $2^m$ 二分类。</p>
 <p>即 H 能打散的最大集合的大小。</p>
 <h4>经典例子</h4>
@@ -739,7 +739,7 @@
 </ul>
 <h4>Rademacher 复杂度</h4>
 <p>Rademacher 复杂度提供了比 VC 维更精细的复杂度度量：</p>
-<p>$$\mathfrak{R}<em>m(\mathcal{H}) = \mathbb{E}</em>{\sigma}\left[\sup_{h \in \mathcal{H}} \frac{1}{m}\sum_{i=1}^{m} \sigma_i h(x_i)\right]$$</p>
+<p>$$\mathfrak{R}_m(\mathcal{H}) = \mathbb{E}_{\sigma}\left[\sup_{h \in \mathcal{H}} \frac{1}{m}\sum_{i=1}^{m} \sigma_i h(x_i)\right]$$</p>
 <p>其中 $\sigma_i$ 是独立的 Rademacher 随机变量（以等概率取 $+1$ 或 $-1$）。</p>
 <h4>直觉理解</h4>
 <p>直觉：Rademacher 复杂度衡量假设类 H 拟合随机噪声的能力。如果 H 能很好地拟合纯随机标签，说明它太复杂了，容易过拟合。</p>

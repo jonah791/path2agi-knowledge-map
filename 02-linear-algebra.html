@@ -626,11 +626,31 @@
 <p>类比：一个椭球体的三个轴方向就是协方差矩阵的特征向量，轴长度就是特征值的平方根。</p>
 <h4>一个 2x2 小例子：什么叫“方向不变”</h4>
 <p>考虑矩阵</p>
-<p>$$<br>A =<br>\begin{bmatrix}<br>2 &amp; 1 \<br>0 &amp; 1<br>\end{bmatrix}<br>$$</p>
+<p>$$
+A =
+\begin{bmatrix}
+2 & 1 \\
+0 & 1
+\end{bmatrix}
+$$</p>
 <p>取向量 $\mathbf{v}_1 = (1, 0)^T$，则</p>
-<p>$$<br>A\mathbf{v}_1 =<br>\begin{bmatrix}<br>2 \<br>0<br>\end{bmatrix}<br>= 2\mathbf{v}_1<br>$$</p>
+<p>$$
+A\mathbf{v}_1 =
+\begin{bmatrix}
+2 \\
+0
+\end{bmatrix}
+= 2\mathbf{v}_1
+$$</p>
 <p>这说明 $\mathbf{v}_1$ 的方向没有变，只是被拉长了 2 倍。再取向量 $\mathbf{v}_2 = (1, -1)^T$，则</p>
-<p>$$<br>A\mathbf{v}_2 =<br>\begin{bmatrix}<br>1 \<br>-1<br>\end{bmatrix}<br>= \mathbf{v}_2<br>$$</p>
+<p>$$
+A\mathbf{v}_2 =
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}
+= \mathbf{v}_2
+$$</p>
 <p>它的方向同样保持不变，只是缩放因子变成了 1。特征向量的含义就是：矩阵虽然会整体扭曲空间，但总有一些特殊方向在变换后仍然沿着原来的方向。</p>
 <h4>在 AI 中的角色</h4>
 <ul>
@@ -649,7 +669,7 @@
 <li><p>左奇异向量矩阵 U 是一个 m 行 m 列的正交矩阵，其列向量来自矩阵 $AA^T$ 的特征向量</p>
 </li>
 <li><p>奇异值对角矩阵 Σ 的形状为 $m \times n$</p>
-<p>$$\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r &gt; 0$$</p>
+<p>$$\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$$</p>
 <p>其中 r 表示矩阵 A 的秩。</p>
 </li>
 <li><p>右奇异向量矩阵 V 是一个 n 行 n 列的正交矩阵，其列向量来自矩阵 $A^TA$ 的特征向量</p>
@@ -660,8 +680,8 @@
 <p>SVD 的核心威力在于<strong>最优低秩近似</strong>。保留前 $k$ 个奇异值：</p>
 <p>$$A_k = \sum_{i=1}^{k} \sigma_i \mathbf{u}_i \mathbf{v}_i^T$$</p>
 <p>则 $A_k$ 是所有秩不超过 $k$ 的矩阵中，在 Frobenius 范数意义下最接近 $A$ 的：</p>
-<p>$$A_k = \arg\min_{\text{rank}(B) \leq k} |A - B|_F$$</p>
-<p>重建误差为：$|A - A_k|<em>F = \sqrt{\sigma</em>{k+1}^2 + \cdots + \sigma_r^2}$</p>
+<p>$$A_k = \arg\min_{\text{rank}(B) \leq k} \|A - B\|_F$$</p>
+<p>重建误差为：$\|A - A_k\|_F = \sqrt{\sigma_{k+1}^2 + \cdots + \sigma_r^2}$</p>
 <h4>直觉理解</h4>
 <p>SVD 将任何线性变换分解为三步：旋转（$V^T$）→ 缩放（$\Sigma$）→ 再旋转（$U$）。奇异值的大小反映了每个方向上&quot;信息量&quot;的多少。保留大的奇异值、丢弃小的，就实现了有损压缩——保留主要信息，去除噪声。</p>
 <h4>在 AI 中的角色</h4>
@@ -711,7 +731,7 @@
 </li>
 </ol>
 <p><strong>方差解释率</strong>（explained variance ratio）：</p>
-<p>$$\text{EVR}<em>i = \frac{\lambda_i}{\sum</em>{j=1}^{d} \lambda_j}$$</p>
+<p>$$\text{EVR}_i = \frac{\lambda_i}{\sum_{j=1}^{d} \lambda_j}$$</p>
 <p>其中：</p>
 <ul>
 <li><p>$\lambda_i$ 是第 $i$ 个主成分的特征值，表示该方向的方差贡献</p>
@@ -761,11 +781,11 @@
 <p>得到 $n \times n$ 的注意力得分矩阵，复杂度为 $O(n^2 d_k)$。这是 Transformer 的计算瓶颈。</p>
 </li>
 <li><p><strong>缩放</strong>：</p>
-<p>$$S&#39; = S / \sqrt{d_k}$$</p>
+<p>$$S' = S / \sqrt{d_k}$$</p>
 <p>这是逐元素操作。</p>
 </li>
 <li><p><strong>Softmax 归一化</strong>：</p>
-<p>$$A = \text{softmax}(S&#39;)$$</p>
+<p>$$A = \text{softmax}(S')$$</p>
 <p>按行归一化，每行和为 1。</p>
 <p>其中 $A$ 就是注意力权重矩阵，$A_{ij}$ 表示位置 $i$ 对位置 $j$ 的关注程度。</p>
 </li>
