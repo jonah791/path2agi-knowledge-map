@@ -2581,5 +2581,545 @@
   "Friedman": {
     "def": "Nir Friedman — 与Koller(2009)合著《Probabilistic Graphical Models》。结构学习、生物信息学领域权威。",
     "g": "1"
+  },
+  "线性代数": {
+    "def": "Linear Algebra — 深度学习的表示与计算语言。向量、矩阵、线性变换构成了神经网络前向传播的数学基础。",
+    "g": "1"
+  },
+  "矩阵论": {
+    "def": "Matrix Theory — 研究矩阵结构与性质的数学分支。特征分解、SVD、矩阵补全是现代AI算法的重要工具。",
+    "g": "1"
+  },
+  "数据表示": {
+    "def": "Data Representation — 将原始数据转换为适合模型处理的数学形式。图像→像素向量、文本→词嵌入向量、用户→特征向量。",
+    "g": "1"
+  },
+  "向量": {
+    "def": "Vector — 深度学习的基本数据单元。一张图像、一段文本、一个单词都可表示为向量。模型内部的计算本质上是向量空间上的变换。",
+    "g": "1"
+  },
+  "矩阵": {
+    "def": "Matrix — 向量组成的二维数组。神经网络权重、批次数据、词嵌入表都以矩阵形式存储和计算。",
+    "g": "1"
+  },
+  "线性变换": {
+    "def": "Linear Transformation — 保持向量加法和标量乘法的映射 y = Wx。神经网络每层的核心操作，后接非线性激活函数构成完整的神经元计算。",
+    "g": "1"
+  },
+  "矩阵乘法": {
+    "def": "Matrix Multiplication — 现代AI计算的基本原语。全连接层、注意力机制、卷积都依赖高效的矩阵乘法实现。GPU专门为此优化。",
+    "g": "1"
+  },
+  "仿射变换": {
+    "def": "Affine Transformation — 线性变换加平移 y = Wx + b。全连接层的数学形式，bias项提供了平移自由度。",
+    "g": "1"
+  },
+  "全连接层": {
+    "def": "Fully Connected Layer — 神经网络中最基本的层结构：对输入向量做仿射变换。每个输出神经元与所有输入相连，参数量最大。",
+    "g": "1"
+  },
+  "前向传播": {
+    "def": "Forward Propagation — 输入数据逐层经过线性变换和激活函数，最终产生网络输出的计算过程。矩阵乘法的链式应用。",
+    "g": "1"
+  },
+  "Jacobian矩阵": {
+    "def": "Jacobian Matrix — 向量值函数的导数矩阵 J_ij = ∂f_i/∂x_j。反向传播中用于计算各层梯度，将损失梯度从输出层传回输入层。",
+    "g": "1"
+  },
+  "非线性激活": {
+    "def": "Nonlinear Activation — 线性变换后施加的非线性函数(ReLU/Sigmoid/Tanh)。没有激活函数，多层网络就退化为单层线性变换，失去深层意义。",
+    "g": "1"
+  },
+  "表示学习": {
+    "def": "Representation Learning — 自动从数据中学习有用的特征表示。深度网络通过逐层线性变换+非线性激活构建层次化表示。",
+    "g": "1"
+  },
+  "特征空间": {
+    "def": "Feature Space — 数据被映射到的向量空间。好的特征空间中，同类数据距离近、异类距离远。对比学习直接优化特征空间结构。",
+    "g": "1"
+  },
+  "基底": {
+    "def": "Basis — 向量空间中的一组线性无关向量，可生成空间中所有向量。PCA找到的主成分就是新基底。不同基底对应不同表示视角。",
+    "g": "1"
+  },
+  "向量空间": {
+    "def": "Vector Space — 满足加法和标量乘法封闭的集合。深度学习中的所有表示(嵌入向量/特征图)都存在于某个向量空间中。",
+    "g": "1"
+  },
+  "加法封闭": {
+    "def": "Closure under Addition — 向量空间中任意两向量之和仍在空间中。这是向量空间的基本公理，确保表示可以组合。",
+    "g": "1"
+  },
+  "标量乘法封闭": {
+    "def": "Closure under Scalar Multiplication — 向量空间中任意向量与标量的乘积仍在空间中。权重缩放、梯度更新都依赖此性质。",
+    "g": "1"
+  },
+  "零向量": {
+    "def": "Zero Vector — 向量空间中的加法单位元。在AI中代表\"零信息\"状态。梯度初始化为零向量、残差连接的起点是零初始化。",
+    "g": "1"
+  },
+  "正交矩阵": {
+    "def": "Orthogonal Matrix — Q^T Q = I 的方阵。列向量相互正交且为单位长度。用于防止梯度消失爆炸，正交初始化是权重初始化的常用方法。",
+    "g": "1"
+  },
+  "对角化": {
+    "def": "Diagonalization — 将矩阵分解为 PDP^{-1} 的形式(D为对角阵)。特征分解的核心工具。功率迭代和PCA都利用了对角化。",
+    "g": "1"
+  },
+  "谱定理": {
+    "def": "Spectral Theorem — 实对称矩阵可对角化为正交矩阵Q与实对角阵Λ的乘积 A = QΛQ^T。PCA和谱聚类的理论基础。",
+    "g": "1"
+  },
+  "Hessian矩阵": {
+    "def": "Hessian Matrix — 标量函数的二阶偏导矩阵 H_ij = ∂²f/∂x_i∂x_j。在优化中用于判断极值点类型、牛顿法中的参数更新方向。",
+    "g": "1"
+  },
+  "Cramer法则": {
+    "def": "Cramer's Rule — 用行列式求解线性方程组的方法。理论上优美但计算量极大(O(n!))，实际中不用，主要用于理论分析。",
+    "g": "1"
+  },
+  "高斯消元法": {
+    "def": "Gaussian Elimination — 求解线性方程组的标准方法。通过行变换将增广矩阵化为行阶梯形。LAPACK中LU分解的基础。",
+    "g": "1"
+  },
+  "矩阵运算": {
+    "def": "Matrix Operations — 矩阵加法、乘法、转置、求逆等基本运算。cuBLAS和Tensor Core专门优化这些操作，是GPU加速的基石。",
+    "g": "1"
+  },
+  "逆矩阵": {
+    "def": "Inverse Matrix — A^{-1} 满足 A·A^{-1}=I。用于解线性方程组、最小二乘法的闭式解。实际中通常避开显式求逆(数值不稳定)。",
+    "g": "1"
+  },
+  "Jordan标准形": {
+    "def": "Jordan Canonical Form — 将矩阵化简为近似对角的Jordan块矩阵。比特征分解更一般的矩阵标准形，即使矩阵不可对角化也可化简。",
+    "g": "1"
+  },
+  "秩": {
+    "def": "Rank — 矩阵线性无关的最大列(或行)数。决定矩阵的信息含量。低秩逼近压缩信息、去除噪声。秩为1的矩阵是外积。",
+    "g": "1"
+  },
+  "Frobenius": {
+    "def": "Ferdinand Georg Frobenius (1849-1917) — 弗罗贝尼乌斯。Frobenius范数(矩阵的平方和)、Frobenius定理在矩阵理论中地位重要。",
+    "g": "1"
+  },
+  "希尔伯特空间": {
+    "def": "Hilbert Space — 完备的内积空间。向量长度和夹角概念可推广到无穷维。核方法、高斯过程的理论基础。",
+    "g": "1"
+  },
+  "Banach空间": {
+    "def": "Banach Space — 完备的赋范向量空间。范数定义了向量长度但不需要内积。比Hilbert空间更一般的数学结构。",
+    "g": "1"
+  },
+  "公理化": {
+    "def": "Axiomatization — 用公理严格定义数学结构。线性代数有8条公理(加法交换/结合/单位元/逆元、标量乘法结合/分配等)。",
+    "g": "1"
+  },
+  "数值线性代数": {
+    "def": "Numerical Linear Algebra — 研究矩阵计算的稳定高效数值算法。Golub&Van Loan的经典教材系统化了这一领域。LAPACK/cuBLAS是其工程实现。",
+    "g": "1"
+  },
+  "Householder变换": {
+    "def": "Householder Transformation — 通过反射向量来实现QR分解的数值稳定方法。LAPACK中QR分解的标准实现。",
+    "g": "1"
+  },
+  "LAPACK": {
+    "def": "Linear Algebra PACKage — 线性代数标准数值库，提供LU分解、QR分解、SVD、特征分解等。几乎所有科学计算软件都基于LAPACK。",
+    "g": "1"
+  },
+  "奇异值分解": {
+    "def": "Singular Value Decomposition (SVD) — 将任意矩阵分解为 A = UΣV^T。U和V是正交矩阵，Σ为奇异值对角阵。最重要的矩阵分解之一。",
+    "g": "1"
+  },
+  "奇异值": {
+    "def": "Singular Value — SVD中Σ的对角元素 σ₁≥σ₂≥...≥0。反映矩阵在各方向上的能量大小。前k个奇异值决定了矩阵的最优低秩近似。",
+    "g": "1"
+  },
+  "左奇异向量": {
+    "def": "Left Singular Vector — SVD中U的列向量，对应行空间的基。PCA中相当于主成分方向。",
+    "g": "1"
+  },
+  "右奇异向量": {
+    "def": "Right Singular Vector — SVD中V的列向量，对应列空间的基。PCA中相当于样本的主成分坐标。",
+    "g": "1"
+  },
+  "Eckart-Young定理": {
+    "def": "Eckart-Young Theorem — 取SVD前k大奇异值对应的部分，是Frobenius范数下最优的秩k近似。低秩分解(如LoRA)的理论基础。",
+    "g": "1"
+  },
+  "Frobenius范数": {
+    "def": "Frobenius Norm — 矩阵的平方和开根 ||A||_F = sqrt(Σᵢⱼ aᵢⱼ²)。SVD下等于奇异值平方和开根。矩阵补全和低秩近似的常用损失。",
+    "g": "1"
+  },
+  "图像压缩": {
+    "def": "Image Compression — 利用SVD的经典应用：保留大奇异值舍去小奇异值，用更少的参数近似原图。模型量化剪枝也有类似思想。",
+    "g": "1"
+  },
+  "推荐系统": {
+    "def": "Recommendation System — 用户-物品交互矩阵的建模。矩阵分解(隐语义模型)是经典方法，Word2Vec/GloVe的共现矩阵分解是基础。",
+    "g": "1"
+  },
+  "GloVe": {
+    "def": "Global Vectors for Word Representation — Pennington et al.(2014)基于词共现矩阵分解的静态词嵌入方法。从语料统计直接学习词向量。",
+    "g": "1"
+  },
+  "词向量矩阵": {
+    "def": "Word Embedding Matrix — 每行对应一个词的嵌入向量。语义相近的词向量在空间中也相近。矩阵规模=词表大小×嵌入维度。",
+    "g": "1"
+  },
+  "Word2Vec": {
+    "def": "Word2Vec — Mikolov et al.(2013)提出的词嵌入方法。CBOW和Skip-gram两种架构。本质上是在隐式分解词共现矩阵。",
+    "g": "1"
+  },
+  "主成分分析": {
+    "def": "Principal Component Analysis (PCA) — 通过SVD找到数据方差最大的投影方向。降维、去噪、可视化的标准方法。Eigenfaces是经典案例。",
+    "g": "1"
+  },
+  "中心化": {
+    "def": "Centering — 减去数据均值使数据中心在原点的预处理操作。PCA的第一步。消除偏移对主成分方向的影响。",
+    "g": "1"
+  },
+  "方差解释率": {
+    "def": "Variance Explained Ratio — 每个主成分解释的数据方差占总方差的比率。决定降维时保留多少主成分的依据。",
+    "g": "1"
+  },
+  "投影": {
+    "def": "Projection — 将高维数据映射到低维子空间。PCA投影到主成分方向。注意力机制中把Query投影到不同语义空间。",
+    "g": "1"
+  },
+  "白化": {
+    "def": "Whitening — 使数据协方差变为单位阵的变换。去相关+缩放。Batch Normalization有白化效果。稳定训练过程。",
+    "g": "1"
+  },
+  "Eigenfaces": {
+    "def": "Eigenfaces — 将PCA应用于人脸识别的经典案例。人脸图像投影到主成分(特征脸)空间，用欧氏距离比较。Turk&Pentland(1991)。",
+    "g": "1"
+  },
+  "PageRank": {
+    "def": "PageRank — Google核心算法。将网页链接矩阵建模为马尔可夫链，主特征向量(PageRank分数)衡量网页重要性。幂迭代法的经典应用。",
+    "g": "1"
+  },
+  "缩放点积注意力": {
+    "def": "Scaled Dot-Product Attention — Attention(Q,K,V) = softmax(QK^T/√d_k)V。Transformer的基础操作，QK^T计算相似度矩阵。",
+    "g": "1"
+  },
+  "Q": {
+    "def": "Query — 注意力机制中的查询向量。每个查询与所有键计算相似度，决定从哪些值取信息。类比搜索引擎中的检索词。",
+    "g": "1"
+  },
+  "K": {
+    "def": "Key — 注意力机制中的键向量。与Query做点积(缩放后)得到注意力得分。类比搜索引擎中的文档索引。",
+    "g": "1"
+  },
+  "V": {
+    "def": "Value — 注意力机制中的值(Value)向量。被注意力权重加权求和得到输出。类比搜索引擎中的文档内容。",
+    "g": "1"
+  },
+  "线性投影": {
+    "def": "Linear Projection — 将向量通过矩阵乘法映射到子空间。多头注意力中每个头先将Q/K/V投影到不同子空间，捕获不同语义。",
+    "g": "1"
+  },
+  "注意力得分矩阵": {
+    "def": "Attention Score Matrix — QK^T的结果，每个元素表示某查询与某键的相似度得分。矩阵大小=序列长度×序列长度。",
+    "g": "1"
+  },
+  "注意力权重矩阵": {
+    "def": "Attention Weight Matrix — 对注意力得分矩阵按行做softmax得到的权重。每行和为1，表示每个查询从各位置取信息的比例。",
+    "g": "1"
+  },
+  "动态矩阵": {
+    "def": "Dynamic Matrix — 注意力权重矩阵是数据依赖的(随输入变化)，与固定权重不同。这是Transformer灵活性的关键——每个样本有自己的注意力模式。",
+    "g": "1"
+  },
+  "Softmax": {
+    "def": "Softmax — 将向量转化为概率分布的函数：softmax(z)_i = exp(z_i)/Σ_j exp(z_j)。在注意力中确保所有权重非负且和为1。",
+    "g": "1"
+  },
+  "长程依赖": {
+    "def": "Long-Range Dependency — 序列中相距很远的位置间的依赖关系。RNN难以捕获，而Transformer的自注意力使任意两位置间直接连接、没有距离衰减。",
+    "g": "1"
+  },
+  "GPU并行计算": {
+    "def": "GPU Parallel Computing — 利用GPU大量核心并行执行矩阵运算。矩阵乘法(SGEMM)的并行度极高，GPU的SIMT架构为此优化。",
+    "g": "1"
+  },
+  "cuBLAS": {
+    "def": "cuBLAS — NVIDIA的CUDA线性代数库，是LAPACK的GPU实现。提供高度优化的矩阵乘法(GEMM)等操作。PyTorch/TensorFlow底层调用。",
+    "g": "1"
+  },
+  "Tensor Core": {
+    "def": "Tensor Core — NVIDIA GPU上的专用矩阵运算单元(Volta起)。支持混合精度矩阵乘法(FP16输入+FP32累加)。AI训练和推理的核心加速器。",
+    "g": "1"
+  },
+  "并行化": {
+    "def": "Parallelization — 将计算任务拆分为可同时执行的子任务。矩阵各行和各列的计算天然独立。数据并行/模型并行/张量并行是LLM训练的三种策略。",
+    "g": "1"
+  },
+  "稀疏注意力": {
+    "def": "Sparse Attention — 限制Query只与部分Key计算注意力，降低O(n²)复杂度。滑动窗口、全局+局部组合是常见模式。",
+    "g": "1"
+  },
+  "LoRA": {
+    "def": "Low-Rank Adaptation — Hu et al.(2021)提出。冻结原权重，注入低秩矩阵 ΔW=BA 进行微调。用低秩分解显著减少可训练参数量。",
+    "g": "1"
+  },
+  "低秩分解": {
+    "def": "Low-Rank Decomposition — 将矩阵分解为两个低秩矩阵的乘积 A≈BC。LoRA、模型压缩、矩阵补全都基于低秩分解。",
+    "g": "1"
+  },
+  "参数高效微调": {
+    "def": "Parameter-Efficient Fine-Tuning (PEFT) — 只更新少量参数即可适配下游任务。LoRA、Adapter、Prefix Tuning都是PEFT。",
+    "g": "1"
+  },
+  "模型合并": {
+    "def": "Model Merging — 将多个微调模型的权重进行组合。线性插值、TIES-Merging是常见方法。利用线性代数视角理解模型空间。",
+    "g": "1"
+  },
+  "线性插值": {
+    "def": "Linear Interpolation — 两模型权重按比例组合 θ_new = αθ_A + (1-α)θ_B。模型合并和权重衰减的简单有效方法。",
+    "g": "1"
+  },
+  "TIES": {
+    "def": "TIES-Merging — Yadav et al.(2023)提出的模型合并方法。先修剪不重要的参数变化、解决符号冲突，再平均。",
+    "g": "1"
+  },
+  "结构化矩阵": {
+    "def": "Structured Matrix — 具有特殊结构(稀疏、低秩、蝶形等)的矩阵，可用更少参数存储和更快算法计算。Monarch矩阵是代表。",
+    "g": "1"
+  },
+  "Monarch矩阵": {
+    "def": "Monarch Matrix — 块对角化+置换的乘积。可替代Transformer中的稠密投影，参数量少且计算快。Dao et al.(2022)。",
+    "g": "1"
+  },
+  "蝶形矩阵": {
+    "def": "Butterfly Matrix — 对应快速傅里叶变换结构的稀疏矩阵。理论上可近似任意矩阵。用于设计高效的替代投影矩阵。",
+    "g": "1"
+  },
+  "Flash Attention": {
+    "def": "Flash Attention — Dao et al.(2022)提出。分块计算注意力矩阵，避免O(n²)内存开销。利用GPU SRAM-显存层次结构，IO感知算法。",
+    "g": "1"
+  },
+  "分块计算": {
+    "def": "Tiled Computation — 将大矩阵切分成小块分别计算。Flash Attention的核心技术，利用SRAM处理每个tile，减少显存读写。",
+    "g": "1"
+  },
+  "IO感知": {
+    "def": "IO-Aware — 以数据搬运量为优化目标而非FLOPs。Flash Attention是典型，减少GPU HBM读写可显著加速。",
+    "g": "1"
+  },
+  "线性注意力": {
+    "def": "Linear Attention — 将softmax(QK^T)V改写为 Q(K^T V)，将O(n²)降低为O(n)。利用矩阵乘法结合律，但牺牲了softmax的归一化。",
+    "g": "1"
+  },
+  "随机线性代数": {
+    "def": "Randomized Linear Algebra (RandNLA) — 用随机采样加速矩阵分解。随机SVD比精确SVD快得多，适合大规模数据。",
+    "g": "1"
+  },
+  "随机SVD": {
+    "def": "Randomized SVD — 用随机投影将矩阵压缩到较小空间后再做精确SVD。Halko,Martinsson&Tropp(2011)算法。大数据集的主流方法。",
+    "g": "1"
+  },
+  "草图方法": {
+    "def": "Sketching — 用随机投影(草图)压缩矩阵，在保持关键结构的同时减小规模。频繁项挖掘、流式矩阵分解都使用草图。",
+    "g": "1"
+  },
+  "随机投影": {
+    "def": "Random Projection — 用随机矩阵(如高斯随机矩阵)将高维向量映射到低维。Johnson-Lindenstrauss引理保证距离近似保持。",
+    "g": "1"
+  },
+  "RandNLA": {
+    "def": "Randomized Numerical Linear Algebra — 随机化方法加速数值线性代数。随机SVD、随机特征值分解、草图方法都属于RandNLA。",
+    "g": "1"
+  },
+  "张量分解": {
+    "def": "Tensor Decomposition — 将高阶张量分解为低秩成分的乘积。CP分解(Tucker分解的特例)和Tucker分解是两种主要方式。模型压缩和知识图谱推理中用。",
+    "g": "1"
+  },
+  "CP分解": {
+    "def": "CANDECOMP/PARAFAC Decomposition — 将张量表示为秩1张量之和。张量分解的一种标准形式，是矩阵SVD的高维推广。",
+    "g": "1"
+  },
+  "Tucker分解": {
+    "def": "Tucker Decomposition — 将张量分解为一个核心张量与各维度因子矩阵的乘积。比CP分解更灵活，是矩阵SVD的高维推广。",
+    "g": "1"
+  },
+  "张量网络": {
+    "def": "Tensor Network — 用网络图表示张量间的缩并操作，将高维计算分解为低维操作的组合。在量子多体物理和ML中用于高效表示高维结构。",
+    "g": "1"
+  },
+  "高阶张量": {
+    "def": "Higher-Order Tensor — 阶数≥3的张量。可看作多维数据数组。注意力得分矩阵张量化、视频数据(时空)都用高阶张量表示。",
+    "g": "1"
+  },
+  "神经切线核": {
+    "def": "Neural Tangent Kernel (NTK) — Jacot et al.(2018)提出。无限宽NN在梯度下降下的演化等价于NTK上的核回归。连接DL和核方法。",
+    "g": "1"
+  },
+  "NTK": {
+    "def": "Neural Tangent Kernel — 神经切线核。描述无限宽神经网络在梯度流下参数变化的内核。NTK视角解释了神经网络为什么能泛化。",
+    "g": "1"
+  },
+  "随机矩阵理论": {
+    "def": "Random Matrix Theory (RMT) — 研究随机矩阵特征值谱分布的理论。解释DL中He初始化的方差选择、批归一化效果、Hessian谱。",
+    "g": "1"
+  },
+  "谱分布": {
+    "def": "Spectral Distribution — 矩阵特征值的概率分布。Marchenko-Pastur分布描述随机协方差矩阵的谱。DL中Hessian谱分布影响优化。",
+    "g": "1"
+  },
+  "矩阵感知": {
+    "def": "Matrix Sensing — 从少量线性测量中恢复矩阵。矩阵补全的推广形式。信号处理、压缩感知的矩阵版本。",
+    "g": "1"
+  },
+  "矩阵补全": {
+    "def": "Matrix Completion — 从部分观测元素恢复完整矩阵。推荐系统的核心技术。Netflix Prize的获胜模型基于矩阵分解。",
+    "g": "1"
+  },
+  "低秩矩阵恢复": {
+    "def": "Low-Rank Matrix Recovery — 从少量线性观测中恢复低秩矩阵。矩阵补全是其特例。背景建模、人脸光照去除的应用。",
+    "g": "1"
+  },
+  "隐式正则化": {
+    "def": "Implicit Regularization — 优化算法天然带来的正则化效果。梯度下降在矩阵分解上收敛到最小Frobenius范数解，对应低秩偏好。",
+    "g": "1"
+  },
+  "量子线性代数": {
+    "def": "Quantum Linear Algebra — 利用量子计算加速线性代数运算。HHL算法理论上对求解线性方程组有指数级加速。仍处于早期阶段。",
+    "g": "1"
+  },
+  "HHL算法": {
+    "def": "Harrow-Hassidim-Lloyd Algorithm — 量子线性方程组求解算法。对稀疏矩阵理论上指数加速，但读出结果受量子测量限制。",
+    "g": "1"
+  },
+  "量子SVD": {
+    "def": "Quantum SVD — 量子版本的奇异值分解。理论上可更快计算出奇异值/奇异向量。量子推荐的潜在加速方案。",
+    "g": "1"
+  },
+  "线性方程组": {
+    "def": "System of Linear Equations — 形如 Ax=b 的方程组。最小二乘、数值模拟、神经网络训练(损失最小化)都可看作求解线性问题。",
+    "g": "1"
+  },
+  "核矩阵": {
+    "def": "Kernel Matrix — 核函数在样本对上的Gram矩阵 K_ij = k(x_i, x_j)。SVM、高斯过程的计算核心，矩阵的大小为n×n(n为样本数)。",
+    "g": "1"
+  },
+  "傅里叶变换矩阵": {
+    "def": "Fourier Transform Matrix — 实现离散傅里叶变换的酉矩阵。F对信号在频域和时域间变换。卷积定理：时域卷积=频域乘积(Diagonal化)。",
+    "g": "1"
+  },
+  "酉矩阵": {
+    "def": "Unitary Matrix — U*U = I 的复矩阵。保持向量的L2范数(能量守恒)。傅里叶变换矩阵和量子门都是酉矩阵。",
+    "g": "1"
+  },
+  "状态空间模型": {
+    "def": "State Space Model (SSM) — 描述系统动态的线性代数框架 x_{t+1}=Ax_t+Bu_t, y_t=Cx_t。Mamba/Structured SSM将SSM用于序列建模。",
+    "g": "1"
+  },
+  "状态转移矩阵": {
+    "def": "State Transition Matrix — SSM中描述状态随时间演化的矩阵A。特征值决定系统稳定性。被控对象的动态特性由A决定。",
+    "g": "1"
+  },
+  "MIMO信道矩阵": {
+    "def": "MIMO Channel Matrix — 多天线通信中发射-接收天线间的增益矩阵。SVD用于分解独立数据流。与深度学习的多头注意力有数学对称性。",
+    "g": "1"
+  },
+  "支付矩阵": {
+    "def": "Payoff Matrix — 博弈论中描述各玩家不同策略组合下收益的矩阵。Nash均衡可在支付矩阵上分析。双人零和博弈的线性规划解法。",
+    "g": "1"
+  },
+  "Nash均衡": {
+    "def": "Nash Equilibrium — 博弈中无人能单方面改变策略获得更好结果的状态。生成对抗网络(GAN)的纳什均衡训练视角。",
+    "g": "1"
+  },
+  "Cayley": {
+    "def": "Arthur Cayley (1821-1895) — 凯莱。矩阵理论的奠基人。提出Cayley-Hamilton定理(矩阵满足自身特征多项式)。将群论与矩阵联系。",
+    "g": "1"
+  },
+  "Sylvester": {
+    "def": "James Joseph Sylvester (1814-1897) — 西尔维斯特。与Cayley共同奠基矩阵理论。提出Sylvester惯性律(对称矩阵正负特征值个数不变性)。",
+    "g": "1"
+  },
+  "Jordan": {
+    "def": "Camille Jordan (1838-1922) — 若尔当。Jordan标准形(Jordan Canonical Form)提出者。曲线论、置换群方面也有重要贡献。",
+    "g": "1"
+  },
+  "Hilbert": {
+    "def": "David Hilbert (1862-1943) — 希尔伯特。希尔伯特空间概念的核心人物。提出23个问题的希尔伯特纲领。20世纪最具影响力的数学家之一。",
+    "g": "1"
+  },
+  "Banach": {
+    "def": "Stefan Banach (1892-1945) — 巴拿赫。Banach空间(完备赋范空间)提出者。泛函分析的奠基人。波兰利沃夫数学学派领袖。",
+    "g": "1"
+  },
+  "von Neumann": {
+    "def": "John von Neumann (1903-1957) — 冯·诺依曼。算子代数(冯·诺依曼代数)奠基。量子力学的数学基础、EDVAC计算机体系结构、博弈论均为重要贡献。",
+    "g": "1"
+  },
+  "Halmos": {
+    "def": "Paul Halmos (1916-2006) — 哈尔莫斯。著《有限维向量空间》(Finite-Dimensional Vector Spaces)。影响深远的数学教材作者。",
+    "g": "1"
+  },
+  "Golub": {
+    "def": "Gene Golub (1932-2007) — 数值线性代数先驱。SVD的数值算法标准化者。SIAM创始人之一。与Van Loan合著《Matrix Computations》。",
+    "g": "1"
+  },
+  "Van Loan": {
+    "def": "Charles Van Loan — 与Golub合著《Matrix Computations》——数值线性代数领域最经典的教材。康奈尔大学教授。",
+    "g": "1"
+  },
+  "Mikolov": {
+    "def": "Tomas Mikolov — Word2Vec提出者(2013)。词嵌入技术革命的核心人物。RNNLM研究者。目前在Facebook AI。",
+    "g": "1"
+  },
+  "Vaswani": {
+    "def": "Ashish Vaswani — Transformer论文《Attention Is All You Need》(2017)第一作者。改变了NLP和整个AI领域。",
+    "g": "1"
+  },
+  "Hu": {
+    "def": "Edward Hu — LoRA论文(2021)第一作者。低秩自适应方法使大模型微调变得高效实用。",
+    "g": "1"
+  },
+  "Dao": {
+    "def": "Tri Dao — Flash Attention论文(2022)第一作者。IO感知注意力计算，显著提升Transformer训练效率。Monarch矩阵提出者之一。",
+    "g": "1"
+  },
+  "Jacot": {
+    "def": "Arthur Jacot — Neural Tangent Kernel(NTK)论文(2018)第一作者。连接了无限宽神经网络与核方法。",
+    "g": "1"
+  },
+  "Martin": {
+    "def": "Charles Martin — 计算神经科学和随机矩阵理论在DL中的应用研究者。与Mahoney合作研究DL的Hessian谱、隐式正则化。",
+    "g": "1"
+  },
+  "Mahoney": {
+    "def": "Michael Mahoney — RandNLA(随机线性代数)和DL理论的主要推动者。研究随机矩阵理论在深度学习中的应用(谱分析、隐式正则化)。",
+    "g": "1"
+  },
+  "Strang": {
+    "def": "Gilbert Strang — MIT教授。《线性代数及其应用》《计算科学导论》作者。MIT OCW线性代数课程(18.06)影响了数百万学生。",
+    "g": "1"
+  },
+  "Axler": {
+    "def": "Sheldon Axler — 《线性代数应该这样学》(Linear Algebra Done Right)作者。从线性映射而非行列式出发讲授线性代数，极有影响力。",
+    "g": "1"
+  },
+  "Trefethen": {
+    "def": "Lloyd Trefethen — 《数值线性代数》(Numerical Linear Algebra)作者(与Bau合著)。逼近论与数值分析领域权威。",
+    "g": "1"
+  },
+  "Bau": {
+    "def": "David Bau — 与Trefethen合著《数值线性代数》(Numerical Linear Algebra)。专注于数值分析教学。",
+    "g": "1"
+  },
+  "Goodfellow": {
+    "def": "Ian Goodfellow — 《深度学习》(Deep Learning)第一作者。GAN(生成对抗网络)发明者。蒙特利尔大学博士，Apple/Google研究员。",
+    "g": "1"
+  },
+  "Bengio": {
+    "def": "Yoshua Bengio — 《深度学习》作者之一。蒙特利尔大学教授。2018图灵奖得主。深度学习先驱(词嵌入、注意力机制、生成模型)。",
+    "g": "1"
+  },
+  "Courville": {
+    "def": "Aaron Courville — 《深度学习》作者之一。蒙特利尔大学教授。主要研究深度生成模型、表示学习。",
+    "g": "1"
   }
 }
