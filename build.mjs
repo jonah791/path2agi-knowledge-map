@@ -410,9 +410,9 @@ const ANN_TERMS = ${JSON.stringify(pageAnnTerms)};
 
   function initAnnotation() {
     annotateContent(document.querySelector('.content'));
-    // Click handler: show popup
+    // Click handler: show popup (main + nested)
     document.addEventListener('click', function(e) {
-      const annt = e.target.closest('.annt');
+      const annt = e.target.closest('.annt, .annt-x');
       // Remove old popup
       document.querySelectorAll('.annt-popup').forEach(p => p.remove());
       if (!annt) return;
@@ -422,7 +422,16 @@ const ANN_TERMS = ${JSON.stringify(pageAnnTerms)};
       if (!def) return;
       const popup = document.createElement('div');
       popup.className = 'annt-popup visible';
-      popup.innerHTML = '<span class="annt-close">\u2716</span><strong>' + term + '</strong><br>' + def;
+      // Nested annotations: wrap terms in popup content
+      let popupBody = def;
+      var escRE = nt.replace.bind(nt);
+      for (const nt of ANN_TERMS) {
+        if (nt === term || popupBody.indexOf(nt) === -1) continue;
+        var esc = nt.replace(new RegExp('[.*+?^\${}()|[\\]\\\\]', 'g'), '\\$&');
+        var re2 = new RegExp(esc, 'g');
+        popupBody = popupBody.replace(re2, '<span class="annt-x" data-term="' + nt + '">' + nt + '</span>');
+      }
+      popup.innerHTML = '<span class="annt-close">\u2716</span><strong>' + term + '</strong><br>' + popupBody;
       document.body.appendChild(popup);
       // Position near the term
       const rect = annt.getBoundingClientRect();
