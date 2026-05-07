@@ -87,9 +87,9 @@ function buildTopicPage(md, file) {
   const currentTopic = TOPICS.find(t => t[2] === file);
   const idx = currentTopic ? TOPICS.indexOf(currentTopic) : -1;
 
-  // YAML front matter
+  // YAML front matter (handle \r\n and \n)
   let fm = {};
-  const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+  const fmMatch = md.match(/^---[\r\n]+([\s\S]*?)[\r\n]+---[\r\n]+/);
   if (fmMatch) {
     fmMatch[1].replace(/^(\w[\w-]*):\s*(.+)$/gm, (m, k, v) => { fm[k.trim()] = v.trim(); return ''; });
     md = md.slice(fmMatch[0].length);
