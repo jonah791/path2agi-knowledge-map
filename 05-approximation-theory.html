@@ -557,8 +557,8 @@
 <h2>3. 核心知识点详解</h2>
 <h3>3.1 Weierstrass 逼近定理</h3>
 <h4>数学定义</h4>
-<p><strong>定理（Weierstrass, 1885）</strong>：设 $f: [a, b] \to \mathbb{R}$ 是连续函数，则对任意 $\varepsilon > 0$，存在多项式 $p(x)$ 使得：</p>
-<p>$$\sup_{x \in [a,b]} |f(x) - p(x)| < \varepsilon$$</p>
+<p><strong>定理（Weierstrass, 1885）</strong>：设 $f: [a, b] \to \mathbb{R}$ 是连续函数，则对任意 $\varepsilon &gt; 0$，存在多项式 $p(x)$ 使得：</p>
+<p>$$\sup_{x \in [a,b]} |f(x) - p(x)| &lt; \varepsilon$$</p>
 <p>等价地，多项式在 $C([a,b])$（配备上确界范数的连续函数空间）中稠密。</p>
 <h4>Bernstein 多项式构造</h4>
 <p>Bernstein 给出了显式构造：</p>
@@ -575,8 +575,8 @@
 <hr>
 <h3>3.2 万能逼近定理（Universal Approximation Theorem）</h3>
 <h4>数学定义</h4>
-<p><strong>定理（Cybenko, 1989）</strong>：设 $\sigma: \mathbb{R} \to \mathbb{R}$ 是连续的 sigmoid 型函数（即 $\sigma(t) \to 1$ 当 $t \to +\infty$，$\sigma(t) \to 0$ 当 $t \to -\infty$）。则对任意紧致集 $K \subset \mathbb{R}^n$、任意连续函数 $f: K \to \mathbb{R}$ 和任意 $\varepsilon > 0$，存在整数 $N$、实数 $w_i, b_i, v_i$ 使得：</p>
-<p>$$\sup_{x \in K} \left| f(x) - \sum_{i=1}^{N} v_i \sigma(w_i^T x + b_i) \right| < \varepsilon$$</p>
+<p><strong>定理（Cybenko, 1989）</strong>：设 $\sigma: \mathbb{R} \to \mathbb{R}$ 是连续的 sigmoid 型函数（即 $\sigma(t) \to 1$ 当 $t \to +\infty$，$\sigma(t) \to 0$ 当 $t \to -\infty$）。则对任意紧致集 $K \subset \mathbb{R}^n$、任意连续函数 $f: K \to \mathbb{R}$ 和任意 $\varepsilon &gt; 0$，存在整数 $N$、实数 $w_i, b_i, v_i$ 使得：</p>
+<p>$$\sup_{x \in K} \left| f(x) - \sum_{i=1}^{N} v_i \sigma(w_i^T x + b_i) \right| &lt; \varepsilon$$</p>
 <p>其中：$K$ 是输入空间中的紧致集，$f$ 是目标连续函数，$N$ 是隐层神经元数量，$w_i, b_i, v_i$ 分别表示第 $i$ 个神经元的输入权重、偏置和输出系数，$\varepsilon$ 是允许的逼近误差。</p>
 <h4>Hornik 的推广</h4>
 <p><strong>定理（Hornik et al., 1989）</strong>：上述结论对任何非常值的有界可测激活函数 $\sigma$ 都成立。更进一步，Hornik (1991) 证明了单隐层网络不仅可以逼近函数值，还可以逼近其任意阶导数。</p>
@@ -602,7 +602,7 @@
 <hr>
 <h3>3.3 深度 vs 宽度——为什么深层网络更高效</h3>
 <h4>深度分离定理</h4>
-<p><strong>定理（Telgarsky, 2016）</strong>：存在由深度为 $k$ 的 ReLU 网络表示的函数，任何深度为 $k' < k$ 的网络要逼近它，宽度必须是指数级的。</p>
+<p><strong>定理（Telgarsky, 2016）</strong>：存在由深度为 $k$ 的 ReLU 网络表示的函数，任何深度为 $k' &lt; k$ 的网络要逼近它，宽度必须是指数级的。</p>
 <p>具体地，深度为 $k$ 的网络可以表示具有 $2^k$ 个振荡的函数，而深度为 $k'$ 的网络要逼近这样的函数，宽度至少需要 $2^{k-k'}$。</p>
 <h4>组合爆炸论证</h4>
 <p>深层网络的高效性可以从<strong>组合</strong>角度理解。考虑一个深度为 $L$、每层宽度为 $w$ 的网络：</p>

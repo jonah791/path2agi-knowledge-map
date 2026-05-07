@@ -687,7 +687,7 @@
 </ul>
 <p><strong>困惑度（Perplexity）</strong>：</p>
 <p>语言模型的标准评估指标：</p>
-<p>$$\text{PPL} = P(w_1, w_2, \ldots, w_T)^{-1/T} = \exp\left(-\frac{1}{T}\sum_{t=1}^{T} \log P(w_t | w_{<t})\right)$$<br>其中 $P(w_{<t})$ 是第 $t$ 步前的上下文序列，在评估时将所有概率取对数并归一化到每个 token 的平均损失。</p>
+<p>$$\text{PPL} = P(w_1, w_2, \ldots, w_T)^{-1/T} = \exp\left(-\frac{1}{T}\sum_{t=1}^{T} \log P(w_t | w_{&lt;t})\right)$$<br>其中 $P(w_{&lt;t})$ 是第 $t$ 步前的上下文序列，在评估时将所有概率取对数并归一化到每个 token 的平均损失。</p>
 <p>困惑度越低，模型对测试数据的预测越好。直觉上，困惑度表示模型在每一步平均面临多少个等概率的选择。</p>
 <p><strong>神经语言模型</strong>：</p>
 <p>Bengio et al. (2003) 提出了第一个神经概率语言模型（Neural Probabilistic Language Model），用神经网络替代 n-gram 的查表操作：</p>

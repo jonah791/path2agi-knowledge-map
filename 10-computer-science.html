@@ -621,12 +621,12 @@
 <h3>3.2 可计算性与停机问题</h3>
 <h4>停机问题的数学表述</h4>
 <p><strong>停机问题（Halting Problem）</strong>：是否存在一个图灵机 $H$，对于任意图灵机 $M$ 和输入 $w$，$H$ 能判定 $M$ 在输入 $w$ 上是否会停机？</p>
-<p>$$H(\langle M, w \rangle) = \begin{cases} 1 & \text{如果 } M \text{ 在输入 } w \text{ 上停机} \\ 0 & \text{如果 } M \text{ 在输入 } w \text{ 上不停机} \end{cases}$$</p>
+<p>$$H(\langle M, w \rangle) = \begin{cases} 1 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上停机} \\ 0 &amp; \text{如果 } M \text{ 在输入 } w \text{ 上不停机} \end{cases}$$</p>
 <p>其中 $\langle M, w \rangle$ 表示将图灵机 $M$ 和输入 $w$ 编码为一个可计算的字符串，$H$ 的输出 1/0 区分停机/不停机的二值，公式的目标是判定函数的不可判定性。</p>
 <h4>Turing 的对角化证明</h4>
 <p><strong>定理</strong>：停机问题是不可判定的（undecidable）。</p>
 <p><strong>证明</strong>（反证法）：假设存在这样的图灵机 $H$。构造一个新的图灵机 $D$：</p>
-<p>$$D(\langle M \rangle) = \begin{cases} \text{停机} & \text{如果 } H(\langle M, \langle M \rangle \rangle) = 0 \\ \text{不停机} & \text{如果 } H(\langle M, \langle M \rangle \rangle) = 1 \end{cases}$$</p>
+<p>$$D(\langle M \rangle) = \begin{cases} \text{停机} &amp; \text{如果 } H(\langle M, \langle M \rangle \rangle) = 0 \\ \text{不停机} &amp; \text{如果 } H(\langle M, \langle M \rangle \rangle) = 1 \end{cases}$$</p>
 <p>考虑 $D(\langle D \rangle)$：</p>
 <ul>
 <li>如果 D 在输入 ⟨D⟩ 上停机，则判定器会输出 1，于是 D 应该不停机——矛盾。</li>
@@ -681,8 +681,8 @@
 <ul>
 <li>目标概念记为 c，属于概念类 C</li>
 <li>数据分布记为 D</li>
-<li>精度参数 $\epsilon > 0$</li>
-<li>置信参数 $\delta > 0$</li>
+<li>精度参数 $\epsilon &gt; 0$</li>
+<li>置信参数 $\delta &gt; 0$</li>
 </ul>
 <p>当样本量 $m \geq p(1/\epsilon, 1/\delta, n)$ 时（$n$ 为输入维度），算法 $A$ 以概率至少 $1 - \delta$ 输出假设 $h$，满足：</p>
 <p>$$P_{x \sim \mathcal{D}}[h(x) \neq c(x)] \leq \epsilon$$<br>其中：</p>

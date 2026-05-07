@@ -116,7 +116,10 @@ function buildTopicPage(md, file) {
     return `@@MATH${idx}@@`;
   });
   const bodyHtml = marked.parse(mdProtected, { breaks: true, gfm: true })
-    .replace(/@@MATH(\d+)@@/g, (_, idx) => mathBlocks[parseInt(idx)]);
+    .replace(/@@MATH(\d+)@@/g, (_, idx) => {
+      // HTML-escape < > & inside math blocks to prevent browser parsing interference
+      return mathBlocks[parseInt(idx)].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    });
 
   // Build meta
   const g = currentTopic ? currentTopic[3]-1 : 0;

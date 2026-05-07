@@ -582,7 +582,7 @@
 <li>$\lambda_{US}$：无条件刺激能支持的最大关联强度</li>
 <li>$V_{total}$：所有当前呈现的 CS 的关联强度之和</li>
 </ul>
-<p>这个模型的核心洞察是：<strong>学习由预测误差驱动</strong>。当 $V_{total} < \lambda$ 时，存在正的预测误差，关联增强；当 $V_{total} = \lambda$ 时，学习停止；当 $V_{total} > \lambda$ 时，关联减弱。</p>
+<p>这个模型的核心洞察是：<strong>学习由预测误差驱动</strong>。当 $V_{total} &lt; \lambda$ 时，存在正的预测误差，关联增强；当 $V_{total} = \lambda$ 时，学习停止；当 $V_{total} &gt; \lambda$ 时，关联减弱。</p>
 <h4>直觉理解</h4>
 <p>Rescorla-Wagner 模型揭示了一个简单的&quot;错误纠正&quot;循环：每次出现 CS-US 配对时，系统会估算当前的期望（$V_{total}$）与最大可达关联（$\lambda$）之间的差异，正负预测误差分别推动关联增强或减弱。这就是 TD 误差的心理原型——信息传播只需要当前的残差信号，而无须完整模型。</p>
 <h4>AI 中的角色</h4>
@@ -653,7 +653,7 @@
 <li>$r$：实际获得的奖励（&quot;满意效果&quot;或&quot;不适效果&quot;）</li>
 <li>$\alpha$：学习率（对应试验次数增加后学习速度的变化）</li>
 </ul>
-<p>&quot;满意效果&quot; → $r > Q(s,a)$ → 价值增加 → 行为更可能重复<br>&quot;不适效果&quot; → $r < Q(s,a)$ → 价值减少 → 行为更不可能重复</p>
+<p>&quot;满意效果&quot; → $r &gt; Q(s,a)$ → 价值增加 → 行为更可能重复<br>&quot;不适效果&quot; → $r &lt; Q(s,a)$ → 价值减少 → 行为更不可能重复</p>
 <h4>直觉理解</h4>
 <p>效果律体现的是一个简单的反馈循环：每个动作都有一个预期价值 $Q(s,a)$，实际奖励 $r$ 与预期之间的差异会即时修正这个价值。满意的结果提升该动作的期望，失败则降低，这正是智能体策略迭代中的值函数更新逻辑。</p>
 <h4>AI 中的角色</h4>
@@ -683,7 +683,7 @@
 <p><strong>数学化表述</strong></p>
 <p>三种经典的探索策略：</p>
 <p><strong>$\epsilon$-贪心（$\epsilon$-greedy）</strong>：以概率 $1-\epsilon$ 选择当前最优动作，以概率 $\epsilon$ 随机探索。</p>
-<p>$$a_t = \begin{cases} \arg\max_a Q(a) & \text{概率 } 1-\epsilon \\ \text{随机动作} & \text{概率 } \epsilon \end{cases}$$</p>
+<p>$$a_t = \begin{cases} \arg\max_a Q(a) &amp; \text{概率 } 1-\epsilon \\ \text{随机动作} &amp; \text{概率 } \epsilon \end{cases}$$</p>
 <p>其中 $Q(a)$ 表示动作 $a$ 的当前预期价值，$\epsilon$ 控制随机探索与利用之间的权衡。</p>
 <p><strong>UCB（Upper Confidence Bound）</strong>：选择置信上界最大的动作，平衡估计值与不确定性。</p>
 <p>$$a_t = \arg\max_a \left[ Q(a) + c \sqrt{\frac{\ln t}{N(a)}} \right]$$</p>

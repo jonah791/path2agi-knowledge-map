@@ -638,8 +638,8 @@
 <h4>相变现象</h4>
 <p>在二维 Ising 模型中，存在临界温度 $T_c$（Onsager 精确解给出 $T_c = 2J / (k_B \ln(1+\sqrt{2}))$）：</p>
 <ul>
-<li>$T < T_c$：系统呈现长程有序（铁磁相），大部分自旋同向排列</li>
-<li>$T > T_c$：系统无序（顺磁相），自旋随机取向</li>
+<li>$T &lt; T_c$：系统呈现长程有序（铁磁相），大部分自旋同向排列</li>
+<li>$T &gt; T_c$：系统无序（顺磁相），自旋随机取向</li>
 <li>$T = T_c$：临界点，关联长度发散，系统呈现幂律行为（scale-free）</li>
 </ul>
 <h4>直觉理解</h4>
@@ -660,7 +660,7 @@
 <li>计算能量差 $\Delta E = E(x') - E(x)$</li>
 <li>接受准则（Metropolis 准则）：</li>
 </ol>
-<p>$$P(\text{accept}) = \begin{cases} 1 & \text{if } \Delta E < 0 \\ \exp(-\Delta E / T) & \text{if } \Delta E \geq 0 \end{cases}$$</p>
+<p>$$P(\text{accept}) = \begin{cases} 1 &amp; \text{if } \Delta E &lt; 0 \\ \exp(-\Delta E / T) &amp; \text{if } \Delta E \geq 0 \end{cases}$$</p>
 <p>其中：</p>
 <ul>
 <li>$\Delta E$ 表示新解与当前解的能量差</li>
