@@ -313,39 +313,52 @@ document.addEventListener('click', function(e) {
 const ANN = ${JSON.stringify(annotations)};
 const ANN_TERMS = ${JSON.stringify(annTerms)};
 (function() {
+  function annotateNode(textNode) {
+    const text = textNode.textContent;
+    const parent = textNode.parentNode;
+    if (!parent || parent.closest('.annt, .katex, code, pre, a, h1, h2, h3, h4, blockquote')) return;
+    // Find all matching terms with positions
+    const matches = [];
+    for (const term of ANN_TERMS) {
+      let pos = 0;
+      while ((pos = text.indexOf(term, pos)) !== -1) {
+        matches.push({ term, pos });
+        pos += term.length;
+      }
+    }
+    if (matches.length === 0) return;
+    // Sort by position, then by length (longer terms first at same position)
+    matches.sort((a, b) => a.pos - b.pos || b.term.length - a.term.length);
+    // Remove overlapping matches
+    const filtered = [matches[0]];
+    for (let i = 1; i < matches.length; i++) {
+      const last = filtered[filtered.length - 1];
+      if (matches[i].pos >= last.pos + last.term.length) {
+        filtered.push(matches[i]);
+      }
+    }
+    // Build fragment with annotation spans
+    const frag = document.createDocumentFragment();
+    let cursor = 0;
+    for (const m of filtered) {
+      if (m.pos > cursor) frag.appendChild(document.createTextNode(text.slice(cursor, m.pos)));
+      const span = document.createElement('span');
+      span.className = 'annt';
+      span.textContent = m.term;
+      span.dataset.term = m.term;
+      frag.appendChild(span);
+      cursor = m.pos + m.term.length;
+    }
+    if (cursor < text.length) frag.appendChild(document.createTextNode(text.slice(cursor)));
+    parent.replaceChild(frag, textNode);
+  }
+
   function annotateContent(root) {
     if (!root) return;
     const treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
     const textNodes = [];
     while (treeWalker.nextNode()) textNodes.push(treeWalker.currentNode);
-    for (const node of textNodes) {
-      const text = node.textContent;
-      let matched = false;
-      for (const term of ANN_TERMS) {
-        const idx = text.indexOf(term);
-        if (idx === -1) continue;
-        const before = text.slice(0, idx);
-        const after = text.slice(idx + term.length);
-        const span = document.createElement('span');
-        span.className = 'annt';
-        span.textContent = term;
-        span.dataset.term = term;
-        const parent = node.parentNode;
-        const frag = document.createDocumentFragment();
-        if (before) frag.appendChild(document.createTextNode(before));
-        frag.appendChild(span);
-        if (after) {
-          const rest = document.createTextNode(after);
-          frag.appendChild(rest);
-          // Re-process the rest for more terms
-          setTimeout(() => annotateContent(rest.parentNode), 0);
-        }
-        parent.replaceChild(frag, node);
-        matched = true;
-        break;
-      }
-      if (matched) break;
-    }
+    for (const node of textNodes) annotateNode(node);
   }
 
   function initAnnotation() {
