@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Path2AGI</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #080816;
+    --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --text: #c8c8d4;
+    --text-dim: #8888a0;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff;
+    --accent2: #00d4ff;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 24px;
+    background: rgba(8,8,22,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar a {
+    color: var(--accent2); text-decoration: none;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .top-bar a:hover { color: #fff; }
+  .top-bar .title {
+    font-size: 14px; font-weight: 600; color: var(--heading);
+    flex: 1;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  .content {
+    font-size: 0.95rem;
+  }
+  .content h1 {
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h2 {
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--heading);
+    margin: 32px 0 12px;
+  }
+  .content h3 {
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--heading);
+    margin: 24px 0 8px;
+  }
+  .content p { margin-bottom: 12px; }
+  .content blockquote {
+    border-left: 3px solid var(--accent1);
+    padding: 12px 20px;
+    margin: 16px 0;
+    background: rgba(108,99,255,0.05);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .content pre {
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0;
+    border: 1px solid var(--border);
+  }
+  .content code {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.85em;
+  }
+  .content ul, .content ol { padding-left: 20px; margin-bottom: 12px; }
+  .content li { margin-bottom: 4px; }
+  .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .content th, .content td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .content th {
+    background: rgba(255,255,255,0.04);
+    color: var(--heading);
+    font-weight: 600;
+  }
+  .content a { color: var(--accent2); text-decoration: none; }
+  .content a:hover { text-decoration: underline; }
+  .content strong { color: var(--heading); }
+  .content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+  .content img { max-width: 100%; border-radius: 8px; }
+  .loading {
+    text-align: center; padding: 80px 20px;
+    color: var(--text-dim);
+  }
+  .loading .spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent2);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error {
+    text-align: center; padding: 80px 20px;
+    color: #ff6b9d;
+  }
+  .error h2 { font-size: 1.3rem; margin-bottom: 8px; }
+  .error p { color: var(--text-dim); }
+
+  /* Wiki link conversion */
+  .content a[href^="http"] { color: var(--accent2); }
+
+  @media (max-width: 768px) {
+    .container { padding: 20px 16px; }
+    .content h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html">&larr; 知识地图</a>
+  <span class="title" id="pageTitle">加载中...</span>
+</div>
+<div class="container">
+  <div id="contentArea">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div>正在加载内容...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const file = new URLSearchParams(window.location.search).get('file') || '';
+  if (!file) {
+    document.getElementById('contentArea').innerHTML =
+      '<div class="error"><h2>未指定文件</h2><p>请在 URL 中添加 ?file=文件名 参数</p></div>';
+    document.getElementById('pageTitle').textContent = '未指定文件';
+    return;
+  }
+
+  fetch(file)
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    })
+    .then(md => {
+      // Convert wiki links [[target|text]] to markdown links [text](target.md)
+      md = md.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (m, target, text) => {
+        return `[${text}](${target.trim()}.md)`;
+      });
+      md = md.replace(/\[\[([^\]]+)\]\]/g, (m, target) => {
+        return `[${target.trim()}](${target.trim()}.md)`;
+      });
+
+      const html = marked.parse(md, { breaks: true, gfm: true });
+
+      // Extract title
+      const titleMatch = md.match(/^#\s+(.+)/m);
+      const title = titleMatch ? titleMatch[1].replace(/\*\*/g, '') : file;
+      document.getElementById('pageTitle').textContent = title;
+      document.title = title + ' — Path2AGI';
+
+      // Fix links
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      // Convert relative markdown links to topic.html?file= links
+      div.querySelectorAll('a[href$=".md"]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href.startsWith('http')) {
+          a.href = 'topic.html?file=' + encodeURIComponent(href);
+        }
+      });
+      document.getElementById('contentArea').innerHTML = div.innerHTML;
+    })
+    .catch(err => {
+      document.getElementById('contentArea').innerHTML =
+        `<div class="error"><h2>加载失败</h2><p>无法加载文件: ${file}</p><p style="font-size:13px;color:#888">${err.message}</p><p style="margin-top:16px"><a href="index.html" style="color:#00d4ff">返回知识地图</a></p></div>`;
+      document.getElementById('pageTitle').textContent = '加载失败';
+    });
+})();
+</script>
+</body>
+</html>

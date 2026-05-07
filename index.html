@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从基础学科到通用人工智能 — 29 学科知识地图</title>
+<style>
+  :root {
+    --bg: #080816;
+    --bg2: #0d0d24;
+    --surface: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08);
+    --text: #c8c8d4;
+    --text-dim: #8888a0;
+    --heading: #f0f0f8;
+    --accent1: #6c63ff;
+    --accent2: #00d4ff;
+    --accent3: #ff6b9d;
+    --accent4: #ffd93d;
+    --accent5: #6bcb77;
+    --accent6: #ff8c42;
+    --radius: 14px;
+    --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent2); text-decoration: none; transition: .3s; }
+  a:hover { color: #fff; }
+
+  /* Animated background */
+  #bg-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+
+  /* Hero */
+  .hero {
+    position: relative; z-index:1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px 24px;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: rgba(108,99,255,0.15);
+    border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent2);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(4px);
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #f0f0f8 0%, var(--accent2) 50%, var(--accent1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    max-width: 900px;
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--text-dim);
+    max-width: 680px;
+    margin-bottom: 40px;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-actions a {
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all .3s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent1), #8b7aff);
+    color: #fff !important;
+    box-shadow: 0 4px 20px rgba(108,99,255,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,99,255,0.5); }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text) !important;
+    backdrop-filter: blur(4px);
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: #fff !important; }
+  .scroll-indicator {
+    position: absolute; bottom: 30px;
+    animation: bounce 2s infinite;
+    color: var(--text-dim);
+    font-size: 24px;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* Container */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Section */
+  section { position: relative; z-index:1; padding: 80px 0; }
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+    max-width: 720px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: .3s;
+  }
+  .stat-card:hover { background: var(--surface-hover); transform: translateY(-2px); }
+  .stat-number {
+    font-size: 2rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent2), var(--accent1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+  /* Group cards */
+  .groups { display: flex; flex-direction: column; gap: 40px; }
+
+  .group-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    backdrop-filter: blur(8px);
+    transition: .3s;
+  }
+  .group-card:hover { background: var(--surface-hover); transform: translateY(-2px); }
+  .group-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .group-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .group-meta { flex: 1; }
+  .group-name {
+    font-size: 1.15rem; font-weight: 700; color: var(--heading);
+    margin-bottom: 2px;
+  }
+  .group-range {
+    font-size: 12px; color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+  .group-role {
+    font-size: 0.9rem; color: var(--text-dim);
+    margin-bottom: 20px;
+    padding-left: 64px;
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+  }
+  .topic-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: .3s;
+  }
+  .topic-item:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+    transform: translateX(3px);
+  }
+  .topic-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .topic-name {
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+  }
+  .topic-item a { color: var(--text); }
+  .topic-item a:hover { color: var(--accent2); }
+
+  .group-1 .group-icon { background: rgba(108,99,255,0.15); color: #8b7aff; }
+  .group-2 .group-icon { background: rgba(0,212,255,0.15); color: var(--accent2); }
+  .group-3 .group-icon { background: rgba(107,203,119,0.15); color: var(--accent5); }
+  .group-4 .group-icon { background: rgba(255,107,157,0.15); color: var(--accent3); }
+  .group-5 .group-icon { background: rgba(255,217,61,0.15); color: var(--accent4); }
+  .group-6 .group-icon { background: rgba(255,140,66,0.15); color: var(--accent6); }
+  .group-1 { border-left: 3px solid #8b7aff; }
+  .group-2 { border-left: 3px solid var(--accent2); }
+  .group-3 { border-left: 3px solid var(--accent5); }
+  .group-4 { border-left: 3px solid var(--accent3); }
+  .group-5 { border-left: 3px solid var(--accent4); }
+  .group-6 { border-left: 3px solid var(--accent6); }
+
+  /* Group color themes */
+  .gc1 { --gc: #8b7aff; }
+  .gc2 { --gc: var(--accent2); }
+  .gc3 { --gc: var(--accent5); }
+  .gc4 { --gc: var(--accent3); }
+  .gc5 { --gc: var(--accent4); }
+  .gc6 { --gc: var(--accent6); }
+
+  /* Learning paths */
+  .paths { display: flex; flex-direction: column; gap: 20px; }
+  .path-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    backdrop-filter: blur(8px);
+    transition: .3s;
+  }
+  .path-card:hover { background: var(--surface-hover); }
+  .path-title {
+    font-size: 1rem; font-weight: 700; color: var(--heading);
+    margin-bottom: 4px;
+  }
+  .path-desc {
+    font-size: 0.85rem; color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .path-steps {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+    font-size: 14px;
+  }
+  .path-step {
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+    transition: .3s;
+    font-size: 13px;
+  }
+  .path-step:hover { background: rgba(255,255,255,0.08); color: var(--accent2); }
+  .path-arrow { color: var(--text-dim); font-size: 16px; margin: 0 2px; }
+
+  /* Priority topics table */
+  .priority-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+  .priority-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: .3s;
+  }
+  .priority-item:hover { background: var(--surface-hover); }
+  .priority-rank {
+    font-size: 11px; font-weight: 700;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.06);
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .priority-name { font-size: 14px; font-weight: 600; color: var(--heading); }
+  .priority-why { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  /* Timeline */
+  .timeline-section { position: relative; }
+  .timeline-controls { margin-bottom: 24px; }
+  .tl-btn {
+    padding: 8px 20px; border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    cursor: pointer;
+    transition: .3s;
+  }
+  .tl-btn:hover, .tl-btn.active { border-color: var(--accent2); color: var(--accent2); background: rgba(0,212,255,0.1); }
+  .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 20px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent1), var(--accent2), var(--accent3), var(--accent4));
+    opacity: 0.3;
+  }
+  .tl-item {
+    display: flex; gap: 20px;
+    padding: 12px 0;
+    position: relative;
+  }
+  .tl-year {
+    width: 42px; flex-shrink: 0;
+    font-size: 13px; font-weight: 700;
+    color: var(--accent2);
+    text-align: right;
+    padding-top: 2px;
+    position: relative; z-index: 1;
+  }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent1);
+    flex-shrink: 0;
+    margin-top: 6px;
+    position: relative; z-index: 1;
+    border: 2px solid var(--bg);
+  }
+  .tl-content { flex: 1; }
+  .tl-event {
+    font-size: 14px;
+    color: var(--text);
+  }
+  .tl-event strong { color: var(--heading); }
+  .tl-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    opacity: 0.7;
+  }
+
+  /* Overview content */
+  .overview-text { font-size: 0.95rem; line-height: 1.8; color: var(--text); }
+  .overview-text h2 { font-size: 1.3rem; color: var(--heading); margin: 24px 0 12px; }
+  .overview-text h3 { font-size: 1.1rem; color: var(--heading); margin: 20px 0 8px; }
+  .overview-text p { margin-bottom: 12px; }
+  .overview-text blockquote {
+    border-left: 3px solid var(--accent1);
+    padding: 12px 20px;
+    margin: 16px 0;
+    background: rgba(108,99,255,0.05);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .overview-text pre {
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0;
+    border: 1px solid var(--border);
+  }
+  .overview-text code {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.85em;
+  }
+  .overview-text ul { padding-left: 20px; margin-bottom: 12px; }
+  .overview-text li { margin-bottom: 4px; }
+  .overview-text table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .overview-text th, .overview-text td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .overview-text th {
+    background: rgba(255,255,255,0.04);
+    color: var(--heading);
+    font-weight: 600;
+  }
+
+  /* Footer */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 24px;
+    background: rgba(8,8,22,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: space-between;
+    transition: .3s;
+    opacity: 0; pointer-events: none;
+  }
+  .nav.visible { opacity: 1; pointer-events: auto; }
+  .nav-title {
+    font-size: 14px; font-weight: 600; color: var(--heading);
+  }
+  .nav-links { display: flex; gap: 16px; flex-wrap: wrap; }
+  .nav-links a {
+    font-size: 12px; color: var(--text-dim);
+    transition: .3s;
+  }
+  .nav-links a:hover { color: var(--accent2); }
+
+  /* Section divider */
+  .section-divider {
+    text-align: center;
+    padding: 20px 0;
+    position: relative; z-index: 1;
+  }
+  .section-divider .divider-line {
+    display: inline-block;
+    width: 60px; height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  }
+
+  /* Map canvas */
+  .map-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    aspect-ratio: 16/9;
+  }
+  #map-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 48px 0; }
+    .group-card { padding: 20px; }
+    .topic-grid { grid-template-columns: 1fr; }
+    .priority-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .path-steps { flex-direction: column; align-items: flex-start; }
+    .path-arrow { transform: rotate(90deg); }
+  }
+
+  /* Collapse */
+  .collapse-content { overflow: hidden; max-height: 0; transition: max-height .5s ease; }
+  .collapse-content.open { max-height: 8000px; }
+
+  /* Overview toggle */
+  .overview-toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: .3s;
+    margin-bottom: 24px;
+  }
+  .overview-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* Smooth fade-in */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- Nav -->
+<nav class="nav" id="navbar">
+  <span class="nav-title">Path2AGI</span>
+  <div class="nav-links">
+    <a href="#map">知识地图</a>
+    <a href="#groups">学科分组</a>
+    <a href="#paths">学习路径</a>
+    <a href="#priorities">优先阅读</a>
+    <a href="#timeline">时间线</a>
+    <a href="#overview">全景综述</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="hero-badge">v3.0 &middot; 29 学科 &middot; 跨学科知识地图</div>
+  <h1>从基础学科到通用人工智能</h1>
+  <p>29 门学科如何汇聚成今天的 AI — 一张知识地图，帮你理解现代人工智能的跨学科根基</p>
+  <div class="hero-actions">
+    <a href="#map" class="btn-primary">探索知识地图</a>
+    <a href="#overview" class="btn-outline">阅读全景综述</a>
+  </div>
+  <div class="scroll-indicator">&darr;</div>
+</header>
+
+<!-- Map -->
+<section id="map">
+  <div class="container">
+    <div class="map-container fade-in">
+      <canvas id="map-canvas"></canvas>
+    </div>
+
+    <div class="stats-bar fade-in">
+      <div class="stat-card">
+        <div class="stat-number">29</div>
+        <div class="stat-label">学科专题</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">学科分组</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5</div>
+        <div class="stat-label">学习路径</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">14</div>
+        <div class="stat-label">优先推荐</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1943</div>
+        <div class="stat-label">AI 起点年份</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Groups -->
+<section id="groups">
+  <div class="container">
+    <h2 class="section-title fade-in">六大学科簇</h2>
+    <p class="section-sub fade-in">29 个学科按对 AI 的贡献密度组织为六组，覆盖从数学基础到社会科学与治理的完整闭环</p>
+
+    <div class="groups">
+      <!-- Group 1 -->
+      <div class="group-card group-1 gc1 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x221E;</div>
+          <div class="group-meta">
+            <div class="group-name">数学与形式基础</div>
+            <div class="group-range">学科 01-09 &middot; AI 的数学语言、形式边界与结构表达</div>
+          </div>
+        </div>
+        <div class="group-role">AI 的底层表达能力：怎样描述不确定性、进行可微优化、表示关系结构、讨论规则与机制边界</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">01</span><a href="01-probability-and-statistics.md" class="topic-name">概率论与数理统计</a></div>
+          <div class="topic-item"><span class="topic-num">02</span><a href="02-linear-algebra.md" class="topic-name">线性代数</a></div>
+          <div class="topic-item"><span class="topic-num">03</span><a href="03-calculus-and-optimization.md" class="topic-name">微积分与优化理论</a></div>
+          <div class="topic-item"><span class="topic-num">04</span><a href="04-information-theory.md" class="topic-name">信息论</a></div>
+          <div class="topic-item"><span class="topic-num">05</span><a href="05-approximation-theory.md" class="topic-name">逼近论</a></div>
+          <div class="topic-item"><span class="topic-num">06</span><a href="06-graph-theory.md" class="topic-name">图论</a></div>
+          <div class="topic-item"><span class="topic-num">07</span><a href="07-topology-and-geometry.md" class="topic-name">拓扑与几何</a></div>
+          <div class="topic-item"><span class="topic-num">08</span><a href="08-logic.md" class="topic-name">逻辑学与形式推理</a></div>
+          <div class="topic-item"><span class="topic-num">09</span><a href="09-causal-inference.md" class="topic-name">因果推断</a></div>
+        </div>
+      </div>
+
+      <!-- Group 2 -->
+      <div class="group-card group-2 gc2 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x2699;</div>
+          <div class="group-meta">
+            <div class="group-name">计算与系统工程</div>
+            <div class="group-range">学科 10-15 &middot; 理论变成可运行、可扩展的系统</div>
+          </div>
+        </div>
+        <div class="group-role">把"理论上可行"的方法变成"工程上可落地"的系统，解释规模化、反馈和复杂行为</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">10</span><a href="10-computer-science.md" class="topic-name">计算机科学</a></div>
+          <div class="topic-item"><span class="topic-num">11</span><a href="11-numerical-analysis.md" class="topic-name">数值分析</a></div>
+          <div class="topic-item"><span class="topic-num">12</span><a href="12-signal-processing.md" class="topic-name">信号处理</a></div>
+          <div class="topic-item"><span class="topic-num">13</span><a href="13-cybernetics.md" class="topic-name">控制论</a></div>
+          <div class="topic-item"><span class="topic-num">14</span><a href="14-complexity-science.md" class="topic-name">复杂性科学</a></div>
+          <div class="topic-item"><span class="topic-num">15</span><a href="15-computing-hardware-and-parallel-computing.md" class="topic-name">AI 计算硬件与并行计算</a></div>
+        </div>
+      </div>
+
+      <!-- Group 3 -->
+      <div class="group-card group-3 gc3 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x1F9E0;</div>
+          <div class="group-meta">
+            <div class="group-name">认知、生物与语言</div>
+            <div class="group-range">学科 16-20 &middot; 自然智能如何形成，对 AI 有何启发与约束</div>
+          </div>
+        </div>
+        <div class="group-role">提供自然智能的参照系，帮助理解注意力、记忆、语言、行为和适应机制如何被 AI 吸收</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">16</span><a href="16-neuroscience.md" class="topic-name">神经科学</a></div>
+          <div class="topic-item"><span class="topic-num">17</span><a href="17-cognitive-science.md" class="topic-name">认知科学</a></div>
+          <div class="topic-item"><span class="topic-num">18</span><a href="18-psychology.md" class="topic-name">心理学</a></div>
+          <div class="topic-item"><span class="topic-num">19</span><a href="19-linguistics.md" class="topic-name">语言学</a></div>
+          <div class="topic-item"><span class="topic-num">20</span><a href="20-evolutionary-biology.md" class="topic-name">进化生物学</a></div>
+        </div>
+      </div>
+
+      <!-- Group 4 -->
+      <div class="group-card group-4 gc4 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x1F91D;</div>
+          <div class="group-meta">
+            <div class="group-name">决策、交互与社会机制</div>
+            <div class="group-range">学科 21-23 &middot; 主体如何决策、互动、协商和竞争</div>
+          </div>
+        </div>
+        <div class="group-role">处理单个模型之外的问题：多主体如何互动，资源如何配置，激励结构如何改变系统结果</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">21</span><a href="21-operations-research.md" class="topic-name">运筹学</a></div>
+          <div class="topic-item"><span class="topic-num">22</span><a href="22-game-theory.md" class="topic-name">博弈论</a></div>
+          <div class="topic-item"><span class="topic-num">23</span><a href="23-economics.md" class="topic-name">经济学</a></div>
+        </div>
+      </div>
+
+      <!-- Group 5 -->
+      <div class="group-card group-5 gc5 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x2606;</div>
+          <div class="group-meta">
+            <div class="group-name">物理与哲学基础</div>
+            <div class="group-range">学科 24-25 &middot; 能量、相变与知识边界如何约束对智能的理解</div>
+          </div>
+        </div>
+        <div class="group-role">分别从物理系统与认识边界两端，约束我们如何理解学习、能量、解释、意识与 AGI 问题</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">24</span><a href="24-statistical-physics.md" class="topic-name">统计物理</a></div>
+          <div class="topic-item"><span class="topic-num">25</span><a href="25-philosophy.md" class="topic-name">哲学：认识论与心灵哲学</a></div>
+        </div>
+      </div>
+
+      <!-- Group 6 -->
+      <div class="group-card group-6 gc6 fade-in">
+        <div class="group-header">
+          <div class="group-icon">&#x1F30D;</div>
+          <div class="group-meta">
+            <div class="group-name">社会科学与人文学科</div>
+            <div class="group-range">学科 26-29 &middot; AI如何嵌入社会结构、制度与文化</div>
+          </div>
+        </div>
+        <div class="group-role">大模型时代最紧迫的议题：对齐、偏见、可解释性、责任归属、隐私、治理与监管</div>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">26</span><a href="26-ai-ethics.md" class="topic-name">AI 伦理与治理</a></div>
+          <div class="topic-item"><span class="topic-num">27</span><a href="27-sociology.md" class="topic-name">社会学</a></div>
+          <div class="topic-item"><span class="topic-num">28</span><a href="28-law.md" class="topic-name">法学</a></div>
+          <div class="topic-item"><span class="topic-num">29</span><a href="29-anthropology.md" class="topic-name">人类学</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- Learning Paths -->
+<section id="paths">
+  <div class="container">
+    <h2 class="section-title fade-in">五条学习路径</h2>
+    <p class="section-sub fade-in">按 AI 能力形成路径组织，而非学科分类。围绕训练、结构、控制、推理和 AGI 组织阅读</p>
+
+    <div class="paths">
+      <div class="path-card fade-in">
+        <div class="path-title">路径一：表示与训练</div>
+        <div class="path-desc">理解向量表示如何形成、梯度如何更新、有限精度与硬件为何共同决定模型是否可训练</div>
+        <div class="path-steps">
+          <a href="02-linear-algebra.md" class="path-step">线性代数</a><span class="path-arrow">&rarr;</span>
+          <a href="03-calculus-and-optimization.md" class="path-step">微积分与优化理论</a><span class="path-arrow">&rarr;</span>
+          <a href="11-numerical-analysis.md" class="path-step">数值分析</a><span class="path-arrow">&rarr;</span>
+          <a href="15-computing-hardware-and-parallel-computing.md" class="path-step">AI 计算硬件与并行计算</a>
+        </div>
+      </div>
+
+      <div class="path-card fade-in">
+        <div class="path-title">路径二：结构与关系</div>
+        <div class="path-desc">理解当世界不是规则网格，而是关系网络与连续空间时，AI 如何表示结构</div>
+        <div class="path-steps">
+          <a href="06-graph-theory.md" class="path-step">图论</a><span class="path-arrow">&rarr;</span>
+          <a href="07-topology-and-geometry.md" class="path-step">拓扑与几何</a><span class="path-arrow">&rarr;</span>
+          <a href="10-computer-science.md" class="path-step">计算机科学</a><span class="path-arrow">&rarr;</span>
+          <a href="14-complexity-science.md" class="path-step">复杂性科学</a>
+        </div>
+      </div>
+
+      <div class="path-card fade-in">
+        <div class="path-title">路径三：不确定性、信息与机制</div>
+        <div class="path-desc">理解模型如何处理不确定性、压缩信息，以及如何区分相关与因果</div>
+        <div class="path-steps">
+          <a href="01-probability-and-statistics.md" class="path-step">概率论与数理统计</a><span class="path-arrow">&rarr;</span>
+          <a href="04-information-theory.md" class="path-step">信息论</a><span class="path-arrow">&rarr;</span>
+          <a href="09-causal-inference.md" class="path-step">因果推断</a><span class="path-arrow">&rarr;</span>
+          <a href="24-statistical-physics.md" class="path-step">统计物理</a>
+        </div>
+      </div>
+
+      <div class="path-card fade-in">
+        <div class="path-title">路径四：控制与智能体</div>
+        <div class="path-desc">理解反馈、序贯决策和多主体互动为什么是 Agent 系统的理论前身</div>
+        <div class="path-steps">
+          <a href="12-signal-processing.md" class="path-step">信号处理</a><span class="path-arrow">&rarr;</span>
+          <a href="13-cybernetics.md" class="path-step">控制论</a><span class="path-arrow">&rarr;</span>
+          <a href="21-operations-research.md" class="path-step">运筹学</a><span class="path-arrow">&rarr;</span>
+          <a href="22-game-theory.md" class="path-step">博弈论</a>
+        </div>
+      </div>
+
+      <div class="path-card fade-in">
+        <div class="path-title">路径五：自然智能与 AGI</div>
+        <div class="path-desc">理解大脑、认知、行为、语言、哲学与治理问题为何始终是 AGI 讨论的背景层</div>
+        <div class="path-steps">
+          <a href="16-neuroscience.md" class="path-step">神经科学</a><span class="path-arrow">&rarr;</span>
+          <a href="17-cognitive-science.md" class="path-step">认知科学</a><span class="path-arrow">&rarr;</span>
+          <a href="18-psychology.md" class="path-step">心理学</a><span class="path-arrow">&rarr;</span>
+          <a href="19-linguistics.md" class="path-step">语言学</a><span class="path-arrow">&rarr;</span>
+          <a href="25-philosophy.md" class="path-step">哲学</a><span class="path-arrow">&rarr;</span>
+          <a href="26-ai-ethics.md" class="path-step">AI 伦理与治理</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- Priority topics -->
+<section id="priorities">
+  <div class="container">
+    <h2 class="section-title fade-in">优先阅读的 14 个专题</h2>
+    <p class="section-sub fade-in">第一次进入这套知识库时，可以先抓住下面 14 个支点，最快搭起现代 AI 的主梁</p>
+
+    <div class="priority-grid">
+      <div class="priority-item fade-in">
+        <div class="priority-rank">1</div>
+        <div>
+          <a href="01-probability-and-statistics.md" class="priority-name">概率论与数理统计</a>
+          <div class="priority-why">不确定性、统计学习与贝叶斯思维的起点</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">2</div>
+        <div>
+          <a href="02-linear-algebra.md" class="priority-name">线性代数</a>
+          <div class="priority-why">几乎所有现代模型都运行在向量与矩阵上</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">3</div>
+        <div>
+          <a href="03-calculus-and-optimization.md" class="priority-name">微积分与优化理论</a>
+          <div class="priority-why">训练过程本质上是可微优化</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">4</div>
+        <div>
+          <a href="04-information-theory.md" class="priority-name">信息论</a>
+          <div class="priority-why">熵、压缩、互信息与损失函数语言</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">5</div>
+        <div>
+          <a href="06-graph-theory.md" class="priority-name">图论</a>
+          <div class="priority-why">关系结构与图学习的基础入口</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">6</div>
+        <div>
+          <a href="08-logic.md" class="priority-name">逻辑学与形式推理</a>
+          <div class="priority-why">符号推理与规则系统的基础</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">7</div>
+        <div>
+          <a href="09-causal-inference.md" class="priority-name">因果推断</a>
+          <div class="priority-why">让模型从相关走向机制</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">8</div>
+        <div>
+          <a href="13-cybernetics.md" class="priority-name">控制论</a>
+          <div class="priority-why">反馈、闭环和智能体问题的前史</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">9</div>
+        <div>
+          <a href="15-computing-hardware-and-parallel-computing.md" class="priority-name">AI 计算硬件与并行计算</a>
+          <div class="priority-why">理解为什么现代 AI 必然是系统工程</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">10</div>
+        <div>
+          <a href="25-philosophy.md" class="priority-name">哲学：认识论与心灵哲学</a>
+          <div class="priority-why">解释"什么算理解、推理、意识与 AGI"</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">11</div>
+        <div>
+          <a href="26-ai-ethics.md" class="priority-name">AI 伦理与治理</a>
+          <div class="priority-why">大模型时代的对齐、公平、可解释性与治理问题</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">12</div>
+        <div>
+          <a href="27-sociology.md" class="priority-name">社会学</a>
+          <div class="priority-why">理解 AI 如何嵌入社会结构与权力关系</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">13</div>
+        <div>
+          <a href="28-law.md" class="priority-name">法学</a>
+          <div class="priority-why">AI 的法律边界、责任归属与监管合规</div>
+        </div>
+      </div>
+      <div class="priority-item fade-in">
+        <div class="priority-rank">14</div>
+        <div>
+          <a href="29-anthropology.md" class="priority-name">人类学</a>
+          <div class="priority-why">AI 的文化参照系与技术全球化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- Timeline -->
+<section id="timeline">
+  <div class="container">
+    <h2 class="section-title fade-in">AI 历史时间线</h2>
+    <p class="section-sub fade-in">从 1654 到 2024 — 数学、工程、认知、社会各条线索在同一时间点交汇</p>
+
+    <div class="timeline-controls fade-in">
+      <button class="tl-btn active" data-filter="all">全部</button>
+      <button class="tl-btn" data-filter="数学与形式基础">数学</button>
+      <button class="tl-btn" data-filter="计算机科学">计算机</button>
+      <button class="tl-btn" data-filter="神经科学">神经科学</button>
+      <button class="tl-btn" data-filter="博弈论">博弈论</button>
+    </div>
+
+    <div class="timeline fade-in" id="timeline-list">
+      <div class="tl-item" data-cat="概率论"><div class="tl-year">1654</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Pascal-Fermat 通信</strong> 解决赌注问题 <span class="tl-tag">概率论</span></div></div></div>
+      <div class="tl-item" data-cat="概率论"><div class="tl-year">1763</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Bayes 论文</strong>（死后发表）<span class="tl-tag">概率论</span></div></div></div>
+      <div class="tl-item" data-cat="概率论"><div class="tl-year">1812</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Laplace《概率分析理论》</strong> 概率论系统化 <span class="tl-tag">概率论</span></div></div></div>
+      <div class="tl-item" data-cat="逻辑学"><div class="tl-year">1854</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Boole《思维规律研究》</strong> 符号逻辑基础 <span class="tl-tag">逻辑学</span></div></div></div>
+      <div class="tl-item" data-cat="拓扑几何"><div class="tl-year">1858</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Riemann 演讲</strong> 流形概念 <span class="tl-tag">拓扑几何</span></div></div></div>
+      <div class="tl-item" data-cat="逼近论"><div class="tl-year">1885</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Weierstrass 逼近定理</strong> <span class="tl-tag">逼近论</span></div></div></div>
+      <div class="tl-item" data-cat="统计学"><div class="tl-year">1922</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Fisher《研究人员用的统计方法》</strong> 现代统计学框架 <span class="tl-tag">统计学</span></div></div></div>
+      <div class="tl-item" data-cat="概率论"><div class="tl-year">1933</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Kolmogorov《概率论基础》</strong> 概率公理化 <span class="tl-tag">概率论</span></div></div></div>
+      <div class="tl-item" data-cat="计算机科学"><div class="tl-year">1936</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Turing《可计算数》</strong> &amp; Church λ演算 <span class="tl-tag">计算机科学</span></div></div></div>
+      <div class="tl-item" data-cat="神经科学"><div class="tl-year">1943</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>McCulloch-Pitts 神经元模型</strong> 神经网络理论起点 <span class="tl-tag">神经科学</span></div></div></div>
+      <div class="tl-item" data-cat="博弈论"><div class="tl-year">1944</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>von Neumann《博弈论》</strong> 现代博弈论奠基 <span class="tl-tag">博弈论</span></div></div></div>
+      <div class="tl-item" data-cat="计算机科学"><div class="tl-year">1945</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>von Neumann EDVAC 报告</strong> 存储程序架构 <span class="tl-tag">计算机科学</span></div></div></div>
+      <div class="tl-item" data-cat="信息论"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Shannon《通信数学理论》</strong> 信息论奠基 <span class="tl-tag">信息论</span></div></div></div>
+      <div class="tl-item" data-cat="控制论"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Wiener《控制论》</strong> 反馈系统理论 <span class="tl-tag">控制论</span></div></div></div>
+      <div class="tl-item" data-cat="神经科学"><div class="tl-year">1949</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Hebb《行为组织》</strong> Hebb 学习规则 <span class="tl-tag">神经科学</span></div></div></div>
+      <div class="tl-item" data-cat="哲学"><div class="tl-year">1950</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Turing《计算机器与智能》</strong> 图灵测试 <span class="tl-tag">哲学</span></div></div></div>
+      <div class="tl-item" data-cat="计算机科学"><div class="tl-year">1956</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>达特茅斯会议</strong> AI 作为独立学科 <span class="tl-tag">计算机科学</span></div></div></div>
+      <div class="tl-item" data-cat="语言学"><div class="tl-year">1957</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Chomsky《句法结构》</strong> 形式语法理论 <span class="tl-tag">语言学</span></div></div></div>
+      <div class="tl-item" data-cat="神经科学"><div class="tl-year">1962</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Hubel-Wiesel 视觉皮层研究</strong> 层级特征提取启发 <span class="tl-tag">神经科学</span></div></div></div>
+      <div class="tl-item" data-cat="计算机科学"><div class="tl-year">1969</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Minsky《感知机》</strong> 神经网络批判 <span class="tl-tag">计算机科学</span></div></div></div>
+      <div class="tl-item" data-cat="运筹学"><div class="tl-year">1970</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Dantzig 线性规划算法</strong> <span class="tl-tag">运筹学</span></div></div></div>
+      <div class="tl-item" data-cat="概率论"><div class="tl-year">1979</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Pearl 贝叶斯网络</strong> 不确定性推理 <span class="tl-tag">概率论</span></div></div></div>
+      <div class="tl-item" data-cat="认知科学"><div class="tl-year">1982</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Marr《视觉》</strong> 计算视觉层次 <span class="tl-tag">认知科学</span></div></div></div>
+      <div class="tl-item" data-cat="优化"><div class="tl-year">1986</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>反向传播论文</strong> 连接主义复兴 <span class="tl-tag">优化</span></div></div></div>
+      <div class="tl-item" data-cat="因果推断"><div class="tl-year">1995</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Pearl《因果性导论》</strong> 因果推断框架 <span class="tl-tag">因果推断</span></div></div></div>
+      <div class="tl-item" data-cat="优化"><div class="tl-year">1997</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Hochreiter LSTM</strong> 序列建模突破 <span class="tl-tag">优化</span></div></div></div>
+      <div class="tl-item" data-cat="神经科学"><div class="tl-year">1998</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>LeCun LeNet</strong> 卷积网络实用化 <span class="tl-tag">神经科学</span></div></div></div>
+      <div class="tl-item" data-cat="统计物理"><div class="tl-year">2006</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Hinton 深度信念网络</strong> 深度学习复兴起点 <span class="tl-tag">统计物理</span></div></div></div>
+      <div class="tl-item" data-cat="优化"><div class="tl-year">2012</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>AlexNet</strong> 深度学习突破 <span class="tl-tag">优化/硬件</span></div></div></div>
+      <div class="tl-item" data-cat="博弈论"><div class="tl-year">2014</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>GAN</strong> 对抗训练范式 <span class="tl-tag">博弈论</span></div></div></div>
+      <div class="tl-item" data-cat="逼近论"><div class="tl-year">2015</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>ResNet</strong> 深度训练稳定化 <span class="tl-tag">逼近论</span></div></div></div>
+      <div class="tl-item" data-cat="博弈论"><div class="tl-year">2016</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>AlphaGo</strong> 组合搜索与学习结合 <span class="tl-tag">博弈论</span></div></div></div>
+      <div class="tl-item" data-cat="信息论"><div class="tl-year">2017</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Transformer</strong> 注意力架构革命 <span class="tl-tag">信息论</span></div></div></div>
+      <div class="tl-item" data-cat="信息论"><div class="tl-year">2018</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>BERT</strong> 预训练语言模型 <span class="tl-tag">信息论</span></div></div></div>
+      <div class="tl-item" data-cat="信息论"><div class="tl-year">2019</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>GPT-2</strong> 大规模语言模型 <span class="tl-tag">信息论</span></div></div></div>
+      <div class="tl-item" data-cat="复杂性科学"><div class="tl-year">2020</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>Kaplan Scaling Laws</strong> 规模律发现 <span class="tl-tag">复杂性科学</span></div></div></div>
+      <div class="tl-item" data-cat="全部学科"><div class="tl-year">2022</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>ChatGPT</strong> 大模型时代开启 <span class="tl-tag">全部学科</span></div></div></div>
+      <div class="tl-item" data-cat="全部学科"><div class="tl-year">2023</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>GPT-4</strong> 多模态大模型 <span class="tl-tag">全部学科</span></div></div></div>
+      <div class="tl-item" data-cat="法学"><div class="tl-year">2024</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event"><strong>欧盟AI法案</strong> AI 监管框架落地 <span class="tl-tag">法学</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- Overview -->
+<section id="overview">
+  <div class="container">
+    <h2 class="section-title fade-in">全景综述</h2>
+    <p class="section-sub fade-in">29 学科全景综述的核心摘要 — AI 为什么必然是跨学科产物</p>
+    <button class="overview-toggle fade-in" id="overviewToggle">展开阅读全景综述 &darr;</button>
+
+    <div class="collapse-content" id="overviewContent">
+      <div class="overview-text">
+        <h2>上帝视角</h2>
+        <p>人工智能经常被归类为计算机科学的一个分支，但这种说法只对实现层成立，对知识来源并不成立。现代 AI 的核心方法几乎都带着明显的跨学科血统：</p>
+        <ul>
+          <li>反向传播继承自微积分与优化；</li>
+          <li>神经网络的结构灵感来自神经科学；</li>
+          <li>强化学习的数学骨架来自概率论、运筹学与控制论；</li>
+          <li>大语言模型既依赖统计学习，也依赖语言学、认知科学与大规模系统工程；</li>
+          <li>对齐、激励、多智能体与治理问题又把经济学、博弈论、哲学和复杂性科学重新拉回中心。</li>
+        </ul>
+        <blockquote>AI 是一门汇聚型学科。</blockquote>
+
+        <h2>六组 29 学科的划分逻辑</h2>
+        <table>
+          <tr><th>分组</th><th>学科编号</th><th>核心问题</th></tr>
+          <tr><td>数学与形式基础</td><td>01-09</td><td>AI 用什么数学语言表示世界、优化参数、表达结构与推理机制</td></tr>
+          <tr><td>计算与系统工程</td><td>10-15</td><td>这些理论怎样被算出来、控出来、扩展成真实系统</td></tr>
+          <tr><td>认知、生物与语言</td><td>16-20</td><td>自然智能如何形成，以及它给 AI 提供了哪些启发与约束</td></tr>
+          <tr><td>决策、交互与社会机制</td><td>21-23</td><td>多主体如何决策、互动、分配资源并形成激励结构</td></tr>
+          <tr><td>物理与哲学基础</td><td>24-25</td><td>学习系统的能量、复杂性与认识边界如何被理解</td></tr>
+          <tr><td>社会科学与人文学科</td><td>26-29</td><td>AI如何嵌入社会结构、制度与文化，以及如何治理其影响</td></tr>
+        </table>
+
+        <h2>对 AI 的核心贡献</h2>
+        <p>29 学科对 AI 的核心贡献不是平行展开，而是共同塑造了四种能力：</p>
+        <ul>
+          <li><strong>表示能力</strong>：概率论、线性代数、图论、拓扑与几何决定模型如何把世界编码成可计算结构</li>
+          <li><strong>学习能力</strong>：微积分、优化、信息论、逼近论与数值分析决定模型如何从数据中稳定更新</li>
+          <li><strong>系统能力</strong>：计算机科学、控制论、复杂性科学与并行硬件决定模型如何扩展成可部署系统</li>
+          <li><strong>智能边界与社会能力</strong>：认知科学、语言学、博弈论、经济学、哲学、AI伦理与因果推断决定模型如何推理、互动、对齐并被解释</li>
+        </ul>
+
+        <h2>汇聚：从三次浪潮到大模型时代</h2>
+        <p>如果 AI 放回历史中，可以看到至少三次重要汇聚：</p>
+        <ul>
+          <li><strong>第一次浪潮（1950-70s）</strong>：符号主义与早期乐观 — 逻辑学、可计算性理论、控制论和早期认知科学共同塑造</li>
+          <li><strong>第二次浪潮（1980-2000s）</strong>：统计学习与连接主义回归 — 反向传播、概率图模型、SVM、运筹学与强化学习</li>
+          <li><strong>第三次浪潮（2010s 至今）</strong>：深度学习与大模型 — 数学、工程、架构与系统多条线同时成熟</li>
+        </ul>
+
+        <h2>前沿与开放问题</h2>
+        <p>通向 AGI 的道路不会只是一条"更大模型"的路线，而是一套跨学科条件共同成熟的结果：</p>
+        <ul>
+          <li>更强的表示与推理结合，而不是单纯扩大参数</li>
+          <li>更稳定的开放式智能体系统，而不是孤立模型</li>
+          <li>更明确的因果、结构和世界模型</li>
+          <li>更成熟的多主体协作、激励与治理机制</li>
+          <li>更严肃的哲学与社会层约束</li>
+        </ul>
+
+        <p style="margin-top:24px; color:var(--text-dim); font-size:0.9rem;">
+          完整内容请阅读 <a href="00-overview.md">00-overview.md</a>（全景综述）和 <a href="00-index.md">00-index.md</a>（知识地图）。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Path2AGI &middot; 从基础学科到通用人工智能 &middot; v3.0</p>
+  <p style="margin-top:4px">29 学科知识地图 — 理解 AI 为什么是汇聚型学科</p>
+</footer>
+
+<script>
+// === Animated Background ===
+(function(){
+  const c = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  let particles = [];
+  const COUNT = 80;
+
+  function resize() {
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * c.width;
+      this.y = Math.random() * c.height;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 2 + 0.5;
+      this.a = Math.random() * 0.4 + 0.1;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > c.width) this.vx *= -1;
+      if (this.y < 0 || this.y > c.height) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(108, 99, 255, ${this.a})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+
+  let mouseX = -1000, mouseY = -1000;
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function animate() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    for (let p of particles) {
+      p.update(); p.draw();
+    }
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(108, 99, 255, ${0.08 * (1 - dist / 150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    particles.forEach(p => {
+      const dx = mouseX - p.x;
+      const dy = mouseY - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.strokeStyle = `rgba(0, 212, 255, ${0.15 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// === Knowledge Map Canvas ===
+(function(){
+  const canvas = document.getElementById('map-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+
+  const groups = [
+    { label: '数学与形式基础\n01-09', x: 0.5, y: 0.12, color: '#8b7aff', r: 60 },
+    { label: '计算与系统工程\n10-15', x: 0.78, y: 0.3, color: '#00d4ff', r: 55 },
+    { label: '认知·生物·语言\n16-20', x: 0.22, y: 0.3, color: '#6bcb77', r: 55 },
+    { label: '决策·交互·社会\n21-23', x: 0.75, y: 0.6, color: '#ff6b9d', r: 50 },
+    { label: '物理与哲学\n24-25', x: 0.25, y: 0.6, color: '#ffd93d', r: 50 },
+    { label: '社会科学与人文学科\n26-29', x: 0.5, y: 0.85, color: '#ff8c42', r: 55 },
+  ];
+
+  function drawMap() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const pts = groups.map(g => ({ x: g.x * w, y: g.y * h }));
+
+    // Connections
+    const connections = [
+      [0,1],[0,2],[0,3],[0,4],[0,5],
+      [1,2],[1,3],[1,5],
+      [2,4],[2,5],
+      [3,4],[3,5],
+      [4,5]
+    ];
+    for (const [i,j] of connections) {
+      ctx.beginPath();
+      ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[j].x, pts[j].y);
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    // Glow circles
+    for (const g of groups) {
+      const cx = g.x * w, cy = g.y * h;
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, g.r * 1.8);
+      grad.addColorStop(0, g.color + '25');
+      grad.addColorStop(1, g.color + '00');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, g.r * 1.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Nodes
+    for (const g of groups) {
+      const cx = g.x * w, cy = g.y * h;
+      ctx.shadowColor = g.color + '40';
+      ctx.shadowBlur = 20;
+      ctx.beginPath();
+      ctx.arc(cx, cy, g.r, 0, Math.PI * 2);
+      ctx.fillStyle = g.color + '20';
+      ctx.strokeStyle = g.color + '60';
+      ctx.lineWidth = 2;
+      ctx.fill();
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Text
+      const lines = g.label.split('\n');
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (let li = 0; li < lines.length; li++) {
+        ctx.fillStyle = li === 0 ? '#f0f0f8' : g.color;
+        ctx.font = li === 0 ? 'bold 13px -apple-system, sans-serif' : '11px -apple-system, sans-serif';
+        ctx.fillText(lines[li], cx, cy + (li - (lines.length-1)/2) * 18);
+      }
+
+      // Number badge
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.fillStyle = g.color;
+      ctx.textAlign = 'center';
+      ctx.fillText(g.label.match(/\d+/)?.[0] || '', cx, cy + g.r - 10);
+    }
+
+    // Center label
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 16px -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillText('AI', w * 0.5, h * 0.48);
+    ctx.font = '10px -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillText('汇聚型学科', w * 0.5, h * 0.53);
+  }
+
+  drawMap();
+  window.addEventListener('resize', () => {
+    const r = canvas.parentElement.getBoundingClientRect();
+    canvas.width = r.width;
+    canvas.height = r.height;
+    drawMap();
+  });
+})();
+
+// === Navbar visibility ===
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > window.innerHeight * 0.7) {
+    navbar.classList.add('visible');
+  } else {
+    navbar.classList.remove('visible');
+  }
+});
+
+// === Fade-in on scroll ===
+const observer = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// === Markdown links: serve via topic viewer when possible ===
+document.querySelectorAll('a[href$=".md"]').forEach(a => {
+  const href = a.getAttribute('href');
+  if (!href.startsWith('http')) {
+    a.addEventListener('click', function(e) {
+      // Check if fetch is likely available (we're on a server, not file://)
+      const tryViewer = true;
+      if (tryViewer) {
+        e.preventDefault();
+        window.location.href = 'topic.html?file=' + encodeURIComponent(href);
+      }
+    });
+  }
+});
+
+// === Overview toggle ===
+document.getElementById('overviewToggle').addEventListener('click', function() {
+  const content = document.getElementById('overviewContent');
+  content.classList.toggle('open');
+  this.textContent = content.classList.contains('open') ? '收起全景综述 &uarr;' : '展开阅读全景综述 &darr;';
+});
+
+// === Timeline filter ===
+document.querySelectorAll('[data-filter]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const filter = this.dataset.filter;
+    document.querySelectorAll('.tl-item').forEach(item => {
+      if (filter === 'all') {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = item.dataset.cat === filter ? 'flex' : 'none';
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
