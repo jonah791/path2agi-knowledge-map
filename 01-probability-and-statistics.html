@@ -459,7 +459,7 @@
       <span>学科 01</span>
       <span>- 数学与形式基础</span>
       <span>重要性: core</span>
-      <span>更新: '2026-04-08'</span>
+      <span>更新: '2026-05-07'</span>
     </div><h1>概率论与数理统计（Probability Theory and Mathematical Statistics）：从起源到 AI 的完整脉络</h1>
 <blockquote>
 <p><strong>上帝视角</strong>：概率论与数理统计共同构成机器学习处理不确定性的核心语言。概率论负责描述随机机制与分布结构，数理统计负责从有限样本中做估计、检验与评估。从贝叶斯推断到最大似然，从 EM 算法到 A/B 测试，这两条主线一起支撑了现代 AI 对不确定世界的建模与决策。</p>
@@ -643,7 +643,7 @@
 <li><strong>不确定性估计（Uncertainty Estimation）</strong>：在医疗诊断、自动驾驶等安全关键领域，模型不仅要给出预测，还要说明&quot;我有多确信&quot;。</li>
 </ul>
 <blockquote>
-<p><strong>代码演示</strong>：参见 <a href="../../code/math-foundations/bayesian_inference.py">code/math-foundations/bayesian_inference.py</a> — 硬币抛掷的贝叶斯估计 vs 频率估计对比</p>
+<p><strong>代码演示</strong>：参见 📄 code/math-foundations/bayesian_inference.py — 硬币抛掷的贝叶斯估计 vs 频率估计对比</p>
 </blockquote>
 <h3 id="n3-2-最大似然估计-Maximum-Likelihood-Estimation-MLE-与-EM-算法">3.2 最大似然估计（Maximum Likelihood Estimation, MLE）与 EM 算法</h3>
 <h4>MLE 的数学定义</h4>
@@ -692,7 +692,7 @@
 <li><strong>变分自编码器（VAE）的 ELBO</strong>：VAE 的训练目标——证据下界（Evidence Lower Bound）——可以看作 EM 算法的变分推断版本。E 步对应编码器推断隐变量，M 步对应解码器重构数据。</li>
 </ul>
 <blockquote>
-<p><strong>代码演示</strong>：参见 <a href="../../code/ml-algorithms/em_algorithm.py">code/ml-algorithms/em_algorithm.py</a> — 高斯混合模型的 EM 算法实现</p>
+<p><strong>代码演示</strong>：参见 📄 code/ml-algorithms/em_algorithm.py — 高斯混合模型的 EM 算法实现</p>
 </blockquote>
 <h3 id="n3-3-马尔可夫链与-MCMC">3.3 马尔可夫链与 MCMC</h3>
 <h4>马尔可夫性质与转移矩阵</h4>
@@ -1044,7 +1044,905 @@
 <li>采样效率的理论分析</li>
 </ul>
 <hr>
-<h2 id="n6-推荐阅读与参考文献">6. 推荐阅读与参考文献</h2>
+<h2 id="n6-完整术语表-含上下文批注">6. 完整术语表（含上下文批注）</h2>
+<blockquote>
+<p>本术语表按专题分组，每个术语附一句&quot;在 AI 概率建模语境下的角色说明&quot;，帮助在阅读正文时快速定位其在整体脉络中的位置。</p>
+</blockquote>
+<h3 id="n6-1-概率论基础-Core-Probability">6.1 概率论基础（Core Probability）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>概率论</strong></td>
+<td>Probability Theory</td>
+<td>一切 AI 不确定性建模的语言基础。从贝叶斯推断到扩散模型，概率论定义了&quot;在已知分布下量化随机性&quot;的数学框架。</td>
+</tr>
+<tr>
+<td><strong>概率分布</strong></td>
+<td>Probability Distribution</td>
+<td>描述随机变量取各种值的概率。分为离散型（如二项分布）和连续型（如正态分布），是生成模型输出的目标形式。</td>
+</tr>
+<tr>
+<td><strong>随机变量</strong></td>
+<td>Random Variable</td>
+<td>将随机试验的结果映射为数值的函数。在 AI 中，模型的每个输出（分类概率、预测值）都是一个随机变量。</td>
+</tr>
+<tr>
+<td><strong>联合分布</strong></td>
+<td>Joint Distribution</td>
+<td>描述多个随机变量同时取值的概率。$P(X,Y)$ 是概率图模型和有向无环图建模的根本对象，生成模型本质上是学习数据 $x$ 和标签 $y$ 的联合分布 $P(x,y)$。</td>
+</tr>
+<tr>
+<td><strong>条件概率</strong></td>
+<td>Conditional Probability</td>
+<td>$P(A \mid B) = P(A,B)/P(B)$，是在已知部分信息后对另一事件的最新信念。RNN/Transformer 的自回归生成 $P(x_t \mid x_{&lt;t})$ 本质上是不断计算条件概率。</td>
+</tr>
+<tr>
+<td><strong>大数定律</strong></td>
+<td>Law of Large Numbers</td>
+<td>Jacob Bernoulli 在《猜度术》中提出：随着试验次数增加，样本均值几乎必然收敛于期望值。频率学派统计推断和大模型训练中 minibatch 梯度估计的理论基石。</td>
+</tr>
+<tr>
+<td><strong>正态分布 / 高斯分布</strong></td>
+<td>Normal / Gaussian Distribution</td>
+<td>自然界最普遍的分布。de Moivre 发现、Gauss 推广。在 AI 中：初始化权重常用高斯分布、损失函数假设高斯噪声、高斯过程回归、VAE 隐变量先验。</td>
+</tr>
+<tr>
+<td><strong>二项分布</strong></td>
+<td>Binomial Distribution</td>
+<td>n 次独立伯努利试验的成功次数分布。A/B 测试中的点击率比较、贝叶斯硬币抛掷问题都直接使用二项分布建模。</td>
+</tr>
+<tr>
+<td><strong>测度论</strong></td>
+<td>Measure Theory</td>
+<td>Kolmogorov 在《概率论基础》(1933) 中用测度论严格定义了概率的三条公理，使概率论成为数学的一个分支。在机器学习中，测度论提供了处理连续分布和勒贝格积分的严格工具，对变分推断中的期望计算和扩散模型中的连续时间极限至关重要。</td>
+</tr>
+<tr>
+<td><strong>公理化概率</strong></td>
+<td>Axiomatic Probability</td>
+<td>Kolmogorov 的三条公理（非负性、规范性、可列可加性）。所有现代概率计算都建立在这三条公理之上，包括神经网络中的随机梯度、MCMC 采样和变分推断的数学推导。</td>
+</tr>
+<tr>
+<td><strong>频率学派</strong></td>
+<td>Frequentist</td>
+<td>将概率定义为重复试验中事件发生的长期频率。以 Fisher 为代表，MLE、假设检验、p 值都是频率学派的产物。与贝叶斯学派的分歧在于：参数是固定未知的常量（频率派）还是随机变量（贝叶斯派）。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-2-贝叶斯推断-Bayesian-Inference">6.2 贝叶斯推断（Bayesian Inference）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>贝叶斯定理</strong></td>
+<td>Bayes&#39; Theorem</td>
+<td>$P(\theta \mid D) = P(D \mid \theta)P(\theta)/P(D)$。Bayes (1763) 遗作发表，Laplace 独立推广。这是贝叶斯推断的核心公式，将&quot;先验知识 + 新数据&quot;更新为&quot;后验知识&quot;。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯推断</strong></td>
+<td>Bayesian Inference</td>
+<td>以贝叶斯定理为基础的统计推断框架。与频率学派的最大区别：参数是随机变量，具有概率分布。在 AI 中广泛用于不确定性量化、贝叶斯神经网络、贝叶斯优化。</td>
+</tr>
+<tr>
+<td><strong>先验分布</strong></td>
+<td>Prior Distribution</td>
+<td>看到数据之前对参数的信念。$P(\theta)$。选择先验是贝叶斯建模的关键步骤：无信息先验（均匀分布）使后验完全由数据驱动；信息先验注入领域知识。</td>
+</tr>
+<tr>
+<td><strong>似然函数</strong></td>
+<td>Likelihood Function</td>
+<td>给定参数下观测到数据的概率。$P(D \mid \theta)$。MLE 最大化这个量；训练神经网络等价于最大化训练数据的对数似然。</td>
+</tr>
+<tr>
+<td><strong>后验分布</strong></td>
+<td>Posterior Distribution</td>
+<td>看到数据后对参数的更新信念。$P(\theta \mid D)$。贝叶斯推断的最终产物，综合了先验知识和数据证据。后验的期望可作为点估计，方差可作为不确定性度量。</td>
+</tr>
+<tr>
+<td><strong>边际似然 / 证据</strong></td>
+<td>Marginal Likelihood / Evidence</td>
+<td>$P(D) = \int P(D \mid \theta)P(\theta)d\theta$。它在分母上起归一化作用，也是模型比较的关键量（贝叶斯因子）。计算边际似然通常需要近似方法，因为积分在高维空间不可解。</td>
+</tr>
+<tr>
+<td><strong>共轭先验</strong></td>
+<td>Conjugate Prior</td>
+<td>先验和后验属于同一分布族时称共轭。共轭的优点是后验有闭式解，不需要数值计算。Beta-Bernoulli、Normal-Normal、Dirichlet-Multinomial 是最经典的三种共轭对。</td>
+</tr>
+<tr>
+<td><strong>Beta-Bernoulli 共轭</strong></td>
+<td>Beta-Bernoulli</td>
+<td>Beta 先验 + Bernoulli 似然 → Beta 后验。$\theta \sim \mathrm{Beta}(\alpha,\beta)$，观察 k 次成功 / n-k 次失败 → $\mathrm{Beta}(\alpha+k, \beta+n-k)$。硬币抛掷问题的标准建模方式，也用于 A/B 测试中点击率的贝叶斯估计。</td>
+</tr>
+<tr>
+<td><strong>Normal-Normal 共轭</strong></td>
+<td>Normal-Normal</td>
+<td>正态先验 + 正态似然（已知方差）→ 正态后验。后验均值是先验均值与样本均值的加权平均，权重由先验方差和样本方差决定。这是高斯过程回归的数学基础之一。</td>
+</tr>
+<tr>
+<td><strong>Dirichlet-Multinomial 共轭</strong></td>
+<td>Dirichlet-Multinomial</td>
+<td>Dirichlet 先验 + Multinomial 似然 → Dirichlet 后验。Dirichlet 分布是 Beta 分布在多维的推广。LDA 主题模型直接建立在这个共轭对上。</td>
+</tr>
+<tr>
+<td><strong>最大后验估计</strong></td>
+<td>MAP (Maximum A Posteriori)</td>
+<td>$\hat{\theta}_{MAP} = \arg\max_\theta P(\theta \mid D)$。贝叶斯框架下的点估计方法。使用均匀先验时退化为 MLE。L2 正则化的权重衰减在贝叶斯解释下等价于高斯先验的 MAP 估计。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯神经网络</strong></td>
+<td>Bayesian Neural Network (BNN)</td>
+<td>对神经网络权重赋予概率分布而非点估计。BNN 可以量化预测的不确定性，避免过拟合。Blundell (2015) 的 Bayes by Backprop 使大规模 BNN 训练成为可能。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯优化</strong></td>
+<td>Bayesian Optimization</td>
+<td>用高斯过程作为代理模型，通过贝叶斯推断选择下一个超参数评估点。核心是权衡&quot;探索&quot;（高不确定性区域）和&quot;利用&quot;（已知最优区域）。AutoML 的核心技术。</td>
+</tr>
+<tr>
+<td><strong>非参数贝叶斯方法</strong></td>
+<td>Nonparametric Bayesian</td>
+<td>模型复杂度随数据量自动增长，无需预先指定参数数量。高斯过程是最典型的代表。Dirichlet 过程是另一种常用的非参数先验，用于聚类数未知的混合模型。</td>
+</tr>
+<tr>
+<td><strong>神经网络高斯过程</strong></td>
+<td>Neural Network Gaussian Process (NNGP)</td>
+<td>Neal (1996) 发现无限宽单隐层神经网络等价于高斯过程。这个发现为深度学习提供了概率论视角——宽的神经网络本质上是在做一个贝叶斯非参数推断。Lee et al. (2018) 推广到深度网络。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-3-数理统计-Mathematical-Statistics">6.3 数理统计（Mathematical Statistics）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数理统计</strong></td>
+<td>Mathematical Statistics</td>
+<td>回答&quot;给定有限数据，如何反推参数、比较模型、量化不确定性&quot;。概率论是演绎推理（模型→数据），统计是归纳推理（数据→模型）。</td>
+</tr>
+<tr>
+<td><strong>参数估计</strong></td>
+<td>Parameter Estimation</td>
+<td>从数据估算模型参数。分为点估计（MLE、MAP 给出一个值）和区间估计（置信区间给出一个范围）。分类器权重训练本质上是在做参数估计。</td>
+</tr>
+<tr>
+<td><strong>最大似然估计</strong></td>
+<td>MLE</td>
+<td>Fisher (1922) 提出。选择使当前数据出现概率最大的参数。几乎所有的监督学习损失函数（交叉熵、MSE）都可以解释为负对数似然。</td>
+</tr>
+<tr>
+<td><strong>充分统计量</strong></td>
+<td>Sufficient Statistic</td>
+<td>包含数据中关于参数全部信息的统计量。正态分布的样本均值和方差构成充分统计量。Fisher-Neyman 分解定理给出判断准则。指数族分布都有充分统计量。</td>
+</tr>
+<tr>
+<td><strong>Fisher 信息</strong></td>
+<td>Fisher Information</td>
+<td>$I(\theta) = \mathbb{E}[(\partial \log p/\partial \theta)^2]$。衡量数据对参数的信息量。Fisher 信息矩阵在自然梯度优化中直接使用，是加速神经网络训练的理论工具。</td>
+</tr>
+<tr>
+<td><strong>Cramér-Rao 下界</strong></td>
+<td>Cramér-Rao Bound</td>
+<td>无偏估计量的方差下限 = $1/I(\theta)$。Fisher 信息越大，估计越精确。这为参数估计的精度设立了理论天花板。</td>
+</tr>
+<tr>
+<td><strong>假设检验</strong></td>
+<td>Hypothesis Testing</td>
+<td>用数据判断零假设是否显著。Neyman-Pearson 引理提供了最优检验的理论框架。在 AI 中：A/B 测试、模型比较、特征选择都依赖假设检验。</td>
+</tr>
+<tr>
+<td><strong>零假设 / 备择假设</strong></td>
+<td>Null / Alternative Hypothesis</td>
+<td>$H_0$ 是待否定假设（通常为&quot;无差异&quot;），$H_1$ 是对立假设。不能&quot;接受&quot;零假设，只能&quot;拒绝&quot;或&quot;不拒绝&quot;。这个不对称性常被误解。</td>
+</tr>
+<tr>
+<td><strong>p 值</strong></td>
+<td>p-value</td>
+<td>零假设为真时，观察到当前数据或更极端数据的概率。p 值小 → 数据与零假设不一致。注意：p 值不是&quot;零假设为真的概率&quot;，这是一个常见误解。</td>
+</tr>
+<tr>
+<td><strong>检验统计量</strong></td>
+<td>Test Statistic</td>
+<td>从数据计算的用于检验的统计量。不同检验有不同统计量：t 检验用 t 统计量、卡方检验用卡方统计量。</td>
+</tr>
+<tr>
+<td><strong>t 统计量</strong></td>
+<td>t-statistic</td>
+<td>$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$。用于小样本均值比较。Student&#39;s t 分布由 Gosset 以&quot;Student&quot;笔名发表。在 AI 实验中用于比较两个模型性能的差异。</td>
+</tr>
+<tr>
+<td><strong>卡方统计量 / 卡方检验</strong></td>
+<td>Chi-squared Statistic / Test</td>
+<td>$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$。Karl Pearson 发展。用于检验分类变量的独立性、分布拟合度。特征选择中判断类别特征与目标变量是否独立。</td>
+</tr>
+<tr>
+<td><strong>相关系数</strong></td>
+<td>Correlation Coefficient</td>
+<td>Pearson 相关系数衡量两个变量的线性相关程度，范围 [-1, 1]。这是&quot;相关性不等于因果性&quot;的一个具体体现——概率论可以描述相关，但因果推断需要更多结构。</td>
+</tr>
+<tr>
+<td><strong>置信区间</strong></td>
+<td>Confidence Interval</td>
+<td>频率学派的不确定性量化：95% CI 的含义是&quot;如果重复采样，95% 的区间包含真实参数&quot;。与贝叶斯可信区间的区别是哲学层面的：参数是固定的还是随机的。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯可信区间</strong></td>
+<td>Credible Interval</td>
+<td>贝叶斯学派的不确定性报告：参数落在该区间内的概率为 95%（后验分布的分位数）。从使用者角度看更直观，也是贝叶斯方法受欢迎的原因之一。</td>
+</tr>
+<tr>
+<td><strong>双样本比例检验</strong></td>
+<td>Two-Sample Proportion Test</td>
+<td>比较两组比例是否显著不同。A/B 测试的标准检验方法。z 统计量基于两组比例的差值和标准误计算。</td>
+</tr>
+<tr>
+<td><strong>A/B 测试</strong></td>
+<td>A/B Testing</td>
+<td>将用户随机分为实验组和对照组，比较不同策略的效果。集成了假设检验（p 值）、区间估计（置信区间）和实验设计（随机化）的完整统计应用。</td>
+</tr>
+<tr>
+<td><strong>校准</strong></td>
+<td>Calibration</td>
+<td>模型输出的置信度是否与实际准确率一致。如果模型预测&quot;90% 概率&quot;的样本中实际准确率也接近 90%，该模型是良好校准的。可靠性图（Reliability Diagram）是可视化校准的常用工具。</td>
+</tr>
+<tr>
+<td><strong>认知不确定性</strong></td>
+<td>Epistemic Uncertainty</td>
+<td>&quot;由于知识不足导致的不确定性&quot;，可以通过增加训练数据来减少。贝叶斯神经网络的后验宽度直接反映认知不确定性。</td>
+</tr>
+<tr>
+<td><strong>偶然不确定性</strong></td>
+<td>Aleatoric Uncertainty</td>
+<td>&quot;数据本身的固有噪声&quot;，无法通过增加数据消除。异方差模型直接建模输入依赖的噪声方差。</td>
+</tr>
+<tr>
+<td><strong>分布外检测</strong></td>
+<td>OOD Detection</td>
+<td>检测输入样本是否明显偏离训练分布。安全关键场景（自动驾驶、医疗诊断）的必备能力。概率模型天然适合此任务，因为可以给出测试点的似然或置信度。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-4-马尔可夫链与-MCMC-Markov-Chains-amp-Monte-Carlo">6.4 马尔可夫链与 MCMC（Markov Chains &amp; Monte Carlo）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>马尔可夫性质</strong></td>
+<td>Markov Property</td>
+<td>&quot;未来只取决于现在，与过去无关&quot;。$P(X_{t+1} \mid X_t, X_{&lt;t}) = P(X_{t+1} \mid X_t)$。这是 RNN 序列建模、马尔可夫决策过程、扩散模型反向过程的理论基础。</td>
+</tr>
+<tr>
+<td><strong>马尔可夫链</strong></td>
+<td>Markov Chain</td>
+<td>满足马尔可夫性质的随机过程。由状态空间和转移矩阵完整描述。扩散模型的前向/反向扩散过程就是马尔可夫链。</td>
+</tr>
+<tr>
+<td><strong>转移矩阵</strong></td>
+<td>Transition Matrix</td>
+<td>$T_{ij} = P(X_{t+1}=j \mid X_t=i)$。描述链上状态间的一步转移概率。每行之和为 1。</td>
+</tr>
+<tr>
+<td><strong>平稳分布</strong></td>
+<td>Stationary Distribution</td>
+<td>$\pi T = \pi$。链长期运行后状态分布不再变化。MCMC 的核心思想就是构造一条链使其平稳分布等于目标后验分布。</td>
+</tr>
+<tr>
+<td><strong>蒙特卡洛方法</strong></td>
+<td>Monte Carlo Method</td>
+<td>Ulam 和 von Neumann (1946) 在洛斯阿拉莫斯发明。用随机采样计算积分/期望。MCMC 和扩散模型中的采样都是蒙特卡洛方法的现代形式。</td>
+</tr>
+<tr>
+<td><strong>Metropolis 算法</strong></td>
+<td>Metropolis Algorithm</td>
+<td>Metropolis et al. (1953) 提出，MCMC 的第一个实用算法。用提议分布生成候选点，以一定的接受概率决定是否采纳。最初用于物理模拟。</td>
+</tr>
+<tr>
+<td><strong>Metropolis-Hastings 算法</strong></td>
+<td>Metropolis-Hastings</td>
+<td>Hastings (1970) 将 Metropolis 算法推广，允许非对称提议分布，公式中加入 $q(\theta^{(t)} \mid \theta')/q(\theta' \mid \theta^{(t)})$ 修正偏差。极大扩展了 MCMC 的应用范围。</td>
+</tr>
+<tr>
+<td><strong>Gibbs 采样</strong></td>
+<td>Gibbs Sampling</td>
+<td>Geman &amp; Geman (1984) 提出。MH 的特例：每次只更新一个维度，从该维度的条件分布中采样。接受率恒为 1。最初将贝叶斯方法引入计算机视觉。</td>
+</tr>
+<tr>
+<td><strong>MCMC</strong></td>
+<td>Markov Chain Monte Carlo</td>
+<td>综合马尔可夫链理论（平稳分布）和蒙特卡洛方法（采样计算）。构造一条链，使其平稳分布为目标分布，运行足够久后采样。贝叶斯计算的核心工具。</td>
+</tr>
+<tr>
+<td><strong>随机梯度 Langevin 动力学</strong></td>
+<td>SGLD</td>
+<td>Welling &amp; Teh (2011) 提出。将 MCMC 与小批量梯度下降结合——在 SGD 的参数更新中加入高斯噪声。使贝叶斯推断可扩展到大规模数据集。</td>
+</tr>
+<tr>
+<td><strong>SGHMC</strong></td>
+<td>Stochastic Gradient Hamiltonian Monte Carlo</td>
+<td>Chen et al. (2014) 提出。在 SGLD 的基础上引入动量，利用 Hamiltonian 动力学进行更高效的采样，减少随机梯度噪声带来的误差。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-5-EM-算法-Expectation-Maximization">6.5 EM 算法（Expectation-Maximization）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EM 算法</strong></td>
+<td>Expectation-Maximization</td>
+<td>Dempster, Laird &amp; Rubin (1977) 集大成。处理含隐变量模型的参数估计，交替进行 E 步和 M 步。GMM、HMM、LDA 的训练都依赖 EM。</td>
+</tr>
+<tr>
+<td><strong>E 步</strong></td>
+<td>Expectation Step</td>
+<td>固定当前参数，计算隐变量后验的期望。构造期望对数似然函数 $Q(\theta \mid \theta^{(t)})$。</td>
+</tr>
+<tr>
+<td><strong>M 步</strong></td>
+<td>Maximization Step</td>
+<td>最大化 $Q$ 函数更新参数 $\theta^{(t+1)}$。迭代直到收敛。</td>
+</tr>
+<tr>
+<td><strong>对数似然</strong></td>
+<td>Log-Likelihood</td>
+<td>$\ell(\theta) = \sum_i \log P(x_i \mid \theta)$。将乘积变求和简化计算。EM 算法保证每次迭代不降低对数似然值（单调性），但只保证局部最优。</td>
+</tr>
+<tr>
+<td><strong>Q 函数</strong></td>
+<td>Q-Function</td>
+<td>$Q(\theta|\theta^{(t)}) = \mathbb{E}_{Z|D,\theta^{(t)}}[\log P(D,Z|\theta)]$。E 步中构造的期望对数似然。VAE 的训练也可以理解为在优化一个类似的 Q 函数。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-6-变分推断-Variational-Inference">6.6 变分推断（Variational Inference）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>变分推断</strong></td>
+<td>Variational Inference (VI)</td>
+<td>用优化代替采样：在族内找一个近似后验 $q(\theta)$ 来最小化 $D_{KL}(q \parallel p)$。比 MCMC 更快但近似有偏。Jordan 等人 (1998) 推动其在 ML 中的应用。</td>
+</tr>
+<tr>
+<td><strong>摊销推断</strong></td>
+<td>Amortized Inference</td>
+<td>学习一个神经网络（编码器）来参数化 $q_\phi(z \mid x)$，所有数据点共享参数。不再为每个数据点单独进行 VI。VAE 的核心创新。</td>
+</tr>
+<tr>
+<td><strong>证据下界 / ELBO</strong></td>
+<td>Evidence Lower Bound</td>
+<td>$\text{ELBO} = \mathbb{E}_q[\log p(x \mid z)] - D_{KL}(q(z) \parallel p(z))$。最大化 ELBO 等价于最小化 $D_{KL}(q \parallel p)$。VAE、扩散模型变分界的核心目标。</td>
+</tr>
+<tr>
+<td><strong>变分自编码器 / VAE</strong></td>
+<td>Variational Autoencoder</td>
+<td>Kingma &amp; Welling (2014) 提出。将摊销推断与深度学习结合：编码器推断 $q(z \mid x)$，解码器生成 $p(x \mid z)$。训练目标是最大化 ELBO。开创深度生成模型新范式。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-7-生成模型与概率分布建模">6.7 生成模型与概率分布建模</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>生成模型</strong></td>
+<td>Generative Model</td>
+<td>建模联合分布 $P(x,y)$ 或数据分布 $P(x)$，可以从中采样生成新样本。VAE、Diffusion、GPT、GAN 都属于此类。</td>
+</tr>
+<tr>
+<td><strong>判别模型</strong></td>
+<td>Discriminative Model</td>
+<td>直接建模条件概率 $P(y \mid x)$，不关心输入的分布。逻辑回归、标准 CNN/Transformer 分类器都属于此类。计算开销通常小于生成模型。</td>
+</tr>
+<tr>
+<td><strong>自回归生成模型</strong></td>
+<td>Autoregressive Model</td>
+<td>$P(x) = \prod_t P(x_t \mid x_{&lt;t})$。GPT 系列的基础。本质上是不断计算条件概率的马尔可夫链。这种建模方式自然支持序列数据。</td>
+</tr>
+<tr>
+<td><strong>能量模型</strong></td>
+<td>Energy-Based Model (EBM)</td>
+<td>$P(x) = \exp(-E(x))/Z$。通过能量函数定义未归一化的概率。玻尔兹曼机是 EBM 的代表。配分函数 $Z$ 的计算是核心难点。</td>
+</tr>
+<tr>
+<td><strong>玻尔兹曼机</strong></td>
+<td>Boltzmann Machine</td>
+<td>基于能量的概率模型，用二值神经元和对称连接权重定义分布。Hinton &amp; Sejnowski (1986) 提出。早期深度学习的奠基模型。</td>
+</tr>
+<tr>
+<td><strong>受限玻尔兹曼机</strong></td>
+<td>Restricted Boltzmann Machine (RBM)</td>
+<td>玻尔兹曼机的简化版本——只有可见层和隐层，层内无连接。训练效率大幅提升。曾是深度信念网络（DBN）的构建块。</td>
+</tr>
+<tr>
+<td><strong>配分函数</strong></td>
+<td>Partition Function</td>
+<td>$Z = \sum \exp(-E(x))$。能量模型中确保概率之和为 1 的归一化常数。$Z$ 的高维求和/积分难以计算，是对比散度（CD）等近似方法出现的原因。</td>
+</tr>
+<tr>
+<td><strong>对比学习</strong></td>
+<td>Contrastive Learning</td>
+<td>将正例拉近、负例推远的表示学习方法。可以解释为能量模型的训练：降低正例对的能量，提高负例对的能量。SimCLR、CLIP 都是对比学习的代表。</td>
+</tr>
+<tr>
+<td><strong>知识蒸馏</strong></td>
+<td>Knowledge Distillation</td>
+<td>Hinton et al. (2015) 提出。用 KL 散度衡量学生和教师模型输出分布的差异。学生学会教师的&quot;软标签&quot;而非硬类别，蒸馏了概率信息。</td>
+</tr>
+<tr>
+<td><strong>扩散模型 / DDPM</strong></td>
+<td>Diffusion Model / DDPM</td>
+<td>Ho et al. (2020) 提出 Denoising Diffusion Probabilistic Models。前向过程是逐步加噪的马尔可夫链，反向过程是逐步去噪的马尔可夫链。训练用 ELBO 推导的简化 MSE 损失。DALL·E 3、Stable Diffusion、Sora 的基础。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-8-混合模型与序列模型">6.8 混合模型与序列模型</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>隐狄利克雷分配 / LDA</strong></td>
+<td>Latent Dirichlet Allocation</td>
+<td>Blei, Ng &amp; Jordan (2003) 提出。三层贝叶斯模型（文档→主题→词），Dirichlet-Multinomial 共轭是数学基础。曾是最重要的主题模型，推动了概率编程在 NLP 中的应用。</td>
+</tr>
+<tr>
+<td><strong>高斯混合模型 / GMM</strong></td>
+<td>Gaussian Mixture Model</td>
+<td>假设数据由 K 个高斯分布混合生成。EM 算法训练，隐变量是每个点的类别归属。经典的软聚类方法。</td>
+</tr>
+<tr>
+<td><strong>隐马尔可夫模型 / HMM</strong></td>
+<td>Hidden Markov Model</td>
+<td>带隐状态的马尔可夫链。语音识别的经典模型，也是序列标注的基础。Baum-Welch 算法是 EM 在 HMM 上的特例。</td>
+</tr>
+<tr>
+<td><strong>Baum-Welch 算法</strong></td>
+<td>Baum-Welch Algorithm</td>
+<td>EM 算法在 HMM 上的实现。E 步用前向-后向算法计算隐状态后验，M 步更新转移/发射参数。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-9-概率图模型-Probabilistic-Graphical-Models">6.9 概率图模型（Probabilistic Graphical Models）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>概率图模型</strong></td>
+<td>Probabilistic Graphical Model (PGM)</td>
+<td>用图结构表示随机变量间的依赖关系，将高维联合分布分解为局部条件的乘积。Koller &amp; Friedman (2009) 的权威教材系统化了这一领域。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯网络</strong></td>
+<td>Bayesian Network</td>
+<td>有向无环图（DAG）表示概率依赖。$P(X) = \prod_i P(X_i \mid \text{Pa}(X_i))$。Pearl (1988) 系统化。用于因果推断、专家系统、信用评估。</td>
+</tr>
+<tr>
+<td><strong>有向无环图</strong></td>
+<td>Directed Acyclic Graph (DAG)</td>
+<td>贝叶斯网络的图结构。边表示因果关系或概率依赖。结构学习（从数据学习 DAG）是因果发现的核心问题。</td>
+</tr>
+<tr>
+<td><strong>信念传播</strong></td>
+<td>Belief Propagation</td>
+<td>Pearl (1988) 提出。树结构图上的精确推断算法，通过节点间传递&quot;消息&quot;实现。对于一般图需要近似（环信念传播，Loopy BP）。</td>
+</tr>
+<tr>
+<td><strong>马尔可夫随机场 / MRF</strong></td>
+<td>Markov Random Field</td>
+<td>无向图表示变量间对称依赖。势函数 $\psi_c(X_c)$ 定义在团上，$P(X) = \frac{1}{Z}\prod_c \psi_c(X_c)$。用于图像分割、语义标注。</td>
+</tr>
+<tr>
+<td><strong>团</strong></td>
+<td>Clique</td>
+<td>MRF 中完全连接的子图。势函数定义在团上，表示团内变量间的相互影响。最大团的大小决定了 MRF 的计算复杂度。</td>
+</tr>
+<tr>
+<td><strong>势函数</strong></td>
+<td>Potential Function</td>
+<td>MRF 中定义在团上的非负函数。编码了团内变量间的偏好配置。与贝叶斯网络的条件概率表不同，势函数没有概率总和为 1 的约束。</td>
+</tr>
+<tr>
+<td><strong>结构化预测</strong></td>
+<td>Structured Prediction</td>
+<td>预测的输出具有结构化依赖（序列、树、图）。CRF 是结构化预测的标准模型，它的优势是可以直接建模标签间的依赖关系。</td>
+</tr>
+<tr>
+<td><strong>条件随机场 / CRF</strong></td>
+<td>Conditional Random Field</td>
+<td>Lafferty et al. (2001) 提出。判别式的无向图模型，直接建模 $P(Y \mid X)$。NLP 序列标注的标准工具。</td>
+</tr>
+<tr>
+<td><strong>BiLSTM-CRF</strong></td>
+<td>BiLSTM-CRF</td>
+<td>CRF 与深度学习的经典结合：双向 LSTM 提取文本特征，CRF 层建模标签间的转移约束。曾是 NER、词性标注等任务的标准架构。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-10-因果推断-Causal-Inference">6.10 因果推断（Causal Inference）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>因果推断</strong></td>
+<td>Causal Inference</td>
+<td>超越&quot;相关性&quot;回答&quot;如果干预 X，Y 会怎样？&quot;。Pearl (2000) 的因果关系模型是当前 AI 从关联走向因果的核心理论。</td>
+</tr>
+<tr>
+<td><strong>do-算子</strong></td>
+<td>do-operator</td>
+<td>$P(Y \mid \mathrm{do}(X=x))$ 表示主动干预 X 设为 x 时 Y 的分布，区别于被动观测 $P(Y \mid X=x)$。这是因果推断的核心创新。</td>
+</tr>
+<tr>
+<td><strong>因果层级</strong></td>
+<td>Causal Hierarchy</td>
+<td>Pearl 的三层框架：(1) 关联（看到什么），(2) 干预（做了什么），(3) 反事实（如果...会怎样）。当前深度学习主要在第一层，通向 AGI 的关键是跨越到第三层。</td>
+</tr>
+<tr>
+<td><strong>关联</strong></td>
+<td>Association</td>
+<td>$P(y \mid x)$，看到 x 时 y 的概率。深度学习的核心能力。</td>
+</tr>
+<tr>
+<td><strong>干预</strong></td>
+<td>Intervention</td>
+<td>$P(y \mid \mathrm{do}(x))$，主动改变 x 时 y 的概率。需要因果模型。随机实验是黄金标准。</td>
+</tr>
+<tr>
+<td><strong>反事实</strong></td>
+<td>Counterfactual</td>
+<td>&quot;如果当年是 B 而不是 A，结果会怎样？&quot;。需要完整的结构因果模型。AI 伦理和公平性评估的核心工具。</td>
+</tr>
+<tr>
+<td><strong>结构因果模型</strong></td>
+<td>Structural Causal Model (SCM)</td>
+<td>Pearl 定义的因果建模框架：一组外生变量 + 一组结构方程。包含因果图、干预和反事实的统一表达。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-11-优化与梯度方法">6.11 优化与梯度方法</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>梯度下降</strong></td>
+<td>Gradient Descent</td>
+<td>沿负梯度方向更新参数以最小化损失。最大似然估计和变分推断最终都转化成梯度下降问题。</td>
+</tr>
+<tr>
+<td><strong>自然梯度</strong></td>
+<td>Natural Gradient</td>
+<td>考虑了参数空间的几何结构（Fisher 信息矩阵作为 Riemannian 度量）的梯度。自然梯度下降比普通梯度下降收敛更快，特别是对于概率模型。Amari (1998) 在机器学习中推广。</td>
+</tr>
+<tr>
+<td><strong>随机梯度优化</strong></td>
+<td>Stochastic Gradient Optimization</td>
+<td>用随机采样的 minibatch 梯度近似全梯度。使得大规模机器学习训练成为可能。SGLD 则是它与 MCMC 的结合。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-12-强化学习与状态估计">6.12 强化学习与状态估计</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>马尔可夫决策过程 / MDP</strong></td>
+<td>Markov Decision Process</td>
+<td>RL 的数学框架：(S, A, P, R, $\gamma$)。满足马尔可夫性质，策略是状态到动作的映射。几乎所有 RL 算法都在求解 MDP。</td>
+</tr>
+<tr>
+<td><strong>部分可观测问题 / POMDP</strong></td>
+<td>Partially Observable MDP</td>
+<td>环境的状态不能完全观测到，只能观测到部分信息。自动驾驶、对话系统都是 POMDP。需要贝叶斯滤波进行状态估计。</td>
+</tr>
+<tr>
+<td><strong>状态估计</strong></td>
+<td>State Estimation</td>
+<td>从部分观测中推断系统隐藏状态。卡尔曼滤波是最经典的方法。在概率论视角下，这就是贝叶斯推断在动态系统中的应用：$P(X_t \mid Y_{1:t})$。</td>
+</tr>
+<tr>
+<td><strong>卡尔曼滤波</strong></td>
+<td>Kalman Filter</td>
+<td>线性高斯系统的最优状态估计。本质上是在做序贯贝叶斯推断：预测（先验）→ 观测更新 → 后验。自动驾驶轨迹跟踪、机器人定位的核心算法。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-13-信息论中的概率概念">6.13 信息论中的概率概念</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>熵</strong></td>
+<td>Entropy</td>
+<td>$H(X) = -\sum P(x) \log P(x)$。Shannon (1948) 定义，衡量随机变量的不确定性。最小化熵 → 最大化预测确定性。</td>
+</tr>
+<tr>
+<td><strong>KL 散度</strong></td>
+<td>Kullback-Leibler Divergence</td>
+<td>$D_{KL}(P \parallel Q) = \sum P(x) \log(P(x)/Q(x))$。衡量两个分布的差异。变分推断、知识蒸馏、VAE 正则化都最小化 KL 散度。</td>
+</tr>
+<tr>
+<td><strong>互信息</strong></td>
+<td>Mutual Information</td>
+<td>$I(X;Y) = D_{KL}(P(X,Y) \parallel P(X)P(Y))$。衡量两个随机变量的依赖程度。在表示学习中最大化互信息（如 InfoNCE 损失）是自监督学习的核心方法。</td>
+</tr>
+<tr>
+<td><strong>交叉熵</strong></td>
+<td>Cross-Entropy</td>
+<td>$H(P,Q) = -\sum P(x) \log Q(x)$。分类任务的默认损失函数。最小化交叉熵等价于最小化 KL 散度（因为 $H(P)$ 固定）。</td>
+</tr>
+<tr>
+<td><strong>交叉熵损失</strong></td>
+<td>Cross-Entropy Loss</td>
+<td>神经网络的分类损失函数。$\mathcal{L} = -\sum_i y_i \log \hat{y}_i$。等价于最大化正确类别的对数概率（MLE 视角）。</td>
+</tr>
+<tr>
+<td><strong>Gibbs 不等式</strong></td>
+<td>Gibbs&#39; Inequality</td>
+<td>$D_{KL}(P \parallel Q) \geq 0$，等号成立当且仅当 $P = Q$。KL 散度非负性的证明，变分推断中 ELBO &lt;= log P(x) 的理论保证。</td>
+</tr>
+<tr>
+<td><strong>信息损失</strong></td>
+<td>Information Loss</td>
+<td>KL 散度可以解释为&quot;如果用 Q 近似 P，平均损失的信息量&quot;。在变分推断中，这就是 $D_{KL}(q(z) \parallel p(z \mid x))$ 的含义。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-14-前沿与高级专题">6.14 前沿与高级专题</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>最优传输</strong></td>
+<td>Optimal Transport</td>
+<td>寻找从一个分布到另一个分布的最优映射。Wasserstein 距离定义在此之上。WGAN、扩散模型的采样过程都与最优传输有深刻联系。</td>
+</tr>
+<tr>
+<td><strong>随机微分方程 / SDE</strong></td>
+<td>Stochastic Differential Equation</td>
+<td>含随机项的微分方程。扩散模型在连续时间极限下可表示为 SDE（Song et al., 2021）。概率流的数学描述。</td>
+</tr>
+<tr>
+<td><strong>自由能原理</strong></td>
+<td>Free Energy Principle</td>
+<td>Friston (2006) 提出，认为生物系统通过最小化自由能来维持稳态。与变分推断的 ELBO 有直接的数学对应关系。连接概率论和神经科学的桥梁。</td>
+</tr>
+<tr>
+<td><strong>预测编码</strong></td>
+<td>Predictive Coding</td>
+<td>Rao &amp; Ballard (1999) 提出，大脑不断预测感觉输入，更新内部模型减少预测误差。自由能原理的计算实现。概率论的贝叶斯更新机制在大脑中的体现。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯脑假说</strong></td>
+<td>Bayesian Brain Hypothesis</td>
+<td>大脑本质上是一台贝叶斯推断机器：先验 + 感觉数据 → 后验。提供了认知科学与 AI 概率建模之间的概念桥梁。</td>
+</tr>
+<tr>
+<td><strong>MC Dropout</strong></td>
+<td>Monte Carlo Dropout</td>
+<td>Gal &amp; Ghahramani (2015) 证明训练时用 Dropout + 测试时多次前向传播 = 贝叶斯近似推断。为深度网络的不确定性估计提供了&quot;免费午餐&quot;。</td>
+</tr>
+<tr>
+<td><strong>拉普拉斯平滑</strong></td>
+<td>Laplace Smoothing</td>
+<td>$P(x_i) = (count_i + \alpha) / (N + \alpha K)$。Laplace 提出，防止零概率问题。本质上是加了一个（均匀）伪计数先验。在朴素贝叶斯文本分类和 n-gram 语言模型中广泛使用。</td>
+</tr>
+<tr>
+<td><strong>贝叶斯决策</strong></td>
+<td>Bayesian Decision Theory</td>
+<td>在不确定性下做最优决策。定义损失函数 $L(\theta, a)$，选择期望损失最小的行动。分类中的贝叶斯最优分类器是理论上的性能上界。</td>
+</tr>
+<tr>
+<td><strong>核密度估计 / KDE</strong></td>
+<td>Kernel Density Estimation</td>
+<td>非参数概率密度估计方法。在每个数据点处放置一个核函数（如高斯核），叠加得到密度估计。与高斯过程、Parzen 窗口有密切联系。</td>
+</tr>
+<tr>
+<td><strong>概率 PCA</strong></td>
+<td>Probabilistic PCA</td>
+<td>Tipping &amp; Bishop (1999) 提出。将 PCA 重新解释为概率模型：$x = Wz + \epsilon$。可处理缺失数据、可用 EM 算法求解、可扩展到贝叶斯 PCA。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-15-概率编程-Probabilistic-Programming">6.15 概率编程（Probabilistic Programming）</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>英文</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>概率编程</strong></td>
+<td>Probabilistic Programming</td>
+<td>用编程语言定义概率模型，由框架自动进行推断（采样或变分）。降低贝叶斯建模的编程门槛。</td>
+</tr>
+<tr>
+<td><strong>Stan</strong></td>
+<td>Stan</td>
+<td>概率编程语言的代表。使用 HMC（Hamiltonian Monte Carlo）进行高效采样。广泛应用于贝叶斯统计建模。</td>
+</tr>
+<tr>
+<td><strong>Pyro</strong></td>
+<td>Pyro</td>
+<td>Uber AI 基于 PyTorch 开发的概率编程框架。支持变分推断和 MCMC。深度概率建模的主要工具。</td>
+</tr>
+<tr>
+<td><strong>NumPyro</strong></td>
+<td>NumPyro</td>
+<td>Pyro 基于 JAX 的重写版本。利用 JIT 编译和 GPU 加速，比 Pyro 快数倍。当前活跃发展的概率编程框架。</td>
+</tr>
+</tbody></table>
+<h3 id="n6-16-关键人物与著作">6.16 关键人物与著作</h3>
+<table>
+<thead>
+<tr>
+<th>人物 / 著作</th>
+<th>上下文批注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Blaise Pascal &amp; Pierre de Fermat</strong></td>
+<td>1654 年通信解决&quot;点数问题&quot;，公认的概率论诞生标志。Pascal 还提出了 Pascal&#39;s Triangle（二项式系数的组合基础）。</td>
+</tr>
+<tr>
+<td><strong>Jacob Bernoulli</strong></td>
+<td>1713 年遗作《猜度术》（Ars Conjectandi）提出大数定律的最早形式，系统化了组合概率。频率学派的理论基石。</td>
+</tr>
+<tr>
+<td><strong>Thomas Bayes</strong></td>
+<td>1763 年遗作发表贝叶斯定理。生前未发表，由 Richard Price 整理公开。两百年后成为机器学习核心。</td>
+</tr>
+<tr>
+<td><strong>Pierre-Simon Laplace</strong></td>
+<td>1812 年《概率的分析理论》独立推广贝叶斯定理，提出拉普拉斯平滑。第一次将概率论系统化为一门数学学科。</td>
+</tr>
+<tr>
+<td><strong>Abraham de Moivre</strong></td>
+<td>1733 年发现正态分布的早期形式——二项分布的近似公式。还提出了 de Moivre–Laplace 定理。</td>
+</tr>
+<tr>
+<td><strong>Karl Pearson</strong></td>
+<td>发展了卡方检验、相关系数，创办《Biometrika》。现代统计学的奠基人之一，也是优生学的争议人物。</td>
+</tr>
+<tr>
+<td><strong>Ronald A. Fisher</strong></td>
+<td>1922 年提出 MLE、充分统计量、Fisher 信息、实验设计（ANOVA）。频率学派的领袖。&quot;几乎单枪匹马创建了现代统计学&quot;（Savage 语）。</td>
+</tr>
+<tr>
+<td><strong>Andrey Kolmogorov</strong></td>
+<td>1933 年《概率论基础》用测度论公理化概率。三条公理统一了概率论。20 世纪最伟大的数学家之一。</td>
+</tr>
+<tr>
+<td><strong>Stanislaw Ulam &amp; John von Neumann</strong></td>
+<td>洛斯阿拉莫斯发明蒙特卡洛方法（1946），最初用于核武器中子扩散模拟。与冯·诺依曼共同设计 EDVAC（存储程序计算机原型）。</td>
+</tr>
+<tr>
+<td><strong>Claude Shannon</strong></td>
+<td>1948 年《通信的数学理论》定义熵、信息论。信息论本质上是概率论的应用分支——所有信息度量都建立在概率分布之上。</td>
+</tr>
+<tr>
+<td><strong>Nicholas Metropolis</strong></td>
+<td>1953 年提出 Metropolis 算法的论文，开启了 MCMC 的历史。</td>
+</tr>
+<tr>
+<td><strong>W. Keith Hastings</strong></td>
+<td>1970 年推广为 Metropolis-Hastings 算法。</td>
+</tr>
+<tr>
+<td><strong>Dempster, Laird &amp; Rubin</strong></td>
+<td>1977 年发表 EM 算法论文，含隐变量模型参数估计的标准方法。至今引用数十万次。</td>
+</tr>
+<tr>
+<td><strong>Stuart Geman &amp; Donald Geman</strong></td>
+<td>1984 年提出 Gibbs 采样，将贝叶斯方法引入计算机视觉。</td>
+</tr>
+<tr>
+<td><strong>Judea Pearl</strong></td>
+<td>1988 年系统化贝叶斯网络，提出信念传播。2000 年因果推断框架（do-calculus）。2011 年图灵奖。&quot;因果关系之父&quot;。</td>
+</tr>
+<tr>
+<td><strong>David MacKay</strong></td>
+<td>1996 年《Bayesian Methods for Adaptive Models》系统阐述贝叶斯方法在神经网络中的应用。&quot;贝叶斯深度学习&quot;的先驱。</td>
+</tr>
+<tr>
+<td><strong>Michael Jordan</strong></td>
+<td>推动变分推断在 ML 的应用，LDA 合作者。概率图模型、谱聚类、非参数贝叶斯的领军人物。</td>
+</tr>
+<tr>
+<td><strong>David Blei</strong></td>
+<td>2003 年提出 LDA。推动变分推断和概率编程在现代 ML 中的复兴。</td>
+</tr>
+<tr>
+<td><strong>Andrew Ng</strong></td>
+<td>LDA 合作者。将概率方法广泛应用于 AI 教育、自动驾驶（无模型贝叶斯优化）。斯坦福—百度—Coursera。</td>
+</tr>
+<tr>
+<td><strong>Kingma &amp; Welling</strong></td>
+<td>2014 年提出 VAE（变分自编码器），核心创新是重参数化技巧（Reparameterization Trick），使变分推断可与 SGD 结合。</td>
+</tr>
+<tr>
+<td><strong>Yarin Gal &amp; Zoubin Ghahramani</strong></td>
+<td>2015 年提出 MC Dropout，使深度学习的不确定性估计变得实用。Ghahramani 是贝叶斯深度学习学派的代表。</td>
+</tr>
+<tr>
+<td><strong>Jonathan Ho</strong></td>
+<td>2020 年 DDPM 论文第一作者，扩散模型的现代复兴。</td>
+</tr>
+<tr>
+<td><strong>E. T. Jaynes</strong></td>
+<td>2003 年《Probability Theory: The Logic of Science》将概率论解释为逻辑的量化延伸，影响深远的贝叶斯学派著作。</td>
+</tr>
+<tr>
+<td><strong>Christopher Bishop</strong></td>
+<td>2006 年《Pattern Recognition and Machine Learning》是 ML 概率方法的标准教材，其中文译本影响力巨大。</td>
+</tr>
+<tr>
+<td><strong>Kevin Murphy</strong></td>
+<td>2012 年《Machine Learning: A Probabilistic Perspective》和 2022/2023 年《Probabilistic Machine Learning: An Introduction / Advanced Topics》系列，概率视角 ML 的百科全书。</td>
+</tr>
+<tr>
+<td><strong>Daphne Koller &amp; Nir Friedman</strong></td>
+<td>2009 年《Probabilistic Graphical Models》是 PGM 的权威巨著。Koller 因 AI 教育和全球健康获 MacArthur 奖。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="n7-推荐阅读与参考文献">7. 推荐阅读与参考文献</h2>
 <h3 id="教材">教材</h3>
 <ul>
 <li>Jaynes, E. T. (2003). <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. — 从逻辑学角度理解概率论，贝叶斯学派的经典之作</li>
@@ -1069,7 +1967,7 @@
 <li><a href="https://probml.github.io/pml-book/">Probabilistic Machine Learning</a> — Kevin Murphy 的新书，免费在线阅读</li>
 </ul>
 <hr>
-<h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
+<h2 id="n8-本篇在全书中的位置">8. 本篇在全书中的位置</h2>
 <p>本篇介绍了概率论与数理统计对 AI/AGI 发展的核心贡献：<strong>为机器学习提供了处理不确定性的数学语言，从参数估计到生成模型，从贝叶斯推断到变分推断</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
@@ -1082,7 +1980,7 @@
 <p><strong>贡献边界</strong>：<br>概率论主要解决了<strong>如何量化和推理不确定性</strong>，但在以下方面需要其他学科补充：（1）<strong>因果关系</strong>：概率论只能描述相关性，因果推断需要额外的结构假设；（2）<strong>计算效率</strong>：精确的贝叶斯推断在高维空间中往往不可行，需要优化理论和近似算法；（3）<strong>模型选择</strong>：概率论提供了模型比较的工具（如贝叶斯因子），但如何设计合适的先验和似然函数仍需要领域知识；（4）<strong>表示学习</strong>：概率论假设变量和分布已知，但如何从原始数据中学习有意义的表示需要深度学习的支持。因此，概率论为 AI 提供了核心的数学框架，但需要与其他学科结合才能构建完整的智能系统。</p>
 <hr>
 <blockquote>
-<p><strong>可视化演示</strong>：参见 <a href="../../code/visualizations/viz_bayesian_update.py">code/visualizations/viz_bayesian_update.py</a> — 贝叶斯后验更新的动态可视化</p>
+<p><strong>可视化演示</strong>：参见 📄 code/visualizations/viz_bayesian_update.py — 贝叶斯后验更新的动态可视化</p>
 </blockquote>
 <div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="03-calculus-and-optimization.html" class="related-item">
         <span class="r-num">03</span>
@@ -1125,11 +2023,28 @@
 <a href="#n5-2-因果推断与-AI" class="toc-link h3">5.2 因果推断与 AI</a>
 <a href="#n5-3-概率编程-Probabilistic-Programming" class="toc-link h3">5.3 概率编程（Probabilistic Programming）</a>
 <a href="#n5-4-扩散模型的理论深化" class="toc-link h3">5.4 扩散模型的理论深化</a>
-<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#n6-完整术语表-含上下文批注" class="toc-link h2">6. 完整术语表（含上下文批注）</a>
+<a href="#n6-1-概率论基础-Core-Probability" class="toc-link h3">6.1 概率论基础（Core Probability）</a>
+<a href="#n6-2-贝叶斯推断-Bayesian-Inference" class="toc-link h3">6.2 贝叶斯推断（Bayesian Inference）</a>
+<a href="#n6-3-数理统计-Mathematical-Statistics" class="toc-link h3">6.3 数理统计（Mathematical Statistics）</a>
+<a href="#n6-4-马尔可夫链与-MCMC-Markov-Chains-amp-Monte-Carlo" class="toc-link h3">6.4 马尔可夫链与 MCMC（Markov Chains &amp; Monte Carlo）</a>
+<a href="#n6-5-EM-算法-Expectation-Maximization" class="toc-link h3">6.5 EM 算法（Expectation-Maximization）</a>
+<a href="#n6-6-变分推断-Variational-Inference" class="toc-link h3">6.6 变分推断（Variational Inference）</a>
+<a href="#n6-7-生成模型与概率分布建模" class="toc-link h3">6.7 生成模型与概率分布建模</a>
+<a href="#n6-8-混合模型与序列模型" class="toc-link h3">6.8 混合模型与序列模型</a>
+<a href="#n6-9-概率图模型-Probabilistic-Graphical-Models" class="toc-link h3">6.9 概率图模型（Probabilistic Graphical Models）</a>
+<a href="#n6-10-因果推断-Causal-Inference" class="toc-link h3">6.10 因果推断（Causal Inference）</a>
+<a href="#n6-11-优化与梯度方法" class="toc-link h3">6.11 优化与梯度方法</a>
+<a href="#n6-12-强化学习与状态估计" class="toc-link h3">6.12 强化学习与状态估计</a>
+<a href="#n6-13-信息论中的概率概念" class="toc-link h3">6.13 信息论中的概率概念</a>
+<a href="#n6-14-前沿与高级专题" class="toc-link h3">6.14 前沿与高级专题</a>
+<a href="#n6-15-概率编程-Probabilistic-Programming" class="toc-link h3">6.15 概率编程（Probabilistic Programming）</a>
+<a href="#n6-16-关键人物与著作" class="toc-link h3">6.16 关键人物与著作</a>
+<a href="#n7-推荐阅读与参考文献" class="toc-link h2">7. 推荐阅读与参考文献</a>
 <a href="#教材" class="toc-link h3">教材</a>
 <a href="#关键论文" class="toc-link h3">关键论文</a>
 <a href="#在线资源" class="toc-link h3">在线资源</a>
-<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a>
+<a href="#n8-本篇在全书中的位置" class="toc-link h2">8. 本篇在全书中的位置</a>
 </aside>
 </div>
 <button class="back-top" id="backTop" aria-label="Back to top">&uarr;</button>
@@ -1161,11 +2076,28 @@
 <a href="#n5-2-因果推断与-AI" class="toc-link h3">5.2 因果推断与 AI</a>
 <a href="#n5-3-概率编程-Probabilistic-Programming" class="toc-link h3">5.3 概率编程（Probabilistic Programming）</a>
 <a href="#n5-4-扩散模型的理论深化" class="toc-link h3">5.4 扩散模型的理论深化</a>
-<a href="#n6-推荐阅读与参考文献" class="toc-link h2">6. 推荐阅读与参考文献</a>
+<a href="#n6-完整术语表-含上下文批注" class="toc-link h2">6. 完整术语表（含上下文批注）</a>
+<a href="#n6-1-概率论基础-Core-Probability" class="toc-link h3">6.1 概率论基础（Core Probability）</a>
+<a href="#n6-2-贝叶斯推断-Bayesian-Inference" class="toc-link h3">6.2 贝叶斯推断（Bayesian Inference）</a>
+<a href="#n6-3-数理统计-Mathematical-Statistics" class="toc-link h3">6.3 数理统计（Mathematical Statistics）</a>
+<a href="#n6-4-马尔可夫链与-MCMC-Markov-Chains-amp-Monte-Carlo" class="toc-link h3">6.4 马尔可夫链与 MCMC（Markov Chains &amp; Monte Carlo）</a>
+<a href="#n6-5-EM-算法-Expectation-Maximization" class="toc-link h3">6.5 EM 算法（Expectation-Maximization）</a>
+<a href="#n6-6-变分推断-Variational-Inference" class="toc-link h3">6.6 变分推断（Variational Inference）</a>
+<a href="#n6-7-生成模型与概率分布建模" class="toc-link h3">6.7 生成模型与概率分布建模</a>
+<a href="#n6-8-混合模型与序列模型" class="toc-link h3">6.8 混合模型与序列模型</a>
+<a href="#n6-9-概率图模型-Probabilistic-Graphical-Models" class="toc-link h3">6.9 概率图模型（Probabilistic Graphical Models）</a>
+<a href="#n6-10-因果推断-Causal-Inference" class="toc-link h3">6.10 因果推断（Causal Inference）</a>
+<a href="#n6-11-优化与梯度方法" class="toc-link h3">6.11 优化与梯度方法</a>
+<a href="#n6-12-强化学习与状态估计" class="toc-link h3">6.12 强化学习与状态估计</a>
+<a href="#n6-13-信息论中的概率概念" class="toc-link h3">6.13 信息论中的概率概念</a>
+<a href="#n6-14-前沿与高级专题" class="toc-link h3">6.14 前沿与高级专题</a>
+<a href="#n6-15-概率编程-Probabilistic-Programming" class="toc-link h3">6.15 概率编程（Probabilistic Programming）</a>
+<a href="#n6-16-关键人物与著作" class="toc-link h3">6.16 关键人物与著作</a>
+<a href="#n7-推荐阅读与参考文献" class="toc-link h2">7. 推荐阅读与参考文献</a>
 <a href="#教材" class="toc-link h3">教材</a>
 <a href="#关键论文" class="toc-link h3">关键论文</a>
 <a href="#在线资源" class="toc-link h3">在线资源</a>
-<a href="#n7-本篇在全书中的位置" class="toc-link h2">7. 本篇在全书中的位置</a></div></div>
+<a href="#n8-本篇在全书中的位置" class="toc-link h2">8. 本篇在全书中的位置</a></div></div>
 <script>
 // Initial sidebar state: collapse non-active groups
 const curGroup = document.querySelector('.sidebar-item.active')?.closest('.sidebar-group');
