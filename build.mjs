@@ -211,7 +211,7 @@ ${css}
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
-${afterHead}
+${afterHead.replace('加载中...', title)}
 <nav class="sidebar" id="sidebar">
   ${buildSidebarHTML(file)}
 </nav>
