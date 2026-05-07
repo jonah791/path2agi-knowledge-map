@@ -1143,7 +1143,16 @@ const ANN_TERMS = ["分布式认知","帕累托最优","可解释AI","负责任A
       for (const t of ANN_TERMS) {
         if (used.has(t)) continue;
         let p = 0;
-        while ((p = text.indexOf(t, p)) !== -1) { matches.push({t,p}); p += t.length; }
+        while ((p = text.indexOf(t, p)) !== -1) {
+          // Word boundary check: ensure term is not part of a longer word
+          var before = p > 0 ? text[p-1] : ' ';
+          var after = p + t.length < text.length ? text[p + t.length] : ' ';
+          var isWord = function(ch) { return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9'); };
+          if (!isWord(before) && !isWord(after)) {
+            matches.push({t,p});
+          }
+          p += t.length;
+        }
       }
       if (matches.length === 0) continue;
       matches.sort((a,b) => a.p - b.p || b.t.length - a.t.length);
