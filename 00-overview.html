@@ -1590,7 +1590,7 @@ const ANN_TERMS = ["Vision Transformer","FlashAttention","Transformer","Softmaxç
     annotateContent(document.querySelector('.content'));
     // Click handler: show popup (main + nested)
     document.addEventListener('click', function(e) {
-      const annt = e.target.closest('.annt, .annt-x');
+      const annt = e.target.closest('.annt');
       // Remove old popup
       document.querySelectorAll('.annt-popup').forEach(p => p.remove());
       if (!annt) return;
@@ -1600,16 +1600,7 @@ const ANN_TERMS = ["Vision Transformer","FlashAttention","Transformer","Softmaxç
       if (!def) return;
       const popup = document.createElement('div');
       popup.className = 'annt-popup visible';
-      // Nested annotations: wrap terms in popup content
-      let popupBody = def;
-      var escRE = nt.replace.bind(nt);
-      for (const nt of ANN_TERMS) {
-        if (nt === term || popupBody.indexOf(nt) === -1) continue;
-        var esc = nt.replace(new RegExp('[.*+?^${}()|[\]\\]', 'g'), '\$&');
-        var re2 = new RegExp(esc, 'g');
-        popupBody = popupBody.replace(re2, '<span class="annt-x" data-term="' + nt + '">' + nt + '</span>');
-      }
-      popup.innerHTML = '<span class="annt-close">âœ–</span><strong>' + term + '</strong><br>' + popupBody;
+      popup.innerHTML = '<span class="annt-close">âœ–</span><strong>' + term + '</strong><br>' + def;
       document.body.appendChild(popup);
       // Position near the term
       const rect = annt.getBoundingClientRect();
