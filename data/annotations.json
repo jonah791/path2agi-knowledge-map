@@ -447,8 +447,8 @@
     "g": "1"
   },
   "困惑度": {
-    "def": "Perplexity — 语言模型评估指标，模型对测试集感到的平均 '惊讶'程度。",
-    "g": "1,3"
+    "def": "Perplexity — PPL=exp(-(1/N)Σlog P(w_i))。评估语言模型的指标。信息论视角：模型对下一个token不确定性的平均度量。PPL越低越好。",
+    "g": "1"
   },
   "AUC": {
     "def": "Area Under the ROC Curve — 衡量二分类模型整体性能的指标。",
@@ -3516,6 +3516,318 @@
   },
   "自动微分": {
     "def": "Automatic Differentiation (AD) — 自动计算函数导数的技术。分为前向模式(同时计算值和导数)和反向模式(先正向再反向传播)。PyTorch/TensorFlow/JAX的核心功能。",
+    "g": "1"
+  },
+  "Shannon熵": {
+    "def": "Shannon Entropy — H(X)=-ΣP(x)logP(x)。Shannon(1948)定义。衡量随机变量不确定性的基本量。交叉熵损失和KL散度都建立在Shannon熵之上。",
+    "g": "1"
+  },
+  "微分熵": {
+    "def": "Differential Entropy — 连续随机变量的熵 h(X)=-∫p(x)log p(x)dx。高斯分布的微分熵为(1/2)log(2πeσ²)。变分推断中ELBO需要处理微分熵。",
+    "g": "1"
+  },
+  "前向KL": {
+    "def": "Forward KL Divergence — D_KL(P∥Q)=∫P(x)log(P(x)/Q(x))dx。在P下求期望。变分推断中最小化的KL形式，鼓励Q覆盖P的所有模式。",
+    "g": "1"
+  },
+  "反向KL": {
+    "def": "Reverse KL Divergence — D_KL(Q∥P)=∫Q(x)log(Q(x)/P(x))dx。在Q下求期望。VI中可处理的KL形式(EVB直接用)，但鼓励Q集中在P的一个模式上(mode-seeking)。",
+    "g": "1"
+  },
+  "Jensen-Shannon散度": {
+    "def": "Jensen-Shannon Divergence — JSD(P∥Q)=(1/2)D_KL(P∥M)+(1/2)D_KL(Q∥M)，M=(P+Q)/2。对称且有界[0,log2]。GAN的原始训练目标等价于JSD。",
+    "g": "1"
+  },
+  "f-散度": {
+    "def": "f-Divergence — D_f(P∥Q)=∫Q(x)f(P(x)/Q(x))dx。KL散度(f(t)=t log t)和JSD(f(t)=t log t-(t+1)log(t+1)/2)都是特例。GAN可解释为最小化特定f-散度。",
+    "g": "1"
+  },
+  "点互信息": {
+    "def": "Pointwise Mutual Information (PMI) — PMI(x,y)=log[P(x,y)/(P(x)P(y))]。衡量两个具体事件共现程度超过随机预期的对数比值。词共现分析的常用指标。",
+    "g": "1"
+  },
+  "条件互信息": {
+    "def": "Conditional Mutual Information — I(X;Y|Z)=H(X|Z)-H(X|Y,Z)。给定Z时X和Y共享的信息。因果发现中用于判断条件独立性。",
+    "g": "1"
+  },
+  "信息增益": {
+    "def": "Information Gain — I(Y;X)=H(Y)-H(Y|X)。特征X给标签Y带来的信息增量。决策树(C4.5/ID3)的节点分裂准则。",
+    "g": "1"
+  },
+  "信息增益比": {
+    "def": "Information Gain Ratio — IG Ratio = I(Y;X)/H(X)。信息增益的归一化版本。C4.5使用，避免偏好取值多的特征。",
+    "g": "1"
+  },
+  "数据处理不等式": {
+    "def": "Data Processing Inequality — 对马尔可夫链X→Y→Z有I(X;Y)≥I(X;Z)。后处理不增加信息量。特征工程的理论约束——变换不创造新信息。",
+    "g": "1"
+  },
+  "信源编码定理": {
+    "def": "Source Coding Theorem — Shannon第一定理。信源可被压缩的最小平均码长=熵H(X。无损压缩的下界。算术编码/Huffman编码可以达到或接近此界。",
+    "g": "1"
+  },
+  "信道编码定理": {
+    "def": "Channel Coding Theorem — Shannon第二定理。给定信道容量C，只要码率R《C，总存在编码使错误概率任意小。奠定了数字通信的理论基础。",
+    "g": "1"
+  },
+  "冗余度": {
+    "def": "Redundancy — R=D_KL(P||Q)用量描述模型分布Q对真实分布P的近似精度。率失真理论和信息瓶颈的核心量。",
+    "g": "1"
+  },
+  "率失真理论": {
+    "def": "Rate-Distortion Theory — 给定允许失真D，所需最小比特率R(D)。信息瓶颈方法可视为率失真的变体：压缩输入X但保留关于Y的信息。",
+    "g": "1"
+  },
+  "拟合阶段": {
+    "def": "Fit Phase — 信息瓶颈两阶段中的第一阶段：网络学习增I(X;T)(拟合训练标签)。对应训练初期损失迅速下降的阶段。",
+    "g": "1"
+  },
+  "压缩阶段": {
+    "def": "Compression Phase — 信息瓶颈两阶段中的第二阶段：网络减少I(X;T)(压缩输入)。标签无关的输入信息被丢弃。发生在训练后期。",
+    "g": "1"
+  },
+  "信息曲线": {
+    "def": "Information Curve — I(X;T)与I(T;Y)的贸易关系曲线。信息瓶颈理论的核心可视化工具。最优表征位于Pareto前沿。",
+    "g": "1"
+  },
+  "变分信息瓶颈": {
+    "def": "Variational Information Bottleneck (VIB) — Alemi et al.(2016)提出。用变分推断近似信息瓶颈目标 min I(X;T)-βI(T;Y)。在DL中可训练。",
+    "g": "1"
+  },
+  "VIB": {
+    "def": "Variational Information Bottleneck — 变分信息瓶颈。深度学习中的信息瓶颈实现版本，平衡表征的简洁性与预测能力。",
+    "g": "1"
+  },
+  "最大熵原理": {
+    "def": "Maximum Entropy Principle — Jaynes(1957)提出。在满足观测约束的所有分布中，选择熵最大的(最无偏)。Softmax是指数族分布的最大熵形式。",
+    "g": "1"
+  },
+  "指数族分布": {
+    "def": "Exponential Family — 形式为 p(x|θ)=h(x)exp(θ⋅T(x)-A(θ))的分布族。包括高斯/Beta/泊松等。最大熵原理导出指数族。",
+    "g": "1"
+  },
+  "负对数似然": {
+    "def": "Negative Log-Likelihood (NLL) — NLL=-Σlog p(y_i|x_i,θ)。分类的交叉熵损失本质上是对数似然的负数。最小化NLL等价于MLE。",
+    "g": "1"
+  },
+  "无信息先验": {
+    "def": "Noninformative Prior — 表示对参数\"一无所知\"的先验。Jeffreys先验是唯一在变换下不变的无信息先验。均匀先验在某些参数变换下不是无信息的。",
+    "g": "1"
+  },
+  "MINE": {
+    "def": "Mutual Information Neural Estimation — Belghazi et al.(2018)提出。用神经网络通过Donsker-Varadhan下界估计互信息。高维连续互信息估计的实用方法。",
+    "g": "1"
+  },
+  "Donsker-Varadhan下界": {
+    "def": "Donsker-Varadhan Representation — I(X;Y)=sup_{T∈F}[E_P[T]-log E_Q[e^T]]。将互信息表示为变分优化问题的上确界。MINE的目标函数基础。",
+    "g": "1"
+  },
+  "CPC": {
+    "def": "Contrastive Predictive Coding — van den Oord et al.(2018)提出。用InfoNCE损失做对比预测。语音/图像/文本中学习强大表示的自监督方法。",
+    "g": "1"
+  },
+  "SimCLR": {
+    "def": "SimCLR — Chen et al.(2020)提出。简单对比学习框架：同一图像两次数据增强为正例，不同图像为负例。最大化正例对的互信息下界。",
+    "g": "1"
+  },
+  "MoCo": {
+    "def": "Momentum Contrast — He et al.(2020)提出。用动量编码器维持大而一致的负例队列，改进对比学习效率。UniViLM等模型使用。",
+    "g": "1"
+  },
+  "BYOL": {
+    "def": "Bootstrap Your Own Latent — Grill et al.(2020)提出。不需要负例的对比学习方法。仅用正例对+预测器，隐式最大化互信息下界。",
+    "g": "1"
+  },
+  "mRMR": {
+    "def": "Maximum Relevance Minimum Redundancy — 特征选择方法：最大化特征与标签的互信息(Relevance)，最小化特征间的互信息(Redundancy)。",
+    "g": "1"
+  },
+  "暗知识": {
+    "def": "Dark Knowledge — Hinton(2015)在知识蒸馏论文中提出。教师模型的软标签(Softmax概率分布)包含比硬标签更丰富的类间关系信息。",
+    "g": "1"
+  },
+  "自编码器": {
+    "def": "Autoencoder — 无监督表示学习模型：编码器压缩输入→隐空间→解码器重建。隐空间的信息瓶颈理念：保留关键信息丢弃噪声。",
+    "g": "1"
+  },
+  "Flow模型": {
+    "def": "Normalizing Flow — 可逆标准化流。通过一系列可逆变换将简单分布(高斯)映射到复杂分布。精确对数似然计算，似然估计的下界为零。",
+    "g": "1"
+  },
+  "最优编码": {
+    "def": "Optimal Coding — 给定符号概率分布，寻找平均码长最小的编码方案。Huffman编码/算术编码是最优编码。Shannon信源编码定理给出了理论下界H(X)。",
+    "g": "1"
+  },
+  "编码理论": {
+    "def": "Coding Theory — 研究数据表示和错误校正的数学领域。信源编码(压缩)和信道编码(纠错)是两大分支。BPE在LLM中用于分词。",
+    "g": "1"
+  },
+  "信源编码": {
+    "def": "Source Coding — 数据压缩：用更少的比特表示数据。无损压缩(Huffman/算术编码)保留全部信息。有损压缩(JPEG/MP3)丢弃感知不重要的信息。",
+    "g": "1"
+  },
+  "信道编码": {
+    "def": "Channel Coding — 添加冗余使数据能在噪声信道中可靠传输。RS码/卷积码/LDPC码。与ML中Dropout/正则化有深刻联系。",
+    "g": "1"
+  },
+  "无损压缩": {
+    "def": "Lossless Compression — 编码后可以完全恢复原始数据。Huffman编码/算术编码/LZW。最大压缩比受限于信源熵H(X)。",
+    "g": "1"
+  },
+  "有损压缩": {
+    "def": "Lossy Compression — 编码后无法完全恢复但感知质量可接受。JPEG/MP3/视频编码。率失真理论是有损压缩的理论基础。",
+    "g": "1"
+  },
+  "BPE": {
+    "def": "Byte-Pair Encoding — 基于统计的子词分词算法。迭代合并频率最高的相邻符号对。GPT/BERT/LLaMA等LLM的标准分词方法。",
+    "g": "1"
+  },
+  "熵编码": {
+    "def": "Entropy Coding — 根据符号概率分配码长的编码方法。Huffman编码(整数码)和算术编码(分数码)是两种主要方法。达到Shannon熵的理论编码效率。",
+    "g": "1"
+  },
+  "完美保密性": {
+    "def": "Perfect Secrecy — 密文与明文统计独立：I(M;C)=0。Shannon证明一次性密码本可实现完美保密，但密钥长度=明文长度。差分隐私是其现代推广。",
+    "g": "1"
+  },
+  "高效编码假说": {
+    "def": "Efficient Coding Hypothesis — Barlow(1961)提出。感知系统的目标是高效编码感官输入——减少冗余，保留关键信息。预测编码是其计算实现。",
+    "g": "1"
+  },
+  "稀疏编码": {
+    "def": "Sparse Coding — 用少量活跃神经元的线性组合来表示输入。大脑V1皮层神经元对边缘的响应是稀疏的。Sparse Autoencoder是其在DL中的实现。",
+    "g": "1"
+  },
+  "Boltzmann熵": {
+    "def": "Boltzmann Entropy — S=k·log W。统计力学中熵的定义：W为微观状态数。与Shannon熵数学形式一致。自由能原理中的熵来自于此。",
+    "g": "1"
+  },
+  "von Neumann熵": {
+    "def": "von Neumann Entropy — S=-Tr(ρlogρ)。量子信息的熵定义，ρ为密度矩阵。量子信息论的基本度量。完美保密性的量子推广。",
+    "g": "1"
+  },
+  "Renyi熵": {
+    "def": "Renyi Entropy — H_α(P)=(1/(1-α))log(ΣP(x)^α)。Shannon熵(α→1)的推广。α=2是碰撞熵。差分隐私的分析中使用Renyi差分隐私(RDP)。",
+    "g": "1"
+  },
+  "因果熵": {
+    "def": "Causal Entropy — 衡量因果效应的信息论量。将互信息扩展到干预分布下。量化干预X时Y的不确定性减少。",
+    "g": "1"
+  },
+  "Granger因果性": {
+    "def": "Granger Causality — 如果引入X的过去值能显著改进Y的预测，则X Granger-causes Y。基于预测方差的信息论检验。",
+    "g": "1"
+  },
+  "量子信息论": {
+    "def": "Quantum Information Theory — 经典信息论在量子力学中的推广。von Neumann熵替代Shannon熵。量子纠缠提供超越经典的信息处理能力。",
+    "g": "1"
+  },
+  "量子熵": {
+    "def": "Quantum Entropy (von Neumann Entropy) — S(ρ)=-Tr(ρlogρ)。量子态的熵。纯态熵为0，混合态熵>0。衡量系统的量子不确定性和纠缠程度。",
+    "g": "1"
+  },
+  "量子互信息": {
+    "def": "Quantum Mutual Information — I(A;B)=S(A)+S(B)-S(AB)。量子系统中A和B的总关联(经典+量子)。量子纠错的理论基础。",
+    "g": "1"
+  },
+  "量子纠缠": {
+    "def": "Quantum Entanglement — 量子系统间非经典的关联。纠缠态的熵大于子系统熵之和。量子通信和量子计算的核心资源。",
+    "g": "1"
+  },
+  "Scaling Laws": {
+    "def": "Scaling Laws — Kaplan et al.(2020)发现：模型性能与参数量/数据量/计算量呈幂律关系。损失随规模增大可预测下降。信息论解释：更多参数捕获更多数据结构。",
+    "g": "1"
+  },
+  "幻觉问题": {
+    "def": "Hallucination — LLM生成看似合理但事实错误的内容。信息论视角：模型输出分布与其实际\"知识\"分布的KL散度过大。训练/推理的不匹配。",
+    "g": "1"
+  },
+  "数据质量": {
+    "def": "Data Quality — 训练数据的纯净度、覆盖率和信息密度。信息论视角：高信息密度数据提供更多互信息/样本。数据质量比单纯数量更重要(Scaling Laws的修正)。",
+    "g": "1"
+  },
+  "信息密度": {
+    "def": "Information Density — 每个token(或样本)所含的平均信息量I(X;Y)。高信息密度数据更高效。预训练语料的去重和过滤本质是提升信息密度。",
+    "g": "1"
+  },
+  "Boltzmann": {
+    "def": "Ludwig Boltzmann (1844-1906) — 统计力学奠基人。Boltzmann熵S=k log W。自由能原理的物理源头。Shannon熵的物理前身。",
+    "g": "1"
+  },
+  "Hartley": {
+    "def": "Ralph Hartley (1888-1970) — 信息量度量先驱。Hartley信息量 I=log N(N为消息数)。Shannon熵的直接前身。",
+    "g": "1"
+  },
+  "Weaver": {
+    "def": "Warren Weaver (1894-1978) — 与Shannon合著《通信的数学理论》(1949)。将信息论推广到语义层面(Weaver三层次模型)。",
+    "g": "1"
+  },
+  "Kullback": {
+    "def": "Solomon Kullback (1907-1994) — 与Leibler提出KL散度(Kullback-Leibler Divergence)。信息论在统计假设检验中的应用。",
+    "g": "1"
+  },
+  "Leibler": {
+    "def": "Richard Leibler (1914-2003) — 与Kullback提出KL散度。信息论和编码理论领域先驱。",
+    "g": "1"
+  },
+  "Renyi": {
+    "def": "Alfred Renyi (1921-1970) — Renyi熵(Shannon熵的推广)提出者。概率论领域的Renyi表示定理和Renyi图模型。",
+    "g": "1"
+  },
+  "Akaike": {
+    "def": "Hirotugu Akaike (1927-2009) — AIC(Akaike Information Criterion)提出者。基于KL散度的模型选择准则。赤池信息量是现代统计推断的基石。",
+    "g": "1"
+  },
+  "Cover": {
+    "def": "Thomas Cover (1938-2012) — 与Thomas合著《信息论基础》(Elements of Information Theory)权威教材。竞赛理论、Portfolio理论也有贡献。",
+    "g": "1"
+  },
+  "Thomas": {
+    "def": "Joy Thomas — 与Cover合著《信息论基础》。主要研究方向包括信息论、数据结构、网络信息论。",
+    "g": "1"
+  },
+  "Tishby": {
+    "def": "Naftali Tishby (1952-2021) — 信息瓶颈理论(1999)提出者。将互信息和率失真引入表征学习。DL的信息瓶颈分析。",
+    "g": "1"
+  },
+  "Pereira": {
+    "def": "Fernando Pereira — 信息瓶颈理论共同提出者(与Tishby&Bialek)。NLP领域重要研究者。Google Research。",
+    "g": "1"
+  },
+  "Bialek": {
+    "def": "William Bialek — 信息瓶颈理论共同提出者(与Tishby&Pereira)。理论神经科学家。研究生物系统中的信息处理。",
+    "g": "1"
+  },
+  "Zaslavsky": {
+    "def": "Noga Zaslavsky — 信息瓶颈理论在DL中的研究者。信息瓶颈拟合-压缩两阶段现象的深入分析。",
+    "g": "1"
+  },
+  "van den Oord": {
+    "def": "Aaron van den Oord — CPC/InfoNCE提出者。WaveNet(语音生成)/VQ-VAE/对比学习的重要推动者。DeepMind研究员。",
+    "g": "1"
+  },
+  "Alemi": {
+    "def": "Alexander Alemi — 变分信息瓶颈(VIB,2016)论文第一作者。将信息瓶颈引入深度学习的可训练形式。",
+    "g": "1"
+  },
+  "Belghazi": {
+    "def": "Mohamed Ishmael Belghazi — MINE(互信息神经估计,2018)论文第一作者。用Donsker-Varadhan下界估计高维互信息。",
+    "g": "1"
+  },
+  "Shwartz-Ziv": {
+    "def": "Ravid Shwartz-Ziv — 信息瓶颈在DL中的试验研究者(与Tishby)。验证了深度网络训练中拟合-压缩两阶段现象。",
+    "g": "1"
+  },
+  "Saxe": {
+    "def": "Andrew Saxe — 对信息瓶颈理论提出挑战的研究者。证明拟合-压缩两阶段可能是饱和激活函数的数学现象。深层学习的动力学分析。",
+    "g": "1"
+  },
+  "InfoNCE": {
+    "def": "InfoNCE Loss — van den Oord et al.(2018)提出。对比学习的标准损失：-log[exp(sim(q,k+)/t)/Σexp(sim(q,ki)/t)]。最大化正例对互信息的下界。",
+    "g": "1"
+  },
+  "MacKay": {
+    "def": "David MacKay (1967-2016) — 剑桥大学教授。著《Information Theory, Inference, and Learning Algorithms》(2003)将信息论与贝叶斯推断统一。贝叶斯深度学习先驱。",
     "g": "1"
   }
 }
