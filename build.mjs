@@ -1,6 +1,11 @@
 import { readFileSync, writeFileSync, readdirSync } from 'fs';
 import { marked } from 'marked';
 
+// Load annotations
+const annotations = JSON.parse(readFileSync('data/annotations.json', 'utf-8'));
+// Sort by length descending so longer terms match first
+const annTerms = Object.keys(annotations).sort((a, b) => b.length - a.length);
+
 const TOPICS = [
   [1,'概率论与数理统计','01-probability-and-statistics.md',1],[2,'线性代数','02-linear-algebra.md',1],
   [3,'微积分与优化理论','03-calculus-and-optimization.md',1],[4,'信息论','04-information-theory.md',1],
@@ -300,6 +305,88 @@ document.addEventListener('click', function(e) {
     document.addEventListener('DOMContentLoaded', renderMath);
   } else {
     renderMath();
+  }
+})();
+</script>
+<script>
+// Term annotations
+const ANN = ${JSON.stringify(annotations)};
+const ANN_TERMS = ${JSON.stringify(annTerms)};
+(function() {
+  function annotateContent(root) {
+    if (!root) return;
+    const treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    const textNodes = [];
+    while (treeWalker.nextNode()) textNodes.push(treeWalker.currentNode);
+    for (const node of textNodes) {
+      const text = node.textContent;
+      let matched = false;
+      for (const term of ANN_TERMS) {
+        const idx = text.indexOf(term);
+        if (idx === -1) continue;
+        const before = text.slice(0, idx);
+        const after = text.slice(idx + term.length);
+        const span = document.createElement('span');
+        span.className = 'annt';
+        span.textContent = term;
+        span.dataset.term = term;
+        const parent = node.parentNode;
+        const frag = document.createDocumentFragment();
+        if (before) frag.appendChild(document.createTextNode(before));
+        frag.appendChild(span);
+        if (after) {
+          const rest = document.createTextNode(after);
+          frag.appendChild(rest);
+          // Re-process the rest for more terms
+          setTimeout(() => annotateContent(rest.parentNode), 0);
+        }
+        parent.replaceChild(frag, node);
+        matched = true;
+        break;
+      }
+      if (matched) break;
+    }
+  }
+
+  function initAnnotation() {
+    annotateContent(document.querySelector('.content'));
+    // Click handler: show popup
+    document.addEventListener('click', function(e) {
+      const annt = e.target.closest('.annt');
+      // Remove old popup
+      document.querySelectorAll('.annt-popup').forEach(p => p.remove());
+      if (!annt) return;
+      e.preventDefault();
+      const term = annt.dataset.term;
+      const def = ANN[term];
+      if (!def) return;
+      const popup = document.createElement('div');
+      popup.className = 'annt-popup visible';
+      popup.innerHTML = '<span class="annt-close">\u2716</span><strong>' + term + '</strong><br>' + def;
+      document.body.appendChild(popup);
+      // Position near the term
+      const rect = annt.getBoundingClientRect();
+      let left = rect.left;
+      let top = rect.bottom + 6;
+      if (left + 420 > window.innerWidth) left = Math.max(4, window.innerWidth - 424);
+      if (top + 200 > window.innerHeight) top = rect.top - 6 - popup.offsetHeight;
+      popup.style.left = left + 'px';
+      popup.style.top = top + 'px';
+      // Close on click close button or outside
+      popup.querySelector('.annt-close').onclick = () => popup.remove();
+    });
+    // Close popup on click outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.annt') && !e.target.closest('.annt-popup')) {
+        document.querySelectorAll('.annt-popup').forEach(p => p.remove());
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnnotation);
+  } else {
+    initAnnotation();
   }
 })();
 </script>

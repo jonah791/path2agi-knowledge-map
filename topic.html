@@ -162,6 +162,34 @@
   }
   .content .katex { font-size: 1.05em; }
   .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
+  /* Annotation popup */
+  .annt {
+    color: var(--accent2); cursor: pointer;
+    border-bottom: 1px dashed var(--accent2);
+    transition: .15s; position: relative;
+  }
+  .annt:hover { color: #fff; border-bottom-color: #fff; }
+  .annt-popup {
+    display: none;
+    position: fixed;
+    max-width: 420px;
+    background: #1a1a2e;
+    border: 1px solid var(--accent2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    pointer-events: auto;
+  }
+  .annt-popup.visible { display: block; }
+  .annt-popup .annt-close {
+    float: right; cursor: pointer; color: var(--text-dimmer);
+    font-size: 16px; margin-left: 8px;
+  }
+  .annt-popup .annt-close:hover { color: #fff; }
   .toc-sidebar::-webkit-scrollbar { width: 3px; }
   .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
