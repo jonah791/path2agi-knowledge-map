@@ -2073,5 +2073,513 @@
   "算法透明度": {
     "def": "Algorithmic Transparency — AI决策过程应公开可审的原则。",
     "g": "6"
+  },
+  "概率分布": {
+    "def": "Probability Distribution — 描述随机变量取各值概率的函数，分为离散型(概率质量函数)和连续型(概率密度函数)，生成模型的目标是学习数据分布。",
+    "g": "1"
+  },
+  "联合分布": {
+    "def": "Joint Distribution — 描述多随机变量同时取值的概率 P(X1,X2,...,Xn)。概率图模型本质上是将高维联合分布分解为局部条件分布的乘积。",
+    "g": "1"
+  },
+  "条件概率": {
+    "def": "Conditional Probability — 已知某事件发生下另一事件的概率 P(A|B)=P(A∩B)/P(B)。RNN/Transformer的自回归生成 P(x_t|x<t) 本质上是不断计算条件概率。",
+    "g": "1"
+  },
+  "正态分布": {
+    "def": "Normal Distribution — 自然界最常见的分布，由高斯(Gauss)系统研究。机器学习中权重初始化、高斯过程回归、VAE隐变量先验均使用高斯分布。",
+    "g": "1"
+  },
+  "二项分布": {
+    "def": "Binomial Distribution — n次独立伯努利试验的成功次数分布。A/B测试的点击率建模、贝叶斯硬币抛掷问题直接使用二项分布。",
+    "g": "1"
+  },
+  "测度论": {
+    "def": "Measure Theory — Kolmogorov(1933)用测度论严格定义概率三公理，使概率论成为数学分支。为变分推断中的期望计算和扩散模型连续时间极限提供严格工具。",
+    "g": "1"
+  },
+  "公理化概率": {
+    "def": "Axiomatic Probability — Kolmogorov三公理：非负性、规范性、可列可加性。现代概率计算都建立在这三条公理之上。",
+    "g": "1"
+  },
+  "转移矩阵": {
+    "def": "Transition Matrix — 马尔可夫链中描述状态间一步转移概率的矩阵 T_ij=P(X_(t+1)=j|X_t=i)，每行之和为1。扩散模型的前向过程由转移矩阵完全描述。",
+    "g": "1"
+  },
+  "蒙特卡洛方法": {
+    "def": "Monte Carlo Method — Ulam与von Neumann(1946)发明，用随机采样计算积分/期望。MCMC和扩散模型中的采样都是蒙特卡洛的现代形式。",
+    "g": "1"
+  },
+  "证据": {
+    "def": "Evidence / Marginal Likelihood — 边际似然 P(D)=∫P(D|θ)P(θ)dθ。分母起归一化作用，也是贝叶斯模型比较(Bayes Factor)的关键量。",
+    "g": "1"
+  },
+  "Beta-Bernoulli共轭": {
+    "def": "Beta-Bernoulli Conjugacy — Beta先验+Bernoulli似然→Beta后验。先验 Beta(α,β)，观测k次成功→后验 Beta(α+k,β+n-k)。硬币抛掷的标准建模。",
+    "g": "1"
+  },
+  "Normal-Normal共轭": {
+    "def": "Normal-Normal Conjugacy — 正态先验+正态似然(已知方差)→正态后验。后验均值是先验与样本均值的加权平均。高斯过程回归的数学基础。",
+    "g": "1"
+  },
+  "Dirichlet-Multinomial共轭": {
+    "def": "Dirichlet-Multinomial Conjugacy — Dirichlet先验+Multinomial似然→Dirichlet后验。Beta的多维推广。LDA主题模型建立在此共轭对上。",
+    "g": "1"
+  },
+  "贝叶斯神经网络": {
+    "def": "Bayesian Neural Network (BNN) — 对网络权重赋予概率分布而非点估计。可量化预测不确定性。Blundell(2015)的Bayes by Backprop使其训练可行。",
+    "g": "1"
+  },
+  "贝叶斯优化": {
+    "def": "Bayesian Optimization — 用高斯过程代理模型，通过贝叶斯推断选择下一个评估点。平衡探索(高不确定性)与利用(已知最优)。AutoML核心技术。",
+    "g": "1"
+  },
+  "非参数贝叶斯方法": {
+    "def": "Nonparametric Bayesian — 模型复杂度随数据量自动增长。高斯过程、Dirichlet过程(聚类数未知的混合模型)为代表。",
+    "g": "1"
+  },
+  "神经网络高斯过程": {
+    "def": "Neural Network Gaussian Process (NNGP) — Neal(1996)发现无限宽单隐层网络等价于高斯过程。Lee et al.(2018)推广到深度网络，为DL提供概率论视角。",
+    "g": "1"
+  },
+  "频率学派": {
+    "def": "Frequentist — 将概率定义为重复试验的长期频率。MLE、假设检验、p值都是频率学派产物。参数是固定未知常量(非随机变量)，与贝叶斯学派根本分歧。",
+    "g": "1"
+  },
+  "Fisher信息": {
+    "def": "Fisher Information — I(θ)=E[(∂log p/∂θ)²]，衡量数据对参数的信息量。Fisher信息矩阵在自然梯度优化中直接使用。Cramer-Rao下界 = 1/I(θ)。",
+    "g": "1"
+  },
+  "Cramer-Rao下界": {
+    "def": "Cramer-Rao Bound — 无偏估计量的方差下限 = 1/I(θ)。Fisher信息越大估计越精确，为参数估计设立理论天花板。",
+    "g": "1"
+  },
+  "零假设": {
+    "def": "Null Hypothesis (H0) — 待否定的假设(通常为无差异)。不能接受H0，只能拒绝或不拒绝。A/B测试中H0为两组效果相同。",
+    "g": "1"
+  },
+  "备择假设": {
+    "def": "Alternative Hypothesis (H1) — 与零假设对立的假设。拒绝H0则接受H1。",
+    "g": "1"
+  },
+  "检验统计量": {
+    "def": "Test Statistic — 从数据计算的用于假设检验的量。不同检验有不同统计量：t检验用t值、卡方检验用χ²值。",
+    "g": "1"
+  },
+  "t统计量": {
+    "def": "t-statistic — 小样本均值比较的检验统计量 t=(x̄-μ0)/(s/√n)。Student t分布由Gosset以Student笔名发表。AI实验中比较两模型性能。",
+    "g": "1"
+  },
+  "卡方统计量": {
+    "def": "Chi-squared Statistic — χ² = Σ(Oi-Ei)²/Ei。Karl Pearson发展。用于检验分类变量独立性、分布拟合度。",
+    "g": "1"
+  },
+  "贝叶斯可信区间": {
+    "def": "Credible Interval — 贝叶斯学派不确定性报告：参数落在区间内的概率为95%(后验分位数)。比置信区间更直观，常被非统计人员误用为置信区间。",
+    "g": "1"
+  },
+  "模型选择": {
+    "def": "Model Selection — 在多个候选模型中选择最优。AIC(2k-2lnL̂)、BIC(k ln n-2lnL̂)、交叉验证是三大主流方法。贝叶斯学派用边际似然(Bayes Factor)。",
+    "g": "1"
+  },
+  "AIC": {
+    "def": "Akaike Information Criterion — 模型选择准则 AIC=2k-2lnL̂。平衡拟合度与复杂度(参数数k)。由赤池弘次(1974)提出。",
+    "g": "1"
+  },
+  "BIC": {
+    "def": "Bayesian Information Criterion — 模型选择准则 BIC=k ln n-2lnL̂。对复杂度惩罚比AIC更强(样本量大时)。Schwarz(1978)提出。",
+    "g": "1"
+  },
+  "k-fold交叉验证": {
+    "def": "k-fold Cross-Validation — 将数据分为k折，每轮流用k-1折训练、1折验证。k=5或10常用。比留一法计算更高效。",
+    "g": "1"
+  },
+  "留一法": {
+    "def": "Leave-One-Out (LOO) — k-fold交叉验证的特例(k=n)。偏差小但方差大、计算成本高。在小样本场景中常用。",
+    "g": "1"
+  },
+  "双样本比例检验": {
+    "def": "Two-Sample Proportion Test — 比较两组比例是否显著不同(如A/B测试点击率)。z统计量基于两组比例的差值与标准误。",
+    "g": "1"
+  },
+  "校准": {
+    "def": "Calibration — 模型输出置信度是否与实际准确率一致。若预测90%的样本中实际接近90%正确，则校准良好。可靠性图(Reliability Diagram)可视化。",
+    "g": "1"
+  },
+  "认知不确定性": {
+    "def": "Epistemic Uncertainty — 因知识不足导致的不确定性，可增加数据减少。贝叶斯网络后验宽度直接反映。安全关键场景必须量化。",
+    "g": "1"
+  },
+  "偶然不确定性": {
+    "def": "Aleatoric Uncertainty — 数据固有噪声的不确定性，无法通过增加数据消除。异方差模型直接建模输入依赖的噪声方差。",
+    "g": "1"
+  },
+  "分布外检测": {
+    "def": "OOD Detection — 检测输入是否明显偏离训练分布。安全场景必备。概率模型天然适合(计算测试点似然或置信度)。",
+    "g": "1"
+  },
+  "EM算法": {
+    "def": "Expectation-Maximization — Dempster,Laird&Rubin(1977)集大成。处理含隐变量模型的MLE，交替E步与M步直至收敛。GMM、HMM、LDA都依赖EM。",
+    "g": "1"
+  },
+  "E步": {
+    "def": "Expectation Step — EM算法的第一步。固定当前参数θ^(t)，计算隐变量后验的期望，构造Q函数 Q(θ|θ^(t))=E[log P(D,Z|θ)]。",
+    "g": "1"
+  },
+  "M步": {
+    "def": "Maximization Step — EM算法的第二步。最大化Q函数更新参数 θ^(t+1)=argmax Q(θ|θ^(t))。保证似然单调递增。",
+    "g": "1"
+  },
+  "对数似然": {
+    "def": "Log-Likelihood — ℓ(θ)=Σ_i log P(x_i|θ)。将概率乘积转为求和，简化优化。EM算法保证每次迭代不降低对数似然(单调性)，但仅局部最优。",
+    "g": "1"
+  },
+  "Q函数": {
+    "def": "Q-Function — EM算法的E步构造的期望对数似然 Q(θ|θ^(t))=E_Z|D,θ^(t)[log P(D,Z|θ)]。VAE的训练可理解为优化类似的Q函数。",
+    "g": "1"
+  },
+  "Metropolis算法": {
+    "def": "Metropolis Algorithm — Metropolis et al.(1953)提出，MCMC首个实用算法。从提议分布生成候选点，以接受概率决定采纳。最初用于物理模拟。",
+    "g": "1"
+  },
+  "Metropolis-Hastings算法": {
+    "def": "Metropolis-Hastings — Hastings(1970)推广Metropolis算法，允许非对称提议分布。公式加入修正项 q(θ^(t)|θ')/q(θ'|θ^(t))。极大扩展MCMC适用范围。",
+    "g": "1"
+  },
+  "Gibbs采样": {
+    "def": "Gibbs Sampling — Geman & Geman(1984)提出。MH特例：每次更新一个维度，从条件分布采样。接受率恒为1。将贝叶斯方法引入计算机视觉。",
+    "g": "1"
+  },
+  "随机梯度Langevin动力学": {
+    "def": "Stochastic Gradient Langevin Dynamics (SGLD) — Welling&Teh(2011)将MCMC与SGD结合，在梯度更新中加入高斯噪声。使贝叶斯推断可扩展至大数据集。",
+    "g": "1"
+  },
+  "SGHMC": {
+    "def": "Stochastic Gradient Hamiltonian Monte Carlo — Chen et al.(2014)在SGLD基础上引入动量，用Hamiltonian动力学高效采样，减少随机梯度噪声误差。",
+    "g": "1"
+  },
+  "摊销推断": {
+    "def": "Amortized Inference — 学习一个编码器网络来参数化 q_φ(z|x)，所有数据点共享参数。不再每点单独推断。VAE的核心创新。",
+    "g": "1"
+  },
+  "证据下界": {
+    "def": "Evidence Lower Bound (ELBO) — ELBO = E_q[log p(x|z)] - D_KL(q(z)||p(z))。最大化ELBO等价于最小化D_KL(q||p)。VAE、扩散模型变分界的核心目标。",
+    "g": "1"
+  },
+  "变分自编码器": {
+    "def": "Variational Autoencoder (VAE) — Kingma&Welling(2014)提出，将摊销推断与DL结合。编码器推断q(z|x)、解码器生成p(x|z)。核心创新是重参数化技巧。",
+    "g": "1"
+  },
+  "自回归生成模型": {
+    "def": "Autoregressive Model — P(x)=Π_t P(x_t|x_<t)。GPT系列的基础。本质是不断计算条件概率的马尔可夫链，自然支持序列数据。",
+    "g": "1"
+  },
+  "能量模型": {
+    "def": "Energy-Based Model (EBM) — P(x)=exp(-E(x))/Z。通过能量函数定义未归一化分布。配分函数Z的计算是核心难点。玻尔兹曼机是EBM代表。",
+    "g": "1"
+  },
+  "受限玻尔兹曼机": {
+    "def": "Restricted Boltzmann Machine (RBM) — 玻尔兹曼机简化版：仅可见层和隐层，层内无连接。训练效率大幅提升。曾是深度信念网络(DBN)的构建块。",
+    "g": "1"
+  },
+  "知识蒸馏": {
+    "def": "Knowledge Distillation — Hinton et al.(2015)提出。用KL散度衡量学生和教师模型输出分布差异，学生学会软标签而非硬类别，蒸馏了概率信息。",
+    "g": "1"
+  },
+  "隐狄利克雷分配": {
+    "def": "Latent Dirichlet Allocation (LDA) — Blei,Ng&Jordan(2003)提出。三层贝叶斯模型(文档→主题→词)，Dirichlet-Multinomial共轭是数学基础。NLP主题模型里程碑。",
+    "g": "1"
+  },
+  "高斯混合模型": {
+    "def": "Gaussian Mixture Model (GMM) — 假设数据由K个高斯分布混合生成。EM算法训练，隐变量是每个点的类别归属。经典软聚类方法。",
+    "g": "1"
+  },
+  "隐马尔可夫模型": {
+    "def": "Hidden Markov Model (HMM) — 带隐状态的马尔可夫链。Baum-Welch算法(EM的HMM特例)训练。曾是语音识别和序列标注的标准模型。",
+    "g": "1"
+  },
+  "Baum-Welch算法": {
+    "def": "Baum-Welch Algorithm — EM在HMM上的实现。E步用前向-后向算法计算隐状态后验，M步更新转移/发射参数。",
+    "g": "1"
+  },
+  "CRF": {
+    "def": "Conditional Random Field — Lafferty et al.(2001)提出。判别式无向图模型，直接建模P(Y|X)。NLP序列标注的标准工具。",
+    "g": "1"
+  },
+  "BiLSTM-CRF": {
+    "def": "BiLSTM-CRF — CRF与DL的经典结合：BiLSTM提取文本特征，CRF层建模标签间转移约束。曾是NER/词性标注的标准架构。",
+    "g": "1"
+  },
+  "MC Dropout": {
+    "def": "Monte Carlo Dropout — Gal&Ghahramani(2015)证明：训练时Dropout+测试时多次前向传播=贝叶斯近似推断。深度网络不确定性估计的免费午餐。",
+    "g": "1"
+  },
+  "概率PCA": {
+    "def": "Probabilistic PCA — Tipping&Bishop(1999)将PCA重新解释为概率模型 x=Wz+ε。可处理缺失数据、可用EM求解、可扩展到贝叶斯PCA。",
+    "g": "1"
+  },
+  "信念传播": {
+    "def": "Belief Propagation — Pearl(1988)提出。树结构图上的精确推断算法，通过节点间传递消息实现。一般图需用近似(Loopy BP)。",
+    "g": "1"
+  },
+  "马尔可夫随机场": {
+    "def": "Markov Random Field (MRF) — 无向图表示变量间对称依赖。P(X)=(1/Z)Π_c ψ_c(X_c)。用于图像分割、语义标注。",
+    "g": "1"
+  },
+  "团": {
+    "def": "Clique — MRF中完全连接的子图。势函数定义在团上，团大小决定计算复杂度。最大团的规模是MRF推理的核心约束。",
+    "g": "1"
+  },
+  "势函数": {
+    "def": "Potential Function — MRF中定义在团上的非负函数，编码团内变量间的偏好配置。与贝叶斯网络CPD不同，势函数无需满足概率和为1。",
+    "g": "1"
+  },
+  "结构化预测": {
+    "def": "Structured Prediction — 输出具有结构化依赖(序列/树/图)的预测问题。CRF是标准模型，优势是直接建模标签间依赖。",
+    "g": "1"
+  },
+  "do-算子": {
+    "def": "do-operator — P(Y|do(X=x))表示主动干预X设为x时Y的分布，区别于被动观测P(Y|X=x)。因果推断的核心创新，将关联提升至干预。",
+    "g": "1"
+  },
+  "因果层级": {
+    "def": "Causal Hierarchy — Pearl的三层框架：(1)关联(看到什么)，(2)干预(做了什么)，(3)反事实(如果怎样)。当前DL主要在第一层。",
+    "g": "1"
+  },
+  "关联": {
+    "def": "Association — P(y|x)，看到x时y的概率。深度学习核心能力。相关性不等于因果性——关联只是因果层级的第一层。",
+    "g": "1"
+  },
+  "干预": {
+    "def": "Intervention — P(y|do(x))，主动改变x时y的分布。需要因果模型。随机实验是干预推断的黄金标准。",
+    "g": "1"
+  },
+  "结构因果模型": {
+    "def": "Structural Causal Model (SCM) — Pearl定义的因果建模框架：外生变量+结构方程。统一表达因果图、干预和反事实。",
+    "g": "1"
+  },
+  "自然梯度": {
+    "def": "Natural Gradient — 考虑参数空间几何(Fisher信息矩阵作为Riemannian度量)的梯度。收敛比普通梯度更快，特别是概率模型。Amari(1998)推广。",
+    "g": "1"
+  },
+  "随机梯度优化": {
+    "def": "Stochastic Gradient Optimization — 用随机minibatch梯度近似全梯度。使大规模ML训练可行。SGLD是其与MCMC的结合形式。",
+    "g": "1"
+  },
+  "马尔可夫决策过程": {
+    "def": "Markov Decision Process (MDP) — RL数学框架：(S,A,P,R,γ)。满足马尔可夫性质。几乎所有RL算法都在求解MDP。",
+    "g": "1"
+  },
+  "部分可观测问题": {
+    "def": "Partially Observable MDP (POMDP) — 环境状态不能完全观测。自动驾驶、对话系统都是POMDP。需贝叶斯滤波进行状态估计。",
+    "g": "1"
+  },
+  "状态估计": {
+    "def": "State Estimation — 从部分观测推断系统隐藏状态。卡尔曼滤波最经典。概率论视角下即贝叶斯推断在动态系统中的应用：P(X_t|Y_1:t)。",
+    "g": "1"
+  },
+  "最优传输": {
+    "def": "Optimal Transport — 寻找两个分布间的最优映射。Wasserstein距离定义于此。WGAN、扩散模型采样过程与最优传输深刻联系。",
+    "g": "1"
+  },
+  "随机微分方程": {
+    "def": "Stochastic Differential Equation (SDE) — 含随机项的微分方程。Song et al.(2021)证明扩散模型在连续极限下可表示为SDE。概率流的数学描述。",
+    "g": "1"
+  },
+  "贝叶斯脑假说": {
+    "def": "Bayesian Brain Hypothesis — 大脑本质上是贝叶斯推断机器：先验+感觉数据→后验。提供认知科学与AI概率建模之间的概念桥梁。",
+    "g": "1"
+  },
+  "拉普拉斯平滑": {
+    "def": "Laplace Smoothing — P(x_i)=(count_i+α)/(N+αK)。Laplace提出，防止零概率。本质是均匀伪计数先验。朴素贝叶斯、n-gram语言模型中广泛使用。",
+    "g": "1"
+  },
+  "卡尔曼滤波": {
+    "def": "Kalman Filter — 线性高斯系统最优状态估计。本质是序贯贝叶斯推断：预测(先验)→观测更新→后验。自动驾驶轨迹跟踪、机器人定位核心算法。",
+    "g": "1"
+  },
+  "贝叶斯决策": {
+    "def": "Bayesian Decision Theory — 不确定性下最优决策。定义损失L(θ,a)，选择期望损失最小的行动。贝叶斯最优分类器是理论上界。",
+    "g": "1"
+  },
+  "核密度估计": {
+    "def": "Kernel Density Estimation (KDE) — 非参数密度估计。在每个数据点放置核函数(如高斯核)，叠加得密度估计。与高斯过程、Parzen窗口密切联系。",
+    "g": "1"
+  },
+  "Gibbs不等式": {
+    "def": "Gibbs Inequality — D_KL(P||Q)≥0，等号成立当P=Q。KL散度非负性的证明，变分推断中ELBO≤log P(x)的理论保证。",
+    "g": "1"
+  },
+  "信息损失": {
+    "def": "Information Loss — KL散度可解释为用Q近似P时平均损失的信息量。在变分推断中即D_KL(q(z)||p(z|x))的含义。",
+    "g": "1"
+  },
+  "DDPM": {
+    "def": "Denoising Diffusion Probabilistic Models — Ho et al.(2020)提出。用ELBO推导简化MSE损失训练。当代文本到图像/视频系统的基石。",
+    "g": "1"
+  },
+  "概率编程": {
+    "def": "Probabilistic Programming — 用编程语言定义概率模型，由框架自动推断(采样或变分)。降低贝叶斯建模门槛。Stan/Pyro/NumPyro为代表。",
+    "g": "1"
+  },
+  "Stan": {
+    "def": "Stan — 概率编程语言代表。使用HMC(Hamiltonian Monte Carlo)高效采样。广泛应用于贝叶斯统计建模。",
+    "g": "1"
+  },
+  "Pyro": {
+    "def": "Pyro — Uber AI基于PyTorch开发的概率编程框架。支持变分推断和MCMC。深度概率建模的主要工具。",
+    "g": "1"
+  },
+  "NumPyro": {
+    "def": "NumPyro — Pyro基于JAX的重写。利用JIT编译和GPU加速，比Pyro快数倍。当前活跃发展的概率编程框架。",
+    "g": "1"
+  },
+  "Pascal": {
+    "def": "Blaise Pascal (1623-1662) — 与Fermat通信解决点数问题，概率论诞生标志。提出Pascal三角(二项式系数)。",
+    "g": "1"
+  },
+  "Fermat": {
+    "def": "Pierre de Fermat (1607-1665) — 与Pascal通信奠定组合概率基础。费马大定理更为世人所知。",
+    "g": "1"
+  },
+  "Jacob Bernoulli": {
+    "def": "Jacob Bernoulli (1655-1705) — 遗作《猜度术》(Ars Conjectandi,1713)提出大数定律最早形式。系统化组合概率，频率学派基石。",
+    "g": "1"
+  },
+  "猜度术": {
+    "def": "Ars Conjectandi — Jacob Bernoulli遗作(1713)。提出大数定律，系统化组合概率。概率论早期最重要的专著。",
+    "g": "1"
+  },
+  "Thomas Bayes": {
+    "def": "Thomas Bayes (1701-1761) — 提出贝叶斯定理(发明后由Price整理发表,1763)。两百年后成为ML核心。",
+    "g": "1"
+  },
+  "Pierre-Simon Laplace": {
+    "def": "Pierre-Simon Laplace (1749-1827) — 1812年《概率的分析理论》独立推广贝叶斯定理，提出拉普拉斯平滑。第一次系统化概率论。",
+    "g": "1"
+  },
+  "Abraham de Moivre": {
+    "def": "Abraham de Moivre (1667-1754) — 发现正态分布早期形式(二项分布近似)。提出de Moivre-Laplace定理。",
+    "g": "1"
+  },
+  "Karl Pearson": {
+    "def": "Karl Pearson (1857-1936) — 提出卡方检验、相关系数。创办《Biometrika》。现代统计学奠基人之一。",
+    "g": "1"
+  },
+  "Ronald A. Fisher": {
+    "def": "Ronald A. Fisher (1890-1962) — 提出MLE、充分统计量、Fisher信息、实验设计。频率学派领袖。几乎单枪匹马创建了现代统计学。",
+    "g": "1"
+  },
+  "Andrey Kolmogorov": {
+    "def": "Andrey Kolmogorov (1903-1987) — 1933年《概率论基础》用测度论公理化概率。20世纪最伟大数学家之一。",
+    "g": "1"
+  },
+  "概率论基础": {
+    "def": "Grundbegriffe der Wahrscheinlichkeitsrechnung — Kolmogorov(1933)著作。用测度论为概率论建立严格公理基础，统一此前所有概率理论。",
+    "g": "1"
+  },
+  "Stanislaw Ulam": {
+    "def": "Stanislaw Ulam (1909-1984) — 与von Neumann在洛斯阿拉莫斯发明蒙特卡洛方法(1946)，最初用于核武器中子扩散模拟。",
+    "g": "1"
+  },
+  "John von Neumann": {
+    "def": "John von Neumann (1903-1957) — 蒙特卡洛方法共同发明人。EDVAC存储程序计算机设计者。博弈论、计算科学先驱。",
+    "g": "1"
+  },
+  "Claude Shannon": {
+    "def": "Claude Shannon (1916-2001) — 1948年《通信的数学理论》定义熵、建立信息论。信息论之父。",
+    "g": "1"
+  },
+  "通信的数学理论": {
+    "def": "A Mathematical Theory of Communication — Shannon(1948)论文。定义熵、信道容量、编码定理。信息论诞生的标志。",
+    "g": "1"
+  },
+  "Nicholas Metropolis": {
+    "def": "Nicholas Metropolis (1915-1999) — 1953年提出Metropolis算法论文第一作者，开启MCMC历史。",
+    "g": "1"
+  },
+  "W. Keith Hastings": {
+    "def": "W. Keith Hastings (1930-) — 1970年将Metropolis算法推广为Metropolis-Hastings算法，允许非对称提议分布。",
+    "g": "1"
+  },
+  "Dempster": {
+    "def": "Arthur Dempster — 与Laird&Rubin(1977)共同发表EM算法论文。Dempster-Shafer证据理论提出者。",
+    "g": "1"
+  },
+  "Laird": {
+    "def": "Nan Laird — 与Dempster&Rubin(1977)共同发表EM算法论文。统计遗传学领域权威。",
+    "g": "1"
+  },
+  "Rubin": {
+    "def": "Donald Rubin — 与Dempster&Laird(1977)共同发表EM算法论文。Rubin因果模型、多重插补(Multiple Imputation)提出者。",
+    "g": "1"
+  },
+  "Stuart Geman": {
+    "def": "Stuart Geman — 与Donald Geman(1984)提出Gibbs采样。将贝叶斯方法引入计算机视觉。",
+    "g": "1"
+  },
+  "Donald Geman": {
+    "def": "Donald Geman — 与Stuart Geman(1984)提出Gibbs采样。随机优化领域权威。",
+    "g": "1"
+  },
+  "Judea Pearl": {
+    "def": "Judea Pearl (1936-) — 1988系统化贝叶斯网络，提出信念传播。2000年因果推断框架(do-calculus)。2011年图灵奖。因果关系之父。",
+    "g": "1"
+  },
+  "David MacKay": {
+    "def": "David MacKay (1967-2016) — 《Bayesian Methods for Adaptive Models》(1996)系统阐述贝叶斯方法在NN中的应用。贝叶斯深度学习先驱。",
+    "g": "1"
+  },
+  "Michael Jordan": {
+    "def": "Michael Jordan (1956-) — 推动变分推断在ML应用，LDA合作者。概率图模型、非参数贝叶斯领军人物。",
+    "g": "1"
+  },
+  "David Blei": {
+    "def": "David Blei — 2003年LDA第一作者。推动变分推断和概率编程在现代ML的复兴。哥伦比亚大学教授。",
+    "g": "1"
+  },
+  "Andrew Ng": {
+    "def": "Andrew Ng (1976-) — 2003年LDA合作者。将概率方法广泛应用于AI教育、自动驾驶。Google Brain/百度/Coursera。",
+    "g": "1"
+  },
+  "Kingma": {
+    "def": "Diederik Kingma — 与Welling(2014)提出VAE，创新重参数化技巧。Adam优化器提出者之一。",
+    "g": "1"
+  },
+  "Welling": {
+    "def": "Max Welling — 与Kingma(2014)提出VAE。SGLD(随机梯度Langevin动力学)提出者之一。概率DL领域权威。",
+    "g": "1"
+  },
+  "Yarin Gal": {
+    "def": "Yarin Gal — 与Ghahramani(2015)提出MC Dropout。贝叶斯深度学习不确定性估计的重要推动者。",
+    "g": "1"
+  },
+  "Ghahramani": {
+    "def": "Zoubin Ghahramani — MC Dropout合作者。贝叶斯深度学习学派代表。Uber AI Labs首任负责人。",
+    "g": "1"
+  },
+  "Jonathan Ho": {
+    "def": "Jonathan Ho — 2020年DDPM论文第一作者。扩散模型现代复兴的核心人物。",
+    "g": "1"
+  },
+  "Jaynes": {
+    "def": "E. T. Jaynes (1922-1998) — 《Probability Theory: The Logic of Science》(2003)将概率论解释为逻辑的量化延伸。影响深远。",
+    "g": "1"
+  },
+  "Bishop": {
+    "def": "Christopher Bishop — 《Pattern Recognition and Machine Learning》(2006)作者。极富影响力的ML概率方法教科书。Microsoft Research剑桥实验室主任。",
+    "g": "1"
+  },
+  "Murphy": {
+    "def": "Kevin Murphy — 《Machine Learning: A Probabilistic Perspective》(2012)与《Probabilistic Machine Learning》(2022/2023)作者。概率视角ML百科全书。",
+    "g": "1"
+  },
+  "Koller": {
+    "def": "Daphne Koller — 与Friedman(2009)合著《Probabilistic Graphical Models》PGM权威教材。MacArthur奖得主。AI医疗和全球健康推动者。",
+    "g": "1"
+  },
+  "Friedman": {
+    "def": "Nir Friedman — 与Koller(2009)合著《Probabilistic Graphical Models》。结构学习、生物信息学领域权威。",
+    "g": "1"
   }
 }
