@@ -280,11 +280,11 @@ img { max-width: 100%; border-radius: var(--radius); }
 <hr>
 <h2 id="相关主题">相关主题</h2>
 <ul>
-<li><a href="05-logic.html">逻辑学与形式推理</a>：形式语言、可判定性与自动机理论共同构成可计算性的前提背景</li>
+<li><a href="08-logic.html">逻辑学与形式推理</a>：形式语言、可判定性与自动机理论共同构成可计算性的前提背景</li>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：随机算法、学习理论与泛化分析离不开概率语言</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：很多 AI 问题虽可写成优化问题，但一般形式下是否高效可解要由复杂性理论判断</li>
-<li><a href="13-numerical-analysis.html">数值分析</a>：理论上可解的问题进入有限精度计算后，还要面对稳定性与误差传播</li>
-<li><a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：理论边界回答“能否算”，硬件与系统工程回答“能多快、多大规模地算”</li>
+<li><a href="11-numerical-analysis.html">数值分析</a>：理论上可解的问题进入有限精度计算后，还要面对稳定性与误差传播</li>
+<li><a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：理论边界回答“能否算”，硬件与系统工程回答“能多快、多大规模地算”</li>
 </ul>
 <h2 id="n1-上帝视角-为什么-AI-需要计算机科学">1. 上帝视角：为什么 AI 需要计算机科学</h2>
 <h3 id="n1-1-本篇的范围界定-理论计算机科学">1.1 本篇的范围界定：理论计算机科学</h3>
@@ -680,9 +680,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 <h2 id="n7-本篇在全书中的位置">7. 本篇在全书中的位置</h2>
 <p>本篇回答的是：<strong>AI 在原理上能算什么、能多高效地算、能在什么条件下从有限数据中学到东西。</strong> 它提供的是可能性边界、效率边界与可学习性边界，而不是现成的工程实现。</p>
 <ul>
-<li>与 <a href="05-logic.html">逻辑学与形式推理</a> 相邻：逻辑学提供形式语言与推理对象，本篇进一步追问这些对象能否被算法处理、处理代价有多大。</li>
+<li>与 <a href="08-logic.html">逻辑学与形式推理</a> 相邻：逻辑学提供形式语言与推理对象，本篇进一步追问这些对象能否被算法处理、处理代价有多大。</li>
 <li>与 <a href="03-calculus-and-optimization.html">微积分与优化理论</a> 相邻：优化理论讨论如何求解目标函数，本篇则提醒很多一般形式的问题在复杂性上可能无法高效精确求解。</li>
-<li>与 <a href="13-numerical-analysis.html">数值分析</a> 和 <a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：前者处理有限精度下如何稳定计算，后者处理大规模计算的硬件可行性；而本篇先给出“从理论上值不值得算”的边界判断。</li>
+<li>与 <a href="11-numerical-analysis.html">数值分析</a> 和 <a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：前者处理有限精度下如何稳定计算，后者处理大规模计算的硬件可行性；而本篇先给出“从理论上值不值得算”的边界判断。</li>
 <li>与 <a href="01-probability-and-statistics.html">概率论与数理统计</a> 相邻：学习理论需要概率语言来表达泛化，但概率模型本身并不自动给出可学习性和复杂性保证。</li>
 </ul>
 <p>因此，本篇不是在说“AI 就是理论计算机科学”，而是在说明：只要 AI 需要谈论算法可行性、搜索代价、样本规模和形式验证，它就无法绕开理论计算机科学。</p>
@@ -692,6 +692,15 @@ img { max-width: 100%; border-radius: var(--radius); }
       </a><a href="03-calculus-and-optimization.html" class="related-item">
         <span class="r-num">03</span>
         <span class="r-name">微积分与优化理论</span>
+      </a><a href="08-logic.html" class="related-item">
+        <span class="r-num">08</span>
+        <span class="r-name">逻辑学与形式推理</span>
+      </a><a href="11-numerical-analysis.html" class="related-item">
+        <span class="r-num">11</span>
+        <span class="r-name">数值分析</span>
+      </a><a href="15-computing-hardware-and-parallel-computing.html" class="related-item">
+        <span class="r-num">15</span>
+        <span class="r-name">AI 计算硬件与并行计算</span>
       </a></div></div><div class="bottom-nav"><a href="09-causal-inference.html"><span class="dir">&#8592; 上一篇</span><span class="name">09 因果推断</span></a><a href="11-numerical-analysis.html"><span class="dir">下一篇 &#8594;</span><span class="name">11 数值分析</span></a></div>
   </div>
 </main>

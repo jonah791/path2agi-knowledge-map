@@ -282,9 +282,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：参数估计与似然最大化问题通常被转化为优化问题</li>
 <li><a href="02-linear-algebra.html">线性代数</a>：梯度、雅可比矩阵与 Hessian 矩阵都依赖线性代数表达</li>
-<li><a href="08-approximation-theory.html">逼近论</a>：模型训练的目标之一就是用有限参数逼近复杂函数</li>
-<li><a href="13-numerical-analysis.html">数值分析</a>：实际训练中的收敛性、稳定性与误差控制属于数值分析核心问题</li>
-<li><a href="15-cybernetics.html">控制论</a>：最优控制、反馈调节与强化学习中的策略更新都与优化紧密相关</li>
+<li><a href="05-approximation-theory.html">逼近论</a>：模型训练的目标之一就是用有限参数逼近复杂函数</li>
+<li><a href="11-numerical-analysis.html">数值分析</a>：实际训练中的收敛性、稳定性与误差控制属于数值分析核心问题</li>
+<li><a href="13-cybernetics.html">控制论</a>：最优控制、反馈调节与强化学习中的策略更新都与优化紧密相关</li>
 </ul>
 <h2 id="n1-上帝视角-为什么-AI-需要微积分与优化">1. 上帝视角：为什么 AI 需要微积分与优化</h2>
 <h3 id="n1-1-训练-优化-学习-梯度下降">1.1 训练 = 优化，学习 = 梯度下降</h3>
@@ -735,8 +735,8 @@ $$</p>
 <ul>
 <li><a href="02-linear-algebra.html">线性代数</a> 负责把模型写成向量、矩阵和张量运算；</li>
 <li>本篇负责解释这些运算何时可微、梯度如何计算、参数如何更新；</li>
-<li><a href="08-approximation-theory.html">逼近论</a> 讨论模型具备怎样的表达能力与理论边界；</li>
-<li><a href="13-numerical-analysis.html">数值分析</a> 则进一步追问实际实现中的稳定性、误差与大规模计算问题。</li>
+<li><a href="05-approximation-theory.html">逼近论</a> 讨论模型具备怎样的表达能力与理论边界；</li>
+<li><a href="11-numerical-analysis.html">数值分析</a> 则进一步追问实际实现中的稳定性、误差与大规模计算问题。</li>
 </ul>
 <p>因此，本篇最核心的任务不是罗列优化器名称，而是说明一条完整链路：可微结构让反向传播成为可能，优化理论让训练过程可执行，二者合在一起才构成深度学习的工程数学基础。</p>
 <div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="01-probability-and-statistics.html" class="related-item">
@@ -745,6 +745,15 @@ $$</p>
       </a><a href="02-linear-algebra.html" class="related-item">
         <span class="r-num">02</span>
         <span class="r-name">线性代数</span>
+      </a><a href="05-approximation-theory.html" class="related-item">
+        <span class="r-num">05</span>
+        <span class="r-name">逼近论</span>
+      </a><a href="11-numerical-analysis.html" class="related-item">
+        <span class="r-num">11</span>
+        <span class="r-name">数值分析</span>
+      </a><a href="13-cybernetics.html" class="related-item">
+        <span class="r-num">13</span>
+        <span class="r-name">控制论</span>
       </a></div></div><div class="bottom-nav"><a href="02-linear-algebra.html"><span class="dir">&#8592; 上一篇</span><span class="name">02 线性代数</span></a><a href="04-information-theory.html"><span class="dir">下一篇 &#8594;</span><span class="name">04 信息论</span></a></div>
   </div>
 </main>

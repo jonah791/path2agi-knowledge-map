@@ -280,11 +280,11 @@ img { max-width: 100%; border-radius: var(--radius); }
 <hr>
 <h2 id="相关主题">相关主题</h2>
 <ul>
-<li><a href="11-operations-research.html">运筹学</a>：运筹学处理单主体或统一目标下的优化，博弈论处理多主体相互影响的优化</li>
-<li><a href="24-economics.html">经济学</a>：经济学更系统讨论偏好、激励和机制设计，博弈论提供互动结构与均衡语言</li>
-<li><a href="23-evolutionary-biology.html">进化生物学</a>：演化稳定策略与复制者动力学把竞争与适应连接起来</li>
-<li><a href="15-cybernetics.html">控制论</a>：对抗控制、鲁棒控制与微分博弈共享“面向最坏情况”的思路</li>
-<li><a href="22-linguistics.html">语言学</a>：在多轮对话、协商与博弈语言行为分析中，策略性交互与语言使用相互交织</li>
+<li><a href="21-operations-research.html">运筹学</a>：运筹学处理单主体或统一目标下的优化，博弈论处理多主体相互影响的优化</li>
+<li><a href="23-economics.html">经济学</a>：经济学更系统讨论偏好、激励和机制设计，博弈论提供互动结构与均衡语言</li>
+<li><a href="20-evolutionary-biology.html">进化生物学</a>：演化稳定策略与复制者动力学把竞争与适应连接起来</li>
+<li><a href="13-cybernetics.html">控制论</a>：对抗控制、鲁棒控制与微分博弈共享“面向最坏情况”的思路</li>
+<li><a href="19-linguistics.html">语言学</a>：在多轮对话、协商与博弈语言行为分析中，策略性交互与语言使用相互交织</li>
 </ul>
 <hr>
 <h2 id="n1-上帝视角-为什么-AI-需要博弈论">1. 上帝视角：为什么 AI 需要博弈论</h2>
@@ -602,7 +602,7 @@ img { max-width: 100%; border-radius: var(--radius); }
 <li><strong>机制</strong>：偏好收集协议（如 Bradley-Terry 模型）</li>
 <li><strong>目标</strong>：设计激励相容的收集方式，使标注者诚实表达偏好</li>
 </ul>
-<p>这里需要明确边界：RLHF 可以借用机制设计与战略交互的语言来分析，但它并不等于一个由博弈论完整刻画的问题。真正涉及偏好定义、效用聚合、制度设计与标注者激励时，仍需要回到<a href="24-economics.html">经济学</a>专题中的偏好与对齐框架。</p>
+<p>这里需要明确边界：RLHF 可以借用机制设计与战略交互的语言来分析，但它并不等于一个由博弈论完整刻画的问题。真正涉及偏好定义、效用聚合、制度设计与标注者激励时，仍需要回到<a href="23-economics.html">经济学</a>专题中的偏好与对齐框架。</p>
 <p>关键挑战：</p>
 <ul>
 <li><strong>偏好不一致</strong>：不同标注者的偏好可能矛盾（Arrow 不可能定理的影子）</li>
@@ -718,14 +718,29 @@ img { max-width: 100%; border-radius: var(--radius); }
 <p>本篇介绍了博弈论对 AI/AGI 发展的核心贡献：<strong>将 AI 从单智能体优化扩展到多智能体战略交互，提供了分析系统稳定性和设计激励机制的理论框架</strong>。</p>
 <p><strong>与相邻篇章的关系</strong>：</p>
 <ul>
-<li>与<a href="24-economics.html">经济学</a>共同研究激励与对齐问题：博弈论提供互动结构分析，经济学提供偏好建模与机制设计</li>
-<li>与<a href="11-operations-research.html">运筹学</a>在优化问题上形成对比：运筹学处理单目标优化，博弈论处理多目标冲突</li>
-<li>与<a href="15-cybernetics.html">控制论</a>在对抗控制上相关：鲁棒控制可理解为与&quot;自然&quot;的极小极大博弈</li>
-<li>与<a href="23-evolutionary-biology.html">进化生物学</a>在演化稳定策略上形成连接：演化博弈论研究策略的长期竞争</li>
+<li>与<a href="23-economics.html">经济学</a>共同研究激励与对齐问题：博弈论提供互动结构分析，经济学提供偏好建模与机制设计</li>
+<li>与<a href="21-operations-research.html">运筹学</a>在优化问题上形成对比：运筹学处理单目标优化，博弈论处理多目标冲突</li>
+<li>与<a href="13-cybernetics.html">控制论</a>在对抗控制上相关：鲁棒控制可理解为与&quot;自然&quot;的极小极大博弈</li>
+<li>与<a href="20-evolutionary-biology.html">进化生物学</a>在演化稳定策略上形成连接：演化博弈论研究策略的长期竞争</li>
 </ul>
 <p><strong>贡献边界</strong>：<br>博弈论主要提供了<strong>多智能体交互的分析框架和均衡概念</strong>，但在实际 AI 系统中面临诸多挑战。首先，计算纳什均衡是 PPAD-complete 问题，在大规模系统中难以求解。其次，博弈论假设参与者是理性的，但实际 AI 系统和人类都表现出有限理性。第三，博弈论主要分析&quot;给定规则下会发生什么&quot;，但在 AI 对齐问题中，更关键的是&quot;如何设计规则&quot;（机制设计），这需要经济学的补充。最后，博弈论提供了互动结构的数学描述，但不能直接告诉我们&quot;人类真正想要什么&quot;（偏好建模），这同样需要经济学、心理学等学科的支持。</p>
 <hr>
-<div class="bottom-nav"><a href="21-operations-research.html"><span class="dir">&#8592; 上一篇</span><span class="name">21 运筹学</span></a><a href="23-economics.html"><span class="dir">下一篇 &#8594;</span><span class="name">23 经济学</span></a></div>
+<div class="related-section"><h3>相关主题</h3><div class="related-grid"><a href="13-cybernetics.html" class="related-item">
+        <span class="r-num">13</span>
+        <span class="r-name">控制论</span>
+      </a><a href="19-linguistics.html" class="related-item">
+        <span class="r-num">19</span>
+        <span class="r-name">语言学</span>
+      </a><a href="20-evolutionary-biology.html" class="related-item">
+        <span class="r-num">20</span>
+        <span class="r-name">进化生物学</span>
+      </a><a href="21-operations-research.html" class="related-item">
+        <span class="r-num">21</span>
+        <span class="r-name">运筹学</span>
+      </a><a href="23-economics.html" class="related-item">
+        <span class="r-num">23</span>
+        <span class="r-name">经济学</span>
+      </a></div></div><div class="bottom-nav"><a href="21-operations-research.html"><span class="dir">&#8592; 上一篇</span><span class="name">21 运筹学</span></a><a href="23-economics.html"><span class="dir">下一篇 &#8594;</span><span class="name">23 经济学</span></a></div>
   </div>
 </main>
 <aside class="toc-sidebar" id="tocSidebar">

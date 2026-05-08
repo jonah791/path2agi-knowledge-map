@@ -282,9 +282,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li><a href="01-probability-and-statistics.html">概率论与数理统计</a>：信息论中的熵、互信息与交叉熵都以概率分布为基础</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：交叉熵损失、变分目标与编码效率常通过优化实现</li>
-<li><a href="14-signal-processing.html">信号处理</a>：信息的传输、压缩、噪声抑制与编码问题直接连接信号处理</li>
-<li><a href="22-linguistics.html">语言学</a>：语言可以被视为一种信息编码系统，统计语言模型与压缩思想高度相关</li>
-<li><a href="17-statistical-physics.html">物理学</a>：熵在信息论与统计物理中具有深刻的对应关系</li>
+<li><a href="12-signal-processing.html">信号处理</a>：信息的传输、压缩、噪声抑制与编码问题直接连接信号处理</li>
+<li><a href="19-linguistics.html">语言学</a>：语言可以被视为一种信息编码系统，统计语言模型与压缩思想高度相关</li>
+<li><a href="24-statistical-physics.html">物理学</a>：熵在信息论与统计物理中具有深刻的对应关系</li>
 </ul>
 <h2 id="n1-上帝视角-为什么-AI-需要信息论">1. 上帝视角：为什么 AI 需要信息论</h2>
 <p>信息论为人工智能提供了一套精确的数学语言，用于描述&quot;不确定性&quot;、&quot;信息量&quot;和&quot;分布之间的距离&quot;。没有信息论，我们甚至无法定义&quot;模型学到了什么&quot;。</p>
@@ -783,8 +783,8 @@ $$</p>
 <li>与<a href="01-probability-and-statistics.html">概率论与数理统计</a>共同构成信息处理的理论基础：熵、KL 散度等核心概念都建立在概率分布之上</li>
 <li>与<a href="03-calculus-and-optimization.html">微积分与优化理论</a>在变分推断上形成连接：ELBO 是信息论与优化的结合</li>
 <li>与<a href="09-causal-inference.html">因果推断</a>在因果发现上相关：条件独立性测试依赖互信息</li>
-<li>与<a href="14-signal-processing.html">信号处理</a>在编码理论上紧密相关：信源编码、信道编码是信息论的经典应用</li>
-<li>与<a href="17-statistical-physics.html">统计物理</a>在熵概念上形成连接：Shannon 熵可视为 Boltzmann 熵的推广</li>
+<li>与<a href="12-signal-processing.html">信号处理</a>在编码理论上紧密相关：信源编码、信道编码是信息论的经典应用</li>
+<li>与<a href="24-statistical-physics.html">统计物理</a>在熵概念上形成连接：Shannon 熵可视为 Boltzmann 熵的推广</li>
 </ul>
 <p><strong>贡献边界</strong>：<br>信息论主要解决了<strong>如何量化和优化信息传递</strong>，但在以下方面存在局限：（1）<strong>语义信息</strong>：Shannon 信息论只关注符号的统计特性，不涉及信息的&quot;意义&quot;，这在自然语言处理和知识表示中是不足的；（2）<strong>计算复杂性</strong>：许多信息论量（如互信息、KL 散度）在高维连续空间中难以精确计算，需要近似方法；（3）<strong>因果关系</strong>：信息论主要描述统计依赖，不能直接推断因果关系，需要因果推断的补充；（4）<strong>优化目标</strong>：信息论提供了度量工具，但如何将这些度量转化为可优化的目标函数，如何平衡不同的信息论目标（如压缩与保真度），仍需要优化理论和领域知识。因此，信息论为 AI 提供了核心的度量工具，但需要与概率论、优化理论、因果推断等学科结合才能构建完整的智能系统。</p>
 <hr>
@@ -797,6 +797,15 @@ $$</p>
       </a><a href="09-causal-inference.html" class="related-item">
         <span class="r-num">09</span>
         <span class="r-name">因果推断</span>
+      </a><a href="12-signal-processing.html" class="related-item">
+        <span class="r-num">12</span>
+        <span class="r-name">信号处理</span>
+      </a><a href="19-linguistics.html" class="related-item">
+        <span class="r-num">19</span>
+        <span class="r-name">语言学</span>
+      </a><a href="24-statistical-physics.html" class="related-item">
+        <span class="r-num">24</span>
+        <span class="r-name">统计物理</span>
       </a></div></div><div class="bottom-nav"><a href="03-calculus-and-optimization.html"><span class="dir">&#8592; 上一篇</span><span class="name">03 微积分与优化理论</span></a><a href="05-approximation-theory.html"><span class="dir">下一篇 &#8594;</span><span class="name">05 逼近论</span></a></div>
   </div>
 </main>

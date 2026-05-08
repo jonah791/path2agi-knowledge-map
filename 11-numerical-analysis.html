@@ -282,9 +282,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li><a href="02-linear-algebra.html">线性代数与矩阵论</a>：矩阵分解、特征值问题与大规模线性系统是数值分析的重要入口</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a>：收敛性与迭代法建立在优化和微分结构之上</li>
-<li><a href="14-signal-processing.html">信号处理</a>：FFT、滤波与频域计算让很多数值方法具备工程可行性</li>
-<li><a href="15-cybernetics.html">控制论</a>：连续动力系统的离散化、状态估计与控制器实现都依赖数值方法</li>
-<li><a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：浮点格式、存储层级与并行硬件决定数值算法的实际运行形态</li>
+<li><a href="12-signal-processing.html">信号处理</a>：FFT、滤波与频域计算让很多数值方法具备工程可行性</li>
+<li><a href="13-cybernetics.html">控制论</a>：连续动力系统的离散化、状态估计与控制器实现都依赖数值方法</li>
+<li><a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：浮点格式、存储层级与并行硬件决定数值算法的实际运行形态</li>
 </ul>
 <h2 id="n1-上帝视角-为什么-AI-需要数值分析">1. 上帝视角：为什么 AI 需要数值分析</h2>
 <p>深度学习的本质是<strong>大规模数值优化</strong>。一个拥有数十亿参数的语言模型，其训练过程归结为：在有限精度的浮点运算下，对一个极高维非凸函数执行数百万步迭代。这个过程中的每一步都依赖数值分析的核心理论：</p>
@@ -358,7 +358,7 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li><a href="02-linear-algebra.html">线性代数与矩阵论</a> 更关心表示对象与代数结构；</li>
 <li><a href="03-calculus-and-optimization.html">微积分与优化理论</a> 更关心目标函数、梯度结构与最优性条件；</li>
-<li><a href="15-cybernetics.html">控制论</a> 更关心动态系统、反馈与控制目标；</li>
+<li><a href="13-cybernetics.html">控制论</a> 更关心动态系统、反馈与控制目标；</li>
 <li>本篇则更关心：当这些对象真的进入计算机时，算法会不会发散、误差会不会累积、精度与算力是否足够。</li>
 </ul>
 <p>这也是为什么数值分析经常被低估：它很少改变问题定义，却经常决定问题是否真的算得出来。</p>
@@ -854,8 +854,8 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li>与 <a href="02-linear-algebra.html">线性代数与矩阵论</a> 相邻：线性代数给出矩阵和向量空间的结构，本篇决定这些结构在有限精度下如何被可靠求解。</li>
 <li>与 <a href="03-calculus-and-optimization.html">微积分与优化理论</a> 相邻：优化理论说明为什么要沿梯度更新，本篇说明这样的迭代在数值上是否稳定、收敛是否可接受。</li>
-<li>与 <a href="15-cybernetics.html">控制论</a> 相邻：控制论处理连续动力系统与反馈闭环，本篇处理它们如何离散化、如何在求解器中近似实现。</li>
-<li>与 <a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：硬件与并行计算决定系统边界，本篇则把这些边界翻译成浮点格式、内存预算和算子实现层面的具体限制。</li>
+<li>与 <a href="13-cybernetics.html">控制论</a> 相邻：控制论处理连续动力系统与反馈闭环，本篇处理它们如何离散化、如何在求解器中近似实现。</li>
+<li>与 <a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：硬件与并行计算决定系统边界，本篇则把这些边界翻译成浮点格式、内存预算和算子实现层面的具体限制。</li>
 </ul>
 <p>因此，本篇不是“优化理论的附属工程细节”，而是连接数学模型与真实计算系统的中间层。</p>
 <hr>
@@ -873,6 +873,15 @@ img { max-width: 100%; border-radius: var(--radius); }
       </a><a href="03-calculus-and-optimization.html" class="related-item">
         <span class="r-num">03</span>
         <span class="r-name">微积分与优化理论</span>
+      </a><a href="12-signal-processing.html" class="related-item">
+        <span class="r-num">12</span>
+        <span class="r-name">信号处理</span>
+      </a><a href="13-cybernetics.html" class="related-item">
+        <span class="r-num">13</span>
+        <span class="r-name">控制论</span>
+      </a><a href="15-computing-hardware-and-parallel-computing.html" class="related-item">
+        <span class="r-num">15</span>
+        <span class="r-name">AI 计算硬件与并行计算</span>
       </a></div></div><div class="bottom-nav"><a href="10-computer-science.html"><span class="dir">&#8592; 上一篇</span><span class="name">10 计算机科学</span></a><a href="12-signal-processing.html"><span class="dir">下一篇 &#8594;</span><span class="name">12 信号处理</span></a></div>
   </div>
 </main>

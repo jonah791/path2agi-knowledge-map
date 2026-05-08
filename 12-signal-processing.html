@@ -282,9 +282,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 <ul>
 <li><a href="04-information-theory.html">信息论</a>：采样、编码、带宽与可靠传输和信息论天然相连</li>
 <li><a href="02-linear-algebra.html">线性代数与矩阵论</a>：傅里叶变换、本征基与正交投影都有明确的线性代数结构</li>
-<li><a href="13-numerical-analysis.html">数值分析</a>：FFT、离散卷积和滤波器实现都依赖数值算法与有限精度计算</li>
-<li><a href="15-cybernetics.html">控制论</a>：频域分析、传递函数和状态估计长期在控制系统中协同出现</li>
-<li><a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：传感器、通信链路、ADC/DAC 和边缘推理共同决定信号进入 AI 的物理路径</li>
+<li><a href="11-numerical-analysis.html">数值分析</a>：FFT、离散卷积和滤波器实现都依赖数值算法与有限精度计算</li>
+<li><a href="13-cybernetics.html">控制论</a>：频域分析、传递函数和状态估计长期在控制系统中协同出现</li>
+<li><a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a>：传感器、通信链路、ADC/DAC 和边缘推理共同决定信号进入 AI 的物理路径</li>
 </ul>
 <h2 id="n1-上帝视角-为什么-AI-需要信号处理">1. 上帝视角：为什么 AI 需要信号处理</h2>
 <h3 id="n1-1-卷积运算的起源">1.1 卷积运算的起源</h3>
@@ -747,9 +747,9 @@ CNN：     数据驱动学习滤波器 → 发现未知特征
 <p>本篇回答的是：<strong>现实世界中的连续、带噪、局部结构化信号，如何被采样、变换、传输并最终交给学习系统处理。</strong> 它既关心频域与滤波，也关心采集链路与可靠传输。</p>
 <ul>
 <li>与 <a href="04-information-theory.html">信息论</a> 相邻：信息论更像度量和极限语言，本篇更像实际信号操作与工程实现语言。</li>
-<li>与 <a href="13-numerical-analysis.html">数值分析</a> 相邻：数值分析关心计算稳定性与误差传播，本篇关心信号在时域、频域和采样链中的表示与恢复。</li>
-<li>与 <a href="15-cybernetics.html">控制论</a> 相邻：控制论强调反馈与系统行为，本篇强调观测、滤波与频域分析工具。</li>
-<li>与 <a href="18-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：硬件与并行计算决定传感器、ADC、通信链路与部署平台，本篇解释这些物理输入如何变成模型可用的数学信号。</li>
+<li>与 <a href="11-numerical-analysis.html">数值分析</a> 相邻：数值分析关心计算稳定性与误差传播，本篇关心信号在时域、频域和采样链中的表示与恢复。</li>
+<li>与 <a href="13-cybernetics.html">控制论</a> 相邻：控制论强调反馈与系统行为，本篇强调观测、滤波与频域分析工具。</li>
+<li>与 <a href="15-computing-hardware-and-parallel-computing.html">AI 计算硬件与并行计算</a> 相邻：硬件与并行计算决定传感器、ADC、通信链路与部署平台，本篇解释这些物理输入如何变成模型可用的数学信号。</li>
 </ul>
 <p>因此，本篇不是在说“AI 只是信号处理的延伸”，而是在说明：只要 AI 需要处理图像、语音、视频、传感器流和通信链路，它就必然继承信号处理与通信工程的核心方法。</p>
 <hr>
@@ -762,6 +762,15 @@ CNN：     数据驱动学习滤波器 → 发现未知特征
       </a><a href="04-information-theory.html" class="related-item">
         <span class="r-num">04</span>
         <span class="r-name">信息论</span>
+      </a><a href="11-numerical-analysis.html" class="related-item">
+        <span class="r-num">11</span>
+        <span class="r-name">数值分析</span>
+      </a><a href="13-cybernetics.html" class="related-item">
+        <span class="r-num">13</span>
+        <span class="r-name">控制论</span>
+      </a><a href="15-computing-hardware-and-parallel-computing.html" class="related-item">
+        <span class="r-num">15</span>
+        <span class="r-name">AI 计算硬件与并行计算</span>
       </a></div></div><div class="bottom-nav"><a href="11-numerical-analysis.html"><span class="dir">&#8592; 上一篇</span><span class="name">11 数值分析</span></a><a href="13-cybernetics.html"><span class="dir">下一篇 &#8594;</span><span class="name">13 控制论</span></a></div>
   </div>
 </main>
