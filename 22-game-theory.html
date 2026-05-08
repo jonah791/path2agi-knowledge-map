@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>博弈论（Game Theory）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">博弈论（Game Theory）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1057,8 +870,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","AlphaGo":"DeepMind 围棋 AI，2016 击败李世石，结合深度学习和蒙特卡洛树搜索。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","囚徒困境":"Prisoner's Dilemma — 个体理性导致集体非理性的经典博弈论模型。","零和博弈":"Zero-Sum Game — 一方所得等于另一方所失的博弈类型。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","信息不对称":"Information Asymmetry — 交易一方拥有另一方不知道的信息的情况。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","蒙特卡洛树搜索":"Monte Carlo Tree Search (MCTS) — 结合树搜索和随机模拟的决策算法，AlphaGo 核心技术。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。"};
-const ANN_TERMS = ["Softmax策略","AlphaGo","蒙特卡洛树搜索","冯·诺依曼","帕累托最优","信息不对称","启发式算法","贝尔曼方程","强化学习","协同过滤","纳什均衡","囚徒困境","零和博弈","机制设计","逆向选择","公地悲剧","目标函数","多智能体","AGI","LLM","GAN","博弈论","运筹学","外部性","AI","RL","反馈","效用"];
+const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","AlphaGo":"DeepMind 围棋 AI，2016 击败李世石，结合深度学习和蒙特卡洛树搜索。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","囚徒困境":"Prisoner's Dilemma — 个体理性导致集体非理性的经典博弈论模型。","零和博弈":"Zero-Sum Game — 一方所得等于另一方所失的博弈类型。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","信息不对称":"Information Asymmetry — 交易一方拥有另一方不知道的信息的情况。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","蒙特卡洛树搜索":"Monte Carlo Tree Search (MCTS) — 结合树搜索和随机模拟的决策算法，AlphaGo 核心技术。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","极小化极大定理":"Minimax Theorem (von Neumann, 1928) — 二人零和博弈中最大最小与最小最大相等，博弈值的保证。","占优策略":"Dominant Strategy — 无论对手如何选择都对参与者最优的策略。","混合策略":"Mixed Strategy — 参与者在纯策略集上的概率分布，确保不存在纯策略均衡时的均衡存在。","纯策略":"Pure Strategy — 参与者在每种情况下确定选择某个特定行动的确定性策略。","最佳响应":"Best Response — 给定对手策略时最大化自身收益的回应策略。","子博弈完美均衡":"Subgame Perfect Equilibrium (Selten, 1965) — 排除不可信威胁的纳什均衡精炼。","贝叶斯博弈":"Bayesian Game (Harsanyi, 1967-68) — 参与者对彼此类型有不完全信息的博弈模型。","相关均衡":"Correlated Equilibrium (Aumann, 1974) — 引入外部相关信号的一般化纳什均衡。","演化稳定策略":"Evolutionarily Stable Strategy (Maynard Smith, 1973) — 在演化压力下不可被入侵的策略。","复制者动力学":"Replicator Dynamics — 描述种群中策略频率随时间演化的微分方程。","以牙还牙":"Tit-for-Tat — 重复囚徒困境中最成功的简单策略：首轮合作，之后模仿对手上轮行为。","重复博弈":"Repeated Game — 同一阶段博弈多次重复进行的博弈形式，可促成合作。","无政府代价":"Price of Anarchy — 自利行为均衡效率与集中式最优效率之比。","算法博弈论":"Algorithmic Game Theory — 将计算复杂性引入博弈论分析的交叉学科。","自我对弈":"Self-Play — 智能体与自身历史版本对弈不断提升策略的训练范式。","虚拟博弈":"Fictitious Play — 参与者假设对手使用历史平均策略并选择最佳响应的学习过程。","遗憾最小化":"Regret Minimization — 使累计后悔值亚线性增长的学习算法，与纳什均衡存在深刻联系。","CFR":"Counterfactual Regret Minimization — 在不完全信息博弈中逼近纳什均衡的迭代算法，Pluribus使用。","合作博弈":"Cooperative Game — 参与者可以形成有约束力联盟的博弈，Shapley值用于公平分配。","Shapley值":"Shapley Value — 合作博弈中按边际贡献公平分配联盟收益的经典解概念。","VCG机制":"Vickrey-Clarke-Groves Mechanism — 保证激励相容和社会福利最大化的通用机制设计框架。","Stackelberg博弈":"Stackelberg Game — 领导者先行动、追随者后响应的序贯博弈模型。","激励相容":"Incentive Compatibility — 参与者如实报告私有信息是占优策略的机制性质。","Harsanyi":"John Harsanyi (1920-2000) — 贝叶斯博弈提出者，不完全信息博弈论先驱，诺贝尔奖得主。","Selten":"Reinhard Selten (1930-2016) — 子博弈完美均衡提出者，博弈论精炼先驱，诺贝尔奖得主。","Aumann":"Robert Aumann — 相关均衡(1974)提出者，重复博弈理论先驱，诺贝尔奖得主。","Maynard Smith":"John Maynard Smith (1920-2004) — 演化稳定策略(ESS)提出者，演化博弈论创始人。","Axelrod":"Robert Axelrod — 重复囚徒困境计算机锦标赛组织者，《合作的进化》(1984)作者。","Borel":"Émile Borel (1871-1956) — 最早对策略性博弈进行数学化研究，提出混合策略概念先驱。","Roughgarden":"Tim Roughgarden — 无政府代价(Price of Anarchy)系统研究者，算法博弈论权威。","Daskalakis":"Constantinos Daskalakis — 证明计算纳什均衡是PPAD-complete问题(2009)。","Nash":"John Nash — 提出纳什均衡的博弈论数学家","非零和博弈":"Non-zero-sum game — 参与者收益之和不为零的一般博弈","非合作博弈":"Non-cooperative game — 参与者独立决策的博弈类型","完全信息博弈":"Perfect information game — 所有参与者知晓全部历史信息的博弈","不完全信息博弈":"Imperfect information game — 参与者不知晓所有历史信息的博弈","信号博弈":"Signaling game — 拥有私有信息的参与者发送信号影响对方决策","贝叶斯纳什均衡":"Bayesian Nash equilibrium — 不完全信息博弈中的均衡概念","博弈值":"Value of the game — 零和博弈中参与者的最优保证收益","Alpha-Beta剪枝":"Alpha-Beta pruning — 极小化极大搜索的剪枝优化技术","反事实遗憾最小化":"Counterfactual Regret Minimization (CFR) — 在不完全信息博弈中逼近纳什均衡的算法","模式崩塌":"Mode collapse — GAN生成器只产生少数模式缺乏多样性的问题","Wasserstein距离":"Wasserstein distance — WGAN中替代JS散度的分布距离度量","谱归一化":"Spectral normalization — 约束判别器Lipschitz常数的GAN稳定技术","WGAN":"Wasserstein GAN — 用Wasserstein距离改进GAN训练的变体","Minimax-Q":"Minimax-Q — Littman提出在零和随机博弈中求解极小化极大策略的MARL算法","Nash-Q":"Nash-Q — Hu和Wellman在每个状态求解纳什均衡的MARL算法","MADDPG":"Multi-Agent DDPG — Lowe提出集中训练分散执行的MARL算法","QMIX":"QMIX — Rashid将联合Q值分解为个体Q值单调混合的合作MARL算法","CTDE":"Centralized Training Decentralized Execution — 集中训练分散执行的MARL范式","独立Q学习":"Independent Q-Learning — 每个智能体忽略其他智能体独立学习Q函数的方法","显示原理":"Revelation principle — 任何机制等价于激励相容直接机制的原理","社会选择函数":"Social choice function — 将所有参与者类型映射到社会结果的函数","第一价格拍卖":"First-price auction — 最高出价者以其出价支付的拍卖","英式拍卖":"English auction — 公开递增出价最高者得的拍卖形式","荷式拍卖":"Dutch auction — 价格递减第一个接受者得的拍卖形式","PPAD完全":"PPAD-complete — 计算纳什均衡的复杂性类别","民间定理":"Folk theorem — 重复博弈中任何可行收益都可在均衡中实现","最后通牒博弈":"Ultimatum game — 提议者分配接受者可拒绝的博弈","独裁者博弈":"Dictator game — 提议者单方面分配无人能拒绝的博弈","委托代理问题":"Principal-agent problem — 委托人如何激励代理人按自己利益行动的博弈","阿罗不可能定理":"Arrow's impossibility theorem — 不存在满足所有合理条件的社会选择函数","Littman":"Michael Littman — 提出Minimax-Q的多智能体RL学者","von Neumann-Morgenstern期望效用":"von Neumann-Morgenstern expected utility — 满足四大公理的理性决策效用函数","Brown":"Noam Brown — Pluribus六人扑克AI和超人的Multiplayer Poker AI","Sandholm":"Tuomas Sandholm — 与Brown合作开发Pluribus和Libratus扑克AI","Irving":"Geoffrey Irving — 提出AI辩论的安全对齐方法","Dafoe":"Allan Dafoe — 提出合作AI研究纲领","Akata":"Elif Akata — 研究LLM玩重复博弈的学者","Lanctot":"Marc Lanctot — 多智能体强化学习和博弈论结合研究","Nisan":"Noam Nisan — 提出算法机制设计的计算机科学家","Szegedy":"Christian Szegedy — 发现对抗样本现象的AI研究者","Madry":"Aleksander Madry — 提出对抗训练的MIT研究者","算法机制设计":"Algorithmic mechanism design — Nisan将计算复杂性引入机制设计的领域","单智能体优化":"Single-Agent Optimization — 只有一个智能体最大化其目标函数的优化范式，博弈论将其扩展到多智能体战略交互场景。","策略性交互":"Strategic Interaction — 每个智能体的最优策略取决于其他智能体策略的多主体决策情境，博弈论的核心研究对象。","演化博弈论":"Evolutionary Game Theory — 将博弈论引入生物学、研究长期竞争中哪些策略能生存的理论分支，Smith 1973 年奠基。","有限理性":"Bounded Rationality — 现实决策者受认知和计算能力限制无法完全理性的假设，Herbert Simon 提出，博弈论和 AI 对齐中的关键约束。","PPAD-complete":"PPAD-Complete — Daskalakis et al.(2009)证明计算纳什均衡属于 PPAD 完全问题，揭示均衡计算的内生困难。","博弈的值":"Value of the Game — 极小化极大定理中定义的零和博弈价值 v*，双方最优混合策略下的期望收益。","Kakutani不动点定理":"Kakutani Fixed-Point Theorem — 紧凸集上半连续凸值对应存在不动点的拓扑定理，Nash(1950)用其证明均衡存在性。","概率单纯形":"Probability Simplex — 所有概率分布组成的凸集 Δ_n={p in R_n+ | sum p_i=1}，混合策略和极小化极大定理的定义域。","多智能体强化学习":"Multi-Agent Reinforcement Learning (MARL) — 多个智能体在同一环境中各自学习，环境因他人策略变化而具有非平稳性。","集中训练分散执行":"Centralized Training Decentralized Execution (CTDE) — 训练时使用全局信息、执行时仅用局部观测的 MARL 范式。","对抗优化":"Adversarial Optimization — GAN 开创的 min-max 双目标训练范式，生成器和判别器同时优化两个相互竞争的目标。","无悔学习":"No-Regret Learning — 在重复博弈中确保累积遗憾随回合数次线性增长的在线学习算法，与纳什均衡有深刻联系。","复制者动态":"Replicator Dynamics — 演化博弈论中策略频率按适应度差异演化的微分方程，与梯度下降的博弈动力学深刻关联。","算法共谋":"Algorithmic Collusion — 自主定价算法通过学习默契地协调提价而不需显式交流即可达成类似垄断效果的现象。","合作AI":"Cooperative AI — Dafoe et al.(2021)提出研究如何设计能与其他 AI 和人类有效合作、寻找共同利益的智能体的方向。","重复囚徒困境":"Repeated Prisoner's Dilemma — 囚徒困境重复进行，合作可通过未来惩罚的威胁维系，Axelrod 锦标赛揭示 tit-for-tat 的有效性。"};
+const ANN_TERMS = ["von Neumann-Morgenstern期望效用","Stackelberg博弈","Maynard Smith","Wasserstein距离","PPAD-complete","Kakutani不动点定理","Alpha-Beta剪枝","Roughgarden","Daskalakis","Softmax策略","Minimax-Q","Shapley值","Harsanyi","反事实遗憾最小化","Sandholm","多智能体强化学习","集中训练分散执行","AlphaGo","蒙特卡洛树搜索","极小化极大定理","子博弈完美均衡","Axelrod","不完全信息博弈","贝叶斯纳什均衡","阿罗不可能定理","Littman","Lanctot","Szegedy","演化稳定策略","复制者动力学","Selten","Aumann","完全信息博弈","Nash-Q","MADDPG","社会选择函数","第一价格拍卖","PPAD完全","最后通牒博弈","委托代理问题","Irving","算法机制设计","单智能体优化","重复囚徒困境","冯·诺依曼","帕累托最优","信息不对称","启发式算法","贝尔曼方程","贝叶斯博弈","无政府代价","算法博弈论","遗憾最小化","VCG机制","Borel","非零和博弈","非合作博弈","独立Q学习","独裁者博弈","Brown","Dafoe","Akata","Nisan","Madry","策略性交互","演化博弈论","概率单纯形","复制者动态","强化学习","协同过滤","纳什均衡","囚徒困境","零和博弈","机制设计","逆向选择","公地悲剧","目标函数","多智能体","占优策略","混合策略","最佳响应","相关均衡","以牙还牙","重复博弈","自我对弈","虚拟博弈","合作博弈","激励相容","Nash","信号博弈","模式崩塌","谱归一化","WGAN","QMIX","CTDE","显示原理","英式拍卖","荷式拍卖","民间定理","有限理性","博弈的值","对抗优化","无悔学习","算法共谋","合作AI","AGI","LLM","GAN","博弈论","运筹学","外部性","纯策略","CFR","博弈值","AI","RL","反馈","效用"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息论（Information Theory）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">信息论（Information Theory）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1137,8 +950,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MLE":"Maximum Likelihood Estimation — 最大似然估计，寻找使观测数据概率最大的参数值。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","Shannon":"克劳德·香农 — 信息论之父，1948 年定义熵和信道容量，奠定信息论。","Pearl":"朱迪亚·珀尔 — 因果推断先驱，贝叶斯网络和结构因果模型提出者，图灵奖得主。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","监督学习":"Supervised Learning — 使用带标签数据学习输入到输出映射的机器学习范式。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","过拟合":"Overfitting — 模型在训练数据上好但新数据上差的现象，由模型过于复杂导致。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","预训练":"Pre-training — 在大规模通用数据上先训练模型再针对特定任务微调的范式。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","蒸馏":"Knowledge Distillation — 将大模型的知识迁移到小模型的技术。","拟合":"Fitting — 模型学习训练数据中模式的过程，过拟合=学噪声，欠拟合=没学够。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","困惑度":"Perplexity — PPL=exp(-(1/N)Σlog P(w_i))。评估语言模型的指标。信息论视角：模型对下一个token不确定性的平均度量。PPL越低越好。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","信息论":"Information Theory — Shannon 创立的信息量化和通信数学理论，核心是熵和互信息。","计算复杂性":"Computational Complexity — 研究解决问题所需时间和空间资源的理论。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","拉格朗日":"Lagrangian — 约束优化中引入乘子将约束并入目标函数的方法。","信息瓶颈":"Information Bottleneck — 保留输出最大信息同时压缩输入表示的理论框架。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","因果性":"Causality — 原因和结果之间的关系，因果推断的核心研究对象。","偏见":"Bias — AI 系统因训练数据或算法设计产生的系统性偏差。","差分隐私":"Differential Privacy — 在数据分析结果中添加噪声以保护个体隐私的数学框架。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","拉格朗日乘子":"Lagrange Multiplier — 约束优化中引入的辅助变量，将约束融入目标函数。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","激活函数":"Activation Function — 为神经网络引入非线性变换的函数，如 ReLU、Sigmoid、Tanh。","Sigmoid":"Sigmoid 函数 — 将实数映射到 (0,1) 区间的 S 形激活函数，常用于二分类输出层。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","信息熵":"Information Entropy — Shannon 定义的信息量的期望度量，单位为比特。","条件熵":"Conditional Entropy — 已知一个随机变量后另一个变量的剩余不确定性 H(Y|X)。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","信道容量":"Channel Capacity — 信道在理论上可达的最大可靠信息传输速率。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","上下文学习":"In-Context Learning — LLM 在不更新参数的前提下仅通过提示中的示例来执行新任务的能力。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","指数分布":"Exponential Distribution — 描述独立事件发生间隔时间的连续概率分布。","均匀分布":"Uniform Distribution — 在区间内所有值等可能的概率分布，表示无信息先验。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","决策树":"Decision Tree — 通过树形决策规则（节点=特征，叶=预测）进行分类或回归的模型。","逻辑回归":"Logistic Regression — 用 Sigmoid 函数将线性组合映射到概率的二分类模型。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","特征选择":"Feature Selection — 从原始特征集中挑选最有信息量的子集的方法。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","贝叶斯":"Bayesian — 基于贝叶斯定理的统计推断方法体系的总称。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","先验":"Prior — 贝叶斯推断中观测数据前对参数不确定性的概率分布。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","相关性":"Correlation — 衡量两个变量间线性关系强度的统计指标。","分类器":"Classifier — 将输入映射到离散类别标签的机器学习模型。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","分词":"Tokenization — 将连续文本切分为词或子词等语言单元的前处理步骤。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","PPO":"Proximal Policy Optimization — 裁剪策略更新幅度保证稳定性的RL算法。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","Shannon熵":"Shannon Entropy — H(X)=-ΣP(x)logP(x)。Shannon(1948)定义。衡量随机变量不确定性的基本量。交叉熵损失和KL散度都建立在Shannon熵之上。","微分熵":"Differential Entropy — 连续随机变量的熵 h(X)=-∫p(x)log p(x)dx。高斯分布的微分熵为(1/2)log(2πeσ²)。变分推断中ELBO需要处理微分熵。","前向KL":"Forward KL Divergence — D_KL(P∥Q)=∫P(x)log(P(x)/Q(x))dx。在P下求期望。变分推断中最小化的KL形式，鼓励Q覆盖P的所有模式。","反向KL":"Reverse KL Divergence — D_KL(Q∥P)=∫Q(x)log(Q(x)/P(x))dx。在Q下求期望。VI中可处理的KL形式(EVB直接用)，但鼓励Q集中在P的一个模式上(mode-seeking)。","Jensen-Shannon散度":"Jensen-Shannon Divergence — JSD(P∥Q)=(1/2)D_KL(P∥M)+(1/2)D_KL(Q∥M)，M=(P+Q)/2。对称且有界[0,log2]。GAN的原始训练目标等价于JSD。","f-散度":"f-Divergence — D_f(P∥Q)=∫Q(x)f(P(x)/Q(x))dx。KL散度(f(t)=t log t)和JSD(f(t)=t log t-(t+1)log(t+1)/2)都是特例。GAN可解释为最小化特定f-散度。","点互信息":"Pointwise Mutual Information (PMI) — PMI(x,y)=log[P(x,y)/(P(x)P(y))]。衡量两个具体事件共现程度超过随机预期的对数比值。词共现分析的常用指标。","条件互信息":"Conditional Mutual Information — I(X;Y|Z)=H(X|Z)-H(X|Y,Z)。给定Z时X和Y共享的信息。因果发现中用于判断条件独立性。","信息增益":"Information Gain — I(Y;X)=H(Y)-H(Y|X)。特征X给标签Y带来的信息增量。决策树(C4.5/ID3)的节点分裂准则。","信息增益比":"Information Gain Ratio — IG Ratio = I(Y;X)/H(X)。信息增益的归一化版本。C4.5使用，避免偏好取值多的特征。","数据处理不等式":"Data Processing Inequality — 对马尔可夫链X→Y→Z有I(X;Y)≥I(X;Z)。后处理不增加信息量。特征工程的理论约束——变换不创造新信息。","信源编码定理":"Source Coding Theorem — Shannon第一定理。信源可被压缩的最小平均码长=熵H(X。无损压缩的下界。算术编码/Huffman编码可以达到或接近此界。","信道编码定理":"Channel Coding Theorem — Shannon第二定理。给定信道容量C，只要码率R《C，总存在编码使错误概率任意小。奠定了数字通信的理论基础。","冗余度":"Redundancy — R=D_KL(P||Q)用量描述模型分布Q对真实分布P的近似精度。率失真理论和信息瓶颈的核心量。","率失真理论":"Rate-Distortion Theory — 给定允许失真D，所需最小比特率R(D)。信息瓶颈方法可视为率失真的变体：压缩输入X但保留关于Y的信息。","拟合阶段":"Fit Phase — 信息瓶颈两阶段中的第一阶段：网络学习增I(X;T)(拟合训练标签)。对应训练初期损失迅速下降的阶段。","压缩阶段":"Compression Phase — 信息瓶颈两阶段中的第二阶段：网络减少I(X;T)(压缩输入)。标签无关的输入信息被丢弃。发生在训练后期。","信息曲线":"Information Curve — I(X;T)与I(T;Y)的贸易关系曲线。信息瓶颈理论的核心可视化工具。最优表征位于Pareto前沿。","变分信息瓶颈":"Variational Information Bottleneck (VIB) — Alemi et al.(2016)提出。用变分推断近似信息瓶颈目标 min I(X;T)-βI(T;Y)。在DL中可训练。","VIB":"Variational Information Bottleneck — 变分信息瓶颈。深度学习中的信息瓶颈实现版本，平衡表征的简洁性与预测能力。","最大熵原理":"Maximum Entropy Principle — Jaynes(1957)提出。在满足观测约束的所有分布中，选择熵最大的(最无偏)。Softmax是指数族分布的最大熵形式。","指数族分布":"Exponential Family — 形式为 p(x|θ)=h(x)exp(θ⋅T(x)-A(θ))的分布族。包括高斯/Beta/泊松等。最大熵原理导出指数族。","负对数似然":"Negative Log-Likelihood (NLL) — NLL=-Σlog p(y_i|x_i,θ)。分类的交叉熵损失本质上是对数似然的负数。最小化NLL等价于MLE。","无信息先验":"Noninformative Prior — 表示对参数\"一无所知\"的先验。Jeffreys先验是唯一在变换下不变的无信息先验。均匀先验在某些参数变换下不是无信息的。","MINE":"Mutual Information Neural Estimation — Belghazi et al.(2018)提出。用神经网络通过Donsker-Varadhan下界估计互信息。高维连续互信息估计的实用方法。","Donsker-Varadhan下界":"Donsker-Varadhan Representation — I(X;Y)=sup_{T∈F}[E_P[T]-log E_Q[e^T]]。将互信息表示为变分优化问题的上确界。MINE的目标函数基础。","CPC":"Contrastive Predictive Coding — van den Oord et al.(2018)提出。用InfoNCE损失做对比预测。语音/图像/文本中学习强大表示的自监督方法。","SimCLR":"SimCLR — Chen et al.(2020)提出。简单对比学习框架：同一图像两次数据增强为正例，不同图像为负例。最大化正例对的互信息下界。","MoCo":"Momentum Contrast — He et al.(2020)提出。用动量编码器维持大而一致的负例队列，改进对比学习效率。UniViLM等模型使用。","BYOL":"Bootstrap Your Own Latent — Grill et al.(2020)提出。不需要负例的对比学习方法。仅用正例对+预测器，隐式最大化互信息下界。","mRMR":"Maximum Relevance Minimum Redundancy — 特征选择方法：最大化特征与标签的互信息(Relevance)，最小化特征间的互信息(Redundancy)。","暗知识":"Dark Knowledge — Hinton(2015)在知识蒸馏论文中提出。教师模型的软标签(Softmax概率分布)包含比硬标签更丰富的类间关系信息。","自编码器":"Autoencoder — 无监督表示学习模型：编码器压缩输入→隐空间→解码器重建。隐空间的信息瓶颈理念：保留关键信息丢弃噪声。","Flow模型":"Normalizing Flow — 可逆标准化流。通过一系列可逆变换将简单分布(高斯)映射到复杂分布。精确对数似然计算，似然估计的下界为零。","最优编码":"Optimal Coding — 给定符号概率分布，寻找平均码长最小的编码方案。Huffman编码/算术编码是最优编码。Shannon信源编码定理给出了理论下界H(X)。","编码理论":"Coding Theory — 研究数据表示和错误校正的数学领域。信源编码(压缩)和信道编码(纠错)是两大分支。BPE在LLM中用于分词。","信源编码":"Source Coding — 数据压缩：用更少的比特表示数据。无损压缩(Huffman/算术编码)保留全部信息。有损压缩(JPEG/MP3)丢弃感知不重要的信息。","信道编码":"Channel Coding — 添加冗余使数据能在噪声信道中可靠传输。RS码/卷积码/LDPC码。与ML中Dropout/正则化有深刻联系。","无损压缩":"Lossless Compression — 编码后可以完全恢复原始数据。Huffman编码/算术编码/LZW。最大压缩比受限于信源熵H(X)。","有损压缩":"Lossy Compression — 编码后无法完全恢复但感知质量可接受。JPEG/MP3/视频编码。率失真理论是有损压缩的理论基础。","BPE":"Byte-Pair Encoding — 基于统计的子词分词算法。迭代合并频率最高的相邻符号对。GPT/BERT/LLaMA等LLM的标准分词方法。","熵编码":"Entropy Coding — 根据符号概率分配码长的编码方法。Huffman编码(整数码)和算术编码(分数码)是两种主要方法。达到Shannon熵的理论编码效率。","完美保密性":"Perfect Secrecy — 密文与明文统计独立：I(M;C)=0。Shannon证明一次性密码本可实现完美保密，但密钥长度=明文长度。差分隐私是其现代推广。","高效编码假说":"Efficient Coding Hypothesis — Barlow(1961)提出。感知系统的目标是高效编码感官输入——减少冗余，保留关键信息。预测编码是其计算实现。","稀疏编码":"Sparse Coding — 用少量活跃神经元的线性组合来表示输入。大脑V1皮层神经元对边缘的响应是稀疏的。Sparse Autoencoder是其在DL中的实现。","Boltzmann熵":"Boltzmann Entropy — S=k·log W。统计力学中熵的定义：W为微观状态数。与Shannon熵数学形式一致。自由能原理中的熵来自于此。","von Neumann熵":"von Neumann Entropy — S=-Tr(ρlogρ)。量子信息的熵定义，ρ为密度矩阵。量子信息论的基本度量。完美保密性的量子推广。","Renyi熵":"Renyi Entropy — H_α(P)=(1/(1-α))log(ΣP(x)^α)。Shannon熵(α→1)的推广。α=2是碰撞熵。差分隐私的分析中使用Renyi差分隐私(RDP)。","因果熵":"Causal Entropy — 衡量因果效应的信息论量。将互信息扩展到干预分布下。量化干预X时Y的不确定性减少。","Granger因果性":"Granger Causality — 如果引入X的过去值能显著改进Y的预测，则X Granger-causes Y。基于预测方差的信息论检验。","量子信息论":"Quantum Information Theory — 经典信息论在量子力学中的推广。von Neumann熵替代Shannon熵。量子纠缠提供超越经典的信息处理能力。","量子熵":"Quantum Entropy (von Neumann Entropy) — S(ρ)=-Tr(ρlogρ)。量子态的熵。纯态熵为0，混合态熵>0。衡量系统的量子不确定性和纠缠程度。","量子互信息":"Quantum Mutual Information — I(A;B)=S(A)+S(B)-S(AB)。量子系统中A和B的总关联(经典+量子)。量子纠错的理论基础。","量子纠缠":"Quantum Entanglement — 量子系统间非经典的关联。纠缠态的熵大于子系统熵之和。量子通信和量子计算的核心资源。","Scaling Laws":"Scaling Laws — Kaplan et al.(2020)发现：模型性能与参数量/数据量/计算量呈幂律关系。损失随规模增大可预测下降。信息论解释：更多参数捕获更多数据结构。","幻觉问题":"Hallucination — LLM生成看似合理但事实错误的内容。信息论视角：模型输出分布与其实际\"知识\"分布的KL散度过大。训练/推理的不匹配。","数据质量":"Data Quality — 训练数据的纯净度、覆盖率和信息密度。信息论视角：高信息密度数据提供更多互信息/样本。数据质量比单纯数量更重要(Scaling Laws的修正)。","信息密度":"Information Density — 每个token(或样本)所含的平均信息量I(X;Y)。高信息密度数据更高效。预训练语料的去重和过滤本质是提升信息密度。","Boltzmann":"Ludwig Boltzmann (1844-1906) — 统计力学奠基人。Boltzmann熵S=k log W。自由能原理的物理源头。Shannon熵的物理前身。","Hartley":"Ralph Hartley (1888-1970) — 信息量度量先驱。Hartley信息量 I=log N(N为消息数)。Shannon熵的直接前身。","Weaver":"Warren Weaver (1894-1978) — 与Shannon合著《通信的数学理论》(1949)。将信息论推广到语义层面(Weaver三层次模型)。","Kullback":"Solomon Kullback (1907-1994) — 与Leibler提出KL散度(Kullback-Leibler Divergence)。信息论在统计假设检验中的应用。","Leibler":"Richard Leibler (1914-2003) — 与Kullback提出KL散度。信息论和编码理论领域先驱。","Renyi":"Alfred Renyi (1921-1970) — Renyi熵(Shannon熵的推广)提出者。概率论领域的Renyi表示定理和Renyi图模型。","Akaike":"Hirotugu Akaike (1927-2009) — AIC(Akaike Information Criterion)提出者。基于KL散度的模型选择准则。赤池信息量是现代统计推断的基石。","Cover":"Thomas Cover (1938-2012) — 与Thomas合著《信息论基础》(Elements of Information Theory)权威教材。竞赛理论、Portfolio理论也有贡献。","Thomas":"Joy Thomas — 与Cover合著《信息论基础》。主要研究方向包括信息论、数据结构、网络信息论。","Tishby":"Naftali Tishby (1952-2021) — 信息瓶颈理论(1999)提出者。将互信息和率失真引入表征学习。DL的信息瓶颈分析。","Pereira":"Fernando Pereira — 信息瓶颈理论共同提出者(与Tishby&Bialek)。NLP领域重要研究者。Google Research。","Bialek":"William Bialek — 信息瓶颈理论共同提出者(与Tishby&Pereira)。理论神经科学家。研究生物系统中的信息处理。","Zaslavsky":"Noga Zaslavsky — 信息瓶颈理论在DL中的研究者。信息瓶颈拟合-压缩两阶段现象的深入分析。","van den Oord":"Aaron van den Oord — CPC/InfoNCE提出者。WaveNet(语音生成)/VQ-VAE/对比学习的重要推动者。DeepMind研究员。","Alemi":"Alexander Alemi — 变分信息瓶颈(VIB,2016)论文第一作者。将信息瓶颈引入深度学习的可训练形式。","Belghazi":"Mohamed Ishmael Belghazi — MINE(互信息神经估计,2018)论文第一作者。用Donsker-Varadhan下界估计高维互信息。","Shwartz-Ziv":"Ravid Shwartz-Ziv — 信息瓶颈在DL中的试验研究者(与Tishby)。验证了深度网络训练中拟合-压缩两阶段现象。","Saxe":"Andrew Saxe — 对信息瓶颈理论提出挑战的研究者。证明拟合-压缩两阶段可能是饱和激活函数的数学现象。深层学习的动力学分析。","InfoNCE":"InfoNCE Loss — van den Oord et al.(2018)提出。对比学习的标准损失：-log[exp(sim(q,k+)/t)/Σexp(sim(q,ki)/t)]。最大化正例对互信息的下界。","MacKay":"David MacKay (1967-2016) — 剑桥大学教授。著《Information Theory, Inference, and Learning Algorithms》(2003)将信息论与贝叶斯推断统一。贝叶斯深度学习先驱。"};
-const ANN_TERMS = ["Vision Transformer","Donsker-Varadhan下界","Jensen-Shannon散度","von Neumann熵","Scaling Laws","van den Oord","Shwartz-Ziv","Boltzmann熵","Granger因果性","Softmax策略","Boltzmann","Zaslavsky","Kalman滤波","Boosting","Shannon熵","Kullback","Belghazi","Shannon","softmax","Sigmoid","Bagging","数据处理不等式","Hartley","Leibler","Pereira","InfoNCE","中心极限定理","DBSCAN","强化学习之父","拉格朗日乘子","哥德尔不完备","马尔可夫网络","狄利克雷分布","信源编码定理","信道编码定理","变分信息瓶颈","SimCLR","Flow模型","高效编码假说","Renyi熵","Weaver","Akaike","Thomas","Tishby","Bialek","MacKay","Pearl","无监督学习","批量归一化","计算复杂性","自动编码器","分布语义学","余弦相似度","交叉注意力","启发式算法","贝尔曼方程","大模型幻觉","上下文学习","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","自监督学习","多任务学习","小样本学习","零样本学习","条件互信息","信息增益比","率失真理论","最大熵原理","指数族分布","负对数似然","无信息先验","完美保密性","量子信息论","量子互信息","Renyi","Cover","Alemi","机器学习","深度学习","神经网络","强化学习","ReLU","BERT","监督学习","迁移学习","层归一化","独热编码","协同过滤","NP完全","拉格朗日","信息瓶颈","误差分析","差分隐私","消融实验","基准测试","分布漂移","批次大小","类型错误","拟牛顿法","共轭梯度","正定矩阵","距离度量","批归一化","激活函数","Tanh","代价函数","目标函数","黑塞矩阵","泰勒展开","溯因推理","NP问题","信道容量","提示工程","温度参数","集束搜索","泊松分布","指数分布","均匀分布","贝塔分布","渐近性质","逻辑回归","线性回归","弹性网络","层次聚类","密度聚类","异常检测","特征选择","度量学习","均值漂移","语言模型","图灵完备","前向KL","反向KL","f-散度","点互信息","信息增益","拟合阶段","压缩阶段","信息曲线","MINE","MoCo","BYOL","mRMR","自编码器","最优编码","编码理论","信源编码","信道编码","无损压缩","有损压缩","稀疏编码","量子纠缠","幻觉问题","数据质量","信息密度","Saxe","AGI","MLE","GAN","PDE","GPT","过拟合","欠拟合","归一化","编码器","预训练","规模律","思维树","困惑度","ROC","信息论","λ演算","复杂度","条件数","迭代法","因果性","正交化","牛顿法","P问题","NP难","信息熵","条件熵","联合熵","相对熵","Q学习","注意力","决策树","KNN","K均值","贝叶斯","相关性","分类器","感知机","精确率","卷积层","池化层","PPO","微分熵","冗余度","VIB","CPC","暗知识","BPE","熵编码","因果熵","量子熵","AI","KL","蒸馏","拟合","算法","尖点","偏见","梯度","似然","先验","方差","F1","分词"];
+const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MLE":"Maximum Likelihood Estimation — 最大似然估计，寻找使观测数据概率最大的参数值。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","Shannon":"克劳德·香农 — 信息论之父，1948 年定义熵和信道容量，奠定信息论。","Pearl":"朱迪亚·珀尔 — 因果推断先驱，贝叶斯网络和结构因果模型提出者，图灵奖得主。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","监督学习":"Supervised Learning — 使用带标签数据学习输入到输出映射的机器学习范式。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","过拟合":"Overfitting — 模型在训练数据上好但新数据上差的现象，由模型过于复杂导致。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","预训练":"Pre-training — 在大规模通用数据上先训练模型再针对特定任务微调的范式。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","蒸馏":"Knowledge Distillation — 将大模型的知识迁移到小模型的技术。","拟合":"Fitting — 模型学习训练数据中模式的过程，过拟合=学噪声，欠拟合=没学够。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","困惑度":"Perplexity — PPL=exp(-(1/N)Σlog P(w_i))。评估语言模型的指标。信息论视角：模型对下一个token不确定性的平均度量。PPL越低越好。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","信息论":"Information Theory — Shannon 创立的信息量化和通信数学理论，核心是熵和互信息。","计算复杂性":"Computational Complexity — 研究解决问题所需时间和空间资源的理论。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","拉格朗日":"Lagrangian — 约束优化中引入乘子将约束并入目标函数的方法。","信息瓶颈":"Information Bottleneck — 保留输出最大信息同时压缩输入表示的理论框架。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","因果性":"Causality — 原因和结果之间的关系，因果推断的核心研究对象。","偏见":"Bias — AI 系统因训练数据或算法设计产生的系统性偏差。","差分隐私":"Differential Privacy — 在数据分析结果中添加噪声以保护个体隐私的数学框架。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","拉格朗日乘子":"Lagrange Multiplier — 约束优化中引入的辅助变量，将约束融入目标函数。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","激活函数":"Activation Function — 为神经网络引入非线性变换的函数，如 ReLU、Sigmoid、Tanh。","Sigmoid":"Sigmoid 函数 — 将实数映射到 (0,1) 区间的 S 形激活函数，常用于二分类输出层。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","信息熵":"Information Entropy — Shannon 定义的信息量的期望度量，单位为比特。","条件熵":"Conditional Entropy — 已知一个随机变量后另一个变量的剩余不确定性 H(Y|X)。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","信道容量":"Channel Capacity — 信道在理论上可达的最大可靠信息传输速率。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","上下文学习":"In-Context Learning — LLM 在不更新参数的前提下仅通过提示中的示例来执行新任务的能力。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","指数分布":"Exponential Distribution — 描述独立事件发生间隔时间的连续概率分布。","均匀分布":"Uniform Distribution — 在区间内所有值等可能的概率分布，表示无信息先验。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","决策树":"Decision Tree — 通过树形决策规则（节点=特征，叶=预测）进行分类或回归的模型。","逻辑回归":"Logistic Regression — 用 Sigmoid 函数将线性组合映射到概率的二分类模型。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","特征选择":"Feature Selection — 从原始特征集中挑选最有信息量的子集的方法。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","贝叶斯":"Bayesian — 基于贝叶斯定理的统计推断方法体系的总称。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","先验":"Prior — 贝叶斯推断中观测数据前对参数不确定性的概率分布。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","相关性":"Correlation — 衡量两个变量间线性关系强度的统计指标。","分类器":"Classifier — 将输入映射到离散类别标签的机器学习模型。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","分词":"Tokenization — 将连续文本切分为词或子词等语言单元的前处理步骤。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","PPO":"Proximal Policy Optimization — 裁剪策略更新幅度保证稳定性的RL算法。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","Shannon熵":"Shannon Entropy — H(X)=-ΣP(x)logP(x)。Shannon(1948)定义。衡量随机变量不确定性的基本量。交叉熵损失和KL散度都建立在Shannon熵之上。","微分熵":"Differential Entropy — 连续随机变量的熵 h(X)=-∫p(x)log p(x)dx。高斯分布的微分熵为(1/2)log(2πeσ²)。变分推断中ELBO需要处理微分熵。","前向KL":"Forward KL Divergence — D_KL(P∥Q)=∫P(x)log(P(x)/Q(x))dx。在P下求期望。变分推断中最小化的KL形式，鼓励Q覆盖P的所有模式。","反向KL":"Reverse KL Divergence — D_KL(Q∥P)=∫Q(x)log(Q(x)/P(x))dx。在Q下求期望。VI中可处理的KL形式(EVB直接用)，但鼓励Q集中在P的一个模式上(mode-seeking)。","Jensen-Shannon散度":"Jensen-Shannon Divergence — JSD(P∥Q)=(1/2)D_KL(P∥M)+(1/2)D_KL(Q∥M)，M=(P+Q)/2。对称且有界[0,log2]。GAN的原始训练目标等价于JSD。","f-散度":"f-Divergence — D_f(P∥Q)=∫Q(x)f(P(x)/Q(x))dx。KL散度(f(t)=t log t)和JSD(f(t)=t log t-(t+1)log(t+1)/2)都是特例。GAN可解释为最小化特定f-散度。","点互信息":"Pointwise Mutual Information (PMI) — PMI(x,y)=log[P(x,y)/(P(x)P(y))]。衡量两个具体事件共现程度超过随机预期的对数比值。词共现分析的常用指标。","条件互信息":"Conditional Mutual Information — I(X;Y|Z)=H(X|Z)-H(X|Y,Z)。给定Z时X和Y共享的信息。因果发现中用于判断条件独立性。","信息增益":"Information Gain — I(Y;X)=H(Y)-H(Y|X)。特征X给标签Y带来的信息增量。决策树(C4.5/ID3)的节点分裂准则。","信息增益比":"Information Gain Ratio — IG Ratio = I(Y;X)/H(X)。信息增益的归一化版本。C4.5使用，避免偏好取值多的特征。","数据处理不等式":"Data Processing Inequality — 对马尔可夫链X→Y→Z有I(X;Y)≥I(X;Z)。后处理不增加信息量。特征工程的理论约束——变换不创造新信息。","信源编码定理":"Source Coding Theorem — Shannon第一定理。信源可被压缩的最小平均码长=熵H(X。无损压缩的下界。算术编码/Huffman编码可以达到或接近此界。","信道编码定理":"Channel Coding Theorem — Shannon第二定理。给定信道容量C，只要码率R《C，总存在编码使错误概率任意小。奠定了数字通信的理论基础。","冗余度":"Redundancy — R=D_KL(P||Q)用量描述模型分布Q对真实分布P的近似精度。率失真理论和信息瓶颈的核心量。","率失真理论":"Rate-Distortion Theory — 给定允许失真D，所需最小比特率R(D)。信息瓶颈方法可视为率失真的变体：压缩输入X但保留关于Y的信息。","拟合阶段":"Fit Phase — 信息瓶颈两阶段中的第一阶段：网络学习增I(X;T)(拟合训练标签)。对应训练初期损失迅速下降的阶段。","压缩阶段":"Compression Phase — 信息瓶颈两阶段中的第二阶段：网络减少I(X;T)(压缩输入)。标签无关的输入信息被丢弃。发生在训练后期。","信息曲线":"Information Curve — I(X;T)与I(T;Y)的贸易关系曲线。信息瓶颈理论的核心可视化工具。最优表征位于Pareto前沿。","变分信息瓶颈":"Variational Information Bottleneck (VIB) — Alemi et al.(2016)提出。用变分推断近似信息瓶颈目标 min I(X;T)-βI(T;Y)。在DL中可训练。","VIB":"Variational Information Bottleneck — 变分信息瓶颈。深度学习中的信息瓶颈实现版本，平衡表征的简洁性与预测能力。","指数族分布":"Exponential Family — 形式为 p(x|θ)=h(x)exp(θ⋅T(x)-A(θ))的分布族。包括高斯/Beta/泊松等。最大熵原理导出指数族。","负对数似然":"Negative Log-Likelihood (NLL) — NLL=-Σlog p(y_i|x_i,θ)。分类的交叉熵损失本质上是对数似然的负数。最小化NLL等价于MLE。","无信息先验":"Noninformative Prior — 表示对参数\"一无所知\"的先验。Jeffreys先验是唯一在变换下不变的无信息先验。均匀先验在某些参数变换下不是无信息的。","MINE":"Mutual Information Neural Estimation — Belghazi et al.(2018)提出。用神经网络通过Donsker-Varadhan下界估计互信息。高维连续互信息估计的实用方法。","Donsker-Varadhan下界":"Donsker-Varadhan Representation — I(X;Y)=sup_{T∈F}[E_P[T]-log E_Q[e^T]]。将互信息表示为变分优化问题的上确界。MINE的目标函数基础。","CPC":"Contrastive Predictive Coding — van den Oord et al.(2018)提出。用InfoNCE损失做对比预测。语音/图像/文本中学习强大表示的自监督方法。","SimCLR":"SimCLR — Chen et al.(2020)提出。简单对比学习框架：同一图像两次数据增强为正例，不同图像为负例。最大化正例对的互信息下界。","MoCo":"Momentum Contrast — He et al.(2020)提出。用动量编码器维持大而一致的负例队列，改进对比学习效率。UniViLM等模型使用。","BYOL":"Bootstrap Your Own Latent — Grill et al.(2020)提出。不需要负例的对比学习方法。仅用正例对+预测器，隐式最大化互信息下界。","mRMR":"Maximum Relevance Minimum Redundancy — 特征选择方法：最大化特征与标签的互信息(Relevance)，最小化特征间的互信息(Redundancy)。","暗知识":"Dark Knowledge — Hinton(2015)在知识蒸馏论文中提出。教师模型的软标签(Softmax概率分布)包含比硬标签更丰富的类间关系信息。","自编码器":"Autoencoder — 无监督表示学习模型：编码器压缩输入→隐空间→解码器重建。隐空间的信息瓶颈理念：保留关键信息丢弃噪声。","Flow模型":"Normalizing Flow — 可逆标准化流。通过一系列可逆变换将简单分布(高斯)映射到复杂分布。精确对数似然计算，似然估计的下界为零。","最优编码":"Optimal Coding — 给定符号概率分布，寻找平均码长最小的编码方案。Huffman编码/算术编码是最优编码。Shannon信源编码定理给出了理论下界H(X)。","编码理论":"Coding Theory — 研究数据表示和错误校正的数学领域。信源编码(压缩)和信道编码(纠错)是两大分支。BPE在LLM中用于分词。","信源编码":"Source Coding — 数据压缩：用更少的比特表示数据。无损压缩(Huffman/算术编码)保留全部信息。有损压缩(JPEG/MP3)丢弃感知不重要的信息。","信道编码":"Channel Coding — 添加冗余使数据能在噪声信道中可靠传输。RS码/卷积码/LDPC码。与ML中Dropout/正则化有深刻联系。","无损压缩":"Lossless Compression — 编码后可以完全恢复原始数据。Huffman编码/算术编码/LZW。最大压缩比受限于信源熵H(X)。","有损压缩":"Lossy Compression — 编码后无法完全恢复但感知质量可接受。JPEG/MP3/视频编码。率失真理论是有损压缩的理论基础。","BPE":"Byte-Pair Encoding — 基于统计的子词分词算法。迭代合并频率最高的相邻符号对。GPT/BERT/LLaMA等LLM的标准分词方法。","熵编码":"Entropy Coding — 根据符号概率分配码长的编码方法。Huffman编码(整数码)和算术编码(分数码)是两种主要方法。达到Shannon熵的理论编码效率。","完美保密性":"Perfect Secrecy — 密文与明文统计独立：I(M;C)=0。Shannon证明一次性密码本可实现完美保密，但密钥长度=明文长度。差分隐私是其现代推广。","高效编码假说":"Efficient Coding Hypothesis — Barlow(1961)提出。感知系统的目标是高效编码感官输入——减少冗余，保留关键信息。预测编码是其计算实现。","稀疏编码":"Sparse Coding — 用少量活跃神经元的线性组合来表示输入。大脑V1皮层神经元对边缘的响应是稀疏的。Sparse Autoencoder是其在DL中的实现。","Boltzmann熵":"Boltzmann Entropy — S=k·log W。统计力学中熵的定义：W为微观状态数。与Shannon熵数学形式一致。自由能原理中的熵来自于此。","von Neumann熵":"von Neumann Entropy — S=-Tr(ρlogρ)。量子信息的熵定义，ρ为密度矩阵。量子信息论的基本度量。完美保密性的量子推广。","Renyi熵":"Renyi Entropy — H_α(P)=(1/(1-α))log(ΣP(x)^α)。Shannon熵(α→1)的推广。α=2是碰撞熵。差分隐私的分析中使用Renyi差分隐私(RDP)。","因果熵":"Causal Entropy — 衡量因果效应的信息论量。将互信息扩展到干预分布下。量化干预X时Y的不确定性减少。","Granger因果性":"Granger Causality — 如果引入X的过去值能显著改进Y的预测，则X Granger-causes Y。基于预测方差的信息论检验。","量子信息论":"Quantum Information Theory — 经典信息论在量子力学中的推广。von Neumann熵替代Shannon熵。量子纠缠提供超越经典的信息处理能力。","量子熵":"Quantum Entropy (von Neumann Entropy) — S(ρ)=-Tr(ρlogρ)。量子态的熵。纯态熵为0，混合态熵>0。衡量系统的量子不确定性和纠缠程度。","量子互信息":"Quantum Mutual Information — I(A;B)=S(A)+S(B)-S(AB)。量子系统中A和B的总关联(经典+量子)。量子纠错的理论基础。","量子纠缠":"Quantum Entanglement — 量子系统间非经典的关联。纠缠态的熵大于子系统熵之和。量子通信和量子计算的核心资源。","Scaling Laws":"Scaling Laws — Kaplan et al.(2020)发现：模型性能与参数量/数据量/计算量呈幂律关系。损失随规模增大可预测下降。信息论解释：更多参数捕获更多数据结构。","幻觉问题":"Hallucination — LLM生成看似合理但事实错误的内容。信息论视角：模型输出分布与其实际\"知识\"分布的KL散度过大。训练/推理的不匹配。","数据质量":"Data Quality — 训练数据的纯净度、覆盖率和信息密度。信息论视角：高信息密度数据提供更多互信息/样本。数据质量比单纯数量更重要(Scaling Laws的修正)。","信息密度":"Information Density — 每个token(或样本)所含的平均信息量I(X;Y)。高信息密度数据更高效。预训练语料的去重和过滤本质是提升信息密度。","Boltzmann":"Ludwig Boltzmann (1844-1906) — 统计力学奠基人。Boltzmann熵S=k log W。自由能原理的物理源头。Shannon熵的物理前身。","Hartley":"Ralph Hartley (1888-1970) — 信息量度量先驱。Hartley信息量 I=log N(N为消息数)。Shannon熵的直接前身。","Weaver":"Warren Weaver (1894-1978) — 与Shannon合著《通信的数学理论》(1949)。将信息论推广到语义层面(Weaver三层次模型)。","Kullback":"Solomon Kullback (1907-1994) — 与Leibler提出KL散度(Kullback-Leibler Divergence)。信息论在统计假设检验中的应用。","Leibler":"Richard Leibler (1914-2003) — 与Kullback提出KL散度。信息论和编码理论领域先驱。","Renyi":"Alfred Renyi (1921-1970) — Renyi熵(Shannon熵的推广)提出者。概率论领域的Renyi表示定理和Renyi图模型。","Akaike":"Hirotugu Akaike (1927-2009) — AIC(Akaike Information Criterion)提出者。基于KL散度的模型选择准则。赤池信息量是现代统计推断的基石。","Cover":"Thomas Cover (1938-2012) — 与Thomas合著《信息论基础》(Elements of Information Theory)权威教材。竞赛理论、Portfolio理论也有贡献。","Thomas":"Joy Thomas — 与Cover合著《信息论基础》。主要研究方向包括信息论、数据结构、网络信息论。","Tishby":"Naftali Tishby (1952-2021) — 信息瓶颈理论(1999)提出者。将互信息和率失真引入表征学习。DL的信息瓶颈分析。","Pereira":"Fernando Pereira — 信息瓶颈理论共同提出者(与Tishby&Bialek)。NLP领域重要研究者。Google Research。","Bialek":"William Bialek — 信息瓶颈理论共同提出者(与Tishby&Pereira)。理论神经科学家。研究生物系统中的信息处理。","Zaslavsky":"Noga Zaslavsky — 信息瓶颈理论在DL中的研究者。信息瓶颈拟合-压缩两阶段现象的深入分析。","van den Oord":"Aaron van den Oord — CPC/InfoNCE提出者。WaveNet(语音生成)/VQ-VAE/对比学习的重要推动者。DeepMind研究员。","Alemi":"Alexander Alemi — 变分信息瓶颈(VIB,2016)论文第一作者。将信息瓶颈引入深度学习的可训练形式。","Belghazi":"Mohamed Ishmael Belghazi — MINE(互信息神经估计,2018)论文第一作者。用Donsker-Varadhan下界估计高维互信息。","Shwartz-Ziv":"Ravid Shwartz-Ziv — 信息瓶颈在DL中的试验研究者(与Tishby)。验证了深度网络训练中拟合-压缩两阶段现象。","Saxe":"Andrew Saxe — 对信息瓶颈理论提出挑战的研究者。证明拟合-压缩两阶段可能是饱和激活函数的数学现象。深层学习的动力学分析。","InfoNCE":"InfoNCE Loss — van den Oord et al.(2018)提出。对比学习的标准损失：-log[exp(sim(q,k+)/t)/Σexp(sim(q,ki)/t)]。最大化正例对互信息的下界。","MacKay":"David MacKay (1967-2016) — 剑桥大学教授。著《Information Theory, Inference, and Learning Algorithms》(2003)将信息论与贝叶斯推断统一。贝叶斯深度学习先驱。","Fano's Inequality":"Fano's Inequality — Fano不等式。从带噪声观测恢复原始变量的误差下界，通信定理的核心工具。","Gibbs' Inequality":"Gibbs' Inequality — Gibbs不等式。信息论基本不等式，KL散度非负性基础。","Shannon-Fano Coding":"Shannon-Fano Coding — 香农-法诺编码。基于符号概率的变长编码方法。","Huffman Coding":"Huffman Coding — 哈夫曼编码。最优前缀码的贪心构造算法，数据压缩经典。","Rényi Divergence":"Rényi Divergence — Rényi散度。KL散度的推广，在差分隐私和迁移学习中应用。","Max-Entropy Principle":"Max-Entropy Principle — 最大熵原理。Jaynes提出，在满足约束条件下选择熵最大的分布。","Information Geometry":"Information Geometry — 信息几何。用微分几何方法研究统计流形，自然梯度优化的理论基础。","Schrödinger Bridge":"Schrödinger Bridge — 薛定谔桥。给定边际分布下最可能随机路径的问题，与扩散模型理论关联。","Rényi熵":"Rényi Entropy — H_α(X)=1/(1-α)log Σp(x)^α。推广Shannon熵，α→1时退化为Shannon熵。在多样性度量和对抗鲁棒性中有应用。","source coding theorem":"Source Coding Theorem — 信源编码定理。Shannon证明无损压缩的理论极限等于信源的熵。","channel coding theorem":"Channel Coding Theorem — 信道编码定理。在信道容量以下可实现任意低错误率通信。","information gain":"Information Gain — 信息增益。决策树分裂衡量指标 IG=H(Y)−H(Y|X)，ID3算法核心。","gain ratio":"Gain Ratio — 信息增益比。C4.5对信息增益的归一化修正，减少对多值特征偏好。","Data Processing Inequality":"Data Processing Inequality — 数据处理不等式。对数据的后处理不会增加信息量的定理。","rate-distortion theory":"Rate-Distortion Theory — 率失真理论。有损压缩中失真与码率之间的理论权衡关系。","information curve":"Information Curve — 信息曲线。信息瓶颈优化问题解形成的权衡曲线。","forward KL":"Forward KL — 前向KL。KL(P‖Q)倾向于覆盖P所有模式(mean-seeking)，用于期望传播。","reverse KL":"Reverse KL — 反向KL。KL(Q‖P)倾向于聚焦P某个模式(mode-seeking)，用于变分推断。","mean-seeking":"Mean-Seeking — 前向KL行为：覆盖分布所有模式，在P有概率处Q也必须有概率。","mode-seeking":"Mode-Seeking — 反向KL行为：聚焦分布某个模式，Q集中在P概率高处。","negative log-likelihood":"Negative Log-Likelihood — 负对数似然。−log p_θ(y|x)，分类交叉熵的本质。","binary cross-entropy":"Binary Cross-Entropy — 二元交叉熵BCE。二分类的交叉熵损失 L=−[y logŷ+(1−y)log(1−ŷ)]。","Jensen-Shannon divergence":"Jensen-Shannon Divergence — JSD。KL散度的对称化版本，GAN的理论基础。","f-divergence":"F-Divergence — f-散度。KL散度的泛化形式，KL和JSD都是其特例。","f-GAN":"F-GAN — 将GAN目标函数推广到任意f-散度的统一生成对抗框架。","dark knowledge":"Dark Knowledge — 暗知识。教师模型软标签中蕴含的超越硬标签的丰富信息。","perfect secrecy":"Perfect Secrecy — 完美保密性。Shannon定义：密文与明文统计独立的信息论绝对安全。","efficient coding hypothesis":"Efficient Coding Hypothesis — 高效编码假说。神经元编码以信息效率最大化为目标的假说。","uninformative prior":"Uninformative Prior — 无信息先验。只包含最少假设的先验分布，最大熵原理产物。","exponential family":"Exponential Family — 指数族分布。形式 p(x)∝exp(Σλᵢfᵢ(x)) 的概率分布族。","Information Bottleneck":"Information Bottleneck — 信息瓶颈。Tishby(2000)为表示学习提供的信息论框架。","information density":"Information Density — 信息密度。单位数据中含有的有效信息量。","source coding":"Source Coding — 信源编码。将信源符号压缩为尽可能少比特的编码过程。","channel coding":"Channel Coding — 信道编码。添加冗余以抵抗信道噪声的编码过程。","entropy coding":"Entropy Coding — 熵编码。平均码长接近信息熵的最优编码方法。","lossless compression":"Lossless Compression — 无损压缩。可完全恢复原始数据的压缩方法。","lossy compression":"Lossy Compression — 有损压缩。允许信息损失以换取更高压缩率的方法。","optimal coding":"Optimal Coding — 最优编码。平均码长最接近信息熵的编码方案。","coding theory":"Coding Theory — 编码理论。研究信息编码和传输的数学理论分支。","redundancy":"Redundancy — 冗余度。超出信息熵的编码额外长度，用于错误检测和纠正。","Boltzmann entropy":"Boltzmann Entropy — S=k_B lnW，统计力学中宏观态熵的微观解释，Shannon熵的灵感来源。","quantum entropy":"Quantum Entropy / von Neumann Entropy — 量子熵。Shannon熵在量子力学的推广。","quantum mutual information":"Quantum Mutual Information — 量子互信息。捕捉经典互信息无法描述的量子关联。","quantum entanglement":"Quantum Entanglement — 量子纠缠。量子系统间非局域关联的物理现象。","quantum information theory":"Quantum Information Theory — 量子信息论。将经典信息论扩展到量子系统的新分支。","causal entropy":"Causal Entropy — 因果熵。将信息论熵概念扩展到因果关系度量的推广形式。","Granger causality":"Granger Causality — Granger因果性。基于时间序列预测能力的统计因果关系定义。","information-theoretic security":"Information-Theoretic Security — 信息论安全。基于信息论而非计算复杂性的安全定义。","fitting phase":"Fitting Phase — 拟合阶段。信息瓶颈理论中网络先学习任务相关信息的训练前期。","compression phase":"Compression Phase — 压缩阶段。信息瓶颈理论中网络丢弃无关信息的训练后期。","Ralph Hartley":"Ralph Hartley — 1928年首次提出用对数度量信息量的先驱，Hartley熵H=n·log s。","Solomon Kullback":"Solomon Kullback — 与Leibler提出KL散度(1951)的统计学家。","Richard Leibler":"Richard Leibler — 与Kullback共同提出KL散度的统计学家。","Alfréd Rényi":"Alfréd Rényi — 匈牙利数学家(1921-1970)，推广Shannon熵提出Rényi熵族。","Edwin Jaynes":"Edwin Jaynes — 物理学家(1922-1998)，提出最大熵原理连接信息论与统计力学。","Joy Thomas":"Joy Thomas — 与Cover合著《Elements of Information Theory》的信息论学者。","Fernando Pereira":"Fernando Pereira — 计算机科学家，与Tishby和Bialek共同提出信息瓶颈方法。","William Bialek":"William Bialek — 生物物理学家，信息瓶颈方法共同提出者。","Naftali Tishby":"Naftali Tishby — 以色列计算机科学家，信息瓶颈方法创始人(2000)。","Shannon entropy":"Shannon Entropy — 香农熵 H(X)=−Σp(x)log p(x)，信息论中最基本的不确定性度量。","Focal Loss":"Focal Loss — 加权交叉熵损失，通过调节因子聚焦难分类样本，缓解类别不平衡。","Byte Pair Encoding":"Byte Pair Encoding — BPE。基于频率迭代合并最频繁字节对的子词分词算法。","differential entropy":"Differential Entropy — 微分熵。连续随机变量的Shannon熵 h(X)=−∫f(x)log f(x)dx。","Masked Language Model":"Masked Language Model — 掩码语言模型MLM。随机掩码部分token并通过上下文预测的训练范式。","data compression":"Data Compression — 数据压缩。通过编码减少存储/传输数据量的技术，分为无损和有损。","contrastive learning":"Contrastive Learning — 对比学习。拉近正样本对推远负样本对学习表示的自监督方法。","log-likelihood":"Log-Likelihood — 对数似然 ℓ(θ)=Σlog p(x_i|θ)。将概率乘积转为求和简化优化。","Variational Information Bottleneck":"VIB — 变分信息瓶颈。Alemi(2017)将信息瓶颈转化为可训练的变分目标函数。","predictive coding":"Predictive Coding — 预测编码。大脑通过预测感觉输入并与实际比较更新内部模型的理论。","Mutual Information":"Mutual Information — 互信息 I(X;Y)=H(X)−H(X|Y)。两变量共享的信息量度量。","Cross-Entropy":"Cross-Entropy — 交叉熵 H(P,Q)=−Σp(x)log q(x)。分类任务的标准损失函数。","Kullback-Leibler divergence":"Kullback-Leibler Divergence — KL散度 D_KL(P‖Q)=Σp(x)log(p(x)/q(x))。分布差异度量。","Maximum Entropy Principle":"Maximum Entropy Principle — 最大熵原理。给定约束下选择熵最大分布的最少偏见原则。","Gibbs' inequality":"Gibbs' Inequality — Gibbs不等式。KL散度非负性的理论依据 D_KL(P‖Q)≥0。","nat":"Nat — 以e为底的熵单位(自然信息量)，1 nat ≈ 1.44 bits。","Donsker-Varadhan bound":"Donsker-Varadhan Bound — 互信息的DV下界估计，MINE方法的理论基础。","Entropy":"Entropy — 熵 H(X)=−Σp(x)log p(x)。信息论中不确定性的基本度量。","soft label":"Soft Label — 软标签。模型输出的概率分布而非硬类别，蕴含更多知识蒸馏信息。","hard label":"Hard Label — 硬标签。确定性的类别标签(如one-hot编码)，不含分布不确定性。","class imbalance":"Class Imbalance — 类别不平衡。训练集中各类样本数量严重不均的问题。","teacher model":"Teacher Model — 教师模型。知识蒸馏中提供软标签信息的大型模型。","student model":"Student Model — 学生模型。知识蒸馏中学习教师模型输出分布的小型模型。","information bottleneck method":"Information Bottleneck Method — 信息瓶颈方法。通过最小化 I(X;T)−βI(T;Y)寻找最优表示。"};
+const ANN_TERMS = ["Variational Information Bottleneck","information-theoretic security","information bottleneck method","efficient coding hypothesis","Kullback-Leibler divergence","Data Processing Inequality","quantum mutual information","quantum information theory","Jensen-Shannon divergence","Maximum Entropy Principle","negative log-likelihood","channel coding theorem","rate-distortion theory","Information Bottleneck","Donsker-Varadhan bound","Max-Entropy Principle","source coding theorem","Masked Language Model","Information Geometry","binary cross-entropy","lossless compression","quantum entanglement","differential entropy","contrastive learning","Shannon-Fano Coding","uninformative prior","information density","Vision Transformer","Donsker-Varadhan下界","Schrödinger Bridge","exponential family","Byte Pair Encoding","Mutual Information","Fano's Inequality","Gibbs' Inequality","information curve","lossy compression","Boltzmann entropy","Granger causality","compression phase","predictive coding","Gibbs' inequality","Jensen-Shannon散度","Rényi Divergence","information gain","Solomon Kullback","Fernando Pereira","data compression","perfect secrecy","quantum entropy","Richard Leibler","Shannon entropy","class imbalance","Huffman Coding","dark knowledge","channel coding","entropy coding","optimal coding","causal entropy","William Bialek","Naftali Tishby","log-likelihood","source coding","coding theory","fitting phase","Ralph Hartley","Cross-Entropy","teacher model","student model","von Neumann熵","Scaling Laws","van den Oord","mean-seeking","mode-seeking","f-divergence","Alfréd Rényi","Edwin Jaynes","Shwartz-Ziv","Boltzmann熵","Granger因果性","gain ratio","forward KL","reverse KL","redundancy","Joy Thomas","Focal Loss","soft label","hard label","Softmax策略","Boltzmann","Zaslavsky","Kalman滤波","Boosting","Shannon熵","Kullback","Belghazi","Shannon","softmax","Sigmoid","Bagging","数据处理不等式","Hartley","Leibler","Pereira","InfoNCE","Entropy","中心极限定理","DBSCAN","强化学习之父","拉格朗日乘子","哥德尔不完备","马尔可夫网络","狄利克雷分布","信源编码定理","信道编码定理","变分信息瓶颈","SimCLR","Flow模型","高效编码假说","Renyi熵","Weaver","Akaike","Thomas","Tishby","Bialek","MacKay","Rényi熵","Pearl","无监督学习","批量归一化","计算复杂性","自动编码器","分布语义学","余弦相似度","交叉注意力","启发式算法","贝尔曼方程","大模型幻觉","上下文学习","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","自监督学习","多任务学习","小样本学习","零样本学习","条件互信息","信息增益比","率失真理论","指数族分布","负对数似然","无信息先验","完美保密性","量子信息论","量子互信息","Renyi","Cover","Alemi","f-GAN","机器学习","深度学习","神经网络","强化学习","ReLU","BERT","监督学习","迁移学习","层归一化","独热编码","协同过滤","NP完全","拉格朗日","信息瓶颈","误差分析","差分隐私","消融实验","基准测试","分布漂移","批次大小","类型错误","拟牛顿法","共轭梯度","正定矩阵","距离度量","批归一化","激活函数","Tanh","代价函数","目标函数","黑塞矩阵","泰勒展开","溯因推理","NP问题","信道容量","提示工程","温度参数","集束搜索","泊松分布","指数分布","均匀分布","贝塔分布","渐近性质","逻辑回归","线性回归","弹性网络","层次聚类","密度聚类","异常检测","特征选择","度量学习","均值漂移","语言模型","图灵完备","前向KL","反向KL","f-散度","点互信息","信息增益","拟合阶段","压缩阶段","信息曲线","MINE","MoCo","BYOL","mRMR","自编码器","最优编码","编码理论","信源编码","信道编码","无损压缩","有损压缩","稀疏编码","量子纠缠","幻觉问题","数据质量","信息密度","Saxe","AGI","MLE","GAN","PDE","GPT","过拟合","欠拟合","归一化","编码器","预训练","规模律","思维树","困惑度","ROC","信息论","λ演算","复杂度","条件数","迭代法","因果性","正交化","牛顿法","P问题","NP难","信息熵","条件熵","联合熵","相对熵","Q学习","注意力","决策树","KNN","K均值","贝叶斯","相关性","分类器","感知机","精确率","卷积层","池化层","PPO","微分熵","冗余度","VIB","CPC","暗知识","BPE","熵编码","因果熵","量子熵","nat","AI","KL","蒸馏","拟合","算法","尖点","偏见","梯度","似然","先验","方差","F1","分词"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

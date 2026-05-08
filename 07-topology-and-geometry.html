@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>拓扑学与微分几何（Topology and Differential Geometry）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">拓扑学与微分几何（Topology and Differential Geometry）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1065,8 +878,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MAP":"Maximum A Posteriori — 最大后验估计，融合先验信息的贝叶斯参数估计方法。","EM":"Expectation-Maximization — 期望最大化算法，处理含隐变量模型参数估计的迭代算法。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","TDA":"Topological Data Analysis — 拓扑数据分析，用拓扑工具分析数据形状特征的方法。","ODE":"Ordinary Differential Equation — 常微分方程，在神经 ODE 中用于连续层变换。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","残差连接":"Skip Connection / Residual Connection — 跨层直接传递信息的连接，缓解梯度消失。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","AUC":"Area Under the ROC Curve — 衡量二分类模型整体性能的指标。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","对偶":"Duality — 两个看似不同的结构之间一一对应的数学现象，如线性规划的对偶问题。","随机过程":"Stochastic Process — 随时间随机演变的系统数学抽象，如马尔可夫过程、布朗运动。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","拓扑":"Topology — 研究几何性质在连续变换下不变的数学分支，关注空间的连接性。","流形学习":"Manifold Learning — 假设高维数据位于低维流形上并进行降维的方法。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","特征工程":"Feature Engineering — 从原始数据中构造有信息量的特征以提升模型性能的过程。","协方差":"Covariance — 衡量两个随机变量之间线性相关方向和程度的统计量。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","特征向量":"Eigenvector — 线性变换后方向不变（仅缩放）的非零向量。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","降维":"Dimensionality Reduction — 将高维数据映射到低维空间以提取结构和去除噪声的技术。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","自由度":"Degrees of Freedom — 独立观测数量减去约束数，影响统计分布形状。","最短路径":"Shortest Path — 图中两点间总权重最小的路径，Dijkstra是经典算法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","消息传递":"Message Passing — GNN中节点间信息交换和聚合的通用计算范式。","PPO":"Proximal Policy Optimization — 裁剪策略更新幅度保证稳定性的RL算法。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。"};
-const ANN_TERMS = ["Vision Transformer","Softmax策略","Kalman滤波","Boosting","Bagging","ResNet","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","无监督学习","批量归一化","自动编码器","分布语义学","余弦相似度","交叉注意力","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","多任务学习","小样本学习","零样本学习","机器学习","深度学习","神经网络","强化学习","迁移学习","残差连接","层归一化","独热编码","协同过滤","NP完全","随机过程","流形学习","误差分析","消融实验","基准测试","分布漂移","批次大小","特征工程","类型错误","拟牛顿法","共轭梯度","特征向量","正定矩阵","距离度量","批归一化","Tanh","代价函数","目标函数","黑塞矩阵","泰勒展开","溯因推理","NP问题","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","最短路径","消息传递","图灵完备","MAP","CNN","GAN","TDA","ODE","PDE","欠拟合","归一化","编码器","解码器","规模律","思维树","AUC","λ演算","复杂度","条件数","迭代法","正交化","协方差","牛顿法","特征值","P问题","NP难","联合熵","相对熵","Q学习","KNN","K均值","自由度","感知机","精确率","卷积层","池化层","PPO","AI","EM","KL","对偶","拓扑","算法","尖点","梯度","降维","似然","方差","F1","表征"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MAP":"Maximum A Posteriori — 最大后验估计，融合先验信息的贝叶斯参数估计方法。","EM":"Expectation-Maximization — 期望最大化算法，处理含隐变量模型参数估计的迭代算法。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","GAN":"Generative Adversarial Network — 生成对抗网络，由生成器和判别器构成的博弈框架。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","TDA":"Topological Data Analysis — 拓扑数据分析，用拓扑工具分析数据形状特征的方法。","ODE":"Ordinary Differential Equation — 常微分方程，在神经 ODE 中用于连续层变换。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","残差连接":"Skip Connection / Residual Connection — 跨层直接传递信息的连接，缓解梯度消失。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","AUC":"Area Under the ROC Curve — 衡量二分类模型整体性能的指标。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","对偶":"Duality — 两个看似不同的结构之间一一对应的数学现象，如线性规划的对偶问题。","随机过程":"Stochastic Process — 随时间随机演变的系统数学抽象，如马尔可夫过程、布朗运动。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","拓扑":"Topology — 研究几何性质在连续变换下不变的数学分支，关注空间的连接性。","流形学习":"Manifold Learning — 假设高维数据位于低维流形上并进行降维的方法。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","特征工程":"Feature Engineering — 从原始数据中构造有信息量的特征以提升模型性能的过程。","协方差":"Covariance — 衡量两个随机变量之间线性相关方向和程度的统计量。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","特征向量":"Eigenvector — 线性变换后方向不变（仅缩放）的非零向量。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","降维":"Dimensionality Reduction — 将高维数据映射到低维空间以提取结构和去除噪声的技术。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","自由度":"Degrees of Freedom — 独立观测数量减去约束数，影响统计分布形状。","最短路径":"Shortest Path — 图中两点间总权重最小的路径，Dijkstra是经典算法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","消息传递":"Message Passing — GNN中节点间信息交换和聚合的通用计算范式。","PPO":"Proximal Policy Optimization — 裁剪策略更新幅度保证稳定性的RL算法。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","Brouwer Fixed Point Theorem":"Brouwer Fixed Point Theorem — 布劳威尔不动点定理。连续映射从闭球到自身至少有一个不动点。","Poincaré Conjecture":"Poincaré Conjecture — 庞加莱猜想。单连通闭三维流形同胚于三维球面，Perelman证明。","Euler Characteristic":"Euler Characteristic — 欧拉示性数。χ=V-E+F，拓扑空间的重要不变量。","Gauss-Bonnet Theorem":"Gauss-Bonnet Theorem — 高斯-博内定理。曲面的总曲率与欧拉示性数的关系。","Geodesic":"Geodesic — 测地线。黎曼流形上局部最短的曲线，相当于欧氏空间中的直线。","Ricci Curvature":"Ricci Curvature — Ricci曲率。黎曼流形上平均截面曲率，Alex Turk对GNN的谱分析中应用。","Hyperbolic Space":"Hyperbolic Space — 双曲空间。恒定负曲率空间，嵌入层次结构数据的能力优于欧氏空间。","Morse Theory":"Morse Theory — Morse理论。用光滑函数临界点研究流形拓扑的理论。","Hodge Theory":"Hodge Theory — Hodge理论。将微分形式分解为调和、恰当和上恰当形式的理论。","持续同调":"Persistent Homology — TDA核心方法：跟踪拓扑特征(连通分量/环/空腔)在尺度变化下的生灭过程，用持续图量化结构重要性。","单纯复形":"Simplicial Complex — 将点、边、三角形、四面体等单纯形按包含关系组合的拓扑对象。从点云构建图论表示的标准方法。","Betti数":"Betti Number — 拓扑空间的连通性度量：β₀=连通分量数、β₁=环数、β₂=空腔数。TDA中持续同调直接计算Betti数。","测地距离":"Geodesic Distance — 流形上两点间沿曲面最短路径的距离。Isomap用图上的最短路径近似测地距离进行非线性降维。","局部线性嵌入":"Locally Linear Embedding (LLE) — Roweis&Saul(2000)流形学习算法：每个点由其近邻线性重构，低维保持相同重构权重。","多维缩放":"Multidimensional Scaling (MDS) — 在保持点对距离的前提下寻找低维嵌入。经典MDS与PCA等价，Isomap在线性MDS之上加测地距离。","微分同胚":"Diffeomorphism — 光滑可逆且逆也光滑的映射。Normalizing Flow通过微分同胚链将简单分布映射为复杂分布。","统计流形":"Statistical Manifold — 由参数化概率分布族构成的流形。Fisher信息矩阵是其自然黎曼度量，信息几何的核心研究对象。","Bernhard Riemann":"Bernhard Riemann (1826-1866) — 德国数学家，创立黎曼几何，提出黎曼度量张量，为广义相对论和信息几何奠定数学基础。","Henri Poincaré":"Henri Poincaré (1854-1912) — 法国数学家，创立代数拓扑学，引入基本群、同调群、Betti数等拓扑不变量。","Hassler Whitney":"Hassler Whitney (1907-1989) — 美国数学家，提出 Whitney 嵌入定理，证明 n 维光滑流形可嵌入到 R^{2n} 中。","Shun-ichi Amari":"甘利俊一 (Shun-ichi Amari) — 日本数学家，信息几何奠基人，提出自然梯度下降法、α-联络与对偶几何理论。","Michael Bronstein":"Michael Bronstein — 以色列计算机科学家，提出几何深度学习 5G 框架，统一了 CNN、图网络、流形网络等架构。","Laurens van der Maaten":"Laurens van der Maaten — 荷兰计算机科学家，与 Hinton 共同提出 t-SNE 算法，高维数据可视化标准工具。","Leland McInnes":"Leland McInnes — UMAP 算法主要作者，基于黎曼几何与模糊拓扑理论实现高效非线性降维。","C. R. Rao":"Calyampudi Radhakrishna Rao (1920-2023) — 印度统计学家，提出 Rao 距离，在概率分布空间上引入 Fisher 信息度量。","Herbert Edelsbrunner":"Herbert Edelsbrunner — 奥地利计算机科学家，计算拓扑学先驱，持续同调理论的奠基者之一。","Gunnar Carlsson":"Gunnar Carlsson — 美国数学家，将代数拓扑引入数据分析，推动拓扑数据分析（TDA）发展。","Isomap":"Isomap (Isometric Feature Mapping) — 等距特征映射，用测地距离替代欧氏距离的非线性降维方法，Tenenbaum 2000 年提出。","LLE":"Locally Linear Embedding — 局部线性嵌入，假设流形局部线性，在低维保持近邻线性重构关系的降维方法。","t-SNE":"t-distributed Stochastic Neighbor Embedding — t-分布随机邻域嵌入，用 KL 散度匹配概率分布的可视化降维方法，擅长保持局部结构。","UMAP":"Uniform Manifold Approximation and Projection — 统一流形近似与投影，基于黎曼几何与模糊拓扑的高效非线性降维方法。","Manifold Hypothesis":"流形假设 — 高维数据实际上集中在低维流形附近，是降维、表示学习与生成模型的理论根基。","persistent homology":"持续同调 — 跟踪拓扑特征（连通分量、环、空腔）在不同尺度下的诞生与消亡，判断结构稳定性的方法。","Vietoris-Rips complex":"Vietoris-Rips 复形 — 从点云构建单纯复形的常用方法：若点集中任意两点距离 ≤ ε 则加入对应单纯形。","filtration":"滤流 — 参数 ε 从 0 增长到 ∞ 时得到的嵌套复形序列，持续同调在其中追踪拓扑特征的诞生与消亡。","persistence diagram":"持续图 — 持续同调的核心输出，每个点(b,d)表示一个拓扑特征的诞生与死亡尺度，远对角线者反映真实结构。","geodesic distance":"测地距离 — 流形上两点间沿流形的最短路径长度，替代欧氏距离可更好反映数据内在几何结构。","Hausdorff space":"Hausdorff 空间 — 拓扑空间中任意两点有不相交邻域，是拓扑流形定义的基本条件之一，确保极限点唯一。","diffeomorphism":"微分同胚 — 光滑流形之间的可逆光滑映射，Normalizing Flow 和 Neural ODE 的核心数学工具。","mode connectivity":"模式连通性 — 损失景观中不同局部极小值之间存在低损失路径的性质，是神经网络的拓扑特征。","metric tensor":"度量张量 g_ij — 黎曼几何核心概念，定义流形上的距离、角度和曲率，是黎曼度量的分量表示。","Riemannian metric":"黎曼度量 — 赋予光滑流形上每个切空间内积结构，使流形具有距离、角度与曲率概念的张量场。","Whitney embedding theorem":"Whitney 嵌入定理 — 任何 n 维光滑流形可嵌入到 R^{2n} 中，为表示学习提供理论上限。","Nash embedding theorem":"Nash 等距嵌入定理 — 任何黎曼流形可等距嵌入到高维欧氏空间，确保内蕴几何可用外蕴表示。","Theorema Egregium":"Gauss 绝妙定理 — 曲面 Gauss 曲率是内蕴量，仅依赖于曲面上的度量，不依赖三维嵌入方式。","topological loss":"拓扑损失(Topological Loss) — 利用持续同调度量生成数据与真实数据的拓扑差异，作为生成模型的约束。","simplicial neural networks":"单纯复形神经网络 — 将消息传递从图(1-单纯形)推广到高阶单纯形，处理多体交互与复合关系。","geometric deep learning":"几何深度学习 — Bronstein 等人提出的统一框架，强调利用数据域的对称性与几何约束设计神经网络架构。","MDS":"Multidimensional Scaling — 多维缩放，在低维空间中保持高维点对之间距离的经典降维方法。","statistical manifold":"统计流形 — 参数化概率分布族构成的流形，参数θ为其局部坐标，信息几何的研究对象。","alpha-connection":"α-联络 — Amari 引入的统计流形上联络族，α=1 对应指数族联络，α=-1 对应混合族联络，二者互为对偶。","黎曼几何":"Riemannian Geometry — 在任意维光滑流形上定义度量与曲率的几何学分支，为 AI 中的流形方法提供数学基础。","代数拓扑":"Algebraic Topology — 用代数方法（群、同调等）研究拓扑空间的不变量，为拓扑数据分析提供理论工具。","拓扑数据分析":"Topological Data Analysis (TDA) — 用持续同调等拓扑工具分析数据形状结构的方法，对噪声鲁棒。","黎曼优化":"Riemannian Optimization — 在黎曼流形上执行优化的框架，自然梯度下降即为在统计流形上的黎曼优化。","嵌入定理":"Embedding Theorem — 指 Whitney 嵌入定理与 Nash 等距嵌入定理，统称保证流形可忠实嵌入欧氏空间的数学结果。"};
+const ANN_TERMS = ["Brouwer Fixed Point Theorem","simplicial neural networks","Whitney embedding theorem","geometric deep learning","Laurens van der Maaten","Nash embedding theorem","Vietoris-Rips complex","Euler Characteristic","Gauss-Bonnet Theorem","Herbert Edelsbrunner","statistical manifold","Poincaré Conjecture","Manifold Hypothesis","persistent homology","persistence diagram","Vision Transformer","Michael Bronstein","geodesic distance","mode connectivity","Riemannian metric","Theorema Egregium","Hyperbolic Space","Bernhard Riemann","topological loss","alpha-connection","Ricci Curvature","Hassler Whitney","Shun-ichi Amari","Gunnar Carlsson","Hausdorff space","Henri Poincaré","Leland McInnes","diffeomorphism","metric tensor","Morse Theory","Hodge Theory","filtration","Softmax策略","C. R. Rao","Kalman滤波","Boosting","Geodesic","Bagging","ResNet","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","Betti数","局部线性嵌入","Isomap","拓扑数据分析","无监督学习","批量归一化","自动编码器","分布语义学","余弦相似度","交叉注意力","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","多任务学习","小样本学习","零样本学习","t-SNE","机器学习","深度学习","神经网络","强化学习","迁移学习","残差连接","层归一化","独热编码","协同过滤","NP完全","随机过程","流形学习","误差分析","消融实验","基准测试","分布漂移","批次大小","特征工程","类型错误","拟牛顿法","共轭梯度","特征向量","正定矩阵","距离度量","批归一化","Tanh","代价函数","目标函数","黑塞矩阵","泰勒展开","溯因推理","NP问题","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","最短路径","消息传递","图灵完备","持续同调","单纯复形","测地距离","多维缩放","微分同胚","统计流形","UMAP","黎曼几何","代数拓扑","黎曼优化","嵌入定理","MAP","CNN","GAN","TDA","ODE","PDE","欠拟合","归一化","编码器","解码器","规模律","思维树","AUC","λ演算","复杂度","条件数","迭代法","正交化","协方差","牛顿法","特征值","P问题","NP难","联合熵","相对熵","Q学习","KNN","K均值","自由度","感知机","精确率","卷积层","池化层","PPO","LLE","MDS","AI","EM","KL","对偶","拓扑","算法","尖点","梯度","降维","似然","方差","F1","表征"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

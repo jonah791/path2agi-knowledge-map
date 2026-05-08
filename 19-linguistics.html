@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>语言学（Linguistics）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">语言学（Linguistics）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1063,8 +876,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","NLP":"Natural Language Processing — 自然语言处理，使计算机理解、生成和处理人类语言的技术。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","词嵌入":"Word Embedding — 将词语映射到低维连续向量空间的技术，语义相近的词距离近。","分布式表示":"Distributed Representation — 信息分散到多维度的表示方式，词向量和隐层都是分布式表示。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","生成语法":"Generative Grammar — 有限规则生成无限句子的语言理论。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","词频":"Word Frequency — 词在语料库中出现的频率，是统计语言模型的基础特征。","n-gram":"N-gram 模型 — 基于前 n-1 个词预测第 n 个词的统计语言模型。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","经验主义":"Empiricism — 知识来源于感官经验的哲学立场，影响连接主义和数据驱动方法。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","BLEU":"Bilingual Evaluation Understudy — 评估机器翻译质量的指标，基于 n-gram 精度。","ROUGE":"Recall-Oriented Understudy for Gisting Evaluation — 评估文本摘要质量的指标。","语义相似度":"Semantic Similarity — 衡量两个文本单元在意义上接近程度的量化指标。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","词性标注":"POS Tagging — 为文本中每个词标注其语法类别的NLP任务。","机器翻译":"Machine Translation — 自动将一种自然语言转换为另一种的NLP任务。","对话系统":"Dialogue System — 能与用户进行自然语言对话的AI系统。","语音识别":"ASR — 将语音信号转换为文本的技术。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。"};
-const ANN_TERMS = ["Hebbian","n-gram","强化学习之父","分布式表示","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","ROUGE","语义相似度","小样本学习","零样本学习","回音室效应","神经网络","LSTM","BERT","连接主义","行为主义","符号接地","长时记忆","心身问题","形式语法","生成语法","遗传漂变","自由意志","经验主义","人类增强","消融实验","溯因推理","提示工程","集束搜索","BLEU","词性标注","机器翻译","对话系统","语音识别","语言模型","LLM","RNN","NLP","GPT","思维树","词嵌入","格式塔","感受质","整体论","注意力","AI","反馈","词频","共现","表征","语义"];
+const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","NLP":"Natural Language Processing — 自然语言处理，使计算机理解、生成和处理人类语言的技术。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","词嵌入":"Word Embedding — 将词语映射到低维连续向量空间的技术，语义相近的词距离近。","分布式表示":"Distributed Representation — 信息分散到多维度的表示方式，词向量和隐层都是分布式表示。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","生成语法":"Generative Grammar — 有限规则生成无限句子的语言理论。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","词频":"Word Frequency — 词在语料库中出现的频率，是统计语言模型的基础特征。","n-gram":"N-gram 模型 — 基于前 n-1 个词预测第 n 个词的统计语言模型。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","经验主义":"Empiricism — 知识来源于感官经验的哲学立场，影响连接主义和数据驱动方法。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","BLEU":"Bilingual Evaluation Understudy — 评估机器翻译质量的指标，基于 n-gram 精度。","ROUGE":"Recall-Oriented Understudy for Gisting Evaluation — 评估文本摘要质量的指标。","语义相似度":"Semantic Similarity — 衡量两个文本单元在意义上接近程度的量化指标。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","词性标注":"POS Tagging — 为文本中每个词标注其语法类别的NLP任务。","机器翻译":"Machine Translation — 自动将一种自然语言转换为另一种的NLP任务。","对话系统":"Dialogue System — 能与用户进行自然语言对话的AI系统。","语音识别":"ASR — 将语音信号转换为文本的技术。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。","Chomsky层级":"Chomsky Hierarchy — 按计算复杂度将形式语言分为正则、上下文无关、上下文相关和递归可枚举四层。","正则语言":"Regular Language (Type-3) — 可由有限状态自动机识别的最简单形式语言类。","上下文无关文法":"Context-Free Grammar (CFG, Type-2) — 编程语言和自然语言句法分析的标准形式化工具。","Saussure":"Ferdinand de Saussure (1857-1913) — 现代语言学奠基人，提出能指/所指、语言/言语等概念。","能指与所指":"Signifier and Signified (Saussure) — 语言符号由声音形象(能指)和概念(所指)构成的二元结构。","Harris分布式假说":"Distributional Hypothesis (Harris, 1954) — 出现在相同上下文的词具有相似含义，词嵌入的理论基石。","Bloomfield":"Leonard Bloomfield (1887-1949) — 将行为主义引入语言学，强调可观察语言行为而非内省。","普遍语法":"Universal Grammar (Chomsky) — 人类天生具有语言习得的生物基础的理论假设。","深层结构与表层结构":"Deep Structure and Surface Structure (Chomsky) — 同一深层语义可对应不同表层句法表达。","语义组合性原则":"Principle of Compositionality — 整体意义由部分意义及其组合方式决定的语义学基本原则。","语用学":"Pragmatics — 研究语言在具体语境中如何使用的语言学分支，关注意图和隐含含义。","会话含义":"Conversational Implicature (Grice) — 说话者在字面意义之外隐含传达的信息。","合作原则":"Cooperative Principle (Grice) — 对话参与者应遵循量、质、关联、方式四条基本准则。","篇章分析":"Discourse Analysis — 研究跨句指代、连贯性和话题延续的语篇层级分析。","言语行为理论":"Speech Act Theory (Austin, 1962; Searle, 1969) — 用语言做事(承诺/请求/宣告)的理论框架。","花园路径句":"Garden Path Sentence — 初始解析路径被证明是错误、需要重新分析的句子结构。","CBOW":"Continuous Bag of Words — Word2Vec中用上下文词预测中心词的词嵌入训练架构。","Skip-gram":"Skip-gram — Word2Vec中用中心词预测上下文词的词嵌入训练架构。","负采样":"Negative Sampling — 将softmax的大规模分类转化为二分类问题的词向量加速训练技巧。","加一平滑":"Laplace Smoothing — 为n-gram计数加1防止零概率的简单语言模型平滑方法。","Kneser-Ney平滑":"Kneser-Ney Smoothing — 基于词多样性而非频率的n-gram回退平滑方法。","神经概率语言模型":"Neural Probabilistic Language Model (Bengio et al., 2003) — 用神经网络替代n-gram查表的早期神经语言模型。","探针实验":"Probing Experiment — 用线性分类器检测LLM隐藏层编码了哪些语言学信息的方法。","最小对":"Minimal Pair — 仅在一个语言特征上不同的句子对，用于测试模型是否掌握了该特征。","机械可解释性":"Mechanistic Interpretability — 逆向工程神经网络内部组件功能以理解模型行为的方法。","树邻接文法":"Tree Adjoining Grammar (TAG) — 描述温和上下文相关语言的形式化工具。","温和上下文相关语言":"Mildly Context-Sensitive Language — 自然语言句法结构所需的介于CFG和CSG之间的表达能力层级。","FrameNet":"FrameNet — Fillmore框架语义学指导下构建的英语词汇语义数据库。","WordNet":"WordNet (Miller, 1995) — 按同义词集组织的大规模英语词汇语义网络。","Penn Treebank":"Penn Treebank (Marcus et al., 1993) — 大规模英语句法标注语料库，推动统计句法分析发展。","Universal Dependencies":"Universal Dependencies — 跨语言的依存句法标注标准，促进多语言NLP。","Pāṇini":"Pāṇini (约公元前4世纪) — 古印度语法学家，为梵语编写的语法规则是人类最早的形式语言描述。","Jelinek":"Frederick Jelinek (1932-2010) — 将统计方法引入语音识别和机器翻译的NLP先驱。","Pennington":"Jeffrey Pennington — GloVe词嵌入(2014)提出者，斯坦福NLP团队核心成员。","Devlin":"Jacob Devlin — BERT预训练模型(2019)第一作者，双向语言模型开创者。","Fillmore":"Charles Fillmore (1929-2014) — 框架语义学提出者，格语法创始人。","Montague":"Richard Montague (1930-1971) — 将自然语言语义形式化为高阶逻辑，计算语义学奠基人。","Chomsky":"Noam Chomsky — 提出生成语法和形式语言层级的语言学家","Harris":"Zellig Harris — 提出分布式假说的结构主义语言学家","Firth":"John Rupert Firth — '观其伴知其义'倡导者，英国语境主义语言学家","Grice":"H.P. Grice — 提出合作原则和会话含义的语言哲学家","Austin":"J.L. Austin — 提出言语行为理论的语言哲学家","Searle":"John Searle — 发展言语行为理论，提出中文房间论证","Kamp":"Hans Kamp — 提出话语表征理论的逻辑语言学家","音系学":"Phonology — 研究语言中声音系统的功能和组织的分支","形态学":"Morphology — 研究词的内部结构和构成规则的分支","句法学":"Syntax — 研究句子结构、短语构成和词序规律的分支","语义学":"Semantics — 研究语言意义的分支","上下文无关语言":"Context-free language — Type-2语言，由PDA识别，如CFG描述的语言","上下文相关语言":"Context-sensitive language — Type-1语言，由LBA识别的语言类型","递归可枚举语言":"Recursively enumerable language — Type-0语言，由图灵机识别的最强形式语言","有限状态自动机":"Finite State Automaton (FSA) — 识别正则语言的有限状态计算模型","线性有界自动机":"Linearly Bounded Automaton (LBA) — 识别上下文相关语言的图灵机变体","深层结构":"Deep structure — Chomsky理论中句子的抽象语法表征层","表层结构":"Surface structure — Chomsky理论中句子的实际语音形式","N-gram":"N-gram — 基于连续N个词出现频率统计的经典语言模型","平滑技术":"Smoothing — 解决n-gram数据稀疏问题的技术","句法分析":"Parsing — 分析句子语法结构的过程","依存句法":"Dependency grammar — 基于词间依赖关系描述句子结构的语法理论","子词编码":"Subword encoding — 将词拆分为子词单元处理的tokenization方法","组合性原则":"Compositionality — 整体意义由其部分意义和组合方式决定的原则","语言相对论":"Sapir-Whorf hypothesis — 语言影响或决定思维方式的假说","思维语言":"Language of thought — Fodor提出思维使用的内在符号系统","格莱斯准则":"Gricean maxims — 数量/质量/关联/方式四大会话准则","话语表征理论":"Discourse Representation Theory (DRT) — Kamp处理跨句指代的理论","通用依存关系":"Universal Dependencies — 跨语言的统一依存句法标注标准","PropBank":"PropBank — 宾夕法尼亚大学语义角色标注语料库","跨语言迁移":"Cross-lingual transfer — 将模型从富资源语言泛化到低资源语言的能力","主谓一致":"Subject-verb agreement — 句子中主语和谓语动词在人称数上的匹配语法约束","指代消解":"Co-reference resolution — 确定文本中指称表达所指实体的任务","潜在语义分析":"Latent Semantic Analysis (LSA) — 通过SVD降维发现词间潜在语义关系的方法","TF-IDF":"TF-IDF — 衡量词在文档中重要程度的统计方法","PMI":"Pointwise Mutual Information — 衡量两个词共现强度的统计量","语义解析":"Semantic parsing — 将自然语言转为机器可执行的意义表示","深度伪造文本":"Deepfake text — AI生成的难以与人类写作区分的伪造文本","统计机器翻译":"Statistical Machine Translation (SMT) — 基于词对齐和平移概率的机器翻译方法","Piantadosi":"Steven Piantadosi — 反驳Chomsky语言观的LLM时代研究者","Linzen":"Tal Linzen — 用句法测试评估LLM语言能力的研究者","Baroni":"Marco Baroni — 用探查实验评测LLM句法能力的研究者","Bender":"Emily Bender — 反对语言模型真正理解语义的计算语言学家","循环神经网络语言模型":"RNN language model — 用RNN处理变长序列的神经语言模型","自然语言处理":"Natural Language Processing (NLP) — AI理解和生成人类语言的研究领域","能指":"Signifier — Saussure语言学中语言符号的形式面向","所指":"Signified — Saussure语言学中语言符号的概念面向","言语":"Parole — Saussure语言学中具体的语言使用行为","语言":"Langue — Saussure语言学中抽象的语言系统","共时语言学":"Synchronic linguistics — Saussure提出的共时语言系统研究方法","历时语言学":"Diachronic linguistics — 研究语言随时间演变的方法","框架语义学":"Frame semantics — Fillmore提出用框架理解词义的语义理论","类型逻辑语法":"Type-Logical Grammar — 统一句法分析和逻辑推理的语法理论","Lambda演算":"Lambda calculus — Montague语义学使用的逻辑形式化工具","Ferdinand de Saussure":"Ferdinand de Saussure — 索绪尔(1857-1913)，现代语言学奠基人，《普通语言学教程》提出能指/所指、语言/言语、共时/历时等核心概念。","Noam Chomsky":"Noam Chomsky — 乔姆斯基(1928-)，生成语法之父，提出Chomsky层级和普遍语法，句式结构引发语言学认知革命。","Zellig Harris":"Zellig Harris — 哈里斯(1909-1992)，分布式假说提出者：出现在相同上下文中的词具有相似含义，词嵌入理论先驱。","John Rupert Firth":"John Rupert Firth — 弗斯(1890-1960)，名言\"You shall know a word by the company it keeps\"提出者，语境论语义学代表。","Leonard Bloomfield":"Leonard Bloomfield — 布龙菲尔德(1887-1949)，《语言论》将行为主义引入语言学，经验主义立场影响统计NLP。","Frederick Jelinek":"Frederick Jelinek — 耶利内克，IBM统计机器翻译和语音识别先驱，名言\"每解雇一个语言学家，识别系统性能就提高一点\"。","Richard Montague":"Richard Montague — 蒙塔古(1930-1971)，将自然语言语义形式化为高阶逻辑，创立蒙塔古语法(Universal Grammar, 1970)。","Charles Fillmore":"Charles Fillmore — 菲尔墨(1929-2014)，框架语义学提出者，格语法创始人，FrameNet语义资源的理论奠基人。","George Miller":"George Miller — 米勒(1920-2012)，认知心理学家，WordNet词汇语义数据库创建者，认知科学创始人之一。","J. L. Austin":"J. L. Austin — 奥斯汀(1911-1960)，言语行为理论提出者，区分言内/言外/言后行为，语用学奠基人之一。","H. Paul Grice":"H. Paul Grice — 格莱斯(1913-1988)，合作原则与会话含义理论提出者，语用学和对话系统理论支柱。","形式语义学":"Formal Semantics — 用数理逻辑工具(λ演算、模型论、类型论)刻画自然语言意义的学科，Montague奠基。","分布式假说":"Distributional Hypothesis — Harris(1954)核心思想：词语语义由其上下文环境决定，现代词嵌入和LLM表示学习的理论基石。","Seq2Seq":"Sequence-to-Sequence — Sutskever et al.(2014)提出编码器-解码器架构，神经机器翻译和NLP生成任务的基础框架。","Sapir-Whorf假说":"Sapir-Whorf Hypothesis / Linguistic Relativity — 语言结构影响甚至决定使用者思维方式和世界观。LLM多语言研究的新视角。","最大熵模型":"Maximum Entropy Model — Berger et al.(1996)提出，在满足特征约束下选择熵最大分布，统计NLP文本分类和序列标注的重要方法。"};
+const ANN_TERMS = ["Universal Dependencies","Ferdinand de Saussure","Leonard Bloomfield","John Rupert Firth","Frederick Jelinek","Richard Montague","Charles Fillmore","Penn Treebank","Zellig Harris","George Miller","H. Paul Grice","Sapir-Whorf假说","Kneser-Ney平滑","Noam Chomsky","J. L. Austin","Harris分布式假说","Bloomfield","Pennington","Piantadosi","循环神经网络语言模型","Chomsky层级","深层结构与表层结构","Skip-gram","温和上下文相关语言","Saussure","神经概率语言模型","FrameNet","Fillmore","Montague","PropBank","Lambda演算","Hebbian","上下文无关文法","语义组合性原则","WordNet","Jelinek","Chomsky","上下文无关语言","上下文相关语言","递归可枚举语言","有限状态自动机","线性有界自动机","Seq2Seq","n-gram","强化学习之父","言语行为理论","机械可解释性","Pāṇini","Devlin","Harris","Austin","Searle","N-gram","话语表征理论","通用依存关系","潜在语义分析","TF-IDF","深度伪造文本","统计机器翻译","Linzen","Baroni","Bender","自然语言处理","类型逻辑语法","分布式表示","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","ROUGE","语义相似度","小样本学习","零样本学习","回音室效应","能指与所指","花园路径句","树邻接文法","Firth","Grice","组合性原则","语言相对论","格莱斯准则","跨语言迁移","共时语言学","历时语言学","框架语义学","形式语义学","分布式假说","最大熵模型","神经网络","LSTM","BERT","连接主义","行为主义","符号接地","长时记忆","心身问题","形式语法","生成语法","遗传漂变","自由意志","经验主义","人类增强","消融实验","溯因推理","提示工程","集束搜索","BLEU","词性标注","机器翻译","对话系统","语音识别","语言模型","正则语言","普遍语法","会话含义","合作原则","篇章分析","CBOW","加一平滑","探针实验","Kamp","深层结构","表层结构","平滑技术","句法分析","依存句法","子词编码","思维语言","主谓一致","指代消解","语义解析","LLM","RNN","NLP","GPT","思维树","词嵌入","格式塔","感受质","整体论","注意力","语用学","负采样","最小对","音系学","形态学","句法学","语义学","PMI","AI","反馈","词频","共现","表征","语义","能指","所指","言语","语言"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

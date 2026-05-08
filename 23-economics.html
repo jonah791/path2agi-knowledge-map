@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>经济学、偏好与对齐（Economics, Preferences, and Alignment）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">经济学、偏好与对齐（Economics, Preferences, and Alignment）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1031,8 +844,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","信息不对称":"Information Asymmetry — 交易一方拥有另一方不知道的信息的情况。","边际":"Marginal — 每增加一单位投入/产出带来的额外变化量，经济学分析的核心概念。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","工具变量":"Instrumental Variable — 仅通过处理变量影响结果的外生变量。","双重差分":"Difference-in-Differences — 比较处理组和对照组变化的因果效应估计方法。"};
-const ANN_TERMS = ["Softmax策略","冯·诺依曼","帕累托最优","信息不对称","启发式算法","贝尔曼方程","强化学习","协同过滤","纳什均衡","机制设计","逆向选择","公地悲剧","目标函数","多智能体","工具变量","双重差分","LLM","博弈论","运筹学","外部性","AI","RL","反馈","边际","效用"];
+const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","信息不对称":"Information Asymmetry — 交易一方拥有另一方不知道的信息的情况。","边际":"Marginal — 每增加一单位投入/产出带来的额外变化量，经济学分析的核心概念。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","工具变量":"Instrumental Variable — 仅通过处理变量影响结果的外生变量。","双重差分":"Difference-in-Differences — 比较处理组和对照组变化的因果效应估计方法。","理性人假设":"Rational Agent Hypothesis — 决策者拥有完备传递的偏好且选择最大化期望效用的经济学基本假设。","期望效用理论":"Expected Utility Theory (von Neumann & Morgenstern, 1944) — 偏好满足四条公理下可用期望效用函数表示的决策理论。","风险厌恶":"Risk Aversion — 偏好确定性收益而不是更高期望的不确定收益的风险态度，效用函数为凹。","风险中性":"Risk Neutral — 仅以期望值判断风险决策的态度，效用函数为线性。","风险偏好":"Risk Seeking — 偏好不确定收益超过确定性等值收益的风险态度，效用函数为凸。","Arrow-Pratt系数":"Arrow-Pratt Risk Aversion Coefficient — 绝对 r(x)=-u''/u' 和相对 R(x)=-x·u''/u' 两种风险厌恶度量。","时间偏好":"Time Preference — 对未来收益与当前收益的主观贴现率，RL中折扣因子γ的对应概念。","行为经济学":"Behavioral Economics — 将心理学发现引入经济学、挑战理性人假设的交叉学科。","心理账户":"Mental Accounting (Thaler) — 人们在心理上将资金划分到不同账户、非理性地分别决策。","禀赋效应":"Endowment Effect (Thaler) — 拥有某物后对其评价高于未拥有时，损失厌恶的体现。","助推":"Nudge Theory (Thaler & Sunstein) — 通过改变选择架构引导人们做出更好决策而不限制自由。","双曲折扣":"Hyperbolic Discounting — 未来价值按双曲函数(而非指数)打折，导致时间不一致偏好。","一般均衡":"General Equilibrium (Walras, 1874) — 所有市场同时达到供需平衡的理想化经济状态。","看不见的手":"Invisible Hand (Smith, 1776) — 个体追求自利在特定条件下可带来较高的整体协调效率。","比较优势":"Comparative Advantage (Ricardo, 1817) — 即使效率全面落后也有利可图的专业化和贸易基础理论。","边际效用":"Marginal Utility (Jevons, Menger, Walras, 1870s) — 每增加一单位消费带来的额外效用，价值决定基础。","拍卖理论":"Auction Theory — 研究不同拍卖规则下竞拍者行为和资源配置效率的经济学分支。","第二价格拍卖":"Vickrey Auction (1961) — 最高出价者以第二高价支付，真实出价是占优策略的密封拍卖。","收益等价定理":"Revenue Equivalence Theorem (Myerson, 1981) — IPV模型中满足效率和平等条件的拍卖产生相同期望收益。","委托-代理问题":"Principal-Agent Problem — 委托人(人类)如何设计激励使代理人(AI)按自身意图行事。","信息租金":"Information Rent — 代理人因拥有私有信息而获得的额外收益，可能导致操纵行为。","社会选择理论":"Social Choice Theory — 研究如何将个体偏好聚合为社会福利函数的社会科学分支。","Arrow不可能定理":"Arrow's Impossibility Theorem (1951) — 不存在同时满足所有合理条件的社会偏好聚合方法。","合作逆强化学习":"Cooperative Inverse RL (CIRL, Hadfield-Menell et al., 2016) — 将人机交互建模为双人合作博弈的对齐框架。","Adam Smith":"Adam Smith (1723-1790) — 现代经济学之父，《国富论》(1776)提出看不见的手和市场机制。","Walras":"Léon Walras (1834-1910) — 一般均衡理论奠基人，边际革命核心人物之一。","Pareto":"Vilfredo Pareto (1848-1923) — Pareto最优概念提出者，经济学与数理社会学先驱。","Arrow":"Kenneth Arrow (1921-2017) — 不可能定理提出者，社会选择理论奠基人，诺贝尔奖得主。","Thaler":"Richard Thaler (1945-) — 行为经济学先驱，心理账户/助推理论提出者，诺贝尔奖得主。","Myerson":"Roger Myerson — 最优拍卖设计(1981)提出者，机制设计理论权威，诺贝尔奖得主。","Hurwicz":"Leonid Hurwicz (1917-2008) — 机制设计理论(1972)正式提出者，诺贝尔奖得主。","Vickrey":"William Vickrey (1914-1996) — 第二价格密封拍卖(Vickrey拍卖)提出者，诺贝尔奖得主。","Smith":"Adam Smith — 现代经济学之父，提出看不见的手和市场理论","Ricardo":"David Ricardo — 提出比较优势理论的古典经济学家","Ramsey":"Frank Ramsey — 提出最优储蓄理论和跨期决策框架的经济学家","Debreu":"Gerard Debreu — 严格证明一般均衡存在性的经济学家","Camerer":"Colin Camerer — 行为博弈论的创立者","Russell":"Stuart Russell — 提出合作逆强化学习和人类兼容的AI安全学者","独立私有价值":"Independent Private Values (IPV) — 每个竞拍者对物品估值独立的模型","广义第二价格拍卖":"Generalized Second Price (GSP) auction — Google等平台使用的广告拍卖机制","助推理论":"Nudge theory — Thaler提出通过选项设计引导人们更好决策","参考点依赖":"Reference dependence — 效用取决于与参考点的相对变化而非绝对水平","概率加权":"Probability weighting — 人们高估小概率低估大概率事件的主观倾向","市场失灵":"Market failure — 市场无法高效配置资源的情况","公共物品":"Public goods — 非竞争非排他的物品，市场通常供给不足","信号传递":"Signaling — 有信息优势方通过发送信号传递其真实类型","筛选":"Screening — 信息劣势方通过设计选项筛选不同类型的机制","古德哈特定律":"Goodhart's law — 指标一旦变成目标就不再是好指标的观察","可扩展监督":"Scalable oversight — AI能力超越人类时的有效监督机制","迭代放大":"Iterated amplification — 将复杂任务分解成可验证子任务的监督方法","消费者剩余":"Consumer surplus — 消费者愿意支付与实际支付的差额","生产者剩余":"Producer surplus — 生产者实际收入与最低愿意接受的差额","社会福利":"Social welfare — 消费者剩余和生产者剩余之和的总经济福利","技能溢价":"Skill premium — 高技能工人相对于低技能工人的工资溢价","人力资本":"Human capital — 个人的知识技能和健康等经济生产力要素","全民基本收入":"Universal Basic Income (UBI) — 向所有公民无条件定期发放的收入制度","Fisher市场模型":"Fisher market model — 多个买方竞争有限资源的市场均衡模型","瓦尔拉斯拍卖":"Walrasian auction — 通过价格调整实现供需平衡的拍卖机制","代币经济":"Token economy — 多智能体系统中引入虚拟货币促进合作的机制","公平概念":"Fairness concepts — 经济学中的无嫉妒/比例性/公平分配等标准","无嫉妒":"Envy-freeness — 没有人偏好他人所获分配的公平分配性质","比例性":"Proportionality — 每个人获得合理份额分配的公平性质","福利经济学":"Welfare economics — 研究资源配置对社会福利影响的经济学分支","合同理论":"Contract theory — 研究信息不对称下最优契约设计的微观经济学","无谓损失":"Deadweight loss — 市场扭曲导致的社会总福利净损失","Cournot":"Antoine Cournot — 最早用数学方法分析寡头竞争的经济学家","Jevons":"William Stanley Jevons — 边际革命经济学家之一","Menger":"Carl Menger — 奥地利学派经济学家，边际效用理论创始人","Varian":"Hal Varian — Google首席经济学家，将拍卖理论应用于广告系统","Imbens":"Guido Imbens — 因果推断方法的经济学家，Nobel奖得主","Athey":"Susan Athey — 推动计量经济学与机器学习结合的经济学家","Hadfield-Menell":"Dylan Hadfield-Menell — 提出CIRL合作逆强化学习的AI对齐研究者","Manheim":"David Manheim — 分类Goodhart定律变体形式化的研究者","Garrabrant":"Scott Garrabrant — 与Manheim合作Goodhart定律形式化","Chen":"Lingjiao Chen — 研究LLM经济行为的学者","Cournot竞争":"Cournot competition — 寡头厂商产量竞争的经典寡头模型","时间不一致偏好":"Time-inconsistent preferences — 双曲贴现导致的偏好随时间倒转现象","效用函数":"Utility Function — 将消费束映射到实数的数值函数，表示决策者对结果的偏好强度，RLHF 奖励模型本质上是在学习人类的效用函数。","偏好关系":"Preference Relation — 理性决策者对选项排序的形式化二元关系，具有完备性和传递性是理性选择的前提条件。","完备性":"Completeness (Axiom) — vNM 期望效用定理第一公理：决策者能对任意两个选项比较并表达偏好排序，不可比较意味着偏好关系不完整。","传递性":"Transitivity (Axiom) — vNM 期望效用定理第二公理：若 A 优于 B 且 B 优于 C 则 A 优于 C，保证偏好逻辑一致、无循环。","独立性公理":"Independence Axiom — vNM 第三公理：彩票混合中共同部分不影响偏好排序，是期望效用理论加性分离的关键假设。","连续性公理":"Continuity Axiom — vNM 第四公理：偏好上下集均为闭集，保证效用函数的存在性和概率空间的拓扑性质。","风险态度":"Risk Attitude — 决策者对不确定收益的心理取向，效用函数曲率决定：凹(风险厌恶)、线性(中性)、凸(风险偏好)。","确定性等价":"Certainty Equivalent — 决策者愿以确定值替代不确定彩票的心理等价金额，风险厌恶者确定性等价低于彩票期望值。","显示偏好":"Revealed Preference (Samuelson, 1938) — 从实际选择行为而非口头陈述推断偏好的方法论，RLHF 中从比较数据学习奖励模型的理论基础。","效用估计":"Utility Estimation — 从人类选择行为中推断其隐藏效用函数的过程，RLHF 中奖励模型训练核心目标。","离散选择模型":"Discrete Choice Model — 基于随机效用最大化理论的选择建模框架，Bradley-Terry 模型是其特例，RLHF 奖励建模的理论基础。","跨期决策":"Intertemporal Choice (Ramsey, 1928) — 权衡当前与未来收益的决策框架，RL 中折扣因子 γ 是跨期决策偏好的形式化表达。","数理经济学":"Mathematical Economics — 用微积分、线性代数和拓扑学等数学方法形式化经济理论的学科分支，Cournot 1838 年首创。","边际革命":"Marginal Revolution (Jevons, Menger, Walras, 1870s) — 边际效用分析将经济学从定性描述改造为边际分析的数学科学，奠定了现代经济分析基础。","寡头竞争":"Oligopoly Competition — 少数厂商占据市场的竞争结构，Cournot 1838 年首先用数学分析寡头产量决策，至今用于多智能体博弈。","市场均衡":"Market Equilibrium — 供给等于需求时的市场出清状态，多智能体协调系统中类似的价格机制可用于资源配置。","内生性":"Endogeneity — 解释变量与误差项相关导致回归估计不一致的计量经济学核心问题，AI 离线评估中普遍面临选择偏差。","现状偏差":"Status Quo Bias — 偏好维持当前选择的认知偏差，行为经济学发现显著影响人类决策，RLHF 标注中也存在此偏差。","赢家诅咒":"Winner's Curse — 拍卖中赢家因出价超过物品真实价值而蒙受损失的博弈现象，因信息不对称和信息租金导致。","位置偏差":"Position Bias — 用户因物品展示位置不同而产生的点击倾向系统性偏差，推荐系统中的去偏核心问题。","流行度偏差":"Popularity Bias — 热门物品因知名度高获得更多曝光和点击导致推荐同质化的偏差，需去偏算法校正。","鲁棒偏好学习":"Robust Preference Learning — 在人类反馈包含框架效应、锚定效应等系统性偏差时仍能学习真实偏好的方法。","AI助推":"AI Nudging — 利用行为经济学原理通过 AI 界面设计（默认选项、信息框架等）温和引导用户做出更好决策。","实时竞价":"Real-Time Bidding (RTB) — 每次广告展示瞬间自动完成的多轮拍卖交易模式，AI 代理为主广告主制定最优出价策略。","数据市场设计":"Data Market Design — 数据作为生产要素时如何设计公平高效的定价、交易和激励机制的经济学问题。","可验证承诺":"Verifiable Commitment — AI 系统能够可信地向人类承诺遵守某些约束的能力，人机合同中防止奖励黑客的关键机制。","互补品":"Complements — 两种商品一起消费时总效用更高的经济关系，用于分析人机协作（互补）与替代（替代品）的分类框架。","替代品":"Substitutes — 一种商品可代替另一种满足相同需求的经济关系，用于分析 AI 自动化对劳动力市场的替代效应。","逆博弈论":"Reverse Game Theory — 机制设计的别称，从期望的社会目标反向设计博弈规则（消息空间和结果函数）的学科。","风险敏感强化学习":"Risk-Sensitive RL — 将风险厌恶等态度引入策略梯度或价值函数优化的强化学习变体，使 AI 在不确定环境中更稳健。","Prelec函数":"Prelec Probability Weighting Function (Prelec, 1998) — 前景理论中 w(p)=exp(-(-ln p)^γ) 的概率加权，γ≈0.65 导致小概率高估。","损失厌恶系数":"Loss Aversion Coefficient — 前景理论价值函数中 λ≈2.25，衡量等量损失比收益带来的心理效用变化大约 2 倍。","Paul Christiano":"Paul Christiano — RLHF 共同提出者（2017），将人类偏好反馈引入深度强化学习训练奖励模型的 AI 对齐研究者。"};
+const ANN_TERMS = ["Hadfield-Menell","Paul Christiano","Arrow-Pratt系数","Arrow不可能定理","Adam Smith","Fisher市场模型","Garrabrant","Softmax策略","Cournot竞争","广义第二价格拍卖","风险敏感强化学习","Prelec函数","委托-代理问题","合作逆强化学习","Myerson","Hurwicz","Vickrey","Ricardo","Camerer","Russell","Cournot","Manheim","时间不一致偏好","期望效用理论","第二价格拍卖","收益等价定理","社会选择理论","Walras","Pareto","Thaler","Ramsey","Debreu","独立私有价值","古德哈特定律","全民基本收入","瓦尔拉斯拍卖","Jevons","Menger","Varian","Imbens","离散选择模型","鲁棒偏好学习","数据市场设计","损失厌恶系数","冯·诺依曼","帕累托最优","信息不对称","启发式算法","贝尔曼方程","理性人假设","行为经济学","看不见的手","Arrow","Smith","参考点依赖","可扩展监督","消费者剩余","生产者剩余","福利经济学","Athey","独立性公理","连续性公理","确定性等价","数理经济学","流行度偏差","可验证承诺","强化学习","协同过滤","纳什均衡","机制设计","逆向选择","公地悲剧","目标函数","多智能体","工具变量","双重差分","风险厌恶","风险中性","风险偏好","时间偏好","心理账户","禀赋效应","双曲折扣","一般均衡","比较优势","边际效用","拍卖理论","信息租金","助推理论","概率加权","市场失灵","公共物品","信号传递","迭代放大","社会福利","技能溢价","人力资本","代币经济","公平概念","合同理论","无谓损失","Chen","效用函数","偏好关系","风险态度","显示偏好","效用估计","跨期决策","边际革命","寡头竞争","市场均衡","现状偏差","赢家诅咒","位置偏差","AI助推","实时竞价","逆博弈论","LLM","博弈论","运筹学","外部性","无嫉妒","比例性","完备性","传递性","内生性","互补品","替代品","AI","RL","反馈","边际","效用","助推","筛选"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

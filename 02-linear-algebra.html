@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>线性代数与矩阵论（Linear Algebra and Matrix Theory）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">线性代数与矩阵论（Linear Algebra and Matrix Theory）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1143,8 +956,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MAP":"Maximum A Posteriori — 最大后验估计，融合先验信息的贝叶斯参数估计方法。","PCA":"Principal Component Analysis — 主成分分析，线性降维方法，保留最大方差方向投影。","SVD":"Singular Value Decomposition — 奇异值分解，矩阵分解的通用方法。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","NLP":"Natural Language Processing — 自然语言处理，使计算机理解、生成和处理人类语言的技术。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","Transformer":"基于自注意力机制的神经网络架构，Vaswani 等 2017 年提出，大语言模型的基石。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","傅里叶变换":"Fourier Transform — 将信号从时域转换到频域的数学变换，信号处理的理论基础。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","注意力机制":"Attention Mechanism — 让模型动态关注序列中不同位置的权重分配机制，Transformer 核心组件。","自注意力":"Self-Attention — 序列每个位置关注所有其他位置捕捉长距离依赖的注意力变体。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","量化":"Quantization — 将模型参数从高精度转为低精度以减小模型大小和加速推理。","词嵌入":"Word Embedding — 将词语映射到低维连续向量空间的技术，语义相近的词距离近。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","流形":"Manifold — 局部欧几里得的拓扑空间。流形假设认为高维数据集中在低维流形上。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","拓扑":"Topology — 研究几何性质在连续变换下不变的数学分支，关注空间的连接性。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","主成分":"Principal Component — PCA 中方差最大的投影方向，对应协方差矩阵的特征向量。","协方差":"Covariance — 衡量两个随机变量之间线性相关方向和程度的统计量。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","张量":"Tensor — 多维数组的统称，标量(0维)、向量(1维)、矩阵(2维)都是张量的特例。","特征向量":"Eigenvector — 线性变换后方向不变（仅缩放）的非零向量。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","矩阵分解":"Matrix Factorization — 将矩阵分解为多个矩阵乘积的方法，如 LU、QR、SVD。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","行列式":"Determinant — 衡量方阵对应线性变换对体积缩放因子的标量值。","范数":"Norm — 衡量向量或矩阵大小的函数，常见 L1 范数（绝对值之和）和 L2 范数（欧几里得距离）。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","多头注意力":"Multi-Head Attention — Transformer 中将注意力拆分为多个头并行计算后拼接的架构设计。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","链式法则":"Chain Rule — 复合函数求导的核心法则，反向传播算法的数学基础。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","信道容量":"Channel Capacity — 信道在理论上可达的最大可靠信息传输速率。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","谱聚类":"Spectral Clustering — 利用图的拉普拉斯矩阵特征向量进行聚类的方法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","降维":"Dimensionality Reduction — 将高维数据映射到低维空间以提取结构和去除噪声的技术。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","协方差矩阵":"Covariance Matrix — 各维度间协方差的矩阵表示，PCA的基础。","内积":"Inner Product — 向量对应分量乘积之和，衡量向量相似度的基本操作。","特征分解":"Eigendecomposition — 将方阵分解为特征向量和特征值矩阵的乘积。","低秩近似":"Low-Rank Approximation — 用低秩矩阵近似原矩阵，SVD是实现方法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","核函数":"Kernel Function — 隐式将数据映射到高维空间的内积函数。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","全连接":"Fully Connected Layer — 每个输入节点与每个输出节点相连的神经网络层。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","ViT":"Vision Transformer — 用Transformer架构直接处理图像patch的视觉模型。","FlashAttention":"通过分块计算和核融合加速注意力机制的精确注意力算法。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","线性代数":"Linear Algebra — 深度学习的表示与计算语言。向量、矩阵、线性变换构成了神经网络前向传播的数学基础。","矩阵论":"Matrix Theory — 研究矩阵结构与性质的数学分支。特征分解、SVD、矩阵补全是现代AI算法的重要工具。","数据表示":"Data Representation — 将原始数据转换为适合模型处理的数学形式。图像→像素向量、文本→词嵌入向量、用户→特征向量。","向量":"Vector — 深度学习的基本数据单元。一张图像、一段文本、一个单词都可表示为向量。模型内部的计算本质上是向量空间上的变换。","矩阵":"Matrix — 向量组成的二维数组。神经网络权重、批次数据、词嵌入表都以矩阵形式存储和计算。","线性变换":"Linear Transformation — 保持向量加法和标量乘法的映射 y = Wx。神经网络每层的核心操作，后接非线性激活函数构成完整的神经元计算。","矩阵乘法":"Matrix Multiplication — 现代AI计算的基本原语。全连接层、注意力机制、卷积都依赖高效的矩阵乘法实现。GPU专门为此优化。","仿射变换":"Affine Transformation — 线性变换加平移 y = Wx + b。全连接层的数学形式，bias项提供了平移自由度。","全连接层":"Fully Connected Layer — 神经网络中最基本的层结构：对输入向量做仿射变换。每个输出神经元与所有输入相连，参数量最大。","前向传播":"Forward Propagation — 输入数据逐层经过线性变换和激活函数，最终产生网络输出的计算过程。矩阵乘法的链式应用。","Jacobian矩阵":"Jacobian Matrix — 向量值函数的导数矩阵 J_ij = ∂f_i/∂x_j。反向传播中用于计算各层梯度，将损失梯度从输出层传回输入层。","非线性激活":"Nonlinear Activation — 线性变换后施加的非线性函数(ReLU/Sigmoid/Tanh)。没有激活函数，多层网络就退化为单层线性变换，失去深层意义。","表示学习":"Representation Learning — 自动从数据中学习有用的特征表示。深度网络通过逐层线性变换+非线性激活构建层次化表示。","特征空间":"Feature Space — 数据被映射到的向量空间。好的特征空间中，同类数据距离近、异类距离远。对比学习直接优化特征空间结构。","基底":"Basis — 向量空间中的一组线性无关向量，可生成空间中所有向量。PCA找到的主成分就是新基底。不同基底对应不同表示视角。","向量空间":"Vector Space — 满足加法和标量乘法封闭的集合。深度学习中的所有表示(嵌入向量/特征图)都存在于某个向量空间中。","加法封闭":"Closure under Addition — 向量空间中任意两向量之和仍在空间中。这是向量空间的基本公理，确保表示可以组合。","标量乘法封闭":"Closure under Scalar Multiplication — 向量空间中任意向量与标量的乘积仍在空间中。权重缩放、梯度更新都依赖此性质。","零向量":"Zero Vector — 向量空间中的加法单位元。在AI中代表\"零信息\"状态。梯度初始化为零向量、残差连接的起点是零初始化。","正交矩阵":"Orthogonal Matrix — Q^T Q = I 的方阵。列向量相互正交且为单位长度。用于防止梯度消失爆炸，正交初始化是权重初始化的常用方法。","对角化":"Diagonalization — 将矩阵分解为 PDP^{-1} 的形式(D为对角阵)。特征分解的核心工具。功率迭代和PCA都利用了对角化。","谱定理":"Spectral Theorem — 实对称矩阵可对角化为正交矩阵Q与实对角阵Λ的乘积 A = QΛQ^T。PCA和谱聚类的理论基础。","Hessian矩阵":"Hessian Matrix — 标量函数的二阶偏导矩阵 H_ij = ∂²f/∂x_i∂x_j。在优化中用于判断极值点类型、牛顿法中的参数更新方向。","Cramer法则":"Cramer's Rule — 用行列式求解线性方程组的方法。理论上优美但计算量极大(O(n!))，实际中不用，主要用于理论分析。","高斯消元法":"Gaussian Elimination — 求解线性方程组的标准方法。通过行变换将增广矩阵化为行阶梯形。LAPACK中LU分解的基础。","矩阵运算":"Matrix Operations — 矩阵加法、乘法、转置、求逆等基本运算。cuBLAS和Tensor Core专门优化这些操作，是GPU加速的基石。","逆矩阵":"Inverse Matrix — A^{-1} 满足 A·A^{-1}=I。用于解线性方程组、最小二乘法的闭式解。实际中通常避开显式求逆(数值不稳定)。","Jordan标准形":"Jordan Canonical Form — 将矩阵化简为近似对角的Jordan块矩阵。比特征分解更一般的矩阵标准形，即使矩阵不可对角化也可化简。","秩":"Rank — 矩阵线性无关的最大列(或行)数。决定矩阵的信息含量。低秩逼近压缩信息、去除噪声。秩为1的矩阵是外积。","Frobenius":"Ferdinand Georg Frobenius (1849-1917) — 弗罗贝尼乌斯。Frobenius范数(矩阵的平方和)、Frobenius定理在矩阵理论中地位重要。","希尔伯特空间":"Hilbert Space — 完备的内积空间。向量长度和夹角概念可推广到无穷维。核方法、高斯过程的理论基础。","Banach空间":"Banach Space — 完备的赋范向量空间。范数定义了向量长度但不需要内积。比Hilbert空间更一般的数学结构。","公理化":"Axiomatization — 用公理严格定义数学结构。线性代数有8条公理(加法交换/结合/单位元/逆元、标量乘法结合/分配等)。","数值线性代数":"Numerical Linear Algebra — 研究矩阵计算的稳定高效数值算法。Golub&Van Loan的经典教材系统化了这一领域。LAPACK/cuBLAS是其工程实现。","Householder变换":"Householder Transformation — 通过反射向量来实现QR分解的数值稳定方法。LAPACK中QR分解的标准实现。","LAPACK":"Linear Algebra PACKage — 线性代数标准数值库，提供LU分解、QR分解、SVD、特征分解等。几乎所有科学计算软件都基于LAPACK。","奇异值分解":"Singular Value Decomposition (SVD) — 将任意矩阵分解为 A = UΣV^T。U和V是正交矩阵，Σ为奇异值对角阵。最重要的矩阵分解之一。","奇异值":"Singular Value — SVD中Σ的对角元素 σ₁≥σ₂≥...≥0。反映矩阵在各方向上的能量大小。前k个奇异值决定了矩阵的最优低秩近似。","左奇异向量":"Left Singular Vector — SVD中U的列向量，对应行空间的基。PCA中相当于主成分方向。","右奇异向量":"Right Singular Vector — SVD中V的列向量，对应列空间的基。PCA中相当于样本的主成分坐标。","Eckart-Young定理":"Eckart-Young Theorem — 取SVD前k大奇异值对应的部分，是Frobenius范数下最优的秩k近似。低秩分解(如LoRA)的理论基础。","Frobenius范数":"Frobenius Norm — 矩阵的平方和开根 ||A||_F = sqrt(Σᵢⱼ aᵢⱼ²)。SVD下等于奇异值平方和开根。矩阵补全和低秩近似的常用损失。","图像压缩":"Image Compression — 利用SVD的经典应用：保留大奇异值舍去小奇异值，用更少的参数近似原图。模型量化剪枝也有类似思想。","推荐系统":"Recommendation System — 用户-物品交互矩阵的建模。矩阵分解(隐语义模型)是经典方法，Word2Vec/GloVe的共现矩阵分解是基础。","GloVe":"Global Vectors for Word Representation — Pennington et al.(2014)基于词共现矩阵分解的静态词嵌入方法。从语料统计直接学习词向量。","词向量矩阵":"Word Embedding Matrix — 每行对应一个词的嵌入向量。语义相近的词向量在空间中也相近。矩阵规模=词表大小×嵌入维度。","Word2Vec":"Word2Vec — Mikolov et al.(2013)提出的词嵌入方法。CBOW和Skip-gram两种架构。本质上是在隐式分解词共现矩阵。","主成分分析":"Principal Component Analysis (PCA) — 通过SVD找到数据方差最大的投影方向。降维、去噪、可视化的标准方法。Eigenfaces是经典案例。","中心化":"Centering — 减去数据均值使数据中心在原点的预处理操作。PCA的第一步。消除偏移对主成分方向的影响。","方差解释率":"Variance Explained Ratio — 每个主成分解释的数据方差占总方差的比率。决定降维时保留多少主成分的依据。","投影":"Projection — 将高维数据映射到低维子空间。PCA投影到主成分方向。注意力机制中把Query投影到不同语义空间。","白化":"Whitening — 使数据协方差变为单位阵的变换。去相关+缩放。Batch Normalization有白化效果。稳定训练过程。","Eigenfaces":"Eigenfaces — 将PCA应用于人脸识别的经典案例。人脸图像投影到主成分(特征脸)空间，用欧氏距离比较。Turk&Pentland(1991)。","PageRank":"PageRank — Google核心算法。将网页链接矩阵建模为马尔可夫链，主特征向量(PageRank分数)衡量网页重要性。幂迭代法的经典应用。","缩放点积注意力":"Scaled Dot-Product Attention — Attention(Q,K,V) = softmax(QK^T/√d_k)V。Transformer的基础操作，QK^T计算相似度矩阵。","Q":"Query — 注意力机制中的查询向量。每个查询与所有键计算相似度，决定从哪些值取信息。类比搜索引擎中的检索词。","K":"Key — 注意力机制中的键向量。与Query做点积(缩放后)得到注意力得分。类比搜索引擎中的文档索引。","V":"Value — 注意力机制中的值(Value)向量。被注意力权重加权求和得到输出。类比搜索引擎中的文档内容。","线性投影":"Linear Projection — 将向量通过矩阵乘法映射到子空间。多头注意力中每个头先将Q/K/V投影到不同子空间，捕获不同语义。","注意力得分矩阵":"Attention Score Matrix — QK^T的结果，每个元素表示某查询与某键的相似度得分。矩阵大小=序列长度×序列长度。","注意力权重矩阵":"Attention Weight Matrix — 对注意力得分矩阵按行做softmax得到的权重。每行和为1，表示每个查询从各位置取信息的比例。","动态矩阵":"Dynamic Matrix — 注意力权重矩阵是数据依赖的(随输入变化)，与固定权重不同。这是Transformer灵活性的关键——每个样本有自己的注意力模式。","Softmax":"Softmax — 将向量转化为概率分布的函数：softmax(z)_i = exp(z_i)/Σ_j exp(z_j)。在注意力中确保所有权重非负且和为1。","长程依赖":"Long-Range Dependency — 序列中相距很远的位置间的依赖关系。RNN难以捕获，而Transformer的自注意力使任意两位置间直接连接、没有距离衰减。","GPU并行计算":"GPU Parallel Computing — 利用GPU大量核心并行执行矩阵运算。矩阵乘法(SGEMM)的并行度极高，GPU的SIMT架构为此优化。","cuBLAS":"cuBLAS — NVIDIA的CUDA线性代数库，是LAPACK的GPU实现。提供高度优化的矩阵乘法(GEMM)等操作。PyTorch/TensorFlow底层调用。","Tensor Core":"Tensor Core — NVIDIA GPU上的专用矩阵运算单元(Volta起)。支持混合精度矩阵乘法(FP16输入+FP32累加)。AI训练和推理的核心加速器。","并行化":"Parallelization — 将计算任务拆分为可同时执行的子任务。矩阵各行和各列的计算天然独立。数据并行/模型并行/张量并行是LLM训练的三种策略。","稀疏注意力":"Sparse Attention — 限制Query只与部分Key计算注意力，降低O(n²)复杂度。滑动窗口、全局+局部组合是常见模式。","LoRA":"Low-Rank Adaptation — Hu et al.(2021)提出。冻结原权重，注入低秩矩阵 ΔW=BA 进行微调。用低秩分解显著减少可训练参数量。","低秩分解":"Low-Rank Decomposition — 将矩阵分解为两个低秩矩阵的乘积 A≈BC。LoRA、模型压缩、矩阵补全都基于低秩分解。","参数高效微调":"Parameter-Efficient Fine-Tuning (PEFT) — 只更新少量参数即可适配下游任务。LoRA、Adapter、Prefix Tuning都是PEFT。","模型合并":"Model Merging — 将多个微调模型的权重进行组合。线性插值、TIES-Merging是常见方法。利用线性代数视角理解模型空间。","线性插值":"Linear Interpolation — 两模型权重按比例组合 θ_new = αθ_A + (1-α)θ_B。模型合并和权重衰减的简单有效方法。","TIES":"TIES-Merging — Yadav et al.(2023)提出的模型合并方法。先修剪不重要的参数变化、解决符号冲突，再平均。","结构化矩阵":"Structured Matrix — 具有特殊结构(稀疏、低秩、蝶形等)的矩阵，可用更少参数存储和更快算法计算。Monarch矩阵是代表。","Monarch矩阵":"Monarch Matrix — 块对角化+置换的乘积。可替代Transformer中的稠密投影，参数量少且计算快。Dao et al.(2022)。","蝶形矩阵":"Butterfly Matrix — 对应快速傅里叶变换结构的稀疏矩阵。理论上可近似任意矩阵。用于设计高效的替代投影矩阵。","Flash Attention":"Flash Attention — Dao et al.(2022)提出。分块计算注意力矩阵，避免O(n²)内存开销。利用GPU SRAM-显存层次结构，IO感知算法。","分块计算":"Tiled Computation — 将大矩阵切分成小块分别计算。Flash Attention的核心技术，利用SRAM处理每个tile，减少显存读写。","IO感知":"IO-Aware — 以数据搬运量为优化目标而非FLOPs。Flash Attention是典型，减少GPU HBM读写可显著加速。","线性注意力":"Linear Attention — 将softmax(QK^T)V改写为 Q(K^T V)，将O(n²)降低为O(n)。利用矩阵乘法结合律，但牺牲了softmax的归一化。","随机线性代数":"Randomized Linear Algebra (RandNLA) — 用随机采样加速矩阵分解。随机SVD比精确SVD快得多，适合大规模数据。","随机SVD":"Randomized SVD — 用随机投影将矩阵压缩到较小空间后再做精确SVD。Halko,Martinsson&Tropp(2011)算法。大数据集的主流方法。","草图方法":"Sketching — 用随机投影(草图)压缩矩阵，在保持关键结构的同时减小规模。频繁项挖掘、流式矩阵分解都使用草图。","随机投影":"Random Projection — 用随机矩阵(如高斯随机矩阵)将高维向量映射到低维。Johnson-Lindenstrauss引理保证距离近似保持。","RandNLA":"Randomized Numerical Linear Algebra — 随机化方法加速数值线性代数。随机SVD、随机特征值分解、草图方法都属于RandNLA。","张量分解":"Tensor Decomposition — 将高阶张量分解为低秩成分的乘积。CP分解(Tucker分解的特例)和Tucker分解是两种主要方式。模型压缩和知识图谱推理中用。","CP分解":"CANDECOMP/PARAFAC Decomposition — 将张量表示为秩1张量之和。张量分解的一种标准形式，是矩阵SVD的高维推广。","Tucker分解":"Tucker Decomposition — 将张量分解为一个核心张量与各维度因子矩阵的乘积。比CP分解更灵活，是矩阵SVD的高维推广。","张量网络":"Tensor Network — 用网络图表示张量间的缩并操作，将高维计算分解为低维操作的组合。在量子多体物理和ML中用于高效表示高维结构。","高阶张量":"Higher-Order Tensor — 阶数≥3的张量。可看作多维数据数组。注意力得分矩阵张量化、视频数据(时空)都用高阶张量表示。","神经切线核":"Neural Tangent Kernel (NTK) — Jacot et al.(2018)提出。无限宽NN在梯度下降下的演化等价于NTK上的核回归。连接DL和核方法。","NTK":"Neural Tangent Kernel — 神经切线核。描述无限宽神经网络在梯度流下参数变化的内核。NTK视角解释了神经网络为什么能泛化。","随机矩阵理论":"Random Matrix Theory (RMT) — 研究随机矩阵特征值谱分布的理论。解释DL中He初始化的方差选择、批归一化效果、Hessian谱。","谱分布":"Spectral Distribution — 矩阵特征值的概率分布。Marchenko-Pastur分布描述随机协方差矩阵的谱。DL中Hessian谱分布影响优化。","矩阵感知":"Matrix Sensing — 从少量线性测量中恢复矩阵。矩阵补全的推广形式。信号处理、压缩感知的矩阵版本。","矩阵补全":"Matrix Completion — 从部分观测元素恢复完整矩阵。推荐系统的核心技术。Netflix Prize的获胜模型基于矩阵分解。","低秩矩阵恢复":"Low-Rank Matrix Recovery — 从少量线性观测中恢复低秩矩阵。矩阵补全是其特例。背景建模、人脸光照去除的应用。","隐式正则化":"Implicit Regularization — 优化算法天然带来的正则化效果。梯度下降在矩阵分解上收敛到最小Frobenius范数解，对应低秩偏好。","量子线性代数":"Quantum Linear Algebra — 利用量子计算加速线性代数运算。HHL算法理论上对求解线性方程组有指数级加速。仍处于早期阶段。","HHL算法":"Harrow-Hassidim-Lloyd Algorithm — 量子线性方程组求解算法。对稀疏矩阵理论上指数加速，但读出结果受量子测量限制。","量子SVD":"Quantum SVD — 量子版本的奇异值分解。理论上可更快计算出奇异值/奇异向量。量子推荐的潜在加速方案。","线性方程组":"System of Linear Equations — 形如 Ax=b 的方程组。最小二乘、数值模拟、神经网络训练(损失最小化)都可看作求解线性问题。","核矩阵":"Kernel Matrix — 核函数在样本对上的Gram矩阵 K_ij = k(x_i, x_j)。SVM、高斯过程的计算核心，矩阵的大小为n×n(n为样本数)。","傅里叶变换矩阵":"Fourier Transform Matrix — 实现离散傅里叶变换的酉矩阵。F对信号在频域和时域间变换。卷积定理：时域卷积=频域乘积(Diagonal化)。","酉矩阵":"Unitary Matrix — U*U = I 的复矩阵。保持向量的L2范数(能量守恒)。傅里叶变换矩阵和量子门都是酉矩阵。","状态空间模型":"State Space Model (SSM) — 描述系统动态的线性代数框架 x_{t+1}=Ax_t+Bu_t, y_t=Cx_t。Mamba/Structured SSM将SSM用于序列建模。","状态转移矩阵":"State Transition Matrix — SSM中描述状态随时间演化的矩阵A。特征值决定系统稳定性。被控对象的动态特性由A决定。","MIMO信道矩阵":"MIMO Channel Matrix — 多天线通信中发射-接收天线间的增益矩阵。SVD用于分解独立数据流。与深度学习的多头注意力有数学对称性。","支付矩阵":"Payoff Matrix — 博弈论中描述各玩家不同策略组合下收益的矩阵。Nash均衡可在支付矩阵上分析。双人零和博弈的线性规划解法。","Nash均衡":"Nash Equilibrium — 博弈中无人能单方面改变策略获得更好结果的状态。生成对抗网络(GAN)的纳什均衡训练视角。","Cayley":"Arthur Cayley (1821-1895) — 凯莱。矩阵理论的奠基人。提出Cayley-Hamilton定理(矩阵满足自身特征多项式)。将群论与矩阵联系。","Sylvester":"James Joseph Sylvester (1814-1897) — 西尔维斯特。与Cayley共同奠基矩阵理论。提出Sylvester惯性律(对称矩阵正负特征值个数不变性)。","Jordan":"Camille Jordan (1838-1922) — 若尔当。Jordan标准形(Jordan Canonical Form)提出者。曲线论、置换群方面也有重要贡献。","Hilbert":"David Hilbert (1862-1943) — 希尔伯特。希尔伯特空间概念的核心人物。提出23个问题的希尔伯特纲领。20世纪最具影响力的数学家之一。","Banach":"Stefan Banach (1892-1945) — 巴拿赫。Banach空间(完备赋范空间)提出者。泛函分析的奠基人。波兰利沃夫数学学派领袖。","von Neumann":"John von Neumann (1903-1957) — 冯·诺依曼。算子代数(冯·诺依曼代数)奠基。量子力学的数学基础、EDVAC计算机体系结构、博弈论均为重要贡献。","Halmos":"Paul Halmos (1916-2006) — 哈尔莫斯。著《有限维向量空间》(Finite-Dimensional Vector Spaces)。影响深远的数学教材作者。","Golub":"Gene Golub (1932-2007) — 数值线性代数先驱。SVD的数值算法标准化者。SIAM创始人之一。与Van Loan合著《Matrix Computations》。","Van Loan":"Charles Van Loan — 与Golub合著《Matrix Computations》——数值线性代数领域最经典的教材。康奈尔大学教授。","Mikolov":"Tomas Mikolov — Word2Vec提出者(2013)。词嵌入技术革命的核心人物。RNNLM研究者。目前在Facebook AI。","Vaswani":"Ashish Vaswani — Transformer论文《Attention Is All You Need》(2017)第一作者。改变了NLP和整个AI领域。","Hu":"Edward Hu — LoRA论文(2021)第一作者。低秩自适应方法使大模型微调变得高效实用。","Dao":"Tri Dao — Flash Attention论文(2022)第一作者。IO感知注意力计算，显著提升Transformer训练效率。Monarch矩阵提出者之一。","Jacot":"Arthur Jacot — Neural Tangent Kernel(NTK)论文(2018)第一作者。连接了无限宽神经网络与核方法。","Martin":"Charles Martin — 计算神经科学和随机矩阵理论在DL中的应用研究者。与Mahoney合作研究DL的Hessian谱、隐式正则化。","Mahoney":"Michael Mahoney — RandNLA(随机线性代数)和DL理论的主要推动者。研究随机矩阵理论在深度学习中的应用(谱分析、隐式正则化)。","Strang":"Gilbert Strang — MIT教授。《线性代数及其应用》《计算科学导论》作者。MIT OCW线性代数课程(18.06)影响了数百万学生。","Axler":"Sheldon Axler — 《线性代数应该这样学》(Linear Algebra Done Right)作者。从线性映射而非行列式出发讲授线性代数，极有影响力。","Trefethen":"Lloyd Trefethen — 《数值线性代数》(Numerical Linear Algebra)作者(与Bau合著)。逼近论与数值分析领域权威。","Bau":"David Bau — 与Trefethen合著《数值线性代数》(Numerical Linear Algebra)。专注于数值分析教学。","Goodfellow":"Ian Goodfellow — 《深度学习》(Deep Learning)第一作者。GAN(生成对抗网络)发明者。蒙特利尔大学博士，Apple/Google研究员。","Bengio":"Yoshua Bengio — 《深度学习》作者之一。蒙特利尔大学教授。2018图灵奖得主。深度学习先驱(词嵌入、注意力机制、生成模型)。","Courville":"Aaron Courville — 《深度学习》作者之一。蒙特利尔大学教授。主要研究深度生成模型、表示学习。"};
-const ANN_TERMS = ["Vision Transformer","Flash Attention","FlashAttention","Eckart-Young定理","Householder变换","Transformer","Frobenius范数","Tensor Core","von Neumann","Jacobian矩阵","Eigenfaces","Goodfellow","Softmax策略","Hessian矩阵","Jordan标准形","Frobenius","Monarch矩阵","Sylvester","Trefethen","Courville","Kalman滤波","Boosting","Cramer法则","Banach空间","Word2Vec","PageRank","Tucker分解","MIMO信道矩阵","Van Loan","softmax","Bagging","缩放点积注意力","注意力得分矩阵","注意力权重矩阵","Softmax","GPU并行计算","RandNLA","傅里叶变换矩阵","Hilbert","Mikolov","Vaswani","Mahoney","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","标量乘法封闭","希尔伯特空间","数值线性代数","LAPACK","cuBLAS","参数高效微调","随机线性代数","随机矩阵理论","低秩矩阵恢复","量子线性代数","状态空间模型","状态转移矩阵","Nash均衡","Cayley","Jordan","Banach","Halmos","Martin","Strang","Bengio","傅里叶变换","注意力机制","无监督学习","批量归一化","自动编码器","分布语义学","余弦相似度","交叉注意力","多头注意力","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","多任务学习","小样本学习","零样本学习","协方差矩阵","非线性激活","高斯消元法","奇异值分解","左奇异向量","右奇异向量","GloVe","词向量矩阵","主成分分析","方差解释率","稀疏注意力","结构化矩阵","线性注意力","随机SVD","神经切线核","隐式正则化","HHL算法","量子SVD","线性方程组","Golub","Jacot","Axler","机器学习","深度学习","神经网络","BERT","反向传播","自注意力","迁移学习","层归一化","独热编码","协同过滤","NP完全","误差分析","可解释性","消融实验","基准测试","分布漂移","批次大小","类型错误","拟牛顿法","共轭梯度","特征向量","矩阵分解","正定矩阵","距离度量","批归一化","Tanh","代价函数","黑塞矩阵","链式法则","泰勒展开","溯因推理","NP问题","信道容量","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","特征分解","低秩近似","图灵完备","线性代数","数据表示","线性变换","矩阵乘法","仿射变换","全连接层","前向传播","表示学习","特征空间","向量空间","加法封闭","正交矩阵","矩阵运算","图像压缩","推荐系统","线性投影","动态矩阵","长程依赖","LoRA","低秩分解","模型合并","线性插值","TIES","蝶形矩阵","分块计算","IO感知","草图方法","随机投影","张量分解","CP分解","张量网络","高阶张量","矩阵感知","矩阵补全","支付矩阵","MAP","PCA","SVD","RNN","CNN","NLP","PDE","GPT","欠拟合","归一化","规模律","思维树","词嵌入","ROC","博弈论","λ演算","复杂度","稳定性","条件数","迭代法","正交化","主成分","协方差","牛顿法","特征值","行列式","P问题","NP难","联合熵","相对熵","Q学习","注意力","KNN","K均值","谱聚类","感知机","核函数","精确率","全连接","卷积层","池化层","ViT","矩阵论","零向量","对角化","谱定理","逆矩阵","公理化","奇异值","中心化","并行化","NTK","谱分布","核矩阵","酉矩阵","Dao","Bau","AI","卷积","微调","量化","流形","拓扑","算法","采样","尖点","张量","范数","梯度","共现","降维","方差","内积","F1","表征","向量","矩阵","基底","投影","白化","Hu","秩","Q","K","V"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","MAP":"Maximum A Posteriori — 最大后验估计，融合先验信息的贝叶斯参数估计方法。","PCA":"Principal Component Analysis — 主成分分析，线性降维方法，保留最大方差方向投影。","SVD":"Singular Value Decomposition — 奇异值分解，矩阵分解的通用方法。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","NLP":"Natural Language Processing — 自然语言处理，使计算机理解、生成和处理人类语言的技术。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","Transformer":"基于自注意力机制的神经网络架构，Vaswani 等 2017 年提出，大语言模型的基石。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","傅里叶变换":"Fourier Transform — 将信号从时域转换到频域的数学变换，信号处理的理论基础。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","注意力机制":"Attention Mechanism — 让模型动态关注序列中不同位置的权重分配机制，Transformer 核心组件。","自注意力":"Self-Attention — 序列每个位置关注所有其他位置捕捉长距离依赖的注意力变体。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","量化":"Quantization — 将模型参数从高精度转为低精度以减小模型大小和加速推理。","词嵌入":"Word Embedding — 将词语映射到低维连续向量空间的技术，语义相近的词距离近。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","流形":"Manifold — 局部欧几里得的拓扑空间。流形假设认为高维数据集中在低维流形上。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","拓扑":"Topology — 研究几何性质在连续变换下不变的数学分支，关注空间的连接性。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","主成分":"Principal Component — PCA 中方差最大的投影方向，对应协方差矩阵的特征向量。","协方差":"Covariance — 衡量两个随机变量之间线性相关方向和程度的统计量。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","张量":"Tensor — 多维数组的统称，标量(0维)、向量(1维)、矩阵(2维)都是张量的特例。","特征向量":"Eigenvector — 线性变换后方向不变（仅缩放）的非零向量。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","矩阵分解":"Matrix Factorization — 将矩阵分解为多个矩阵乘积的方法，如 LU、QR、SVD。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","行列式":"Determinant — 衡量方阵对应线性变换对体积缩放因子的标量值。","范数":"Norm — 衡量向量或矩阵大小的函数，常见 L1 范数（绝对值之和）和 L2 范数（欧几里得距离）。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","多头注意力":"Multi-Head Attention — Transformer 中将注意力拆分为多个头并行计算后拼接的架构设计。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","链式法则":"Chain Rule — 复合函数求导的核心法则，反向传播算法的数学基础。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","信道容量":"Channel Capacity — 信道在理论上可达的最大可靠信息传输速率。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","谱聚类":"Spectral Clustering — 利用图的拉普拉斯矩阵特征向量进行聚类的方法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","降维":"Dimensionality Reduction — 将高维数据映射到低维空间以提取结构和去除噪声的技术。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","协方差矩阵":"Covariance Matrix — 各维度间协方差的矩阵表示，PCA的基础。","内积":"Inner Product — 向量对应分量乘积之和，衡量向量相似度的基本操作。","特征分解":"Eigendecomposition — 将方阵分解为特征向量和特征值矩阵的乘积。","低秩近似":"Low-Rank Approximation — 用低秩矩阵近似原矩阵，SVD是实现方法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","核函数":"Kernel Function — 隐式将数据映射到高维空间的内积函数。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","全连接":"Fully Connected Layer — 每个输入节点与每个输出节点相连的神经网络层。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","ViT":"Vision Transformer — 用Transformer架构直接处理图像patch的视觉模型。","FlashAttention":"通过分块计算和核融合加速注意力机制的精确注意力算法。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","线性代数":"Linear Algebra — 深度学习的表示与计算语言。向量、矩阵、线性变换构成了神经网络前向传播的数学基础。","矩阵论":"Matrix Theory — 研究矩阵结构与性质的数学分支。特征分解、SVD、矩阵补全是现代AI算法的重要工具。","数据表示":"Data Representation — 将原始数据转换为适合模型处理的数学形式。图像→像素向量、文本→词嵌入向量、用户→特征向量。","向量":"Vector — 深度学习的基本数据单元。一张图像、一段文本、一个单词都可表示为向量。模型内部的计算本质上是向量空间上的变换。","矩阵":"Matrix — 向量组成的二维数组。神经网络权重、批次数据、词嵌入表都以矩阵形式存储和计算。","线性变换":"Linear Transformation — 保持向量加法和标量乘法的映射 y = Wx。神经网络每层的核心操作，后接非线性激活函数构成完整的神经元计算。","矩阵乘法":"Matrix Multiplication — 现代AI计算的基本原语。全连接层、注意力机制、卷积都依赖高效的矩阵乘法实现。GPU专门为此优化。","仿射变换":"Affine Transformation — 线性变换加平移 y = Wx + b。全连接层的数学形式，bias项提供了平移自由度。","全连接层":"Fully Connected Layer — 神经网络中最基本的层结构：对输入向量做仿射变换。每个输出神经元与所有输入相连，参数量最大。","前向传播":"Forward Propagation — 输入数据逐层经过线性变换和激活函数，最终产生网络输出的计算过程。矩阵乘法的链式应用。","Jacobian矩阵":"Jacobian Matrix — 向量值函数的导数矩阵 J_ij = ∂f_i/∂x_j。反向传播中用于计算各层梯度，将损失梯度从输出层传回输入层。","非线性激活":"Nonlinear Activation — 线性变换后施加的非线性函数(ReLU/Sigmoid/Tanh)。没有激活函数，多层网络就退化为单层线性变换，失去深层意义。","表示学习":"Representation Learning — 自动从数据中学习有用的特征表示。深度网络通过逐层线性变换+非线性激活构建层次化表示。","特征空间":"Feature Space — 数据被映射到的向量空间。好的特征空间中，同类数据距离近、异类距离远。对比学习直接优化特征空间结构。","基底":"Basis — 向量空间中的一组线性无关向量，可生成空间中所有向量。PCA找到的主成分就是新基底。不同基底对应不同表示视角。","向量空间":"Vector Space — 满足加法和标量乘法封闭的集合。深度学习中的所有表示(嵌入向量/特征图)都存在于某个向量空间中。","加法封闭":"Closure under Addition — 向量空间中任意两向量之和仍在空间中。这是向量空间的基本公理，确保表示可以组合。","标量乘法封闭":"Closure under Scalar Multiplication — 向量空间中任意向量与标量的乘积仍在空间中。权重缩放、梯度更新都依赖此性质。","零向量":"Zero Vector — 向量空间中的加法单位元。在AI中代表\"零信息\"状态。梯度初始化为零向量、残差连接的起点是零初始化。","正交矩阵":"Orthogonal Matrix — Q^T Q = I 的方阵。列向量相互正交且为单位长度。用于防止梯度消失爆炸，正交初始化是权重初始化的常用方法。","对角化":"Diagonalization — 将矩阵分解为 PDP^{-1} 的形式(D为对角阵)。特征分解的核心工具。功率迭代和PCA都利用了对角化。","谱定理":"Spectral Theorem — 实对称矩阵可对角化为正交矩阵Q与实对角阵Λ的乘积 A = QΛQ^T。PCA和谱聚类的理论基础。","Hessian矩阵":"Hessian Matrix — 标量函数的二阶偏导矩阵 H_ij = ∂²f/∂x_i∂x_j。在优化中用于判断极值点类型、牛顿法中的参数更新方向。","Cramer法则":"Cramer's Rule — 用行列式求解线性方程组的方法。理论上优美但计算量极大(O(n!))，实际中不用，主要用于理论分析。","高斯消元法":"Gaussian Elimination — 求解线性方程组的标准方法。通过行变换将增广矩阵化为行阶梯形。LAPACK中LU分解的基础。","矩阵运算":"Matrix Operations — 矩阵加法、乘法、转置、求逆等基本运算。cuBLAS和Tensor Core专门优化这些操作，是GPU加速的基石。","逆矩阵":"Inverse Matrix — A^{-1} 满足 A·A^{-1}=I。用于解线性方程组、最小二乘法的闭式解。实际中通常避开显式求逆(数值不稳定)。","Jordan标准形":"Jordan Canonical Form — 将矩阵化简为近似对角的Jordan块矩阵。比特征分解更一般的矩阵标准形，即使矩阵不可对角化也可化简。","秩":"Rank — 矩阵线性无关的最大列(或行)数。决定矩阵的信息含量。低秩逼近压缩信息、去除噪声。秩为1的矩阵是外积。","Frobenius":"Ferdinand Georg Frobenius (1849-1917) — 弗罗贝尼乌斯。Frobenius范数(矩阵的平方和)、Frobenius定理在矩阵理论中地位重要。","希尔伯特空间":"Hilbert Space — 完备的内积空间。向量长度和夹角概念可推广到无穷维。核方法、高斯过程的理论基础。","Banach空间":"Banach Space — 完备的赋范向量空间。范数定义了向量长度但不需要内积。比Hilbert空间更一般的数学结构。","公理化":"Axiomatization — 用公理严格定义数学结构。线性代数有8条公理(加法交换/结合/单位元/逆元、标量乘法结合/分配等)。","数值线性代数":"Numerical Linear Algebra — 研究矩阵计算的稳定高效数值算法。Golub&Van Loan的经典教材系统化了这一领域。LAPACK/cuBLAS是其工程实现。","Householder变换":"Householder Transformation — 通过反射向量来实现QR分解的数值稳定方法。LAPACK中QR分解的标准实现。","LAPACK":"Linear Algebra PACKage — 线性代数标准数值库，提供LU分解、QR分解、SVD、特征分解等。几乎所有科学计算软件都基于LAPACK。","奇异值分解":"Singular Value Decomposition (SVD) — 将任意矩阵分解为 A = UΣV^T。U和V是正交矩阵，Σ为奇异值对角阵。最重要的矩阵分解之一。","奇异值":"Singular Value — SVD中Σ的对角元素 σ₁≥σ₂≥...≥0。反映矩阵在各方向上的能量大小。前k个奇异值决定了矩阵的最优低秩近似。","左奇异向量":"Left Singular Vector — SVD中U的列向量，对应行空间的基。PCA中相当于主成分方向。","右奇异向量":"Right Singular Vector — SVD中V的列向量，对应列空间的基。PCA中相当于样本的主成分坐标。","Eckart-Young定理":"Eckart-Young Theorem — 取SVD前k大奇异值对应的部分，是Frobenius范数下最优的秩k近似。低秩分解(如LoRA)的理论基础。","Frobenius范数":"Frobenius Norm — 矩阵的平方和开根 ||A||_F = sqrt(Σᵢⱼ aᵢⱼ²)。SVD下等于奇异值平方和开根。矩阵补全和低秩近似的常用损失。","图像压缩":"Image Compression — 利用SVD的经典应用：保留大奇异值舍去小奇异值，用更少的参数近似原图。模型量化剪枝也有类似思想。","推荐系统":"Recommendation System — 用户-物品交互矩阵的建模。矩阵分解(隐语义模型)是经典方法，Word2Vec/GloVe的共现矩阵分解是基础。","GloVe":"Global Vectors for Word Representation — Pennington et al.(2014)基于词共现矩阵分解的静态词嵌入方法。从语料统计直接学习词向量。","词向量矩阵":"Word Embedding Matrix — 每行对应一个词的嵌入向量。语义相近的词向量在空间中也相近。矩阵规模=词表大小×嵌入维度。","Word2Vec":"Word2Vec — Mikolov et al.(2013)提出的词嵌入方法。CBOW和Skip-gram两种架构。本质上是在隐式分解词共现矩阵。","主成分分析":"Principal Component Analysis (PCA) — 通过SVD找到数据方差最大的投影方向。降维、去噪、可视化的标准方法。Eigenfaces是经典案例。","中心化":"Centering — 减去数据均值使数据中心在原点的预处理操作。PCA的第一步。消除偏移对主成分方向的影响。","方差解释率":"Variance Explained Ratio — 每个主成分解释的数据方差占总方差的比率。决定降维时保留多少主成分的依据。","投影":"Projection — 将高维数据映射到低维子空间。PCA投影到主成分方向。注意力机制中把Query投影到不同语义空间。","白化":"Whitening — 使数据协方差变为单位阵的变换。去相关+缩放。Batch Normalization有白化效果。稳定训练过程。","Eigenfaces":"Eigenfaces — 将PCA应用于人脸识别的经典案例。人脸图像投影到主成分(特征脸)空间，用欧氏距离比较。Turk&Pentland(1991)。","PageRank":"PageRank — Google核心算法。将网页链接矩阵建模为马尔可夫链，主特征向量(PageRank分数)衡量网页重要性。幂迭代法的经典应用。","缩放点积注意力":"Scaled Dot-Product Attention — Attention(Q,K,V) = softmax(QK^T/√d_k)V。Transformer的基础操作，QK^T计算相似度矩阵。","Q":"Query — 注意力机制中的查询向量。每个查询与所有键计算相似度，决定从哪些值取信息。类比搜索引擎中的检索词。","K":"Key — 注意力机制中的键向量。与Query做点积(缩放后)得到注意力得分。类比搜索引擎中的文档索引。","V":"Value — 注意力机制中的值(Value)向量。被注意力权重加权求和得到输出。类比搜索引擎中的文档内容。","线性投影":"Linear Projection — 将向量通过矩阵乘法映射到子空间。多头注意力中每个头先将Q/K/V投影到不同子空间，捕获不同语义。","注意力得分矩阵":"Attention Score Matrix — QK^T的结果，每个元素表示某查询与某键的相似度得分。矩阵大小=序列长度×序列长度。","注意力权重矩阵":"Attention Weight Matrix — 对注意力得分矩阵按行做softmax得到的权重。每行和为1，表示每个查询从各位置取信息的比例。","动态矩阵":"Dynamic Matrix — 注意力权重矩阵是数据依赖的(随输入变化)，与固定权重不同。这是Transformer灵活性的关键——每个样本有自己的注意力模式。","Softmax":"Softmax — 将向量转化为概率分布的函数：softmax(z)_i = exp(z_i)/Σ_j exp(z_j)。在注意力中确保所有权重非负且和为1。","长程依赖":"Long-Range Dependency — 序列中相距很远的位置间的依赖关系。RNN难以捕获，而Transformer的自注意力使任意两位置间直接连接、没有距离衰减。","GPU并行计算":"GPU Parallel Computing — 利用GPU大量核心并行执行矩阵运算。矩阵乘法(SGEMM)的并行度极高，GPU的SIMT架构为此优化。","cuBLAS":"cuBLAS — NVIDIA的CUDA线性代数库，是LAPACK的GPU实现。提供高度优化的矩阵乘法(GEMM)等操作。PyTorch/TensorFlow底层调用。","Tensor Core":"Tensor Core — NVIDIA GPU上的专用矩阵运算单元(Volta起)。支持混合精度矩阵乘法(FP16输入+FP32累加)。AI训练和推理的核心加速器。","并行化":"Parallelization — 将计算任务拆分为可同时执行的子任务。矩阵各行和各列的计算天然独立。数据并行/模型并行/张量并行是LLM训练的三种策略。","稀疏注意力":"Sparse Attention — 限制Query只与部分Key计算注意力，降低O(n²)复杂度。滑动窗口、全局+局部组合是常见模式。","LoRA":"Low-Rank Adaptation — Hu et al.(2021)提出。冻结原权重，注入低秩矩阵 ΔW=BA 进行微调。用低秩分解显著减少可训练参数量。","低秩分解":"Low-Rank Decomposition — 将矩阵分解为两个低秩矩阵的乘积 A≈BC。LoRA、模型压缩、矩阵补全都基于低秩分解。","参数高效微调":"Parameter-Efficient Fine-Tuning (PEFT) — 只更新少量参数即可适配下游任务。LoRA、Adapter、Prefix Tuning都是PEFT。","模型合并":"Model Merging — 将多个微调模型的权重进行组合。线性插值、TIES-Merging是常见方法。利用线性代数视角理解模型空间。","线性插值":"Linear Interpolation — 两模型权重按比例组合 θ_new = αθ_A + (1-α)θ_B。模型合并和权重衰减的简单有效方法。","TIES":"TIES-Merging — Yadav et al.(2023)提出的模型合并方法。先修剪不重要的参数变化、解决符号冲突，再平均。","结构化矩阵":"Structured Matrix — 具有特殊结构(稀疏、低秩、蝶形等)的矩阵，可用更少参数存储和更快算法计算。Monarch矩阵是代表。","Monarch矩阵":"Monarch Matrix — 块对角化+置换的乘积。可替代Transformer中的稠密投影，参数量少且计算快。Dao et al.(2022)。","蝶形矩阵":"Butterfly Matrix — 对应快速傅里叶变换结构的稀疏矩阵。理论上可近似任意矩阵。用于设计高效的替代投影矩阵。","Flash Attention":"Flash Attention — Dao et al.(2022)提出。分块计算注意力矩阵，避免O(n²)内存开销。利用GPU SRAM-显存层次结构，IO感知算法。","分块计算":"Tiled Computation — 将大矩阵切分成小块分别计算。Flash Attention的核心技术，利用SRAM处理每个tile，减少显存读写。","IO感知":"IO-Aware — 以数据搬运量为优化目标而非FLOPs。Flash Attention是典型，减少GPU HBM读写可显著加速。","线性注意力":"Linear Attention — 将softmax(QK^T)V改写为 Q(K^T V)，将O(n²)降低为O(n)。利用矩阵乘法结合律，但牺牲了softmax的归一化。","随机线性代数":"Randomized Linear Algebra (RandNLA) — 用随机采样加速矩阵分解。随机SVD比精确SVD快得多，适合大规模数据。","随机SVD":"Randomized SVD — 用随机投影将矩阵压缩到较小空间后再做精确SVD。Halko,Martinsson&Tropp(2011)算法。大数据集的主流方法。","草图方法":"Sketching — 用随机投影(草图)压缩矩阵，在保持关键结构的同时减小规模。频繁项挖掘、流式矩阵分解都使用草图。","随机投影":"Random Projection — 用随机矩阵(如高斯随机矩阵)将高维向量映射到低维。Johnson-Lindenstrauss引理保证距离近似保持。","RandNLA":"Randomized Numerical Linear Algebra — 随机化方法加速数值线性代数。随机SVD、随机特征值分解、草图方法都属于RandNLA。","张量分解":"Tensor Decomposition — 将高阶张量分解为低秩成分的乘积。CP分解(Tucker分解的特例)和Tucker分解是两种主要方式。模型压缩和知识图谱推理中用。","CP分解":"CANDECOMP/PARAFAC Decomposition — 将张量表示为秩1张量之和。张量分解的一种标准形式，是矩阵SVD的高维推广。","Tucker分解":"Tucker Decomposition — 将张量分解为一个核心张量与各维度因子矩阵的乘积。比CP分解更灵活，是矩阵SVD的高维推广。","张量网络":"Tensor Network — 用网络图表示张量间的缩并操作，将高维计算分解为低维操作的组合。在量子多体物理和ML中用于高效表示高维结构。","高阶张量":"Higher-Order Tensor — 阶数≥3的张量。可看作多维数据数组。注意力得分矩阵张量化、视频数据(时空)都用高阶张量表示。","神经切线核":"Neural Tangent Kernel (NTK) — Jacot et al.(2018)提出。无限宽NN在梯度下降下的演化等价于NTK上的核回归。连接DL和核方法。","NTK":"Neural Tangent Kernel — 神经切线核。描述无限宽神经网络在梯度流下参数变化的内核。NTK视角解释了神经网络为什么能泛化。","随机矩阵理论":"Random Matrix Theory (RMT) — 研究随机矩阵特征值谱分布的理论。解释DL中He初始化的方差选择、批归一化效果、Hessian谱。","谱分布":"Spectral Distribution — 矩阵特征值的概率分布。Marchenko-Pastur分布描述随机协方差矩阵的谱。DL中Hessian谱分布影响优化。","矩阵感知":"Matrix Sensing — 从少量线性测量中恢复矩阵。矩阵补全的推广形式。信号处理、压缩感知的矩阵版本。","矩阵补全":"Matrix Completion — 从部分观测元素恢复完整矩阵。推荐系统的核心技术。Netflix Prize的获胜模型基于矩阵分解。","低秩矩阵恢复":"Low-Rank Matrix Recovery — 从少量线性观测中恢复低秩矩阵。矩阵补全是其特例。背景建模、人脸光照去除的应用。","隐式正则化":"Implicit Regularization — 优化算法天然带来的正则化效果。梯度下降在矩阵分解上收敛到最小Frobenius范数解，对应低秩偏好。","量子线性代数":"Quantum Linear Algebra — 利用量子计算加速线性代数运算。HHL算法理论上对求解线性方程组有指数级加速。仍处于早期阶段。","HHL算法":"Harrow-Hassidim-Lloyd Algorithm — 量子线性方程组求解算法。对稀疏矩阵理论上指数加速，但读出结果受量子测量限制。","量子SVD":"Quantum SVD — 量子版本的奇异值分解。理论上可更快计算出奇异值/奇异向量。量子推荐的潜在加速方案。","线性方程组":"System of Linear Equations — 形如 Ax=b 的方程组。最小二乘、数值模拟、神经网络训练(损失最小化)都可看作求解线性问题。","核矩阵":"Kernel Matrix — 核函数在样本对上的Gram矩阵 K_ij = k(x_i, x_j)。SVM、高斯过程的计算核心，矩阵的大小为n×n(n为样本数)。","傅里叶变换矩阵":"Fourier Transform Matrix — 实现离散傅里叶变换的酉矩阵。F对信号在频域和时域间变换。卷积定理：时域卷积=频域乘积(Diagonal化)。","酉矩阵":"Unitary Matrix — U*U = I 的复矩阵。保持向量的L2范数(能量守恒)。傅里叶变换矩阵和量子门都是酉矩阵。","状态空间模型":"State Space Model (SSM) — 描述系统动态的线性代数框架 x_{t+1}=Ax_t+Bu_t, y_t=Cx_t。Mamba/Structured SSM将SSM用于序列建模。","状态转移矩阵":"State Transition Matrix — SSM中描述状态随时间演化的矩阵A。特征值决定系统稳定性。被控对象的动态特性由A决定。","MIMO信道矩阵":"MIMO Channel Matrix — 多天线通信中发射-接收天线间的增益矩阵。SVD用于分解独立数据流。与深度学习的多头注意力有数学对称性。","支付矩阵":"Payoff Matrix — 博弈论中描述各玩家不同策略组合下收益的矩阵。Nash均衡可在支付矩阵上分析。双人零和博弈的线性规划解法。","Nash均衡":"Nash Equilibrium — 博弈中无人能单方面改变策略获得更好结果的状态。生成对抗网络(GAN)的纳什均衡训练视角。","Cayley":"Arthur Cayley (1821-1895) — 凯莱。矩阵理论的奠基人。提出Cayley-Hamilton定理(矩阵满足自身特征多项式)。将群论与矩阵联系。","Sylvester":"James Joseph Sylvester (1814-1897) — 西尔维斯特。与Cayley共同奠基矩阵理论。提出Sylvester惯性律(对称矩阵正负特征值个数不变性)。","Jordan":"Camille Jordan (1838-1922) — 若尔当。Jordan标准形(Jordan Canonical Form)提出者。曲线论、置换群方面也有重要贡献。","Hilbert":"David Hilbert (1862-1943) — 希尔伯特。希尔伯特空间概念的核心人物。提出23个问题的希尔伯特纲领。20世纪最具影响力的数学家之一。","Banach":"Stefan Banach (1892-1945) — 巴拿赫。Banach空间(完备赋范空间)提出者。泛函分析的奠基人。波兰利沃夫数学学派领袖。","von Neumann":"John von Neumann (1903-1957) — 冯·诺依曼。算子代数(冯·诺依曼代数)奠基。量子力学的数学基础、EDVAC计算机体系结构、博弈论均为重要贡献。","Halmos":"Paul Halmos (1916-2006) — 哈尔莫斯。著《有限维向量空间》(Finite-Dimensional Vector Spaces)。影响深远的数学教材作者。","Golub":"Gene Golub (1932-2007) — 数值线性代数先驱。SVD的数值算法标准化者。SIAM创始人之一。与Van Loan合著《Matrix Computations》。","Van Loan":"Charles Van Loan — 与Golub合著《Matrix Computations》——数值线性代数领域最经典的教材。康奈尔大学教授。","Mikolov":"Tomas Mikolov — Word2Vec提出者(2013)。词嵌入技术革命的核心人物。RNNLM研究者。目前在Facebook AI。","Vaswani":"Ashish Vaswani — Transformer论文《Attention Is All You Need》(2017)第一作者。改变了NLP和整个AI领域。","Hu":"Edward Hu — LoRA论文(2021)第一作者。低秩自适应方法使大模型微调变得高效实用。","Dao":"Tri Dao — Flash Attention论文(2022)第一作者。IO感知注意力计算，显著提升Transformer训练效率。Monarch矩阵提出者之一。","Jacot":"Arthur Jacot — Neural Tangent Kernel(NTK)论文(2018)第一作者。连接了无限宽神经网络与核方法。","Martin":"Charles Martin — 计算神经科学和随机矩阵理论在DL中的应用研究者。与Mahoney合作研究DL的Hessian谱、隐式正则化。","Mahoney":"Michael Mahoney — RandNLA(随机线性代数)和DL理论的主要推动者。研究随机矩阵理论在深度学习中的应用(谱分析、隐式正则化)。","Strang":"Gilbert Strang — MIT教授。《线性代数及其应用》《计算科学导论》作者。MIT OCW线性代数课程(18.06)影响了数百万学生。","Axler":"Sheldon Axler — 《线性代数应该这样学》(Linear Algebra Done Right)作者。从线性映射而非行列式出发讲授线性代数，极有影响力。","Trefethen":"Lloyd Trefethen — 《数值线性代数》(Numerical Linear Algebra)作者(与Bau合著)。逼近论与数值分析领域权威。","Bau":"David Bau — 与Trefethen合著《数值线性代数》(Numerical Linear Algebra)。专注于数值分析教学。","Goodfellow":"Ian Goodfellow — 《深度学习》(Deep Learning)第一作者。GAN(生成对抗网络)发明者。蒙特利尔大学博士，Apple/Google研究员。","Bengio":"Yoshua Bengio — 《深度学习》作者之一。蒙特利尔大学教授。2018图灵奖得主。深度学习先驱(词嵌入、注意力机制、生成模型)。","Courville":"Aaron Courville — 《深度学习》作者之一。蒙特利尔大学教授。主要研究深度生成模型、表示学习。","Spectral Radius":"Spectral Radius — 谱半径。矩阵最大绝对值特征值，决定迭代法收敛性的关键指标。","Jacobi Method":"Jacobi Method — 雅可比迭代法。解线性方程组的经典迭代方法，逐分量更新。","Gauss-Seidel":"Gauss-Seidel Method — 高斯-赛德尔迭代法。使用最新计算分量的改进版雅可比方法。","Gram-Schmidt":"Gram-Schmidt Process — 格拉姆-施密特正交化。从一组线性无关向量构造正交基的算法。","Householder Reflection":"Householder Reflection — Householder反射。通过镜像变换实现QR分解的数值稳定方法。","Givens Rotation":"Givens Rotation — Givens旋转。在特定平面上旋转向量以引入零分量的正交变换。","Cholesky Decomposition":"Cholesky Decomposition — Cholesky分解。正定对称矩阵的LL^T分解，比LU更高效。","LU Decomposition":"LU Decomposition — LU分解。将矩阵分解为下三角和上三角矩阵的乘积。","QR Decomposition":"QR Decomposition — QR分解。将矩阵分解为正交矩阵Q和上三角矩阵R。","Schur Decomposition":"Schur Decomposition — 舒尔分解。将矩阵分解为拟三角矩阵与酉矩阵的乘积。","Kronecker Product":"Kronecker Product — 克罗内克积。两个矩阵的分块乘法运算，在矩阵计算和深度学习中有广泛应用。","Hadamard Product":"Hadamard Product — 哈达玛积。矩阵对应元素相乘的元素级乘积运算。","Johnson-Lindenstrauss Lemma":"Johnson-Lindenstrauss Lemma — JL引理。高维点集可近乎保持距离地嵌入低维空间。","CP Decomposition":"CP Decomposition — CANDECOMP/PARAFAC分解。将张量表示为秩一组分向量外积的和。","Gershgorin Circle Theorem":"Gershgorin Circle Theorem — Gershgorin圆盘定理。矩阵特征值位于以对角元为圆心、行和为半径的圆盘内。","Cayley-Hamilton Theorem":"Cayley-Hamilton Theorem — Cayley-Hamilton定理。方阵满足自身的特征多项式。","Perron-Frobenius Theorem":"Perron-Frobenius Theorem — Perron-Frobenius定理。非负矩阵具有唯一最大特征值和非负特征向量。","邻接矩阵":"Adjacency Matrix — 图G=(V,E)的矩阵表示，A_ij=1当(i,j)∈E。图神经网络和谱方法的输入基础。","度矩阵":"Degree Matrix — diag(d_1,...,d_n)的对角矩阵，d_i=Σ_jA_ij。图拉普拉斯L=D-A的组成部分。","图拉普拉斯":"Graph Laplacian — L=D-A，二次型f^TLf=½ΣA_ij(f_i-f_j)²衡量图信号平滑性。谱聚类与图卷积的数学基础。","Gram矩阵":"Gram Matrix — G_ij=⟨x_i,x_j⟩组成的内积矩阵。核方法中对应核矩阵K_ij=k(x_i,x_j)，在SVM和GP中核心出现。","Cramer (1750)":"Gabriel Cramer (1704-1752) — 瑞士数学家，1750年发表Cramer法则（行列式解线性方程组），线性代数最早的系统化成果。","Gauss (约 1800)":"Carl Friedrich Gauss (1777-1855) — 德国数学家，发展高斯消元法，至今仍是求解线性方程组的基础算法。","Cayley (1858)":"Arthur Cayley (1821-1895) — 英国数学家，1858年发表《矩阵理论的回忆录》，正式定义矩阵及其运算规则，被誉为'矩阵理论之父'。","Sylvester (1850)":"James Joseph Sylvester (1814-1897) — 英国数学家，1850年引入'矩阵'这一术语，与Cayley同为矩阵理论奠基人。","Jordan (1870)":"Camille Jordan (1838-1922) — 法国数学家，1870年发展Jordan标准形，为矩阵分类提供完整框架。","Frobenius (1878)":"Ferdinand Georg Frobenius (1849-1917) — 德国数学家，1878年系统研究矩阵的秩和特征值等基本概念。","Hilbert (1904-1910)":"David Hilbert (1862-1943) — 德国数学家，创立Hilbert空间理论，将有限维向量空间推广到无穷维函数空间。","Banach (1920s)":"Stefan Banach (1892-1945) — 波兰数学家，发展Banach空间（完备赋范向量空间），进一步推广线性空间概念。","Halmos (1942)":"Paul Halmos (1916-2006) — 匈牙利裔美国数学家，1942年出版《有限维向量空间》，确立现代线性代数的公理化教学体系。","Householder (1958)":"Alston Scott Householder (1904-1993) — 美国数学家，1958年提出Householder变换，开创数值线性代数现代方法。","Golub & Kahan (1965)":"Gene H. Golub 与 William Kahan — 合作发展SVD高效算法，Golub合著《矩阵计算》成为数值线性代数经典。","Golub & Van Loan (1983)":"Gene H. Golub 与 Charles F. Van Loan — 1983年出版《矩阵计算》，数值线性代数的权威教材。","Word2Vec (2013)":"Mikolov等人提出的词嵌入方法，用词向量矩阵捕获语义关系，经典例子 king-man+woman≈queen。","Transformer (2017)":"Vaswani等人提出的自注意力架构，将序列建模转化为矩阵运算，现代大语言模型的基石。","LoRA (2021)":"Hu等人提出的低秩适配方法，用两个小矩阵乘积BA近似大模型权重更新ΔW，实现参数高效微调。","Halko":"Nathan Halko — 随机化矩阵分解研究者，与Martinsson、Tropp合著随机化矩阵分解综述（SIAM Review 2011）。","Martinsson":"Per-Gunnar Martinsson — 美国数学家，随机化数值线性代数专家，随机SVD方法先驱。","Tropp":"Joel A. Tropp — 美国应用数学家，随机线性代数领域权威，随机化矩阵分解综述合著者。","Harrow":"Aram Harrow — 物理学家，HHL量子线性算法（求解线性方程组的指数加速算法）合作提出者。","Hassidim":"Avinatan Hassidim — 以色列计算机科学家，HHL量子线性算法合作提出者。","Lloyd (1960-)":"Seth Lloyd (1960-) — 美国物理学家，提出量子计算机求解线性方程组的HHL算法理论基础。","Turk":"Matthew Turk — 计算机视觉研究者，与Pentland合作提出Eigenfaces人脸识别方法（1991）。","Pentland":"Alex Pentland — MIT教授，计算机视觉与社交计算先驱，合作提出Eigenfaces人脸识别方法。","Hu (Edward)":"Edward J. Hu — LoRA低秩适配大模型微调方法（2021）的提出者，用低秩矩阵逼近全量微调。","Gaussian Elimination":"高斯消元法 — 通过逐列消去变量将方程组化为上三角阵再回代的求解方法，复杂度O(n³)，Gauss（约1800年）完善。","Jordan Normal Form":"Jordan标准形 — 将方阵化为几乎对角的拟对角矩阵（Jordan块），为矩阵的相似分类提供完整框架，Jordan（1870年）提出。","Spectral Theorem":"谱定理 — 实对称矩阵可正交对角化为A=QΛQᵀ，所有特征值为实数且特征向量正交，是PCA和谱聚类的数学基础。","Scaled Dot-Product Attention":"缩放点积注意力 — Attention(Q,K,V)=softmax(QKᵀ/√d_k)V，Transformer的核心公式，Vaswani等2017年提出。","Representation Learning":"表示学习 — 自动从数据中学习有用特征表示的机器学习方法，每层神经网络本质是一次线性变换+非线性激活来重新组合特征。","Singular Value":"奇异值σ_i — SVD中对角矩阵Σ的元素，σ_i = √λ_i(AᵀA)，奇异值大小反映每个方向上的信息量。","Eigenvalue Decomposition":"特征分解 — 将可对角化方阵分解为A=PΛP⁻¹，Λ为特征值对角矩阵，P为特征向量矩阵，揭示矩阵在特征向量方向只做缩放的本质。","Whitening":"白化 — 通过PCA使数据各维度方差为1且互不相关的预处理变换，去除特征间的线性相关。","Eigenface":"Eigenfaces — Turk & Pentland (1991)提出的经典人脸识别方法，用PCA提取人脸图像的主成分作为特征脸。","Randomized SVD":"随机SVD — Halko, Martinsson & Tropp (2011)提出的随机化方法，通过随机投影快速计算低秩近似，适合大规模矩阵。","Sketching":"草图方法 — 用随机投影将大矩阵'压缩'为小矩阵并在其上做精确计算，是随机数值线性代数(RandNLA)的核心技术。","Linear Attention":"线性注意力 — 用核函数近似softmax将注意力复杂度从O(n²)降至O(n)，以牺牲部分精度换取可扩展性。","Tensor Networks":"张量网络 — 源自量子物理的框架，将高阶张量分解为低阶张量网络图，用于模型压缩和高阶数据分析。","CANDECOMP":"Canonical Decomposition (CANDECOMP/PARAFAC) — 将张量分解为秩一张量之和的方法，与PARAFAC等价。","PARAFAC":"Parallel Factor Analysis — 与CANDECOMP等价的张量分解方法，将张量表示为有限个秩一张量的和。","Matrix Sensing":"矩阵感知 — 从少量线性测量值恢复低秩矩阵的问题，与压缩感知密切相关，有严格的理论保证。","Matrix Completion":"矩阵补全 — 从部分观测到的元素恢复完整低秩矩阵的问题，Netflix Prize中推荐系统的核心理论基础。","Model Merging":"模型合并 — 将多个模型的权重矩阵通过线性插值或TIES等方法组合成单一模型，无需重新训练。","Implicit Self-Regularization":"隐式自正则化 — 梯度下降在矩阵分解任务中天然倾向于低秩解的理论发现，解释深度学习的隐式正则化效应。","Quantum Linear Algebra":"量子线性代数 — 在量子计算机上求解线性代数问题的理论，HHL算法可实现指数级加速，是量子机器学习的基础。","Infinite-Width Network":"无限宽网络 — 隐层神经元数趋于无穷的神经网络，其训练动态等价于神经切线核(NTK)描述的核方法。","MATLAB":"MATLAB — MathWorks公司的数值计算和矩阵运算编程环境，线性代数计算的标准工具之一。","Matrix Computations (book)":"Golub & Van Loan（1983）合著的数值线性代数经典教材，Golub & Van Loan (2013)第4版，涵盖所有核心矩阵算法。","Numerical Linear Algebra (book)":"Trefethen & Bau（1997）合著的现代数值线性代数教材，SIAM出版，强调几何直觉。","Linear Algebra Done Right (book)":"Sheldon Axler（1997初版/2015第3版）的线性代数教材，Springers出版，以线性变换为中心的抽象教学法。","Introduction to Linear Algebra (book)":"Gilbert Strang（2016第5版）的经典线性代数教材，Wellesley-Cambridge Press出版，配套MIT OCW公开课。","SIAM":"Society for Industrial and Applied Mathematics — 工业与应用数学学会，出版SIAM Review等顶级期刊。","SIAM Review":"SIAM出版的综述期刊，发表过随机化矩阵分解（Halko等2011）、NTK（Jacot等2018）等里程碑论文。","JMLR":"Journal of Machine Learning Research — 机器学习领域顶级期刊，开放获取，MIT Press出版。","NeurIPS":"Neural Information Processing Systems — AI/ML领域最负盛名的顶级学术会议，每年十二月举办。","arXiv":"康奈尔大学运营的学术预印本开放获取平台（arXiv.org），物理、数学、计算机科学论文的首发地。","Netflix Prize":"Netflix举办推荐系统竞赛（2006-2009），SVD矩阵分解方法成为推荐系统的核心并因此广泛普及。","MIT OCW":"MIT OpenCourseWare — MIT免费开放课程平台，Strang线性代数公开课是其最受欢迎的课程之一。"};
+const ANN_TERMS = ["Introduction to Linear Algebra (book)","Linear Algebra Done Right (book)","Numerical Linear Algebra (book)","Scaled Dot-Product Attention","Implicit Self-Regularization","Johnson-Lindenstrauss Lemma","Matrix Computations (book)","Gershgorin Circle Theorem","Perron-Frobenius Theorem","Eigenvalue Decomposition","Cayley-Hamilton Theorem","Golub & Van Loan (1983)","Representation Learning","Householder Reflection","Cholesky Decomposition","Quantum Linear Algebra","Infinite-Width Network","Golub & Kahan (1965)","Gaussian Elimination","Schur Decomposition","Hilbert (1904-1910)","Vision Transformer","Householder (1958)","Transformer (2017)","Jordan Normal Form","Kronecker Product","Matrix Completion","LU Decomposition","QR Decomposition","Hadamard Product","CP Decomposition","Sylvester (1850)","Frobenius (1878)","Spectral Theorem","Linear Attention","Flash Attention","Spectral Radius","Givens Rotation","Word2Vec (2013)","Tensor Networks","FlashAttention","Eckart-Young定理","Gauss (约 1800)","Banach (1920s)","Singular Value","Randomized SVD","Matrix Sensing","Householder变换","Jacobi Method","Cramer (1750)","Cayley (1858)","Jordan (1870)","Halmos (1942)","Lloyd (1960-)","Model Merging","Netflix Prize","Gauss-Seidel","Gram-Schmidt","Transformer","Frobenius范数","Tensor Core","von Neumann","LoRA (2021)","Hu (Edward)","SIAM Review","Jacobian矩阵","Eigenfaces","Goodfellow","Martinsson","Softmax策略","Hessian矩阵","Jordan标准形","Frobenius","Monarch矩阵","Sylvester","Trefethen","Courville","Whitening","Eigenface","Sketching","CANDECOMP","Kalman滤波","Boosting","Cramer法则","Banach空间","Word2Vec","PageRank","Tucker分解","MIMO信道矩阵","Van Loan","Hassidim","Pentland","softmax","Bagging","缩放点积注意力","注意力得分矩阵","注意力权重矩阵","Softmax","GPU并行计算","RandNLA","傅里叶变换矩阵","Hilbert","Mikolov","Vaswani","Mahoney","PARAFAC","NeurIPS","MIT OCW","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","标量乘法封闭","希尔伯特空间","数值线性代数","LAPACK","cuBLAS","参数高效微调","随机线性代数","随机矩阵理论","低秩矩阵恢复","量子线性代数","状态空间模型","状态转移矩阵","Nash均衡","Cayley","Jordan","Banach","Halmos","Martin","Strang","Bengio","Gram矩阵","Harrow","MATLAB","傅里叶变换","注意力机制","无监督学习","批量归一化","自动编码器","分布语义学","余弦相似度","交叉注意力","多头注意力","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","循环一致性","多任务学习","小样本学习","零样本学习","协方差矩阵","非线性激活","高斯消元法","奇异值分解","左奇异向量","右奇异向量","GloVe","词向量矩阵","主成分分析","方差解释率","稀疏注意力","结构化矩阵","线性注意力","随机SVD","神经切线核","隐式正则化","HHL算法","量子SVD","线性方程组","Golub","Jacot","Axler","图拉普拉斯","Halko","Tropp","arXiv","机器学习","深度学习","神经网络","BERT","反向传播","自注意力","迁移学习","层归一化","独热编码","协同过滤","NP完全","误差分析","可解释性","消融实验","基准测试","分布漂移","批次大小","类型错误","拟牛顿法","共轭梯度","特征向量","矩阵分解","正定矩阵","距离度量","批归一化","Tanh","代价函数","黑塞矩阵","链式法则","泰勒展开","溯因推理","NP问题","信道容量","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","特征分解","低秩近似","图灵完备","线性代数","数据表示","线性变换","矩阵乘法","仿射变换","全连接层","前向传播","表示学习","特征空间","向量空间","加法封闭","正交矩阵","矩阵运算","图像压缩","推荐系统","线性投影","动态矩阵","长程依赖","LoRA","低秩分解","模型合并","线性插值","TIES","蝶形矩阵","分块计算","IO感知","草图方法","随机投影","张量分解","CP分解","张量网络","高阶张量","矩阵感知","矩阵补全","支付矩阵","邻接矩阵","Turk","SIAM","JMLR","MAP","PCA","SVD","RNN","CNN","NLP","PDE","GPT","欠拟合","归一化","规模律","思维树","词嵌入","ROC","博弈论","λ演算","复杂度","稳定性","条件数","迭代法","正交化","主成分","协方差","牛顿法","特征值","行列式","P问题","NP难","联合熵","相对熵","Q学习","注意力","KNN","K均值","谱聚类","感知机","核函数","精确率","全连接","卷积层","池化层","ViT","矩阵论","零向量","对角化","谱定理","逆矩阵","公理化","奇异值","中心化","并行化","NTK","谱分布","核矩阵","酉矩阵","Dao","Bau","度矩阵","AI","卷积","微调","量化","流形","拓扑","算法","采样","尖点","张量","范数","梯度","共现","降维","方差","内积","F1","表征","向量","矩阵","基底","投影","白化","Hu","秩","Q","K","V"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

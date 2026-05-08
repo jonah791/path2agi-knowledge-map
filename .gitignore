@@ -1,1 +1,39 @@
+# Temp/build artifacts
 node_modules/
+package-lock.json
+
+# Deep review outputs (merged into annotations.json)
+deep_review_*.json
+scan_batch*.json
+scan_r2_*.json
+annotations-new-terms-report-ch16-23.json
+
+# Temp scripts
+_check_size.py
+_deep_review.py
+_extract_keys.py
+_final*.py
+_find_neuro.py
+_postprocess.py
+_refined_review.py
+analyze_*.py
+build_batch2.py
+candidate_terms.json
+check*.txt
+check*.py
+curate_final*.py
+dedup_check.py
+extract_*.py
+find_t20.py
+fuzzy_check.txt
+gen_*.py
+keys.txt
+new_terms_v2.json
+ref_keys.txt
+scan_check_r2.txt
+scan_clean_candidates.txt
+scan_new_candidates.txt
+tmp_annotation_report.json
+verify*.py
+annotations_report.md
+merge_dr*.py

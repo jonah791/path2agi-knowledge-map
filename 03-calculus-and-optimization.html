@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>微积分与优化理论（Calculus and Optimization Theory）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">微积分与优化理论（Calculus and Optimization Theory）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1087,8 +900,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","SVM":"Support Vector Machine — 支持向量机，通过最大间隔超平面分类的经典算法。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","SGD":"Stochastic Gradient Descent — 随机梯度下降，通过小批量采样估计梯度的优化算法。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","过拟合":"Overfitting — 模型在训练数据上好但新数据上差的现象，由模型过于复杂导致。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","正则化":"Regularization — 通过引入约束或惩罚项防止过拟合的技术，如 L1/L2。","梯度消失":"Vanishing Gradient — 深层网络中梯度随层数加深指数级衰减导致浅层无法训练的问题。","梯度爆炸":"Exploding Gradient — 深层网络中梯度指数级增长导致训练不稳定的问题。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","预训练":"Pre-training — 在大规模通用数据上先训练模型再针对特定任务微调的范式。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","RLHF":"Reinforcement Learning from Human Feedback — 基于人类反馈的强化学习对齐方法。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","泛化":"Generalization — 模型在未见数据上表现良好的能力，机器学习的核心目标。","拟合":"Fitting — 模型学习训练数据中模式的过程，过拟合=学噪声，欠拟合=没学够。","计算图":"Computation Graph — 用有向图表示数学运算的框架，是自动求导的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","dropout":"训练时随机丢弃部分神经元的正则化技术，可近似为贝叶斯推断。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","AUC":"Area Under the ROC Curve — 衡量二分类模型整体性能的指标。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","对偶":"Duality — 两个看似不同的结构之间一一对应的数学现象，如线性规划的对偶问题。","线性规划":"Linear Programming — 目标函数和约束均为线性的优化问题求解方法。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","核方法":"Kernel Methods — 通过核函数将数据映射到高维空间进行非线性分析的技术。","收敛性":"Convergence — 迭代算法趋近稳定解或极限值的性质，优化和数值分析的核心概念。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","超参数":"Hyperparameter — 训练前设定的控制学习过程的配置参数，如学习率、批次大小。","学习率":"Learning Rate — 控制每次参数更新步长的超参数，影响训练速度和收敛质量。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","鞍点":"Saddle Point — 某些方向是极小值、某些方向是极大值的高维临界点，优化中的困难区。","全局最优":"Global Optimum — 所有可能解中的最优解，凸优化保证能找到全局最优。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","KKT条件":"Karush-Kuhn-Tucker Conditions — 约束优化问题最优解的必要条件。","凸优化":"Convex Optimization — 目标函数和可行域都是凸集的优化问题，保证全局最优解。","非凸优化":"Non-Convex Optimization — 目标函数或可行域非凸的优化问题，可能有多局部最优。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","迹":"Trace — 方阵对角线上元素之和，矩阵的一种标量表示。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","损失函数":"Loss Function — 衡量模型预测与真实值差距的目标函数，训练过程中最小化。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","雅可比矩阵":"Jacobian Matrix — 向量值函数对所有输入变量的一阶偏导数矩阵。","链式法则":"Chain Rule — 复合函数求导的核心法则，反向传播算法的数学基础。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","偏差-方差权衡":"Bias-Variance Tradeoff — 模型偏差（系统误差）和方差（对数据波动的敏感性）之间的平衡关系。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","逻辑回归":"Logistic Regression — 用 Sigmoid 函数将线性组合映射到概率的二分类模型。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","Lasso":"Lasso Regression — 加入 L1 正则化的线性回归，能产生稀疏解实现特征选择。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","贝叶斯":"Bayesian — 基于贝叶斯定理的统计推断方法体系的总称。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","先验":"Prior — 贝叶斯推断中观测数据前对参数不确定性的概率分布。","后验":"Posterior — 贝叶斯推断中融合先验和观测数据后更新得到的概率分布。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","标准差":"Standard Deviation — 方差的平方根，与原数据单位一致的离散度量。","凸函数":"Convex Function — 曲线上任意两点连线不低于函数值的性质，凸优化保证全局最优。","约束优化":"Constrained Optimization — 在满足约束条件下优化目标函数的数学问题。","迭代":"Iteration — 重复执行操作序列逼近目标的过程，优化算法的基本模式。","多项式时间":"Polynomial Time — 运行时间为输入规模多项式函数的算法复杂度类。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","测试集":"Test Set — 不参与训练的独立子集，用于评估模型泛化能力。","训练集":"Training Set — 用于训练机器学习模型的标注数据集合。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","均方误差":"Mean Squared Error — 预测值与真实值差的平方的均值，回归常用损失。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","学习率衰减":"Learning Rate Decay — 训练中逐步降低学习率帮助精细收敛的策略。","余弦退火":"Cosine Annealing — 按余弦函数调整学习率的调度策略。","预热":"Warmup — 训练初期逐步增大学习率以稳定训练的策略。","梯度裁剪":"Gradient Clipping — 将梯度范数限制在阈值内防止梯度爆炸。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","动量":"Momentum — 引入前一步方向惯性加速SGD收敛的优化技巧。","Adam":"Adaptive Moment Estimation — 结合动量和自适应学习率的优化器。","AdamW":"Adam with Decoupled Weight Decay — 将权重衰减与自适应学习率解耦的改进。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","微积分":"Calculus — 研究连续变化与累积的数学分支。分为微分学(变化率)和积分学(累积量)。深度学习训练的本质是计算损失函数的导数来更新参数。","优化理论":"Optimization Theory — 在约束下寻找目标函数最优值(最大/最小)的学科。神经网络训练是典型的无约束优化问题：最小化损失函数。","导数":"Derivative — 函数在某点的瞬时变化率 df/dx。梯度下降中计算损失对参数的导数，决定参数的更新方向和幅度。","偏导数":"Partial Derivative — 多元函数对某一变量的导数，其他变量视为常数。反向传播中逐层计算损失对各权重/偏置的偏导数。","方向导数":"Directional Derivative — 函数沿某方向的变化率。梯度方向是方向导数最大的方向，因此梯度下降沿负梯度方向走。","微分":"Differential — 函数增量的线性近似 df = f'(x)dx。自动微分的前向模式逐项累积微分。","积分":"Integral — 函数的累积量的总和。概率论中计算期望、连续分布的边际似然都需要积分。变分推断的核心难点就是处理高维积分。","微积分基本定理":"Fundamental Theorem of Calculus — 微分和积分互逆：∫_a^b f'(x)dx = f(b)-f(a)。将变化率与累积量联系起来，使数值优化有了理论基础。","前向模式自动微分":"Forward-Mode AD — 同时计算函数值和导数(通过Dual Numbers)。输入→输出方向传播。适合输入少输出多的场景，但神经网络是输入多输出少。","反向模式自动微分":"Reverse-Mode AD — 先正向计算函数值，再反向传播梯度。输出→输入方向。神经网络的标准方法(反向传播)。适合输入多输出少的场景。","批量梯度下降":"Batch Gradient Descent — 用全部训练数据计算梯度的梯度下降。保证收敛到(局部)最优，但每次迭代计算量大，无法用于大规模数据集。","随机梯度下降":"Stochastic Gradient Descent (SGD) — 每次迭代只用单个样本计算梯度。有噪声但可逃离鞍点，收敛速度快。大规模深度学习训练的基石。","小批量梯度下降":"Mini-batch Gradient Descent — 每次用一个小批次(如32/64/256)样本计算梯度。折中SGD的噪声和批量GD的稳定。实际训练的标准做法。","动量法":"Momentum — 在梯度下降中加入速度累积，使更新方向既考虑当前梯度也考虑历史方向。加速收敛、平滑震荡。v_{t+1}=γv_t+η∇L。","速度变量":"Velocity Variable — 动量法中记录历史梯度的累积量 v_t。相当于物理中物体的动量，让更新方向更稳定。","动量系数":"Momentum Coefficient — 动量法中控制历史梯度衰减率的超参数(通常γ=0.9)。γ越大，历史梯度的惯性越强，对当前梯度的依赖越弱。","Nesterov加速梯度":"Nesterov Accelerated Gradient (NAG) — 动量法的改进版：先用动量预测参数位置，再在该位置计算梯度。比标准动量收敛更快。","AdaGrad":"AdaGrad — Duchi et al.(2011)提出。每个参数独立学习率，频繁更新的参数学习率衰减快，稀疏参数衰减慢。适合稀疏数据(NLP/推荐)。","RMSProp":"RMSProp — Hinton在Coursera课程中提出。用指数移动平均代替AdaGrad的累积平方和，解决AdaGrad学习率单调递减到零的问题。","一阶矩估计":"First Moment Estimate — Adam中梯度均值(一阶矩)的指数移动平均 m_t=β₁m_{t-1}+(1-β₁)g_t。相当于动量项。","二阶矩估计":"Second Moment Estimate — Adam中梯度平方(二阶矩)的指数移动平均 v_t=β₂v_{t-1}+(1-β₂)g_t²。控制每个参数的自适应学习率。","偏差修正":"Bias Correction — Adam中初始时刻m_t和v_t偏小，除以 (1-β₁ᵗ) 和 (1-β₂ᵗ) 修正。使早期迭代更稳定。","RAdam":"Rectified Adam — Liu et al.(2019)提出。修正Adam在预热阶段学习率过大问题。根据二阶矩估计的方差动态调整学习率，训练更稳定。","梯度累积":"Gradient Accumulation — 多次小批量前向后累积梯度，再统一更新参数。用于模拟大批量训练(因显存限制无法直接使用大批量)。","混合精度训练":"Mixed Precision Training — 用FP16计算和存储梯度/激活，FP32维护主权重副本。可几乎无损地减半显存和加速训练。Volta Tensor Core的支持。","学习率调度":"Learning Rate Schedule — 训练过程中动态调整学习率的策略。预热→余弦退火是LLM预训练的标准方案。","学习率预热":"Learning Rate Warmup — 训练初期学习率从0线性增加到目标值。防止早期梯度过大导致不稳定的训练。GPT/BERT/LLaMA都使用。","线性预热":"Linear Warmup — 学习率从0到目标值线性增加 k步。最简单的预热方式，与余弦退火组合是LLM训练的标准配置。","二元交叉熵":"Binary Cross-Entropy — BCELoss = -[y log(p)+(1-y)log(1-p)]。二分类的标准损失函数。本质是MLE在Bernoulli分布下的负对数似然。","对抗损失":"Adversarial Loss — GAN中生成器和判别器的对抗目标函数。生成器试图最小化、判别器试图最大化。本质是Jensen-Shannon散度(原始GAN)或Wasserstein距离(WGAN)。","InfoNCE损失":"InfoNCE Loss — 对比学习的标准损失。将正样本对与负样本对区分，最小化正负对之间的InfoNCE = -log[exp(sim(q,k⁺)/τ) / Σexp(sim(q,kᵢ)/τ)]。","局部最小值":"Local Minimum — 在某邻域内损失最小但非全局最小的点。高维空间中局部最小值很少见(更多是鞍点)，是早期DL担忧但实际不严重的问题。","全局最小值":"Global Minimum — 整个参数空间中损失最小的点。深度学习通常不需要找到全局最小值，只要泛化好即可。过参数化模型在零损失处可插值数据。","平坦极小值":"Flat Minimum — 损失景观中平坦区域的极小值点。泛化能力更好(对参数扰动不敏感)。SGD的噪声倾向于收敛到平坦极小值。","尖锐极小值":"Sharp Minimum — 损失景观中陡峭谷底的极小值点。泛化差(参数微调导致损失剧增)。大批量训练易收敛到此，需要额外正则化。","损失景观":"Loss Landscape — 损失函数在参数空间上的几何形状。平坦vs尖锐对泛化有重要影响。可视化分析帮助理解优化行为和泛化。","双下降现象":"Double Descent — Belkin et al.(2019)发现：随模型复杂度增加，测试误差先降、再升(过拟合)、再降(过参数化)。挑战传统偏差-方差权衡。","过参数化":"Overparameterization — 模型参数量远多于训练样本数。传统ML认为这会导致过拟合，但DL实践中过参数化反而泛化更好(SGD的隐式正则化)。","权重衰减":"Weight Decay — 在损失中加入λ||θ||²²正则化项。等价于L2正则化。AdamW将权重衰减与自适应学习率解耦，是LLM训练的标准。","变分法":"Calculus of Variations — 研究泛函极值问题的数学分支。Euler-Lagrange方程是核心工具。变分推断中最小化KL散度就是在做变分法。","泛函":"Functional — 以函数为输入的映射 F[f]。变分法的研究对象。变分推断中的ELBO是一个泛函——它输入一个分布函数q(z)，输出一个标量。","Euler-Lagrange方程":"Euler-Lagrange Equation — 变分法的核心方程：∂L/∂f - d/dx(∂L/∂f')=0。泛函极值条件的必要方程。","重参数化技巧":"Reparameterization Trick — Kingma&Welling(2014)提出。将采样 z ~ q_φ(z|x) 改写为 z = μ_φ(x)+σ_φ(x)·ε, ε~N(0,I)。使随机节点可微，VAE训练可行。","二阶优化":"Second-Order Optimization — 利用Hessian矩阵(二阶导数)信息指导更新。收敛步数少但每步计算量极大(Hessian O(n²))。深度学习中不常用完整二阶方法。","Newton法":"Newton's Method — 二阶优化：θ_{t+1}=θ_t-H⁻¹∇L。利用Hessian的曲率信息，二次收敛。计算H⁻¹太昂贵，实际几乎不用在DL中。","拟Newton法":"Quasi-Newton Methods — 用梯度信息近似Hessian而非直接计算。BFGS/DFP/L-BFGS。L-BFGS(有限内存)在中小规模问题中有效。","L-BFGS":"Limited-memory BFGS — 拟牛顿法的内存高效版本。不存储完整Hessian近似矩阵，只保存最近几步的梯度差。适合中小规模DL。","Fisher信息矩阵":"Fisher Information Matrix — F = E[∇log p(y|x,θ)∇log p(y|x,θ)^T]。自然梯度的核心量，描述参数对模型输出的敏感度。K-FAC近似其为Kronecker积。","K-FAC":"Kronecker-Factored Approximate Curvature — Martens&Grosse(2015)。将Fisher矩阵近似为各层Kronecker因子积，使自然梯度的计算开销降到O(一层)。","最大间隔解":"Max-Margin Solution — 过参数化模型中SGD收敛到具有最大间隔的解。解释DL泛化的理论之一：SGD隐式偏好低复杂度的解(如最大间隔)。","最优控制":"Optimal Control — 在动态系统上找到最优控制策略使代价最小化。与优化理论融合：MDP的值函数迭代=动态规划=最优控制的离散形式。","Lagrange乘数法":"Lagrange Multiplier — 等式约束优化方法：L(x,λ)=f(x)+λg(x)。最优解在梯度平行的点上。SVM的最大间隔推导和GAN的约束都用到。","凸分析":"Convex Analysis — 研究凸集和凸函数的数学分支。凸优化理论的基础。虽然DL问题非凸，凸分析的工具有助于理解局部行为和正则化。","对偶性":"Duality — 每个优化问题(原问题)对应一个对偶问题。强对偶下原和对偶的最优值相等。SVM的核技巧来自其对偶形式。","强对偶性":"Strong Duality — 原问题与对偶问题的最优值相等。凸优化+Slater条件保证强对偶。SVM的原始和对偶问题满足强对偶。","Slater条件":"Slater's Condition — 凸优化中强对偶成立的充分条件：存在严格可行的内点。实际凸问题通常满足，非凸问题不保证。","收敛性分析":"Convergence Analysis — 研究优化算法收敛到(近似)最优解的速度和条件。梯度下降在L-光滑+μ-强凸下线性收敛率O(log(1/ε))。","L-光滑性":"L-Smoothness — 梯度的Lipschitz连续性 ||∇f(x)-∇f(y)|| ≤ L||x-y||。L是Hessian的最大特征值上界。L小→优化友好。决定了梯度下降的最大步长。","μ-强凸":"μ-Strong Convexity — f(x)≥f(y)+∇f(y)^T(x-y)+μ/2||x-y||²。μ是Hessian的最小特征值下界。强凸→唯一最优+线性收敛。DL目标函数不满足。","随机优化":"Stochastic Optimization — 用随机(无偏)梯度估计替代全梯度。SGD是代表。理论分析收敛速率：凸O(1/√T)，非凸无保证但实际有效。","分布式优化":"Distributed Optimization — 多台机器并行计算的优化方法。数据并行/模型并行/流水线并行是LLM训练的三种维度。AllReduce是通信原语。","零阶优化":"Zero-Order Optimization — 不依赖梯度，只用函数值估计更新方向。黑箱攻击、超参数搜索、不可微场景使用。效率低但适用范围广。","超参数转移":"Hyperparameter Transfer — 小规模实验的超参数(如学习率)直接迁移到大规模模型。μP(最大更新参数化)使超参数在宽度增加时保持稳定。","μP":"Maximal Update Parameterization — Yang&Hu(2021)提出。让学习率等超参数在模型宽度变化时保持最优的初始化方案。使超参数可在小模型上调然后直接迁移到大模型。","单纯形法":"Simplex Method — Dantzig(1947)提出。线性规划的标准求解算法。沿多面体边移动至最优顶点。非多项式但实际高效。","Newton":"Isaac Newton (1643-1727) — 牛顿与莱布尼茨独立发明微积分。Newton法(二阶优化)以他命名。运动定律和万有引力的发现者。","Leibniz":"Gottfried Wilhelm Leibniz (1646-1716) — 与牛顿独立发明微积分。现代微分符号dy/dx的发明者。二进制的提出者。","Euler":"Leonhard Euler (1707-1783) — 历史上最高产的数学家。Euler-Lagrange方程、欧拉公式e^{iπ}+1=0。符号f(x)、e、π、i的标准化者。","Lagrange":"Joseph-Louis Lagrange (1736-1813) — Lagrange乘数法、Lagrange力学体系。变分法的奠基人之一。18世纪最伟大的数学家之一。","Cauchy":"Augustin-Louis Cauchy (1789-1857) — 为微积分建立严格的极限理论基础(Cauchy序列、Cauchy收敛准则)。复分析的奠基人。","Hadamard":"Jacques Hadamard (1865-1963) — Hadamard积(矩阵逐元素乘)以他命名。在泛函分析和偏微分方程方面有重要贡献。","Kantorovich":"Leonid Kantorovich (1912-1986) — 线性规划的先驱(线性规划的对偶理论)。最优运输问题的Kantorovich对偶。1975年诺贝尔经济学奖。","Karush":"William Karush (1917-1997) — Karush在1939年的硕士论文中首先给出了KKT条件的完整形式。","Kuhn":"Harold Kuhn (1925-2014) — Kuhn与Tucker(1951)独立重新发现并推广了KKT条件。匈牙利算法提出者。博弈论贡献者。","Tucker":"Albert W. Tucker (1905-1995) — 与Kuhn共同提出KKT条件。提出Prisoner Dilemma(囚徒困境)。普林斯顿数学学派领袖(指导了John Nash)。","Dantzig":"George Dantzig (1914-2005) — 线性规划之父。提出单纯形法。将线性规划发展为运筹学核心工具。","Rockafellar":"R. Tyrrell Rockafellar — 凸分析领域的权威。著《Convex Analysis》为凸优化的标准参考。对偶理论和变分不等式有奠基性贡献。","Werbos":"Paul Werbos (1947-) — 1974年博士论文首先提出反向传播算法。被称为反向传播之父。神经网络在控制领域的应用推动者。","Rumelhart":"David Rumelhart (1942-2011) — 与Hinton&Williams(1986)的Nature论文重新发现并推广反向传播。连接主义运动的核心人物。","Hinton":"Geoffrey Hinton (1947-) — 深度学习之父。反向传播的复兴者、RBM/DBN/胶囊网络的提出者。2018图灵奖。现任Google顾问。","Williams":"Ronald J. Williams — 与Rumelhart&Hinton(1986)重新发现反向传播。REINFORCE算法(策略梯度)的提出者。","LeCun":"Yann LeCun (1960-) — CNN之父(LeNet,1998)。提出卷积神经网络和反向传播的早期实现。2018图灵奖。Meta首席AI科学家。","Duchi":"John Duchi — AdaGrad优化器(2011)提出者之一。自适应学习方法的重要推动者。凸优化和信息论方向有重要贡献。","Ba":"Jimmy Ba — Adam优化器(2014)共同提出者(Kingma&Ba)。Layer Normalization提出者之一。Toronto大学教授。","Loshchilov":"Ilya Loshchilov — AdamW优化器(2017)提出者。将权重衰减与自适应学习率解耦，成为LLM训练的标准。","Hutter":"Frank Hutter — AdamW共同提出者(与Loshchilov)。AutoML和超参数优化领域权威(learning rate scheduling,SH等)。","Liu":"Liyuan Liu — RAdam(Rectified Adam,2019)提出者。改进Adam在预热阶段的不稳定性。","Polyak":"Boris Polyak — Polyak平均(模型参数的指数移动平均)提出者。动量法(Momentum)的严格理论分析先驱。","Sutskever":"Ilya Sutskever — Nesterov动量在DL中的推广者。Seq2Seq模型共同提出者。OpenAI联合创始人兼前首席科学家。","Martens":"James Martens — K-FAC(2015)提出者。二阶优化方法在深度学习中的高效推广(通过Kronecker分解近似Fisher矩阵)。","Dahl":"George Dahl — 与Martens合作推动K-FAC在DL中的应用。深度学习在蛋白质折叠和药物发现中的早期推动者。","Belkin":"Mikhail Belkin — 双下降现象(Double Descent,2019)的发现者。挑战了经典偏差-方差权衡理论。","Gabriel":"Gabriel Goh — OpenAI研究者。参与神经切线核(NTK)理论在DL中的应用研究。特征学习理论。","Hongler":"Clement Hongler — 与Jacot等合作提出神经切线核(NTK,2018)。EPFL教授。","Yang":"Greg Yang — μP(最大更新参数化)提出者。研究无限宽神经网络和Tensor Programs。Microsoft Research。","Dauphin":"Yann Dauphin — 研究损失景观中的鞍点问题。提出训练轨迹上的鞍点在high-dim中更常见而非局部最小值。Facebook AI Research。","Keskar":"Nitish Shirish Keskar — 研究批量大小与泛化关系(平坦vs尖锐极小值)。大批量训练收敛到尖锐极小值，泛化差。","Choromanska":"Anna Choromanska — 研究深度网络损失景观的几何结构。证明深层网络损失景观中局部最小值几乎全局最优。NYU教授。","自动微分":"Automatic Differentiation (AD) — 自动计算函数导数的技术。分为前向模式(同时计算值和导数)和反向模式(先正向再反向传播)。PyTorch/TensorFlow/JAX的核心功能。"};
-const ANN_TERMS = ["Vision Transformer","Euler-Lagrange方程","Nesterov加速梯度","Lagrange乘数法","Kantorovich","Rockafellar","Choromanska","Fisher信息矩阵","Loshchilov","Softmax策略","InfoNCE损失","Rumelhart","Sutskever","Kalman滤波","Boosting","前向模式自动微分","反向模式自动微分","拟Newton法","Slater条件","Lagrange","Hadamard","Williams","dropout","偏差-方差权衡","Bagging","微积分基本定理","小批量梯度下降","AdaGrad","RMSProp","Newton法","Leibniz","Dantzig","Martens","Gabriel","Hongler","Dauphin","ResNet","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","批量梯度下降","随机梯度下降","混合精度训练","重参数化技巧","L-BFGS","Newton","Cauchy","Karush","Tucker","Werbos","Hinton","Hutter","Polyak","Belkin","Keskar","无监督学习","批量归一化","自动编码器","分布语义学","KKT条件","余弦相似度","交叉注意力","雅可比矩阵","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","Lasso","循环一致性","多任务学习","小样本学习","零样本学习","多项式时间","学习率衰减","AdamW","一阶矩估计","二阶矩估计","RAdam","学习率调度","学习率预热","二元交叉熵","局部最小值","全局最小值","平坦极小值","尖锐极小值","双下降现象","K-FAC","最大间隔解","收敛性分析","L-光滑性","分布式优化","超参数转移","Euler","LeCun","Duchi","机器学习","深度学习","神经网络","强化学习","ReLU","BERT","反向传播","迁移学习","梯度消失","梯度爆炸","RLHF","层归一化","独热编码","协同过滤","NP完全","线性规划","误差分析","消融实验","基准测试","分布漂移","批次大小","类型错误","全局最优","拟牛顿法","共轭梯度","非凸优化","正定矩阵","距离度量","批归一化","Tanh","损失函数","代价函数","目标函数","黑塞矩阵","链式法则","泰勒展开","溯因推理","NP问题","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","逻辑回归","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","约束优化","均方误差","余弦退火","梯度裁剪","Adam","图灵完备","优化理论","方向导数","速度变量","动量系数","偏差修正","梯度累积","线性预热","对抗损失","损失景观","过参数化","权重衰减","二阶优化","最优控制","强对偶性","μ-强凸","随机优化","零阶优化","单纯形法","Kuhn","Dahl","Yang","自动微分","SVM","SGD","PDE","过拟合","欠拟合","正则化","归一化","编码器","解码器","预训练","规模律","思维树","计算图","AUC","ROC","运筹学","λ演算","复杂度","核方法","收敛性","稳定性","条件数","迭代法","正交化","超参数","学习率","牛顿法","凸优化","特征值","P问题","NP难","联合熵","相对熵","Q学习","KNN","K均值","贝叶斯","标准差","凸函数","感知机","测试集","训练集","精确率","卷积层","池化层","微积分","偏导数","动量法","变分法","凸分析","对偶性","Liu","AI","KL","RL","卷积","微调","泛化","拟合","对偶","算法","采样","尖点","鞍点","梯度","似然","先验","后验","方差","迭代","F1","预热","动量","导数","微分","积分","泛函","μP","Ba","迹"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","机器学习":"Machine Learning — 使计算机从数据中自动学习模式和规律、无需显式编程的 AI 方法。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","KL":"Kullback-Leibler Divergence — KL 散度，衡量概率分布差异的指标。","SVM":"Support Vector Machine — 支持向量机，通过最大间隔超平面分类的经典算法。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","SGD":"Stochastic Gradient Descent — 随机梯度下降，通过小批量采样估计梯度的优化算法。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","BERT":"Google 预训练语言模型，通过双向上下文理解词义，NLP 里程碑。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","中心极限定理":"Central Limit Theorem — 大量独立随机变量均值趋于正态分布的统计学定理。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","无监督学习":"Unsupervised Learning — 在无标签数据中发现隐藏结构和模式的机器学习范式。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","过拟合":"Overfitting — 模型在训练数据上好但新数据上差的现象，由模型过于复杂导致。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","正则化":"Regularization — 通过引入约束或惩罚项防止过拟合的技术，如 L1/L2。","梯度消失":"Vanishing Gradient — 深层网络中梯度随层数加深指数级衰减导致浅层无法训练的问题。","梯度爆炸":"Exploding Gradient — 深层网络中梯度指数级增长导致训练不稳定的问题。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","归一化":"Normalization — 将数据或中间特征缩放到特定范围的技术，如 Batch/Layer Normalization。","编码器":"Encoder — 将输入数据映射到隐表示的神经网络模块，常见于序列到序列模型。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","预训练":"Pre-training — 在大规模通用数据上先训练模型再针对特定任务微调的范式。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","RLHF":"Reinforcement Learning from Human Feedback — 基于人类反馈的强化学习对齐方法。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","泛化":"Generalization — 模型在未见数据上表现良好的能力，机器学习的核心目标。","拟合":"Fitting — 模型学习训练数据中模式的过程，过拟合=学噪声，欠拟合=没学够。","计算图":"Computation Graph — 用有向图表示数学运算的框架，是自动求导的基础。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","dropout":"训练时随机丢弃部分神经元的正则化技术，可近似为贝叶斯推断。","独热编码":"One-hot Encoding — 类别变量表示为只有一个 1、其余为 0 的向量的编码方式。","AUC":"Area Under the ROC Curve — 衡量二分类模型整体性能的指标。","ROC":"Receiver Operating Characteristic — 以假正率-真正率绘制的分类性能曲线。","DBSCAN":"基于密度的聚类算法，能发现任意形状的簇并识别噪声点。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","对偶":"Duality — 两个看似不同的结构之间一一对应的数学现象，如线性规划的对偶问题。","线性规划":"Linear Programming — 目标函数和约束均为线性的优化问题求解方法。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","核方法":"Kernel Methods — 通过核函数将数据映射到高维空间进行非线性分析的技术。","收敛性":"Convergence — 迭代算法趋近稳定解或极限值的性质，优化和数值分析的核心概念。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","误差分析":"Error Analysis — 评估和追踪算法误差来源的系统方法。","条件数":"Condition Number — 衡量问题对输入误差敏感度的指标，条件数大则问题病态。","迭代法":"Iterative Method — 通过重复逼近求解问题的方法，与直接法相对。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","超参数":"Hyperparameter — 训练前设定的控制学习过程的配置参数，如学习率、批次大小。","学习率":"Learning Rate — 控制每次参数更新步长的超参数，影响训练速度和收敛质量。","批次大小":"Batch Size — 每次参数更新使用的样本数量，影响训练稳定性和泛化能力。","类型错误":"Type I/II Error — 第一类错误（假阳性）：错误拒绝真原假设；第二类错误（假阴性）：未拒绝假原假设。","鞍点":"Saddle Point — 某些方向是极小值、某些方向是极大值的高维临界点，优化中的困难区。","全局最优":"Global Optimum — 所有可能解中的最优解，凸优化保证能找到全局最优。","牛顿法":"Newton's Method — 利用二阶导数信息加速收敛的优化算法。","拟牛顿法":"Quasi-Newton Method — 近似海森矩阵以降低计算成本的牛顿法变体，如 BFGS、L-BFGS。","共轭梯度":"Conjugate Gradient — 适用于大规模问题的迭代线性方程组求解和优化方法。","KKT条件":"Karush-Kuhn-Tucker Conditions — 约束优化问题最优解的必要条件。","凸优化":"Convex Optimization — 目标函数和可行域都是凸集的优化问题，保证全局最优解。","非凸优化":"Non-Convex Optimization — 目标函数或可行域非凸的优化问题，可能有多局部最优。","特征值":"Eigenvalue — 特征向量在线性变换中被缩放的比例因子。","正定矩阵":"Positive Definite Matrix — 所有特征值为正的对称矩阵，在优化中保证凸性。","迹":"Trace — 方阵对角线上元素之和，矩阵的一种标量表示。","距离度量":"Distance Metric — 衡量两个样本之间差异的函数，如欧氏距离、曼哈顿距离。","余弦相似度":"Cosine Similarity — 衡量两个向量方向相似度的度量，在词嵌入和推荐系统中广泛使用。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","Tanh":"Tanh 函数 — 将实数映射到 (-1,1) 区间的双曲正切激活函数。","损失函数":"Loss Function — 衡量模型预测与真实值差距的目标函数，训练过程中最小化。","代价函数":"Cost Function — 损失函数在整个训练集上的平均值，优化目标。","目标函数":"Objective Function — 优化问题中需要最大化或最小化的函数。","梯度":"Gradient — 多元函数对各变量偏导数构成的向量，指向函数增长最快的方向。","黑塞矩阵":"Hessian Matrix — 多元函数的二阶偏导数构成的矩阵，描述函数的曲率信息。","雅可比矩阵":"Jacobian Matrix — 向量值函数对所有输入变量的一阶偏导数矩阵。","链式法则":"Chain Rule — 复合函数求导的核心法则，反向传播算法的数学基础。","泰勒展开":"Taylor Expansion — 用多项式逼近光滑函数的数学工具，优化理论的基础。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","联合熵":"Joint Entropy — 两个或多个随机变量的联合不确定性 H(X,Y)。","相对熵":"Relative Entropy / KL Divergence — 衡量两个分布差异的非对称指标。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","马尔可夫网络":"Markov Network — 用无向图表示随机变量间对称依赖关系的概率图模型。","狄利克雷分布":"Dirichlet Distribution — 定义在概率单纯形上的连续多变量分布，LDA 主题模型的先验。","伯努利分布":"Bernoulli Distribution — 描述二值随机变量（成功/失败）的最简单离散概率分布。","泊松分布":"Poisson Distribution — 描述单位时间内随机事件发生次数的离散概率分布。","贝塔分布":"Beta Distribution — 定义在 [0,1] 上的连续分布，伯努利似然的共轭先验。","渐近性质":"Asymptotic Property — 样本量趋于无穷时估计量的理论性质，如一致性、渐近正态。","偏差-方差权衡":"Bias-Variance Tradeoff — 模型偏差（系统误差）和方差（对数据波动的敏感性）之间的平衡关系。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","逻辑回归":"Logistic Regression — 用 Sigmoid 函数将线性组合映射到概率的二分类模型。","线性回归":"Linear Regression — 用线性函数 y=wx+b 建模输入和输出之间关系的回归方法。","Lasso":"Lasso Regression — 加入 L1 正则化的线性回归，能产生稀疏解实现特征选择。","弹性网络":"Elastic Net — 同时使用 L1 和 L2 正则化的线性回归方法。","KNN":"K-Nearest Neighbors — 根据 k 个最近邻的标签进行分类或回归的惰性学习方法。","K均值":"K-Means — 将数据划分为 k 个簇使簇内距离最小化的经典聚类算法。","层次聚类":"Hierarchical Clustering — 通过合并（自底向上）或拆分（自顶向下）构建聚类层级的算法。","密度聚类":"Density-Based Clustering — 基于样本密度连通性的聚类方法，如 DBSCAN。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","度量学习":"Metric Learning — 学习适合特定任务的距离度量函数。","均值漂移":"Mean Shift — 基于核密度估计的非参数聚类算法。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","贝叶斯":"Bayesian — 基于贝叶斯定理的统计推断方法体系的总称。","似然":"Likelihood — 给定参数下观测到特定数据的概率，最大似然估计的核心对象。","先验":"Prior — 贝叶斯推断中观测数据前对参数不确定性的概率分布。","后验":"Posterior — 贝叶斯推断中融合先验和观测数据后更新得到的概率分布。","方差":"Variance — 衡量随机变量取值离散程度的统计量。","标准差":"Standard Deviation — 方差的平方根，与原数据单位一致的离散度量。","凸函数":"Convex Function — 曲线上任意两点连线不低于函数值的性质，凸优化保证全局最优。","约束优化":"Constrained Optimization — 在满足约束条件下优化目标函数的数学问题。","迭代":"Iteration — 重复执行操作序列逼近目标的过程，优化算法的基本模式。","多项式时间":"Polynomial Time — 运行时间为输入规模多项式函数的算法复杂度类。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","测试集":"Test Set — 不参与训练的独立子集，用于评估模型泛化能力。","训练集":"Training Set — 用于训练机器学习模型的标注数据集合。","精确率":"Precision — 预测为真的样本中真正例的比例 TP/(TP+FP)。","均方误差":"Mean Squared Error — 预测值与真实值差的平方的均值，回归常用损失。","F1":"F1 Score — 精确率和召回率的调和平均数，综合衡量分类性能。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","学习率衰减":"Learning Rate Decay — 训练中逐步降低学习率帮助精细收敛的策略。","余弦退火":"Cosine Annealing — 按余弦函数调整学习率的调度策略。","预热":"Warmup — 训练初期逐步增大学习率以稳定训练的策略。","梯度裁剪":"Gradient Clipping — 将梯度范数限制在阈值内防止梯度爆炸。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","动量":"Momentum — 引入前一步方向惯性加速SGD收敛的优化技巧。","Adam":"Adaptive Moment Estimation — 结合动量和自适应学习率的优化器。","AdamW":"Adam with Decoupled Weight Decay — 将权重衰减与自适应学习率解耦的改进。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","微积分":"Calculus — 研究连续变化与累积的数学分支。分为微分学(变化率)和积分学(累积量)。深度学习训练的本质是计算损失函数的导数来更新参数。","优化理论":"Optimization Theory — 在约束下寻找目标函数最优值(最大/最小)的学科。神经网络训练是典型的无约束优化问题：最小化损失函数。","导数":"Derivative — 函数在某点的瞬时变化率 df/dx。梯度下降中计算损失对参数的导数，决定参数的更新方向和幅度。","偏导数":"Partial Derivative — 多元函数对某一变量的导数，其他变量视为常数。反向传播中逐层计算损失对各权重/偏置的偏导数。","方向导数":"Directional Derivative — 函数沿某方向的变化率。梯度方向是方向导数最大的方向，因此梯度下降沿负梯度方向走。","微分":"Differential — 函数增量的线性近似 df = f'(x)dx。自动微分的前向模式逐项累积微分。","积分":"Integral — 函数的累积量的总和。概率论中计算期望、连续分布的边际似然都需要积分。变分推断的核心难点就是处理高维积分。","微积分基本定理":"Fundamental Theorem of Calculus — 微分和积分互逆：∫_a^b f'(x)dx = f(b)-f(a)。将变化率与累积量联系起来，使数值优化有了理论基础。","前向模式自动微分":"Forward-Mode AD — 同时计算函数值和导数(通过Dual Numbers)。输入→输出方向传播。适合输入少输出多的场景，但神经网络是输入多输出少。","反向模式自动微分":"Reverse-Mode AD — 先正向计算函数值，再反向传播梯度。输出→输入方向。神经网络的标准方法(反向传播)。适合输入多输出少的场景。","批量梯度下降":"Batch Gradient Descent — 用全部训练数据计算梯度的梯度下降。保证收敛到(局部)最优，但每次迭代计算量大，无法用于大规模数据集。","随机梯度下降":"Stochastic Gradient Descent (SGD) — 每次迭代只用单个样本计算梯度。有噪声但可逃离鞍点，收敛速度快。大规模深度学习训练的基石。","小批量梯度下降":"Mini-batch Gradient Descent — 每次用一个小批次(如32/64/256)样本计算梯度。折中SGD的噪声和批量GD的稳定。实际训练的标准做法。","动量法":"Momentum — 在梯度下降中加入速度累积，使更新方向既考虑当前梯度也考虑历史方向。加速收敛、平滑震荡。v_{t+1}=γv_t+η∇L。","速度变量":"Velocity Variable — 动量法中记录历史梯度的累积量 v_t。相当于物理中物体的动量，让更新方向更稳定。","动量系数":"Momentum Coefficient — 动量法中控制历史梯度衰减率的超参数(通常γ=0.9)。γ越大，历史梯度的惯性越强，对当前梯度的依赖越弱。","Nesterov加速梯度":"Nesterov Accelerated Gradient (NAG) — 动量法的改进版：先用动量预测参数位置，再在该位置计算梯度。比标准动量收敛更快。","AdaGrad":"AdaGrad — Duchi et al.(2011)提出。每个参数独立学习率，频繁更新的参数学习率衰减快，稀疏参数衰减慢。适合稀疏数据(NLP/推荐)。","RMSProp":"RMSProp — Hinton在Coursera课程中提出。用指数移动平均代替AdaGrad的累积平方和，解决AdaGrad学习率单调递减到零的问题。","一阶矩估计":"First Moment Estimate — Adam中梯度均值(一阶矩)的指数移动平均 m_t=β₁m_{t-1}+(1-β₁)g_t。相当于动量项。","二阶矩估计":"Second Moment Estimate — Adam中梯度平方(二阶矩)的指数移动平均 v_t=β₂v_{t-1}+(1-β₂)g_t²。控制每个参数的自适应学习率。","偏差修正":"Bias Correction — Adam中初始时刻m_t和v_t偏小，除以 (1-β₁ᵗ) 和 (1-β₂ᵗ) 修正。使早期迭代更稳定。","RAdam":"Rectified Adam — Liu et al.(2019)提出。修正Adam在预热阶段学习率过大问题。根据二阶矩估计的方差动态调整学习率，训练更稳定。","梯度累积":"Gradient Accumulation — 多次小批量前向后累积梯度，再统一更新参数。用于模拟大批量训练(因显存限制无法直接使用大批量)。","混合精度训练":"Mixed Precision Training — 用FP16计算和存储梯度/激活，FP32维护主权重副本。可几乎无损地减半显存和加速训练。Volta Tensor Core的支持。","学习率调度":"Learning Rate Schedule — 训练过程中动态调整学习率的策略。预热→余弦退火是LLM预训练的标准方案。","学习率预热":"Learning Rate Warmup — 训练初期学习率从0线性增加到目标值。防止早期梯度过大导致不稳定的训练。GPT/BERT/LLaMA都使用。","线性预热":"Linear Warmup — 学习率从0到目标值线性增加 k步。最简单的预热方式，与余弦退火组合是LLM训练的标准配置。","二元交叉熵":"Binary Cross-Entropy — BCELoss = -[y log(p)+(1-y)log(1-p)]。二分类的标准损失函数。本质是MLE在Bernoulli分布下的负对数似然。","对抗损失":"Adversarial Loss — GAN中生成器和判别器的对抗目标函数。生成器试图最小化、判别器试图最大化。本质是Jensen-Shannon散度(原始GAN)或Wasserstein距离(WGAN)。","InfoNCE损失":"InfoNCE Loss — 对比学习的标准损失。将正样本对与负样本对区分，最小化正负对之间的InfoNCE = -log[exp(sim(q,k⁺)/τ) / Σexp(sim(q,kᵢ)/τ)]。","局部最小值":"Local Minimum — 在某邻域内损失最小但非全局最小的点。高维空间中局部最小值很少见(更多是鞍点)，是早期DL担忧但实际不严重的问题。","全局最小值":"Global Minimum — 整个参数空间中损失最小的点。深度学习通常不需要找到全局最小值，只要泛化好即可。过参数化模型在零损失处可插值数据。","平坦极小值":"Flat Minimum — 损失景观中平坦区域的极小值点。泛化能力更好(对参数扰动不敏感)。SGD的噪声倾向于收敛到平坦极小值。","尖锐极小值":"Sharp Minimum — 损失景观中陡峭谷底的极小值点。泛化差(参数微调导致损失剧增)。大批量训练易收敛到此，需要额外正则化。","损失景观":"Loss Landscape — 损失函数在参数空间上的几何形状。平坦vs尖锐对泛化有重要影响。可视化分析帮助理解优化行为和泛化。","过参数化":"Overparameterization — 模型参数量远多于训练样本数。传统ML认为这会导致过拟合，但DL实践中过参数化反而泛化更好(SGD的隐式正则化)。","权重衰减":"Weight Decay — 在损失中加入λ||θ||²²正则化项。等价于L2正则化。AdamW将权重衰减与自适应学习率解耦，是LLM训练的标准。","变分法":"Calculus of Variations — 研究泛函极值问题的数学分支。Euler-Lagrange方程是核心工具。变分推断中最小化KL散度就是在做变分法。","泛函":"Functional — 以函数为输入的映射 F[f]。变分法的研究对象。变分推断中的ELBO是一个泛函——它输入一个分布函数q(z)，输出一个标量。","Euler-Lagrange方程":"Euler-Lagrange Equation — 变分法的核心方程：∂L/∂f - d/dx(∂L/∂f')=0。泛函极值条件的必要方程。","重参数化技巧":"Reparameterization Trick — Kingma&Welling(2014)提出。将采样 z ~ q_φ(z|x) 改写为 z = μ_φ(x)+σ_φ(x)·ε, ε~N(0,I)。使随机节点可微，VAE训练可行。","二阶优化":"Second-Order Optimization — 利用Hessian矩阵(二阶导数)信息指导更新。收敛步数少但每步计算量极大(Hessian O(n²))。深度学习中不常用完整二阶方法。","Newton法":"Newton's Method — 二阶优化：θ_{t+1}=θ_t-H⁻¹∇L。利用Hessian的曲率信息，二次收敛。计算H⁻¹太昂贵，实际几乎不用在DL中。","拟Newton法":"Quasi-Newton Methods — 用梯度信息近似Hessian而非直接计算。BFGS/DFP/L-BFGS。L-BFGS(有限内存)在中小规模问题中有效。","L-BFGS":"Limited-memory BFGS — 拟牛顿法的内存高效版本。不存储完整Hessian近似矩阵，只保存最近几步的梯度差。适合中小规模DL。","Fisher信息矩阵":"Fisher Information Matrix — F = E[∇log p(y|x,θ)∇log p(y|x,θ)^T]。自然梯度的核心量，描述参数对模型输出的敏感度。K-FAC近似其为Kronecker积。","K-FAC":"Kronecker-Factored Approximate Curvature — Martens&Grosse(2015)。将Fisher矩阵近似为各层Kronecker因子积，使自然梯度的计算开销降到O(一层)。","最大间隔解":"Max-Margin Solution — 过参数化模型中SGD收敛到具有最大间隔的解。解释DL泛化的理论之一：SGD隐式偏好低复杂度的解(如最大间隔)。","最优控制":"Optimal Control — 在动态系统上找到最优控制策略使代价最小化。与优化理论融合：MDP的值函数迭代=动态规划=最优控制的离散形式。","Lagrange乘数法":"Lagrange Multiplier — 等式约束优化方法：L(x,λ)=f(x)+λg(x)。最优解在梯度平行的点上。SVM的最大间隔推导和GAN的约束都用到。","凸分析":"Convex Analysis — 研究凸集和凸函数的数学分支。凸优化理论的基础。虽然DL问题非凸，凸分析的工具有助于理解局部行为和正则化。","对偶性":"Duality — 每个优化问题(原问题)对应一个对偶问题。强对偶下原和对偶的最优值相等。SVM的核技巧来自其对偶形式。","强对偶性":"Strong Duality — 原问题与对偶问题的最优值相等。凸优化+Slater条件保证强对偶。SVM的原始和对偶问题满足强对偶。","Slater条件":"Slater's Condition — 凸优化中强对偶成立的充分条件：存在严格可行的内点。实际凸问题通常满足，非凸问题不保证。","收敛性分析":"Convergence Analysis — 研究优化算法收敛到(近似)最优解的速度和条件。梯度下降在L-光滑+μ-强凸下线性收敛率O(log(1/ε))。","L-光滑性":"L-Smoothness — 梯度的Lipschitz连续性 ||∇f(x)-∇f(y)|| ≤ L||x-y||。L是Hessian的最大特征值上界。L小→优化友好。决定了梯度下降的最大步长。","μ-强凸":"μ-Strong Convexity — f(x)≥f(y)+∇f(y)^T(x-y)+μ/2||x-y||²。μ是Hessian的最小特征值下界。强凸→唯一最优+线性收敛。DL目标函数不满足。","随机优化":"Stochastic Optimization — 用随机(无偏)梯度估计替代全梯度。SGD是代表。理论分析收敛速率：凸O(1/√T)，非凸无保证但实际有效。","分布式优化":"Distributed Optimization — 多台机器并行计算的优化方法。数据并行/模型并行/流水线并行是LLM训练的三种维度。AllReduce是通信原语。","零阶优化":"Zero-Order Optimization — 不依赖梯度，只用函数值估计更新方向。黑箱攻击、超参数搜索、不可微场景使用。效率低但适用范围广。","超参数转移":"Hyperparameter Transfer — 小规模实验的超参数(如学习率)直接迁移到大规模模型。μP(最大更新参数化)使超参数在宽度增加时保持稳定。","μP":"Maximal Update Parameterization — Yang&Hu(2021)提出。让学习率等超参数在模型宽度变化时保持最优的初始化方案。使超参数可在小模型上调然后直接迁移到大模型。","单纯形法":"Simplex Method — Dantzig(1947)提出。线性规划的标准求解算法。沿多面体边移动至最优顶点。非多项式但实际高效。","Newton":"Isaac Newton (1643-1727) — 牛顿与莱布尼茨独立发明微积分。Newton法(二阶优化)以他命名。运动定律和万有引力的发现者。","Leibniz":"Gottfried Wilhelm Leibniz (1646-1716) — 与牛顿独立发明微积分。现代微分符号dy/dx的发明者。二进制的提出者。","Euler":"Leonhard Euler (1707-1783) — 历史上最高产的数学家。Euler-Lagrange方程、欧拉公式e^{iπ}+1=0。符号f(x)、e、π、i的标准化者。","Lagrange":"Joseph-Louis Lagrange (1736-1813) — Lagrange乘数法、Lagrange力学体系。变分法的奠基人之一。18世纪最伟大的数学家之一。","Cauchy":"Augustin-Louis Cauchy (1789-1857) — 为微积分建立严格的极限理论基础(Cauchy序列、Cauchy收敛准则)。复分析的奠基人。","Hadamard":"Jacques Hadamard (1865-1963) — Hadamard积(矩阵逐元素乘)以他命名。在泛函分析和偏微分方程方面有重要贡献。","Kantorovich":"Leonid Kantorovich (1912-1986) — 线性规划的先驱(线性规划的对偶理论)。最优运输问题的Kantorovich对偶。1975年诺贝尔经济学奖。","Karush":"William Karush (1917-1997) — Karush在1939年的硕士论文中首先给出了KKT条件的完整形式。","Kuhn":"Harold Kuhn (1925-2014) — Kuhn与Tucker(1951)独立重新发现并推广了KKT条件。匈牙利算法提出者。博弈论贡献者。","Tucker":"Albert W. Tucker (1905-1995) — 与Kuhn共同提出KKT条件。提出Prisoner Dilemma(囚徒困境)。普林斯顿数学学派领袖(指导了John Nash)。","Dantzig":"George Dantzig (1914-2005) — 线性规划之父。提出单纯形法。将线性规划发展为运筹学核心工具。","Rockafellar":"R. Tyrrell Rockafellar — 凸分析领域的权威。著《Convex Analysis》为凸优化的标准参考。对偶理论和变分不等式有奠基性贡献。","Werbos":"Paul Werbos (1947-) — 1974年博士论文首先提出反向传播算法。被称为反向传播之父。神经网络在控制领域的应用推动者。","Rumelhart":"David Rumelhart (1942-2011) — 与Hinton&Williams(1986)的Nature论文重新发现并推广反向传播。连接主义运动的核心人物。","Hinton":"Geoffrey Hinton (1947-) — 深度学习之父。反向传播的复兴者、RBM/DBN/胶囊网络的提出者。2018图灵奖。现任Google顾问。","Williams":"Ronald J. Williams — 与Rumelhart&Hinton(1986)重新发现反向传播。REINFORCE算法(策略梯度)的提出者。","LeCun":"Yann LeCun (1960-) — CNN之父(LeNet,1998)。提出卷积神经网络和反向传播的早期实现。2018图灵奖。Meta首席AI科学家。","Duchi":"John Duchi — AdaGrad优化器(2011)提出者之一。自适应学习方法的重要推动者。凸优化和信息论方向有重要贡献。","Ba":"Jimmy Ba — Adam优化器(2014)共同提出者(Kingma&Ba)。Layer Normalization提出者之一。Toronto大学教授。","Loshchilov":"Ilya Loshchilov — AdamW优化器(2017)提出者。将权重衰减与自适应学习率解耦，成为LLM训练的标准。","Hutter":"Frank Hutter — AdamW共同提出者(与Loshchilov)。AutoML和超参数优化领域权威(learning rate scheduling,SH等)。","Liu":"Liyuan Liu — RAdam(Rectified Adam,2019)提出者。改进Adam在预热阶段的不稳定性。","Polyak":"Boris Polyak — Polyak平均(模型参数的指数移动平均)提出者。动量法(Momentum)的严格理论分析先驱。","Sutskever":"Ilya Sutskever — Nesterov动量在DL中的推广者。Seq2Seq模型共同提出者。OpenAI联合创始人兼前首席科学家。","Martens":"James Martens — K-FAC(2015)提出者。二阶优化方法在深度学习中的高效推广(通过Kronecker分解近似Fisher矩阵)。","Dahl":"George Dahl — 与Martens合作推动K-FAC在DL中的应用。深度学习在蛋白质折叠和药物发现中的早期推动者。","Belkin":"Mikhail Belkin — 双下降现象(Double Descent,2019)的发现者。挑战了经典偏差-方差权衡理论。","Gabriel":"Gabriel Goh — OpenAI研究者。参与神经切线核(NTK)理论在DL中的应用研究。特征学习理论。","Hongler":"Clement Hongler — 与Jacot等合作提出神经切线核(NTK,2018)。EPFL教授。","Yang":"Greg Yang — μP(最大更新参数化)提出者。研究无限宽神经网络和Tensor Programs。Microsoft Research。","Dauphin":"Yann Dauphin — 研究损失景观中的鞍点问题。提出训练轨迹上的鞍点在high-dim中更常见而非局部最小值。Facebook AI Research。","Keskar":"Nitish Shirish Keskar — 研究批量大小与泛化关系(平坦vs尖锐极小值)。大批量训练收敛到尖锐极小值，泛化差。","Choromanska":"Anna Choromanska — 研究深度网络损失景观的几何结构。证明深层网络损失景观中局部最小值几乎全局最优。NYU教授。","自动微分":"Automatic Differentiation (AD) — 自动计算函数导数的技术。分为前向模式(同时计算值和导数)和反向模式(先正向再反向传播)。PyTorch/TensorFlow/JAX的核心功能。","Shampoo Optimizer":"Shampoo — 基于Kronecker积预条件矩阵的自适应优化器，在大规模分布式训练中效果显著。","Lookahead Optimizer":"Lookahead — 维护慢权重和快权重的两时间尺度优化器，提升SGD稳定性。","SVRG":"Stochastic Variance Reduced Gradient — 通过定期存储全梯度减缓SGD方差的优化方法。","SAGA":"SAGA — 用存储的历史梯度修正当前梯度的随机方差缩减优化算法。","AdaDelta":"AdaDelta — AdaGrad的扩展，用滑动窗口代替累积梯度平方，无需设置学习率。","AMSGrad":"AMSGrad — 修正Adam收敛性证明缺陷的变体，取历史最大二阶矩而非滑动平均。","VC Dimension":"Vapnik-Chervonenkis Dimension — VC维。衡量假设集复杂度的核心指标，决定可学习性。","PAC Learning":"Probably Approximately Correct Learning — PAC学习。统计学习理论框架，定义可学习性条件。","Statistical Learning Theory":"Statistical Learning Theory — 统计学习理论。Vapnik创立，用VC维等工具刻画学习算法的泛化界限。","Empirical Risk Minimization":"Empirical Risk Minimization — 经验风险最小化。最小化训练集上损失的机器学习基本原则。","Lipschitz Continuity":"Lipschitz Continuity — Lipschitz连续性。函数变化率有界的性质，保证优化稳定性。","Strong Convexity":"Strong Convexity — 强凸性。比凸性更强的条件，保证梯度下降的线性收敛率。","Mirror Descent":"Mirror Descent — 镜像下降。在一般Banach空间中用Bregman散度代替欧氏距离的优化算法。","Bregman Divergence":"Bregman Divergence — Bregman散度。由凸函数生成的测度，包含KL散度和欧氏距离作为特例。","ADMM":"Alternating Direction Method of Multipliers — 交替方向乘子法。将大问题拆分为子问题求解的分布式优化算法。","Fenchel Conjugate":"Fenchel Conjugate — Fenchel共轭。凸函数的对偶表示，在优化理论中建立起原问题与对偶问题的桥梁。","Legendre Transform":"Legendre Transform — Legendre变换。将凸函数转换为其对偶函数，信息几何和统计力学的基础。","Control Theory":"控制论，研究动态系统反馈与控制策略的数学理论，与优化/LR调度紧密相关。","Universal Approximation Theorem":"万能逼近定理，神经网络在充足宽度/深度下可逼近任意连续函数的理论保证。","method of fluxions":"流数法，Newton(1665-66)在瘟疫隔离期间发明的微积分原始表述。","流数法":"Method of Fluxions — Newton早期微积分术语，将导数理解为瞬时变化率。","backpropagation":"反向传播，通过链式法则高效计算NN参数梯度的算法，DL训练基石。","Adaptive Moment Estimation":"Adam优化器全称，结合Momentum一阶矩和RMSProp二阶矩的自适应方法。","NAG":"Nesterov Accelerated Gradient — 先预看一步再计算梯度的动量改进版(1983)。","chain rule":"链式法则，复合函数求导核心法则df/dx=df/dg·dg/dx，反向传播数学基础。","computational graph":"计算图，用有向无环图表示数学运算，自动微分的核心数据结构。","Automatic Differentiation":"自动微分(AD)，PyTorch/TensorFlow/JAX通过计算图精确计算梯度的引擎。","Gradient Descent":"梯度下降，沿负梯度方向迭代更新参数的最基本优化算法。","Batch GD":"Batch Gradient Descent — 用全部训练数据计算梯度的梯度下降变体，稳定但慢。","Mini-batch GD":"Mini-batch Gradient Descent — 每次用一小批样本计算梯度的折中方案。","vanilla SGD":"Vanilla SGD — 不加动量或自适应学习率的基本随机梯度下降。","Momentum":"动量法，引入历史梯度累积加速收敛和平滑更新方向。","Gradient Clipping":"梯度裁剪，将梯度范数限制在阈值内防止梯度爆炸的技术。","Gradient Accumulation":"梯度累积，多次小批量前向累积梯度后统一更新，模拟大批量训练。","Mixed Precision":"混合精度训练(FP16+FP32)，减少显存和加速训练的技术。","cosine annealing":"余弦退火，按余弦函数调整学习率的调度策略。","warmup":"预热/学习率预热，训练初期学习率从0逐渐增至目标值以稳定训练。","Natural Gradient":"自然梯度，用Fisher信息矩阵作为Riemannian度量的梯度，考虑参数空间几何。","LAMB":"Layer-wise Adaptive Moments optimizer — You et al.(2019)大批量训练优化器。","JAX":"Google自动微分和高性能计算框架，支持JIT编译和GPU/TPU加速。","convex function":"凸函数，满足f(lambda x+(1-lambda)y )<= lambda f(x)+(1-lambda)f(y)的函数。","convex optimization":"凸优化，目标函数可行域均为凸优化问题，保证全局最优解。","local minima":"局部最小值，邻域内损失最小的点，高维中比鞍点少见。","saddle points":"鞍点，Hessian矩阵有正负特征值的临界点，高维优化主要障碍。","Flat Minima":"平坦极小值，损失景观中平坦区域的极小值点，通常泛化更好。","Loss landscape":"损失景观/损失曲面，损失函数在参数空间上的几何形状。","Hochreiter":"Sepp Hochreiter — LSTM提出者，与Schmidhuber研究平坦极小值与泛化性和泛化关系。","Nesterov":"Yurii Nesterov — NAG加速梯度提出者，凸优化理论先驱。","Evidence Lower Bound":"证据下界(ELBO)全称，变分推断中最大化等价于最小化KL散度的优化目标。","reparameterization trick":"重参数化技巧，将随机采样改写为确定性变换加独立噪声使梯度可传播。","Forward Mode":"前向模式自动微分，输入到输出方向传播导数，适合输入少输出多。","Reverse Mode":"反向模式自动微分，先正向计算值再反向传播梯度，适合NN场景。","variational inference":"变分推断，用简单分布族逼近真实后验的贝叶斯近似推断方法。","MSE":"Mean Squared Error — 均方误差，回归任务的标准损失函数L=(1/n)Sigma(y_iy_i-y_hat_i)2。","First-Order Methods":"一阶方法，仅利用梯度信息(一阶导数)的优化方法族(如SGD/Adam)。","Second-Order Methods":"二阶方法，利用Hessian矩阵(二阶导数)的优化方法(如牛顿法)，收敛步数少但计算量大。","BFGS":"Broyden-Fletcher-Goldfarb-Shanno拟牛顿法，近似Hessian逆矩阵加速收敛。","Interpolation Threshold":"插值阈值，模型参数量=数据点数时达零训练误差的临界点，双下降转折点。","over-parameterization":"过参数化，参数远超样本数的状态，传统理论预测过拟合但DL中反而有益。","loss spike":"Loss Spike — 大模型训练中损失突然急剧上升后恢复的不稳定性现象。","Boyd":"Stephen Boyd — Stanford教授，与Vandenberghe合著Convex Optimization(2004)。","Vandenberghe":"Lieven Vandenberghe — UCLA教授，与Boyd合著Convex Optimization。","Nocedal":"Jorge Nocedal — 西北大学教授，与Wright合著Numerical Optimization(2006)。","Sebastian Ruder":"Sebastian Ruder — 经典优化器综述(An overview of gradient descent optimization algorithms)作者。","Numerical Analysis":"数值分析，研究数值方法的稳定性收敛性和误差控制的数学分支。"};
+const ANN_TERMS = ["Universal Approximation Theorem","Statistical Learning Theory","Empirical Risk Minimization","Adaptive Moment Estimation","Automatic Differentiation","reparameterization trick","Interpolation Threshold","Gradient Accumulation","variational inference","over-parameterization","Lipschitz Continuity","Evidence Lower Bound","Second-Order Methods","Lookahead Optimizer","computational graph","convex optimization","First-Order Methods","Vision Transformer","Bregman Divergence","Legendre Transform","method of fluxions","Numerical Analysis","Shampoo Optimizer","Fenchel Conjugate","Gradient Clipping","Euler-Lagrange方程","Strong Convexity","Gradient Descent","cosine annealing","Natural Gradient","backpropagation","Mixed Precision","convex function","Sebastian Ruder","Mirror Descent","Control Theory","Loss landscape","Mini-batch GD","saddle points","Nesterov加速梯度","VC Dimension","PAC Learning","local minima","Forward Mode","Reverse Mode","Vandenberghe","Lagrange乘数法","Kantorovich","Rockafellar","Choromanska","vanilla SGD","Flat Minima","Fisher信息矩阵","Loshchilov","chain rule","Hochreiter","loss spike","Softmax策略","InfoNCE损失","Rumelhart","Sutskever","Kalman滤波","Boosting","前向模式自动微分","反向模式自动微分","拟Newton法","Slater条件","Lagrange","Hadamard","Williams","AdaDelta","Batch GD","Momentum","Nesterov","dropout","偏差-方差权衡","Bagging","微积分基本定理","小批量梯度下降","AdaGrad","RMSProp","Newton法","Leibniz","Dantzig","Martens","Gabriel","Hongler","Dauphin","AMSGrad","Nocedal","ResNet","中心极限定理","DBSCAN","强化学习之父","哥德尔不完备","马尔可夫网络","狄利克雷分布","批量梯度下降","随机梯度下降","混合精度训练","重参数化技巧","L-BFGS","Newton","Cauchy","Karush","Tucker","Werbos","Hinton","Hutter","Polyak","Belkin","Keskar","warmup","无监督学习","批量归一化","自动编码器","分布语义学","KKT条件","余弦相似度","交叉注意力","雅可比矩阵","启发式算法","贝尔曼方程","大模型幻觉","思维链提示","Top-k","Top-p","伯努利分布","Lasso","循环一致性","多任务学习","小样本学习","零样本学习","多项式时间","学习率衰减","AdamW","一阶矩估计","二阶矩估计","RAdam","学习率调度","学习率预热","二元交叉熵","局部最小值","全局最小值","平坦极小值","尖锐极小值","K-FAC","最大间隔解","收敛性分析","L-光滑性","分布式优化","超参数转移","Euler","LeCun","Duchi","机器学习","深度学习","神经网络","强化学习","ReLU","BERT","反向传播","迁移学习","梯度消失","梯度爆炸","RLHF","层归一化","独热编码","协同过滤","NP完全","线性规划","误差分析","消融实验","基准测试","分布漂移","批次大小","类型错误","全局最优","拟牛顿法","共轭梯度","非凸优化","正定矩阵","距离度量","批归一化","Tanh","损失函数","代价函数","目标函数","黑塞矩阵","链式法则","泰勒展开","溯因推理","NP问题","提示工程","温度参数","集束搜索","泊松分布","贝塔分布","渐近性质","逻辑回归","线性回归","弹性网络","层次聚类","密度聚类","异常检测","度量学习","均值漂移","约束优化","均方误差","余弦退火","梯度裁剪","Adam","图灵完备","优化理论","方向导数","速度变量","动量系数","偏差修正","梯度累积","线性预热","对抗损失","损失景观","过参数化","权重衰减","二阶优化","最优控制","强对偶性","μ-强凸","随机优化","零阶优化","单纯形法","Kuhn","Dahl","Yang","自动微分","SVRG","SAGA","ADMM","LAMB","BFGS","Boyd","SVM","SGD","PDE","过拟合","欠拟合","正则化","归一化","编码器","解码器","预训练","规模律","思维树","计算图","AUC","ROC","运筹学","λ演算","复杂度","核方法","收敛性","稳定性","条件数","迭代法","正交化","超参数","学习率","牛顿法","凸优化","特征值","P问题","NP难","联合熵","相对熵","Q学习","KNN","K均值","贝叶斯","标准差","凸函数","感知机","测试集","训练集","精确率","卷积层","池化层","微积分","偏导数","动量法","变分法","凸分析","对偶性","Liu","流数法","NAG","JAX","MSE","AI","KL","RL","卷积","微调","泛化","拟合","对偶","算法","采样","尖点","鞍点","梯度","似然","先验","后验","方差","迭代","F1","预热","动量","导数","微分","积分","泛函","μP","Ba","迹"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

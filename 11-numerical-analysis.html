@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数值分析与科学计算（Numerical Analysis and Scientific Computing）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">数值分析与科学计算（Numerical Analysis and Scientific Computing）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1213,8 +1026,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","GPU":"Graphics Processing Unit — 图形处理器，专门用于并行计算和 AI 训练的芯片。","TPU":"Tensor Processing Unit — Google 专门为加速神经网络计算设计的专用芯片。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","SGD":"Stochastic Gradient Descent — 随机梯度下降，通过小批量采样估计梯度的优化算法。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","傅里叶变换":"Fourier Transform — 将信号从时域转换到频域的数学变换，信号处理的理论基础。","蒙特卡洛":"Monte Carlo Method — 通过随机采样近似复杂数学问题的计算方法。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","残差连接":"Skip Connection / Residual Connection — 跨层直接传递信息的连接，缓解梯度消失。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","可计算性":"Computability — 研究哪些问题可以被算法解决的数学理论，Turing 和 Church 奠基。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","有限精度":"Finite Precision — 计算机中实数受限于固定位数表示的近似性，导致舍入误差。","并行计算":"Parallel Computing — 同时使用多个计算资源执行任务的计算方式。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","Amdahl":"Amdahl's Law — 系统加速比受限于不可并行部分比例的定律。","虚拟内存":"Virtual Memory — 将主存和磁盘统一编址的内存管理机制。","编译器":"Compiler — 将高级语言源码转换为机器可执行代码的系统软件。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","频域":"Frequency Domain — 以频率为自变量描述信号频谱分布的表示方式。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","云计算":"Cloud Computing — 通过网络提供按需计算资源（服务器、存储、数据库等）的模式。","边缘计算":"Edge Computing — 在网络边缘侧（靠近数据源）进行数据处理和分析的计算范式。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","剪枝":"Pruning — 移除神经网络中不重要的连接或参数以减小模型大小的技术。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","残差网络":"Residual Network (ResNet) — 通过跳跃连接允许信息跨层直接传播的深度网络架构。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","迭代":"Iteration — 重复执行操作序列逼近目标的过程，优化算法的基本模式。","低秩近似":"Low-Rank Approximation — 用低秩矩阵近似原矩阵，SVD是实现方法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","全连接":"Fully Connected Layer — 每个输入节点与每个输出节点相连的神经网络层。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","权重初始化":"Weight Initialization — 训练前设置神经网络初始参数的方法。","Xavier":"Xavier Initialization — 使各层激活值方差一致的权重初始化方法。","预热":"Warmup — 训练初期逐步增大学习率以稳定训练的策略。","混合精度":"Mixed Precision — 同时使用FP16和FP32加速训练减少显存占用。","模型并行":"Model Parallelism — 将模型拆分到多设备各负责一部分的分布式训练。","流水线并行":"Pipeline Parallelism — 模型按层分段、数据以流水线方式通过各段的并行策略。","门控机制":"Gating Mechanism — 通过可学习门控信号控制信息流的神经网络机制。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","量子计算":"Quantum Computing — 利用量子叠加纠缠进行计算的新范式。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。"};
-const ANN_TERMS = ["Vision Transformer","Kalman滤波","Boosting","softmax","Bagging","ResNet","Amdahl","强化学习之父","Xavier","傅里叶变换","批量归一化","自动编码器","冯·诺依曼","可解释AI","交叉注意力","启发式算法","大模型幻觉","思维链提示","Top-k","Top-p","循环一致性","多任务学习","小样本学习","零样本学习","权重初始化","流水线并行","深度学习","神经网络","LSTM","ReLU","蒙特卡洛","反向传播","迁移学习","残差连接","层归一化","可计算性","NP完全","有限精度","并行计算","虚拟内存","边缘计算","消融实验","基准测试","分布漂移","残差网络","批归一化","NP问题","提示工程","温度参数","集束搜索","异常检测","低秩近似","混合精度","模型并行","门控机制","量子计算","图灵完备","GPU","TPU","SGD","GPT","欠拟合","规模律","思维树","控制论","λ演算","复杂度","稳定性","编译器","大数据","云计算","正交化","P问题","NP难","保真度","Q学习","注意力","感知机","全连接","卷积层","池化层","AI","卷积","微调","算法","反馈","频域","采样","混沌","剪枝","迭代","预热"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","深度学习":"Deep Learning — 使用多层神经网络从数据中自动学习特征表示的机器学习子领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","GPU":"Graphics Processing Unit — 图形处理器，专门用于并行计算和 AI 训练的芯片。","TPU":"Tensor Processing Unit — Google 专门为加速神经网络计算设计的专用芯片。","ReLU":"Rectified Linear Unit — 修正线性单元，深度学习最常用的激活函数 f(x)=max(0,x)。","SGD":"Stochastic Gradient Descent — 随机梯度下降，通过小批量采样估计梯度的优化算法。","GPT":"Generative Pre-trained Transformer — OpenAI 大语言模型系列，基于 Transformer 架构。","ResNet":"Residual Network — 残差网络，通过跳跃连接解决深层网络退化问题。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","傅里叶变换":"Fourier Transform — 将信号从时域转换到频域的数学变换，信号处理的理论基础。","蒙特卡洛":"Monte Carlo Method — 通过随机采样近似复杂数学问题的计算方法。","反向传播":"Backpropagation — 通过链式法则计算神经网络参数梯度的算法，深度学习的训练基石。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","卷积":"Convolution — 滑动窗口对输入数据进行局部加权求和的操作，CNN 和信号处理的核心运算。","微调":"Fine-tuning — 在预训练模型基础上用特定任务数据小幅调整参数的过程。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","softmax":"将任意实数向量转换为概率分布的归一化函数，多分类和注意力权重计算的基础。","残差连接":"Skip Connection / Residual Connection — 跨层直接传递信息的连接，缓解梯度消失。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","可计算性":"Computability — 研究哪些问题可以被算法解决的数学理论，Turing 和 Church 奠基。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","有限精度":"Finite Precision — 计算机中实数受限于固定位数表示的近似性，导致舍入误差。","并行计算":"Parallel Computing — 同时使用多个计算资源执行任务的计算方式。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","Amdahl":"Amdahl's Law — 系统加速比受限于不可并行部分比例的定律。","虚拟内存":"Virtual Memory — 将主存和磁盘统一编址的内存管理机制。","编译器":"Compiler — 将高级语言源码转换为机器可执行代码的系统软件。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","频域":"Frequency Domain — 以频率为自变量描述信号频谱分布的表示方式。","采样":"Sampling — 将连续信号离散化的过程，Nyquist 定理规定了不失真采样的最低频率。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","云计算":"Cloud Computing — 通过网络提供按需计算资源（服务器、存储、数据库等）的模式。","边缘计算":"Edge Computing — 在网络边缘侧（靠近数据源）进行数据处理和分析的计算范式。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","剪枝":"Pruning — 移除神经网络中不重要的连接或参数以减小模型大小的技术。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","残差网络":"Residual Network (ResNet) — 通过跳跃连接允许信息跨层直接传播的深度网络架构。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","迭代":"Iteration — 重复执行操作序列逼近目标的过程，优化算法的基本模式。","低秩近似":"Low-Rank Approximation — 用低秩矩阵近似原矩阵，SVD是实现方法。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","全连接":"Fully Connected Layer — 每个输入节点与每个输出节点相连的神经网络层。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","权重初始化":"Weight Initialization — 训练前设置神经网络初始参数的方法。","Xavier":"Xavier Initialization — 使各层激活值方差一致的权重初始化方法。","预热":"Warmup — 训练初期逐步增大学习率以稳定训练的策略。","混合精度":"Mixed Precision — 同时使用FP16和FP32加速训练减少显存占用。","模型并行":"Model Parallelism — 将模型拆分到多设备各负责一部分的分布式训练。","流水线并行":"Pipeline Parallelism — 模型按层分段、数据以流水线方式通过各段的并行策略。","门控机制":"Gating Mechanism — 通过可学习门控信号控制信息流的神经网络机制。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","量子计算":"Quantum Computing — 利用量子叠加纠缠进行计算的新范式。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","Adjoint Method":"伴随方法 — 通过反向求解伴随ODE计算梯度的技术，无需存储所有中间状态，内存高效但引入额外数值误差。","BF16":"Brain Floating Point 16 — Google为TPU设计的16位浮点格式，保留8位指数(动态范围同FP32)但仅7位尾数。深度学习中范围比精度更重要，BF16因此成为优选。","BFloat16":"BF16 — Google Brain(2019)开发的16位浮点格式，8位指数确保与FP32相同的数值范围，更适合深度学习训练中的梯度表示。","BLAS":"Basic Linear Algebra Subprograms — 高度优化的基础线性代数运算标准接口库，cuBLAS基于BLAS实现GPU加速矩阵运算，是所有深度学习框架的底层计算引擎。","Euler method":"欧拉法 — 用前向差分近似导数的一阶ODE数值解法，Neural ODE中残差连接可视作欧拉法的工程实现。","FP64":"双精度浮点 — 64位浮点格式(1符号+11指数+52尾数)，精度约15-17位十进制。科学计算必需，但对深度学习通常过于昂贵。","IEEE 754":"IEEE 754-1985浮点运算标准 — 统一了计算机实数表示方式，定义了FP32(单精度)、FP64(双精度)等格式。Kahan因在标准化中的贡献获图灵奖(1996)。","PINN":"Physics-Informed Neural Network — 物理信息神经网络，在损失函数中加入PDE残差约束，使NN满足物理定律。","RK4":"经典四阶Runge-Kutta法 — k₁=f(tₙ,yₙ), k₂=f(tₙ+h/2,yₙ+hk₁/2), k₃=f(tₙ+h/2,yₙ+hk₂/2), k₄=f(tₙ+h,yₙ+hk₃), y_{n+1}=yₙ+(h/6)(k₁+2k₂+2k₃+k₄)。","Runge-Kutta":"Runge-Kutta方法族 — 比欧拉法更高精度的ODE数值解法。经典RK4(四阶)每步需4次函数求值，局部截断误差O(h⁵)，是Neural ODE的基础求解器。","machine epsilon":"机器精度 — IEEE 754浮点数中1与大于1的最小可表示浮点数之差，决定浮点计算的相对精度下限。","preconditioning":"预处理 — 数值优化中将病态问题通过线性变换转化为良态问题的技术，条件数κ降低可显著加速收敛。","伴随方法":"Adjoint Method — Neural ODE中不存储中间激活即可计算梯度的反向求解方法，通过伴随状态a(t)反向求解ODE，内存消耗从O(L)降至常数级。","机器精度":"machine epsilon ε — 浮点运算中满足 fl(1+ε) > 1 的最小正数。FP32的 ε≈1.19×10⁻⁷，FP16的 ε≈9.77×10⁻⁴，BF16的 ε≈7.81×10⁻³。","欧拉方法":"Euler Method — 求解ODE初值问题的最简单一阶数值方法 y_{n+1}=y_n+h·f(t_n,y_n)。残差网络可以看作欧拉法的离散化特例(步长=1)。","物理信息神经网络":"Physics-Informed Neural Networks (PINN) — Raissi et al.(2019)提出，将PDE残差加入损失函数用神经网络求解偏微分方程的方法，连接DL与传统科学计算。","预处理":"preconditioning — 通过线性变换改善问题条件数以加速迭代收敛的技术。Adam、AdaGrad、K-FAC等优化器都可理解为某种近似预条件化。","IEEE754":"IEEE 754 — 1985 年发布的浮点数表示和运算国际标准。","FP32":"单精度浮点数 — 32 位 IEEE 754 浮点格式，1 符号+8 指数+23 尾数。","FP16":"半精度浮点数 — 16 位浮点格式，1 符号+5 指数+10 尾数，范围窄。","INT8量化":"INT8 Quantization — 8 位整数量化，推理阶段模型压缩常用格式。","损失缩放":"Loss Scaling — 混合精度训练中放大损失使微小梯度在 FP16 下可见的技术。","动态损失缩放":"Dynamic Loss Scaling — 自动调整缩放因子防止梯度溢出或下溢的技术。","数值稳定":"Numerically Stable — 输入微小扰动只导致输出微小变化的算法性质。","病态问题":"Ill-Conditioned Problem — 条件数很大(输入微小变化导致输出巨大变化)的问题。","前向误差":"Forward Error — 算法计算结果与精确解之间的偏差。","后向误差":"Backward Error — 算法是否为精确解了一个轻微扰动的问题。","LogSumExp技巧":"Log-Sum-Exp Trick — 减去最大值保持数值稳定的对数求和指数计算方法。","Lipschitz光滑":"L-Lipschitz Smooth — 梯度变化受 L 限制的函数性质，用于迭代法收敛分析。","强凸函数":"Strongly Convex — 满足 m-强凸性的函数，保证梯度下降线性收敛速率。","方差-效率权衡":"Variance-Efficiency Tradeoff — SGD 因随机性的每步噪声与大规模加速之间的权衡。","损失曲面":"Loss Landscape — 高维参数空间中损失函数的形状结构，影响优化难度。","Strassen算法":"Strassen Algorithm — 将矩阵乘法复杂度降至 O(n^2.807) 的分治算法。","Euler法":"Euler Method — 最简单的 ODE 数值解法，一步近似 h·f(t,y)。","损失缩放因子":"Loss Scaling Factor — 混合精度训练中用于放大损失的可调缩放参数 S。","主权重副本":"Master Copy of Weights — 混合精度训练中保存的 FP32 高精度权重主副本。","下溢":"Underflow — 数值过小低于浮点格式最小正规格化数被截断为 0。","上溢":"Overflow — 数值过大超出浮点格式可表示范围变为 inf。","Adam优化器":"Adam Optimizer — 自适应矩估计优化器，结合动量和自适应学习率。","LAMB优化器":"LAMB Optimizer — Layer-wise Adaptive Moments，大 batch 训练的分层自适应优化器。","GLU权重初始化":"Glorot Uniform Initialization — Xavier 初始化，使各层激活方差一致的方案。","Kaiming初始化":"Kaiming Initialization — He 初始化，针对 ReLU 网络的数值稳定初始化方案。","离散化步长":"Discretization Step Size — 连续对象离散化时的时间/空间间隔，影响精度和稳定性。","Goldstine":"Herman Goldstine — 与 von Neumann 首次系统分析浮点舍入误差传播。","Wilkinson":"James H. Wilkinson — 建立浮点运算误差分析严格理论框架，图灵奖得主。","William Kahan":"威廉·卡汉 — 浮点运算标准化贡献者，1996 年图灵奖得主。","Dahlquist":"Germund Dahlquist — 线性多步法和 A-stability 理论创立者。","离散化误差":"Discretization Error — 离散化连续对象导致的近似误差，量化的核心控制对象。","量化感知训练":"Quantization-Aware Training (QAT) — 训练时模拟量化效应使模型适应低精度。","QAT":"Quantization-Aware Training — 量化感知训练，模拟量化噪声提升推理精度。","Error Propagation":"Error Propagation — 误差在计算链条中逐层传递和放大的过程，数值分析核心关注对象。","Floating":"Floating-Point Arithmetic — 计算机用有限位宽近似表示实数并进行运算的方法体系。","Neural Ordinary Differential Equations":"Neural Ordinary Differential Equations — Chen et al.(2018)提出，将残差网络视为ODE数值离散化的连续深度模型。","神经常微分方程":"神经常微分方程 — 将神经网络层的变换视为连续动力系统的微分方程，用ODE求解器替代固定层数。","Continuous Normalizing Flows":"Continuous Normalizing Flows — 用Neural ODE构建的可逆概率变换，用于连续空间上的生成模型。","Adaptive Step Size Control":"Adaptive Step Size Control — ODE求解器根据局部误差估计自动增大或缩小步长的机制。","Convergence Order":"Convergence Order — 衡量迭代法逼近速度的指标：p=1线性收敛、p=2二次收敛，数值越高越快。","Linear Convergence":"Linear Convergence — 迭代误差每步按固定比例缩减的收敛行为，常见于梯度下降强凸函数情形。","Quadratic Convergence":"Quadratic Convergence — 迭代误差每步平方缩减，有效数字翻倍（Newton法典型），收敛极快。","Local Truncation Error":"Local Truncation Error — 单步离散化产生的误差，欧拉法O(h²)、RK4为O(h⁵)。方法精度的核心度量。","Sparse Matrix":"Sparse Matrix — 大部分元素为零的矩阵，利用稀疏性可大幅节省存储和计算。注意力稀疏加速的基础。","Residual Block":"Residual Block — 包含跳跃连接的非线性变换块，ResNet基本单元。可视为ODE欧拉离散化的一步。","Half Precision":"Half Precision — 16位浮点格式（FP16/BF16），训练时内存减半、速度翻倍。混合精度训练的核心精度层。","Numerical Linear Algebra":"Numerical Linear Algebra — 数值分析分支，研究矩阵运算的高效稳定实现。cuBLAS/LAPACK的理论基础。","Bit Width":"Bit Width — 数字表示占用的二进制位数，决定数值范围和精度。量化中将位宽从32降至8/4/1。","Master Copy":"Master Copy — 混合精度训练中以高精度（FP32）维护的权重主副本，用于累积低精度计算后的更新。","Variance":"Variance-Efficiency Tradeoff — SGD中使用随机梯度引入方差以换取每步更小计算量的经典权衡。","Explicit Method":"Explicit Method — 用当前步值直接计算下一步的数值方法（如显式欧拉），实现简单但稳定性受步长限制。","Implicit Method":"Implicit Method — 求解含未知下一步值的方程组的数值方法，稳定性更好但每步计算成本更高。","Symplectic Integration":"Symplectic Integration — 保持哈密顿系统辛结构不变的特殊数值积分法，长期动力学模拟的关键。","Superlinear Convergence":"Superlinear Convergence — 介于线性与二次之间的收敛速度（1<p<2），拟牛顿法（L-BFGS等）的典型表现。","Mantissa / Significand":"Mantissa / Significand — 尾数位，IEEE 754浮点数中决定精度的小数部分，位宽直接决定浮点运算精度。","Matrix Norm":"Matrix Norm — 衡量矩阵大小的标量函数，用于定义条件数和分析误差传播。常见Frobenius范数和谱范数。","Adjoint Sensitivity Analysis":"Adjoint Sensitivity Analysis — Neural ODE中不存储中间激活即可求梯度的伴随方法，内存消耗降至常数级。","Differentiable Simulation":"Differentiable Simulation — 将物理模拟器构建为可微分计算图，实现端到端梯度传播。PINN的代表应用方向。","Adaptive Precision Scheduling":"Adaptive Precision Scheduling — 训练不同阶段动态调整精度（初期高精度、后期低精度）的策略。","Ill":"Ill-Conditioned Curvature — Hessian矩阵条件数过大的优化曲面，导致训练对学习率高度敏感的困境。","Direct Method":"Direct Method — 有限步计算内精确求解的方法（如高斯消元），与迭代法相对。适合中小规模问题。","FP8":"FP8 — NVIDIA提出的8位浮点格式，有E4M3和E5M2两种变体。超低精度训练/推理的活跃研究格式。","MSFP":"MSFP — Microsoft提出的灵活浮点格式，支持可变指数/尾数分配。硬件与数值方法协同设计的代表。","Analog Computing":"Analog Computing — 利用物理量连续变化进行计算（非离散数字），噪声容忍数值方法为其实现关键。","BitNet":"BitNet — Wang et al.(2023)提出的1-bit Transformer架构，权重量化为{-1,0,+1}，探索极端量化边界。","Stiff Equation":"Stiff Equation — 含快慢不同时间尺度的ODE，显式法需极小步长、隐式A-稳定法更适合。"};
+const ANN_TERMS = ["Neural Ordinary Differential Equations","Adaptive Precision Scheduling","Continuous Normalizing Flows","Adjoint Sensitivity Analysis","Adaptive Step Size Control","Differentiable Simulation","Numerical Linear Algebra","Superlinear Convergence","Local Truncation Error","Symplectic Integration","Mantissa / Significand","Quadratic Convergence","Vision Transformer","Linear Convergence","Error Propagation","Convergence Order","Analog Computing","machine epsilon","preconditioning","Explicit Method","Implicit Method","Adjoint Method","Residual Block","Half Precision","Stiff Equation","William Kahan","Sparse Matrix","Direct Method","Euler method","Runge-Kutta","LogSumExp技巧","Lipschitz光滑","Master Copy","Matrix Norm","Strassen算法","Kaiming初始化","Goldstine","Wilkinson","Dahlquist","Bit Width","Kalman滤波","Boosting","BFloat16","IEEE 754","物理信息神经网络","GLU权重初始化","Floating","Variance","softmax","Bagging","IEEE754","方差-效率权衡","Adam优化器","LAMB优化器","神经常微分方程","ResNet","Amdahl","强化学习之父","Xavier","INT8量化","动态损失缩放","Euler法","损失缩放因子","量化感知训练","BitNet","傅里叶变换","批量归一化","自动编码器","冯·诺依曼","可解释AI","交叉注意力","启发式算法","大模型幻觉","思维链提示","Top-k","Top-p","循环一致性","多任务学习","小样本学习","零样本学习","权重初始化","流水线并行","主权重副本","离散化步长","离散化误差","深度学习","神经网络","LSTM","ReLU","蒙特卡洛","反向传播","迁移学习","残差连接","层归一化","可计算性","NP完全","有限精度","并行计算","虚拟内存","边缘计算","消融实验","基准测试","分布漂移","残差网络","批归一化","NP问题","提示工程","温度参数","集束搜索","异常检测","低秩近似","混合精度","模型并行","门控机制","量子计算","图灵完备","BF16","BLAS","FP64","PINN","伴随方法","机器精度","欧拉方法","FP32","FP16","损失缩放","数值稳定","病态问题","前向误差","后向误差","强凸函数","损失曲面","MSFP","GPU","TPU","SGD","GPT","欠拟合","规模律","思维树","控制论","λ演算","复杂度","稳定性","编译器","大数据","云计算","正交化","P问题","NP难","保真度","Q学习","注意力","感知机","全连接","卷积层","池化层","RK4","预处理","QAT","Ill","FP8","AI","卷积","微调","算法","反馈","频域","采样","混沌","剪枝","迭代","预热","下溢","上溢"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

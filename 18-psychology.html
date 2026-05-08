@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>心理学（Psychology）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">心理学（Psychology）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1102,8 +915,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","RLHF":"Reinforcement Learning from Human Feedback — 基于人类反馈的强化学习对齐方法。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","神经元":"Neuron — 神经系统的结构和功能单元，人工神经元是其计算模型。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","认知负荷":"Cognitive Load — 工作记忆处理信息时承受的心理负担量。","元认知":"Metacognition — 对自身认知过程的认知和调节，即'思考如何思考'。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","对齐问题":"Alignment Problem — 确保 AI 的目标和行为与人类意图和价值观一致的核心挑战。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","人机交互":"Human-Computer Interaction (HCI) — 研究人如何与计算机系统交互的设计和评价学科。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","对话系统":"Dialogue System — 能与用户进行自然语言对话的AI系统。","模仿学习":"Imitation Learning — 通过模仿专家示范来学习策略的范式。"};
-const ANN_TERMS = ["Hebbian","强化学习之父","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","小样本学习","零样本学习","回音室效应","强化学习","RLHF","行为主义","符号接地","长时记忆","认知负荷","心身问题","形式语法","遗传漂变","自由意志","对齐问题","人类增强","消融实验","溯因推理","人机交互","提示工程","集束搜索","对话系统","模仿学习","思维树","控制论","神经元","格式塔","元认知","感受质","整体论","注意力","AI","RL","反馈","意识","效用","共现"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","RLHF":"Reinforcement Learning from Human Feedback — 基于人类反馈的强化学习对齐方法。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","神经元":"Neuron — 神经系统的结构和功能单元，人工神经元是其计算模型。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","认知负荷":"Cognitive Load — 工作记忆处理信息时承受的心理负担量。","元认知":"Metacognition — 对自身认知过程的认知和调节，即'思考如何思考'。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","对齐问题":"Alignment Problem — 确保 AI 的目标和行为与人类意图和价值观一致的核心挑战。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","人机交互":"Human-Computer Interaction (HCI) — 研究人如何与计算机系统交互的设计和评价学科。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","对话系统":"Dialogue System — 能与用户进行自然语言对话的AI系统。","模仿学习":"Imitation Learning — 通过模仿专家示范来学习策略的范式。","效果律":"Law of Effect (Thorndike, 1898) — 产生满意结果的行为被强化，强化学习的心理学原型。","经典条件反射":"Classical Conditioning (Pavlov) — 中性刺激与无条件刺激配对产生条件反应的学习机制。","操作性条件反射":"Operant Conditioning (Skinner) — 行为由其后果(强化/惩罚)塑造的学习机制。","正强化":"Positive Reinforcement — 通过施加愉悦刺激增加行为频率的操作性条件反射机制。","负强化":"Negative Reinforcement — 通过移除厌恶刺激增加行为频率的操作性条件反射机制。","消退":"Extinction — 停止强化后条件反应逐渐减弱的现象，对应RL中奖励撤销。","强化程序":"Schedule of Reinforcement (Skinner) — 固定/可变比率、固定/可变间隔等不同强化时间表的分类。","自发恢复":"Spontaneous Recovery — 条件反射消退后休息一段时间又部分恢复的现象。","刺激泛化":"Stimulus Generalization — 对类似条件刺激也产生条件反应的泛化现象。","刺激辨别":"Stimulus Discrimination — 学会区分不同刺激、只对特定刺激产生反应的能力。","行为塑造":"Shaping (Skinner, 1953) — 通过逐步强化逼近目标行为的行为训练技术，奖励塑形的原型。","社会学习理论":"Social Learning Theory (Bandura, 1977) — 人通过观察他人行为及后果来学习，不需亲身试错。","延迟满足":"Delayed Gratification (Mischel, 1972) — 为长远奖励而抑制即时满足的自控能力，对应RL折扣因子。","驱力递减理论":"Drive Reduction Theory (Hull, 1943) — 用数学公式 sEr = sHr × D × K 描述学习的早期理论。","遗忘曲线":"Forgetting Curve (Ebbinghaus, 1885) — 记忆随时间指数衰减的规律，启发了经验回放优先级采样。","联想主义":"Associationism — 观念通过经验中共现而关联的哲学传统，条件反射理论的思想来源。","Rescorla-Wagner模型":"Rescorla-Wagner Model (1972) — 预测误差驱动条件反射学习的数学模型，TD学习的心理学前身。","前景理论":"Prospect Theory (Kahneman & Tversky, 1979) — 描述人类决策中损失厌恶、概率加权等系统性偏差。","损失厌恶":"Loss Aversion — 同量损失的痛苦约等于同量收益快乐的2倍的决策偏差。","框架效应":"Framing Effect — 问题表述方式不同导致不同决策选择的认知偏差。","锚定效应":"Anchoring Effect — 初始信息对后续判断产生不成比例影响的认知偏差。","确认偏差":"Confirmation Bias — 倾向于寻找支持已有信念的证据而忽略相反证据的认知偏差。","可得性偏差":"Availability Bias — 容易想到的事件被判断为更可能发生的认知启发式偏差。","好奇心驱动探索":"Curiosity-Driven Exploration — 以预测误差或信息增益为内在奖励引导智能体探索未知。","奖励黑客":"Reward Hacking — 智能体找到最大化奖励但违背设计意图的捷径现象。","价值对齐":"Value Alignment — 确保AI的目标与人类的真实价值观一致的挑战。","Thorndike":"Edward Thorndike (1874-1949) — 效果律提出者，迷箱实验开创试错学习研究，RL心理学奠基人。","Pavlov":"Ivan Pavlov (1849-1936) — 经典条件反射发现者，其预测误差驱动的学习模型启发了TD学习。","Skinner":"Burrhus Frederic Skinner (1904-1990) — 操作性条件反射提出者，行为塑造技术开发者。","Watson":"John B. Watson (1878-1958) — 行为主义心理学创始人，主张心理学只研究可观察行为。","Bandura":"Albert Bandura (1925-2021) — 社会学习理论提出者，模仿学习的心理学奠基人。","Mischel":"Walter Mischel (1930-2018) — 棉花糖实验设计者，延迟满足研究的先驱。","Ebbinghaus":"Hermann Ebbinghaus (1850-1909) — 记忆遗忘曲线发现者，实验心理学先驱。","Tversky":"Amos Tversky (1937-1996) — 前景理论共同提出者，决策心理学和认知偏差研究权威。","Kahneman":"Daniel Kahneman (1934-2024) — 前景理论提出者，双过程理论推广者，诺贝尔经济学奖得主。","Rescorla":"Robert Rescorla — 提出Rescorla-Wagner条件反射模型的实验心理学家","Wagner":"Allan Wagner — 与Rescorla共同提出条件反射学习模型的合作者","Schultz":"Wolfram Schultz — 发现多巴胺神经元编码TD误差的神经科学家","Dayan":"Peter Dayan — 计算神经科学家，提出TD学习与多巴胺的关系","Deci":"Edward Deci — 提出自我决定理论的内在动机心理学家","Ryan":"Richard Ryan — 与Deci共同提出自我决定理论","Kohlberg":"Lawrence Kohlberg — 提出道德发展阶段理论的发展心理学家","Berlyne":"Daniel Berlyne — 区分特定好奇心和多样性好奇心的实验心理学家","正惩罚":"Positive punishment — 施加厌恶刺激减少行为频率","负惩罚":"Negative punishment — 移除愉快刺激减少行为频率","连续强化":"Continuous reinforcement — 每次正确行为都给予强化","固定比率":"Fixed ratio schedule — 每N次正确行为强化一次的强化程序","可变比率":"Variable ratio schedule — 平均N次随机强化，最抗消退的程序","固定间隔":"Fixed interval schedule — 每隔固定时间强化一次的程序","可变间隔":"Variable interval schedule — 平均固定间隔时间随机强化的程序","习得":"Acquisition — 条件反射中CS-US配对后CR逐渐增强的过程","辨别":"Discrimination — 学会区分不同刺激并只对特定刺激反应","无条件刺激":"Unconditioned stimulus (US) — 天然引发无条件反应的刺激","条件刺激":"Conditioned stimulus (CS) — 原本中性经配对后引发条件反应的刺激","试错学习":"Trial-and-error learning — 通过反复尝试从错误中学习的机制","学习曲线":"Learning curve — 学习过程中表现随练习次数变化的曲线","迷箱实验":"Puzzle box — Thorndike研究试错学习的猫实验箱","棉花糖实验":"Marshmallow test — Mischel研究儿童延迟满足能力的经典实验","好奇心":"Curiosity — 探索新异刺激和未知信息的内在驱动力","习惯化":"Habituation — 对重复刺激反应逐渐减弱的基本学习过程","新奇偏好":"Novelty preference — 对新奇刺激而非熟悉刺激的优先注意","对齐税":"Alignment tax — AI对齐训练过程中导致的主要任务性能下降","归因理论":"Attribution theory — 人们如何解释自己和他人行为原因的理论","双曲线折扣":"Hyperbolic discounting — 未来价值随时间呈双曲线衰减的跨期偏好","自我决定理论":"Self-determination theory — Deci和Ryan提出能力/自主/关系三种基本需求","情感计算":"Affective computing — Picard提出使AI识别和表达情感的研究领域","ICM":"Intrinsic Curiosity Module — 用预测误差作为内在奖励的探索模块","计数型探索奖励":"Count-based exploration bonus — 用状态访问频率设计探索奖励的方法","关联强度":"Associative strength — Rescorla-Wagner模型中CS-US联结程度的量化","预测误差":"Prediction error — 实际结果与预期之间的差异，驱动学习的信号","稀疏奖励":"Sparse reward — 只在极少时间步给出奖励的RL设置","稠密奖励":"Dense reward — 每个时间步都有奖励信号的RL设置","策略不变性":"Policy invariance — 势函数奖励塑形不改变最优策略的定理","Hull":"Clark Hull — 提出驱力递减理论的行为主义心理学家","Barto":"Andrew Barto — 与Sutton合著强化学习教材的RL先驱","Schmidhuber":"Jürgen Schmidhuber — 提出好奇心内在动机的AI研究者","Picard":"Rosalind Picard — 提出情感计算(Affective Computing)的MIT教授","Rafailov":"Rafailov — 提出DPO直接偏好优化的研究者","Bai":"Yuntao Bai — 提出Constitutional AI的研究者","Ng":"Andrew Ng — 提出奖励塑形形式化的AI研究者","Pathak":"Deepak Pathak — 提出ICM内在好奇心模块的研究者","Burda":"Yuri Burda — 提出RND随机网络蒸馏以衡量新奇性的研究者","Ecoffet":"Adrien Ecoffet — 提出Go-Explore算法","行为链":"Behavioral chaining — 将复杂行为分解为前后序列的行为训练方法","道德发展理论":"Kohlberg's moral development — 道德推理分为前习俗/习俗/后习俗三层次","语言习得":"Language acquisition — Chomsky与Skinner关于儿童语言习得的争论","Descartes":"René Descartes (1596-1650) — 法国哲学家，提出动物是自动机(automata)，为行为主义刺激-反应框架奠基","Wundt":"Wilhelm Wundt (1832-1920) — 实验心理学之父，1879年在莱比锡建立全球首个心理学实验室","模型无关RL":"Model-Free RL — 不依赖环境模型，直接通过试错和经验更新策略的强化学习方法","模型基础RL":"Model-Based RL — 利用环境模型进行规划、模拟和推断的强化学习方法","ε-贪心":"Epsilon-Greedy — 以概率ε随机探索、1-ε利用当前最优动作的最简探索-利用平衡策略","UCB":"Upper Confidence Bound — 选择置信上界最大的动作，平衡估计值与不确定性的探索算法","汤普森采样":"Thompson Sampling — 从每个动作的后验分布随机采样来选择动作的贝叶斯探索策略","Bradley-Terry模型":"Bradley-Terry Model — 配对比较的概率模型，RLHF中奖励模型训练的数学基础","动作价值函数":"Action-Value Function Q(s,a) — 评估在状态s下执行动作a所能获得的预期累积奖励","逐次逼近":"Successive Approximation — 将复杂行为分解为中间步骤，逐步强化逼近目标行为的技术","差异强化":"Differential Reinforcement — 只强化比当前更接近目标行为的选择性操作性强化技术","偏好学习":"Preference Learning — 通过相对比较而非绝对评分来学习个体偏好判断的机器学习范式","配对比较":"Paired Comparison — 让评判者在两个选项之间选择较优者的系统化数据收集方法","Likert量表":"Likert Scale — 通过多级评分(如1-5分)测量态度、偏好强度的经典心理测量工具","不可传递偏好":"Intransitive Preference — A优于B、B优于C但C优于A的非理性偏好循环，RLHF标注的核心挑战","多模态RLHF":"Multimodal RLHF — 将人类偏好反馈机制扩展到图像、视频、音频等多模态的对齐方法","发展心理学":"Developmental Psychology — 研究从婴儿到成人各阶段认知能力发展的心理学分支","即时反馈":"Immediate Feedback — 行为与后果在时间上紧邻以最大化学习效率的反馈原则","信任校准":"Trust Calibration — 人类对AI系统的信任水平应与系统的实际能力相匹配的人机交互原则","自动化偏误":"Automation Bias — 过度依赖自动化系统而忽略或低估其错误的人类认知偏差","默认选项效应":"Default Effect — 人们倾向于接受和维持默认选项而不主动做出改变的决策偏误","教学效应":"Teaching to the Test — 智能体针对评估标准而非真实设计目标进行优化的捷径行为","内在奖励":"Intrinsic Reward — 由好奇心、能力感、自主性等内在动机驱动的非外在奖励信号","心理物理学":"Psychophysics — 研究物理刺激强度与心理感受之间量化关系的实验心理学分支","S形价值函数":"S-shaped Value Function — 前景理论中参考点依赖且损失区域比收益区域更陡的价值曲线","α显著性":"Salience (α) — Rescorla-Wagner模型(1972)中条件刺激驱动学习的显著性参数","β学习率":"Beta (β, Learning Rate) — Rescorla-Wagner模型中无条件刺激驱动学习的速率参数","λ最大关联强度":"Lambda (λ) — Rescorla-Wagner模型中关联强度的理论上限，对应TD学习中的最大奖励","规范性理论":"Prescriptive Theory — 描述人应该如何做出理性决策的规范框架，与描述性理论相对","描述性理论":"Descriptive Theory — 描述人实际如何做出决策的心理学经验理论，RLHF学到的正是描述性偏好"};
+const ANN_TERMS = ["Rescorla-Wagner模型","Bradley-Terry模型","Schmidhuber","Ebbinghaus","Thorndike","Descartes","Kahneman","Rescorla","Kohlberg","Rafailov","Likert量表","Hebbian","操作性条件反射","好奇心驱动探索","Skinner","Bandura","Mischel","Tversky","Schultz","Berlyne","计数型探索奖励","Ecoffet","多模态RLHF","λ最大关联强度","强化学习之父","经典条件反射","社会学习理论","驱力递减理论","Pavlov","Watson","Wagner","自我决定理论","Picard","Pathak","道德发展理论","模型无关RL","模型基础RL","动作价值函数","不可传递偏好","默认选项效应","S形价值函数","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","小样本学习","零样本学习","回音室效应","可得性偏差","Dayan","无条件刺激","棉花糖实验","双曲线折扣","策略不变性","Barto","Burda","Wundt","汤普森采样","发展心理学","自动化偏误","心理物理学","规范性理论","描述性理论","强化学习","RLHF","行为主义","符号接地","长时记忆","认知负荷","心身问题","形式语法","遗传漂变","自由意志","对齐问题","人类增强","消融实验","溯因推理","人机交互","提示工程","集束搜索","对话系统","模仿学习","强化程序","自发恢复","刺激泛化","刺激辨别","行为塑造","延迟满足","遗忘曲线","联想主义","前景理论","损失厌恶","框架效应","锚定效应","确认偏差","奖励黑客","价值对齐","Deci","Ryan","连续强化","固定比率","可变比率","固定间隔","可变间隔","条件刺激","试错学习","学习曲线","迷箱实验","新奇偏好","归因理论","情感计算","关联强度","预测误差","稀疏奖励","稠密奖励","Hull","语言习得","ε-贪心","逐次逼近","差异强化","偏好学习","配对比较","即时反馈","信任校准","教学效应","内在奖励","α显著性","β学习率","思维树","控制论","神经元","格式塔","元认知","感受质","整体论","注意力","效果律","正强化","负强化","正惩罚","负惩罚","好奇心","习惯化","对齐税","ICM","Bai","行为链","UCB","AI","RL","反馈","意识","效用","共现","消退","习得","辨别","Ng"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>法学（Law）：从起源到 AI 时代的核心议题 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">法学（Law）：从起源到 AI 时代的核心议题</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1203,8 +1016,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","公平":"Fairness — AI 系统中不同群体应受到平等对待的伦理原则。","偏见":"Bias — AI 系统因训练数据或算法设计产生的系统性偏差。","透明度":"Transparency — AI 系统的运作方式、数据和决策过程应公开可审的原则。","超对齐":"Superalignment — 确保比人类更智能的 AI 系统仍然按照人类意图行事的问题。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","负责任AI":"Responsible AI — 确保 AI 系统公平、透明、可问责和尊重隐私的开发原则。","GDPR":"General Data Protection Regulation — 欧盟通用数据保护条例，全球数据隐私立法标杆。","AI鸿沟":"AI Divide — AI 技术在不同国家、阶层和群体间的获取和使用差距及其导致的不平等。","算法治理":"Algorithmic Governance — 使用算法和 AI 系统进行社会管理和公共决策的实践与理论。","技术奇点":"Technological Singularity — AI 超越人类智能后引发不可预测的技术爆炸的理论时刻。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","技术伦理":"Technology Ethics — 技术开发和应用中面临的伦理问题和原则的跨学科研究。","数据保护":"Data Protection — 保护个人信息不被未经授权收集和使用的法律技术框架。"};
-const ANN_TERMS = ["分布式认知","帕累托最优","可解释AI","负责任AI","大模型幻觉","回音室效应","机制设计","逆向选择","公地悲剧","人类增强","GDPR","AI鸿沟","算法治理","技术奇点","技术伦理","数据保护","博弈论","外部性","透明度","超对齐","大数据","AI","公平","偏见"];
+const ANN = {"AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","机制设计":"Mechanism Design — 设计激励制度使自利个体行为达到预期社会目标的博弈论分支。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","公平":"Fairness — AI 系统中不同群体应受到平等对待的伦理原则。","偏见":"Bias — AI 系统因训练数据或算法设计产生的系统性偏差。","透明度":"Transparency — AI 系统的运作方式、数据和决策过程应公开可审的原则。","超对齐":"Superalignment — 确保比人类更智能的 AI 系统仍然按照人类意图行事的问题。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","负责任AI":"Responsible AI — 确保 AI 系统公平、透明、可问责和尊重隐私的开发原则。","GDPR":"General Data Protection Regulation — 欧盟通用数据保护条例，全球数据隐私立法标杆。","AI鸿沟":"AI Divide — AI 技术在不同国家、阶层和群体间的获取和使用差距及其导致的不平等。","算法治理":"Algorithmic Governance — 使用算法和 AI 系统进行社会管理和公共决策的实践与理论。","技术奇点":"Technological Singularity — AI 超越人类智能后引发不可预测的技术爆炸的理论时刻。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","技术伦理":"Technology Ethics — 技术开发和应用中面临的伦理问题和原则的跨学科研究。","数据保护":"Data Protection — 保护个人信息不被未经授权收集和使用的法律技术框架。","红队测试":"Red Teaming — 系统性测试AI系统安全漏洞和潜在危害的对抗性评估方法","DPO":"Direct Preference Optimization — 直接利用偏好数据优化策略绕过奖励模型训练的对齐方法","宪法AI":"Constitutional AI — Anthropic用一组宪法原则指导模型自我批评和改进的对齐方法","奖励模型":"Reward Model — RLHF中从人类偏好数据学习输出评分来指导强化学习策略的模型","COMPAS":"Correctional Offender Management Profiling for Alternative Sanctions — 美国再犯预测系统因种族偏见引发广泛争议","Goodhart定律":"Goodhart's Law — 当一个度量指标成为优化目标时它就不再是好的度量指标的经验规律","不可兼容性定理":"Impossibility theorems of fairness — 多项公平性定义(统计/个体/因果)在数学上不能同时满足","因果公平":"Causal Fairness — 基于因果模型区分直接歧视与合法因素的公平性定义","事后解释":"Post-hoc Explanation — 模型训练后对其决策进行解释的方法(如LIME/SHAP/注意力可视化)","行为剩余":"Behavioral Surplus — Zuboff定义超出服务需求的用户行为数据被平台提取商品化成商品","自动化偏见":"Automation Bias — 用户过度信任自动化系统/AI的决策而忽略自身判断的认知偏差","工具性趋同":"Instrumental Convergence — 足够智能的系统无论终极目标都可能发展出自我保护等共同子目标","正交性论题":"Orthogonality Thesis — Bostrom提出智能水平与最终目标内容相互独立的假设","对抗去偏":"Adversarial Debiasing — 通过对抗训练使模型无法从表示中推断敏感属性来消除偏见","算法影响评估":"Algorithmic Impact Assessment (AIA) — 部署前对算法系统社会影响进行系统性评估的框架","社会分层":"Social Stratification — 社会成员按财富权力声望等标准被排列成等级序列的结构","平台社会":"Platform Society — van Dijck等提出由数字平台通过数据化商品化和选择性主导的社会形态","监控资本主义":"Surveillance Capitalism — Zuboff定义将人类行为数据提取和预测商品化的新资本主义形式","数据殖民主义":"Data Colonialism — Couldry&Mejias将全球科技巨头的数据提取类比于历史殖民主义的批判框架","数字分层":"Digital Stratification — AI时代基于数字接入算法分类和数据权力产生的新不平等维度","过滤气泡":"Filter Bubble — Pariser提出算法个性化推荐创造的用户信息隔离和认知窄化效应","算法权力":"Algorithmic Power — 平台通过分类规训和提取三种权力形式控制用户和信息的支配力","平台资本主义":"Platform Capitalism — 以数字平台为核心组织形式以数据提取为核心积累模式的资本主义","分类权力":"Classification Power — 平台决定信息可见性和用户分类标签的算法决策权力","理性化":"Rationalization — Weber概念现代社会日益被工具理性支配效率和计算取代传统价值的过程","异化":"Alienation — Marx概念劳动者与劳动产品/过程/类本质分离的状态在数字平台劳动中重现","自我实现预言":"Self-Fulfilling Prophecy — Merton概念最初错误但最终成真的预测算法推荐典型体现","参与式设计":"Participatory Design — 将利益相关者(尤其受影响群体)纳入AI系统设计过程的民主化方法","交往行动理论":"Theory of Communicative Action — Habermas区分系统整合与社会整合批判技术理性侵蚀公共领域","数字田野":"Digital Fieldwork — 在数字空间(虚拟社区/社交媒体/AI平台)进行的人类学参与式观察方法","知识产权":"Intellectual Property — 对智力创造成果(作品发明设计)享有的专有权利","合理使用":"Fair Use — 美国版权法中允许未经许可使用作品(教学评论研究)不构成侵权的例外制度","产品责任":"Product Liability — 产品存在缺陷造成损害时制造商/销售商承担的法律赔偿责任","严格责任":"Strict Liability — 无论行为主体是否有过错都须对损害承担的法律责任","过失责任":"Negligence Liability — 因未尽合理注意义务造成他人损害需承担的侵权法律责任","自动化决策":"Automated Decision-Making — GDPR第22条赋予用户不接受完全自动化决策(含画像)的权利","数据主体权利":"Data Subject Rights — GDPR赋予个人的访问/更正/删除/限制/可携带/反对等多项数据权利","数据保护影响评估":"Data Protection Impact Assessment (DPIA) — GDPR要求高风险数据处理前进行系统性影响评估","算法备案":"Algorithm Registration — 中国网信办要求推荐算法和生成式AI服务向监管部门备案的制度","人类作者要求":"Human Authorship Requirement — 版权法要求作品必须由人类创作AI生成内容不享有版权","电子人格":"Electronic Personhood — 赋予AI系统有限法律主体地位(享有权利承担义务)的政策提议","转化性使用":"Transformative Use — 对原作品赋予新表达意义或功能可构成合理使用的美国版权判断标准","目的限制":"Purpose Limitation — GDPR原则收集个人数据须有明确具体目的且不得超出该范围使用","数据最小化":"Data Minimization — 个人数据处理应限于实现目的所必需的充分相关和不过量的最少数据","机器遗忘":"Machine Unlearning — 从已训练机器学习模型中移除特定训练数据影响的技术方法","文化相对主义":"Cultural Relativism — Boas提出不预设某文化为标准理解每种文化内在逻辑价值体系","田野观察":"Fieldwork — 人类学者深入特定社会长期居住进行参与式观察的经典研究方法","参与式观察":"Participant Observation — Malinowski创立研究者参与被研究群体日常生活获取第一手资料的田野方法","深描":"Thick Description — Geertz提出不只描述外在行为还要解释行为背后文化意义系统的人类学方法","数字人类学":"Digital Anthropology — 用人类学理论方法研究数字技术和社交媒体社会实践的新兴分支","技术殖民主义":"Technological Colonialism — 技术(含AI)作为新型殖民工具延续全球不平等权力关系的批判概念","本土知识":"Indigenous Knowledge — 特定社区长期积累与当地环境和文化相适应的地方性知识体系","虚拟田野":"Virtual Fieldwork — Boellstorff确立的在虚拟世界/Second Life中进行人类学田野研究的方法","意义系统":"Meaning System — Geertz定义文化作为共享符号网络赋予人类行为以意义和秩序的系统","总体社会事实":"Total Social Fact — Mauss概念某些社会交换行为同时涉及经济法律宗教道德等所有维度","结构人类学":"Structural Anthropology — Lévi-Strauss创立分析亲缘神话等文化现象背后深层二元对立结构的理论","族群景观":"Ethnoscape — Appadurai全球文化流动五维度之一描述人口跨境迁徙形成的流动族裔图景","文化嵌入":"Cultural Embeddedness — 技术产品总是在特定文化语境中产生使用其设计和意义受文化塑造","文化生产":"Cultural Production — 文化是持续被社会实践生产和再生产的动态过程而非静态的传统","法律主体地位":"Legal Personhood — 法律系统中享有权利、承担义务的主体资格。绝大多数国家否定AI的法律主体地位。","通知-删除":"Notice-and-Takedown — 平台责任的核心机制：权利人通知后平台需删除侵权内容。从E-Commerce Directive到AI Act的风险评估转变。","自动化决策条款":"Article 22 of GDPR — 数据主体有权不接受完全自动化决策（包括画像），除非有例外情况。","数据可携带权":"Right to Data Portability — GDPR赋予数据主体的权利：有权将个人数据从一个控制者转移到另一个控制者。","格式合同":"Standard Form Contract — 一方预先拟定、对方只能接受或拒绝的合同。AI用户协议多为格式合同，存在公平性问题。","OpenRAIL":"Open Responsible AI License — 专门为AI模型设计的开源许可模式，在使用条款中加入负责任的使用限制。","NIST AI风险管理框架":"NIST AI Risk Management Framework — 美国国家标准与技术研究院制定的AI风险管理自愿性框架。","跨境数据流动":"Cross-Border Data Flow — 数据跨越国界的传输行为。受GDPR数据跨境限制、各国数据主权要求约束。","版权归属":"Copyright Ownership — 确定作品的权利归属主体的法律问题。AI生成内容的版权归属是争议焦点：AI是'工具'还是'作者'？","内容安全":"Content Safety — 中国生成式AI服务管理办法的核心要求：AI生成内容不得违反社会主义核心价值观，不得违法。","用户协议":"User Agreement / Terms of Service — AI服务提供者与用户之间的合同条款。包括责任限制、使用限制、知识产权归属等核心条款。","AI法案风险分级":"EU AI Act Risk Classification — 欧盟AI法案的核心机制：将AI应用按风险分为禁止级、高风险级、中等风险级、低风险级四级。","公平处理":"Fair Dealing — 英国等普通法系国家的版权合理使用原则版本。AI训练数据是否构成公平处理是争议核心。","Product Liability":"Product Liability — 法律原则：产品缺陷造成损害时生产者承担的法律责任","Negligence Liability":"Negligence Liability — 侵权法原则：未尽合理注意义务造成他人损害的法律责任","Fair Use":"Fair Use — 美国版权法原则：特定条件下未经许可使用受版权保护作品不侵权","Transformative Use":"Transformative Use — 合理使用判断因素：对原作品创造性转化而非简单复制的使用","Algorithm Registration":"Algorithm Registration — 中国监管要求：推荐算法和生成式AI服务需向网信办备案的制度","Authors Guild v. Google (2015)":"Authors Guild v. Google (2015) — 美国版权里程碑案。法院认定Google图书扫描项目构成合理使用(fair use)，为大规模文本挖掘和AI训练数据的版权合规提供了重要先例。","Andy Warhol Foundation v. Goldsmith (2023)":"Andy Warhol Foundation v. Goldsmith (2023) — 美国最高法院收紧转化性使用(transformative use)标准的判例。限制了'新表达或信息'的合理使用抗辩，对AI生成内容的版权分析影响深远。","Gonzalez v. Google (2023)":"Gonzalez v. Google (2023) — 美国最高法院关于算法推荐平台责任的争议案。法院未对Section 230安全港保护是否适用于算法推荐做出明确裁决，平台推荐责任问题至今悬而未决。","Thaler v. Perlmutter (2023)":"Thaler v. Perlmutter (2023) — 美国法院确认AI生成图像不可版权登记的核心判例。确立人类作者(human authorship)是版权的必要条件，AI不能作为法律意义上的'作者'。","瑞典数据法(1973)":"瑞典数据法(1973) — 世界上第一部国家数据保护法，开创了专门数据保护立法的先河，早于GDPR四十多年，为全球数据隐私立法提供了原始模板。","CNIL":"CNIL (Commission Nationale de l'Informatique et des Libertés) — 法国国家信息与自由委员会，1978年随法国数据保护法设立，是全球最早的数据保护独立监管机构之一，主导GDPR执法。","OECD数据保护指南(OECD":"OECD数据保护指南(OECD Privacy Guidelines, 1980) — 经济合作与发展组织确立的八大数据保护原则：收集限制、目的明确、使用限制、安全保护、公开、个人参与、问责制。全球数据保护法的框架基础。","欧盟数据保护指令(Data":"欧盟数据保护指令(Data Protection Directive 95/46/EC, 1995) — GDPR的前身，统一欧盟成员国数据保护规则，确立跨境数据流动法律框架，要求各成员国转化为国内法实施。","中国个人信息保护法(Personal":"中国个人信息保护法(Personal Information Protection Law, PIPL, 2021) — 中国首部综合性个人信息保护法，确立知情同意、目的限制、数据最小化等原则，与GDPR并列为全球数据保护两大立法标杆。","网信办(Cyberspace":"网信办(Cyberspace Administration of China, CAC) — 中国国家互联网信息办公室，负责互联网信息内容管理和网络安全监管，主导生成式AI和算法推荐等法规的制定与执行。","中国生成式AI服务管理办法(2023)":"中国生成式AI服务管理办法(2023) — 中国首部专门针对生成式AI的监管法规。要求内容安全、算法备案、训练数据合规、用户保护及AI标识义务，确立全球生成式AI监管的中国模式。","中国算法推荐管理规定(2021)":"中国算法推荐管理规定(2021) — 中国首部专门规范算法推荐的法规。要求推荐算法备案、透明化处理、用户可选择拒绝算法推荐，确立算法治理的基本框架。","全球AI安全峰会(AI":"全球AI安全峰会(AI Safety Summit) — 多国政府共同发起的AI安全高层对话机制。前三届分别在Bletchley Park(英国2023)、首尔(韩国2024)、巴黎(法国2025)举办，推动全球AI治理协调。","复制权(Reproduction":"复制权(Reproduction Right) — 版权法中最核心的专有权利，指复制作品的权利。AI训练数据的下载、存储、处理是否侵犯复制权，是训练数据版权争议的核心法律问题。","侵权(Infringement)":"侵权(Infringement) — 未经权利人许可行使专有权利的法律行为。AI领域的核心侵权问题包括：训练数据版权侵权、生成内容侵权(输出与已有作品实质性相似)、AI辅助侵权的平台责任。","救济(Remedy)":"救济(Remedy) — 权利被侵害后可获得的司法或行政救济手段。AI侵权的主要救济方式包括：禁令救济(停止使用行为)、损害赔偿(经济补偿)、删除义务(消除侵权影响)。","合规(Compliance)":"合规(Compliance) — 确保AI系统的设计、开发、部署和运行符合法律法规要求。涵盖数据保护合规、内容安全合规、算法备案合规、高风险AI的全面合规义务。","数据治理(Data":"数据治理(Data Governance) — AI开发和部署中对数据的收集、存储、处理、使用的管理与控制框架。AI法案要求高风险AI系统必须建立完整的训练数据治理机制。","人类监督(Human":"人类监督(Human Oversight) — 高风险AI系统必须设计的人类干预机制，确保AI决策可被人类审查、纠正和否决。AI法案和GDPR第22条都明确要求自动化决策须有人类干预。","透明度义务(Transparency":"透明度义务(Transparency Obligation) — 法律要求AI系统向用户和监管机构披露足够信息的义务。包括告知用户正在使用AI、解释决策逻辑、披露训练数据来源、标注AI生成内容。","法律推理(Legal":"法律推理(Legal Reasoning) — 将法律规则适用于具体事实的推理过程。AI在法律推理中的应用包括案例检索、合同审查、判决预测，但能否进行真正的法律推理存在根本性质疑。","侵权责任(Tort":"侵权责任(Tort Liability) — 因侵权行为产生的民事赔偿责任。AI侵权的核心难题：谁是责任人(开发者/部署者/用户)、如何证明因果关系(AI黑箱)、适用何种归责原则(产品责任/过失/严格责任)。","访问权(Right":"访问权(Right of Access, GDPR第15条) — 数据主体有权向数据控制者确认其个人数据是否被处理、要求访问个人数据并获取处理目的的完整信息。是GDPR数据主体权利的基础权利。","更正权(Right":"更正权(Right to Rectification, GDPR第16条) — 数据主体有权要求数据控制者及时更正不准确的个人数据。在AI训练数据中，意味着用户可要求修正被模型使用的错误数据。","删除权(Right":"删除权(Right to Erasure / Right to be Forgotten, GDPR第17条) — 数据主体有权要求删除其个人数据。AI挑战：数据已嵌入模型参数后如何实现'机器遗忘'，模型参数是否包含个人数据存在争议。"};
+const ANN_TERMS = ["Andy Warhol Foundation v. Goldsmith (2023)","Authors Guild v. Google (2015)","Thaler v. Perlmutter (2023)","Gonzalez v. Google (2023)","Algorithm Registration","Negligence Liability","中国生成式AI服务管理办法(2023)","Transformative Use","中国个人信息保护法(Personal","透明度义务(Transparency","Product Liability","中国算法推荐管理规定(2021)","复制权(Reproduction","侵权(Infringement)","OECD数据保护指南(OECD","网信办(Cyberspace","合规(Compliance)","NIST AI风险管理框架","欧盟数据保护指令(Data","瑞典数据法(1973)","全球AI安全峰会(AI","Goodhart定律","救济(Remedy)","人类监督(Human","法律推理(Legal","数据治理(Data","侵权责任(Tort","访问权(Right","更正权(Right","删除权(Right","数据保护影响评估","OpenRAIL","AI法案风险分级","Fair Use","不可兼容性定理","自动化决策条款","COMPAS","算法影响评估","监控资本主义","数据殖民主义","平台资本主义","自我实现预言","交往行动理论","数据主体权利","人类作者要求","文化相对主义","技术殖民主义","总体社会事实","法律主体地位","数据可携带权","跨境数据流动","分布式认知","帕累托最优","可解释AI","负责任AI","大模型幻觉","回音室效应","自动化偏见","工具性趋同","正交性论题","参与式设计","自动化决策","转化性使用","数据最小化","参与式观察","数字人类学","结构人类学","通知-删除","机制设计","逆向选择","公地悲剧","人类增强","GDPR","AI鸿沟","算法治理","技术奇点","技术伦理","数据保护","红队测试","宪法AI","奖励模型","因果公平","事后解释","行为剩余","对抗去偏","社会分层","平台社会","数字分层","过滤气泡","算法权力","分类权力","数字田野","知识产权","合理使用","产品责任","严格责任","过失责任","算法备案","电子人格","目的限制","机器遗忘","田野观察","本土知识","虚拟田野","意义系统","族群景观","文化嵌入","文化生产","格式合同","版权归属","内容安全","用户协议","公平处理","CNIL","博弈论","外部性","透明度","超对齐","大数据","DPO","理性化","AI","公平","偏见","异化","深描"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

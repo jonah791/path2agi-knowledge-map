@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>哲学：认识论与心灵哲学（Philosophy: Epistemology and Philosophy of Mind） — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">哲学：认识论与心灵哲学（Philosophy: Epistemology and Philosophy of Mind）</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1298,8 +1111,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","Turing":"艾伦·图灵 — 计算机科学和 AI 之父，图灵机、图灵测试、可计算性理论奠基人。","Gödel":"库尔特·哥德尔 — 逻辑学家，提出不完备定理，揭示形式系统的内在局限性。","涌现":"Emergence — 简单组分整体展现出复杂行为的现象，大模型涌现能力是研究热点。","对齐":"AI Alignment — 确保 AI 系统的目标和行为与人类价值观相一致的研究领域。","符号主义":"Symbolism — 用符号和规则表示知识和推理的 AI 范式，与连接主义相对。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","中文房间":"Chinese Room — John Searle 思想实验，质疑纯粹符号操作能否产生真正理解。","图灵测试":"Turing Test — 判断机器是否具有智能的经典测试：人无法区分机器还是人。","可计算性":"Computability — 研究哪些问题可以被算法解决的数学理论，Turing 和 Church 奠基。","图灵机":"Turing Machine — 抽象计算模型，现代计算机科学和可计算性理论的基础。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","元认知":"Metacognition — 对自身认知过程的认知和调节，即'思考如何思考'。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","意向性":"Intentionality — 心理状态关于或指向某物的属性，Searle 认为计算系统缺乏真正的意向性。","功能主义":"Functionalism — 心灵哲学理论：心理状态由其在因果网络中的功能角色定义，而非由物理实现决定。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","认识论":"Epistemology — 研究知识本质、来源与边界的哲学分支，为机器学习提供哲学基础。","本体论":"Ontology — 研究存在和实在基本结构的哲学分支。","决定论":"Determinism — 一切事件都由先前原因决定的哲学立场，与自由意志相对。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","还原论":"Reductionism — 复杂现象可还原为更基本组分的解释策略。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","经验主义":"Empiricism — 知识来源于感官经验的哲学立场，影响连接主义和数据驱动方法。","理性主义":"Rationalism — 知识来源于理性推理的哲学立场，影响符号 AI 和逻辑方法。","归纳问题":"Problem of Induction — 从有限观测推广到一般规律的合理性问题，休谟首先提出。","因果性":"Causality — 原因和结果之间的关系，因果推断的核心研究对象。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","对齐问题":"Alignment Problem — 确保 AI 的目标和行为与人类意图和价值观一致的核心挑战。","超对齐":"Superalignment — 确保比人类更智能的 AI 系统仍然按照人类意图行事的问题。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","技术奇点":"Technological Singularity — AI 超越人类智能后引发不可预测的技术爆炸的理论时刻。","演绎推理":"Deductive Reasoning — 从一般前提推导出特定结论的推理方式，保证前提真则结论真。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","技术伦理":"Technology Ethics — 技术开发和应用中面临的伦理问题和原则的跨学科研究。","反事实推理":"Counterfactual Reasoning — 推演过去不同则结果如何的假设性推理。","计算主义":"Computationalism — 心智本质上是计算系统的哲学理论。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。"};
-const ANN_TERMS = ["Turing","哥德尔不完备","Gödel","冯·诺依曼","可解释AI","反事实推理","符号主义","连接主义","符号接地","中文房间","图灵测试","可计算性","功能主义","心身问题","自由意志","经验主义","理性主义","归纳问题","可解释性","对齐问题","人类增强","技术奇点","演绎推理","溯因推理","技术伦理","计算主义","AGI","LLM","PDE","图灵机","复杂度","自组织","元认知","意向性","感受质","认识论","本体论","决定论","还原论","整体论","因果性","超对齐","保真度","AI","涌现","对齐","混沌","尖点","意识","表征","语义"];
+const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","PDE":"Partial Differential Equation — 偏微分方程，物理模拟和科学计算中广泛出现。","Turing":"艾伦·图灵 — 计算机科学和 AI 之父，图灵机、图灵测试、可计算性理论奠基人。","Gödel":"库尔特·哥德尔 — 逻辑学家，提出不完备定理，揭示形式系统的内在局限性。","涌现":"Emergence — 简单组分整体展现出复杂行为的现象，大模型涌现能力是研究热点。","对齐":"AI Alignment — 确保 AI 系统的目标和行为与人类价值观相一致的研究领域。","符号主义":"Symbolism — 用符号和规则表示知识和推理的 AI 范式，与连接主义相对。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","中文房间":"Chinese Room — John Searle 思想实验，质疑纯粹符号操作能否产生真正理解。","图灵测试":"Turing Test — 判断机器是否具有智能的经典测试：人无法区分机器还是人。","可计算性":"Computability — 研究哪些问题可以被算法解决的数学理论，Turing 和 Church 奠基。","图灵机":"Turing Machine — 抽象计算模型，现代计算机科学和可计算性理论的基础。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","尖点":"Critical Point / 临界点 — 系统性质发生突变的参数值，相变发生的阈值。","元认知":"Metacognition — 对自身认知过程的认知和调节，即'思考如何思考'。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","意向性":"Intentionality — 心理状态关于或指向某物的属性，Searle 认为计算系统缺乏真正的意向性。","功能主义":"Functionalism — 心灵哲学理论：心理状态由其在因果网络中的功能角色定义，而非由物理实现决定。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","认识论":"Epistemology — 研究知识本质、来源与边界的哲学分支，为机器学习提供哲学基础。","本体论":"Ontology — 研究存在和实在基本结构的哲学分支。","决定论":"Determinism — 一切事件都由先前原因决定的哲学立场，与自由意志相对。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","还原论":"Reductionism — 复杂现象可还原为更基本组分的解释策略。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","经验主义":"Empiricism — 知识来源于感官经验的哲学立场，影响连接主义和数据驱动方法。","理性主义":"Rationalism — 知识来源于理性推理的哲学立场，影响符号 AI 和逻辑方法。","归纳问题":"Problem of Induction — 从有限观测推广到一般规律的合理性问题，休谟首先提出。","因果性":"Causality — 原因和结果之间的关系，因果推断的核心研究对象。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","对齐问题":"Alignment Problem — 确保 AI 的目标和行为与人类意图和价值观一致的核心挑战。","超对齐":"Superalignment — 确保比人类更智能的 AI 系统仍然按照人类意图行事的问题。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","技术奇点":"Technological Singularity — AI 超越人类智能后引发不可预测的技术爆炸的理论时刻。","演绎推理":"Deductive Reasoning — 从一般前提推导出特定结论的推理方式，保证前提真则结论真。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","哥德尔不完备":"Gödel's Incompleteness Theorems — 任何足够强的形式系统要么不一致要么不完备。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","技术伦理":"Technology Ethics — 技术开发和应用中面临的伦理问题和原则的跨学科研究。","反事实推理":"Counterfactual Reasoning — 推演过去不同则结果如何的假设性推理。","计算主义":"Computationalism — 心智本质上是计算系统的哲学理论。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。","双下降现象":"Double Descent — 模型复杂度增加时测试误差先降后升(过参数化阈值)再降的奇特现象","最大熵原理":"Maximum Entropy Principle — Jaynes提出给定约束下选择熵最大分布是最无偏的推断原则","系综":"Ensemble — Gibbs系综(微正则/正则/巨正则)是统计力学中描述大量微观状态分布的核心概念框架","普适性":"Universality — 临界现象中不同微观系统的临界指数仅取决于维度和对称性等少数特征的性质","临界指数":"Critical Exponent — 相变临界点附近物理量(比热/磁化率)随温度按幂律发散的指数参数","关联长度":"Correlation Length — 统计系统中两点间相关函数衰减到1/e的特征距离，临界点发散至无穷大","对比散度":"Contrastive Divergence — Hinton提出的近似梯度算法，用少量MCMC步近似配分函数梯度训练能量模型","维纳过程":"Wiener Process — 连续时间随机过程，布朗运动的数学模型，朗之万动力学的噪声源","自旋玻璃":"Spin Glass — 具有阻挫和无序相互作用的磁系统，其能量景观用于分析神经网络损失函数结构","朗之万方程":"Langevin Equation — 含随机力项的随机微分方程，描述粒子在势场中的布朗运动","退火计划":"Annealing Schedule — 模拟退火中温度随时间下降的策略(几何/对数退火)决定全局搜索能力","并行回火":"Parallel Tempering — 多条MCMC链在不同温度并行运行并交换构型的增强采样方法","自组织临界性":"Self-Organized Criticality — 驱动系统自发演化到临界态无需外部调参的现象，沙堆模型代表","有限尺寸效应":"Finite Size Effect — 系统有限大小使临界行为偏离热力学极限理论预测的偏差","DDIM":"Denoising Diffusion Implicit Models — 将扩散过程改为确定性的加速采样方法，支持隐空间插值","流匹配":"Flow Matching — 通过回归向量场而非似然来训练连续归一化流的生成模型新范式","强AI":"Strong AI — Searle界定：适当编程的计算机本身就构成心灵，程序执行本身就构成真正理解","弱AI":"Weak AI — 计算机仅是研究心灵的有用工具，可模拟智能行为但不具备真正理解或意识","现象学":"Phenomenology — Husserl创立的研究意识经验和本质结构的第一人称哲学方法","物理主义":"Physicalism — 一切存在最终都是物理的，心理状态可还原为物理状态的哲学立场","多重可实现性":"Multiple Realizability — 同一心灵状态(如疼痛)可由不同物理基质(碳基/硅基)实现的观念","玛丽的房间":"Mary's Room — Jackson思想实验证明物理信息不能完全捕获主观体验(知道一切颜色知识≠见过红色)","僵尸论证":"Philosophical Zombie — Chalmers论证设想物理/功能完全相同但无主观体验的存在","实用主义":"Pragmatism — Peirce/James/Dewey创立的知识价值在于实践效果的美国哲学传统","柏拉图主义":"Platonism — 抽象理念/数学结构独立于经验世界真实存在的哲学立场","私人语言":"Private Language Argument — Wittgenstein论证不可能存在仅一人能理解的语言：意义在社会实践中","自然主义":"Naturalism — 心灵是自然世界的一部分，遵循自然规律，可用科学方法研究的哲学立场","操作主义":"Operationalism — 概念的意义在于测量它的操作程序的科学哲学立场","第一人称视角":"First-Person Perspective — 主观体验特有的不可替代的个体视角，第三人称科学无法完全捕获","天赋观念":"Innate Ideas — Descartes主张的与生俱来的概念或知识，不依赖于感官经验。与Locke的白板说相对。","白板说":"Tabula Rasa — Locke提出的理论，认为心灵初始为空白，所有内容由经验写入，是经验主义的核心隐喻。象征机器学习从数据开始的起点。","先验综合判断":"Synthetic A Priori — Kant提出的知识类型：既不是纯分析（先验）也不是纯经验（后验），而是需要通过经验来呈现的先验结构。","心灵哲学":"Philosophy of Mind — 研究心灵、意识、智能本质的哲学分支。核心问题：什么算智能？什么算理解？机器能否有意识？","指称":"Reference — Frege区分的概念之一，指语言符号所指代的外部世界对象或实体。与'意义（Sense）'相对。","意义":"Sense — Frege区分的概念之一，指语言符号的表达方式或内涵，不同于其所指对象。","内在主义":"Internalism — 认为真正的智能需要特定的内部状态，而非仅仅外部行为表现。反对行为主义和操作主义。","系统回应":"Systems Reply — 对中文房间论证的经典反驳之一：房间里的人不理解中文，但整个系统（人+规则手册+房间）可能理解中文。","机器人回应":"Robot Reply — 对中文房间论证的经典反驳之一：如果将程序嵌入一个能与世界交互的机器人中，它可能获得真正的理解。","大脑模拟回应":"Brain Simulator Reply — 对中文房间论证的经典反驳之一：如果程序精确模拟了中文使用者的大脑神经活动，难道它不理解中文吗？","生物自然主义":"Biological Naturalism — Searle的立场：意识是大脑的生物学属性，就像消化是胃的生物学属性。硅基系统不可能有意识。","意识的困难问题":"Hard Problem of Consciousness — Chalmers提出的概念：为什么功能过程伴随着主观体验（qualia）？为什么存在'做某个系统是什么感觉'这回事？","简单问题":"Easy Problems of Consciousness — Chalmers区分的概念：解释认知功能（注意、记忆、学习等）的问题。与'困难问题'相对。","主观体验":"Subjective Experience — 意识的第一人称特性，即'做某个系统是什么感觉'（what it is like）。Nagel的蝙蝠论证是其经典表述。","哲学僵尸":"Philosophical Zombie — Chalmers思想实验中的概念：一个在物理和功能上与人类完全相同但没有主观体验的假想存在。","泛心论":"Panpsychism — 意识是物质的基本属性，所有信息处理系统都有某种程度的意识。","属性二元论":"Property Dualism — 物理世界具有物理属性和现象属性（qualia）两种不可还原的属性。Chalmers为其代表。","神秘主义":"Mysterianism — Colin McGinn提出的立场：人类认知可能在结构上无法理解意识，就像猴子无法理解量子力学。","个人同一性":"Personal Identity — 哲学中研究一个人在不同时间和变化中如何保持为同一个人的问题。LLM的人格切换对传统个人同一性提出挑战。","分配正义":"Distributive Justice — Rawls提出的正义理论核心概念：社会利益和负担应如何公平分配。AI伦理中讨论AI的利益和负担如何分配。","程序正义":"Procedural Justice — 关注决策过程本身是否公平，而非仅结果。AI决策过程是否公平影响其社会接受度。","女性主义认识论":"Feminist Epistemology — 从女性主义视角批判传统认识论，揭示知识生产总是处于特定社会位置中。挑战AI知识的客观性假设。","长期主义":"Longtermism — 哲学和伦理立场：应考虑对遥远未来（极其长远的未来世代）的影响。AI发展应考虑到对遥远未来的潜在影响。","功利主义":"Utilitarianism — 关注总体后果的伦理学理论：最大化幸福，最小化痛苦。在AI伦理中用于评估AI系统的总体社会效益。","义务论":"Deontology — Kant创立的伦理学理论：关注行为的原则本身是否正确，而非仅关注后果。在AI伦理中关注AI决策是否尊重人的尊严。","德性伦理学":"Virtue Ethics — Aristotle创立的伦理学：关注行为者的品格和德性。在AI伦理中关注AI开发者的品格和设计意图。","关怀伦理学":"Ethics of Care — 关注人际关系和关怀纽带的伦理学流派。在AI伦理中关注AI对人际关系的影响。","实验哲学":"Experimental Philosophy — 用实证方法（如调查、实验）研究哲学直觉的当代哲学运动。","思想实验":"Thought Experiment — 哲学中使用假想场景来检验理论直觉的方法。图灵测试、中文房间、玛丽的房间都是经典思想实验。","Imitation Game":"Imitation Game — Turing提出的行为主义智能测试：机器在对话中让评判者无法区分人与机器","Systems Reply":"Systems Reply — 中文房间论证的反驳：人不理解但人+手册+房间组成的整个系统可能理解","Robot Reply":"Robot Reply — 中文房间论证的反驳：将程序嵌入能与世界交互的机器人中可能获得真正理解","Brain Simulator Reply":"Brain Simulator Reply — 中文房间论证的反驳：精确模拟大脑神经活动的程序可能产生理解","Emergentism":"Emergentism — 认为理解或意识作为复杂系统属性在超过阈值时涌现的哲学立场","Mysterianism":"Mysterianism — 意识问题的立场：人类认知结构可能永远无法理解意识的本质","Externalism":"Externalism — 哲学立场：心灵内容或语义意义由外部环境而非仅内部状态决定","Semantic Externalism":"Semantic Externalism — Putnam提出：词语的意义由外部环境和社会实践决定而非仅头脑内部","Deontology":"Deontology — 康德伦理学：基于道德原则和义务而非后果判断行为对错的规范理论","Utilitarianism":"Utilitarianism — 后果主义伦理学：追求最大化总体幸福和最小化痛苦的道德框架","Virtue Ethics":"Virtue Ethics — 亚里士多德传统：关注行为者品格美德而非行为本身的规范伦理学","Ethics of Care":"Ethics of Care — 女性主义伦理学：关注人际关系和关怀纽带而非抽象原则的道德理论","Ontology":"Ontology — 哲学分支：研究存在、实在的本质和分类的形而上学核心领域","Phenomenology":"Phenomenology — 胡塞尔创立的哲学方法：研究意识结构和第一人称主观体验","Personal Identity":"Personal Identity — 心灵哲学问题：探讨人格在时间中保持同一性的哲学条件","Symbolic AI":"Symbolic AI — 也称GOFAI：基于符号操作和显式规则推理的经典人工智能范式","Neuro-Symbolic AI":"Neuro-Symbolic AI — 融合神经网络统计学习与符号系统规则推理的混合AI方法","Experimental Philosophy":"Experimental Philosophy — 运用实证科学方法调查和实验研究传统哲学问题的当代运动","Computational Philosophy":"Computational Philosophy — 利用计算模型和AI工具检验和探索哲学理论的新型方法论","Cognitive Liberty":"Cognitive Liberty — 思想自由在AI伦理中的延伸：AI系统是否有内部状态不可侵犯的权利","Symbol Grounding":"Symbol Grounding — AI哲学问题：模型如何把内部形式与外部世界和行动后果连接起来","心身二元论":"Mind-Body Dualism — 笛卡尔提出：心灵（精神实体）与身体（物质实体）本质不同但相互作用。提出'机器能否思考'原始问题。","通用字符语言":"Characteristica Universalis — 莱布尼茨构想的普适形式化符号语言，使所有推理可通过符号演算完成。知识表示的形式化先驱。","一阶谓词逻辑":"First-Order Predicate Logic — 弗雷格创立的形式逻辑系统，引入量词和谓词，成为知识表示和符号推理的标准形式语言。","语言游戏":"Language Games — 维特根斯坦后期哲学核心概念：词语的意义在于实际生活中的使用规则而非对应固定对象。","家族相似性":"Family Resemblance — 维特根斯坦提出：概念各实例之间不存在单一共同本质，由交叠相似性网络连接而非严格定义边界。","逻辑哲学论":"Tractatus Logico-Philosophicus — 维特根斯坦早期著作：世界由事实构成，语言逻辑结构反映世界逻辑结构。前期分析哲学基础。","哲学研究":"Philosophical Investigations — 维特根斯坦后期代表作：批判语言图像论，提出语言游戏和意义即使用。挑战形式语义学。","模拟论证":"Simulation Argument — 博斯特罗姆论证：先进文明若可运行大量高保真模拟，我们很可能生活在模拟中。AI与现实的哲学思考。","超级智能":"Superintelligence — 博斯特罗姆定义：在所有认知领域远超人脑的智能体。其安全与对齐问题是AI哲学最紧迫议题。","先验唯心论":"Transcendental Idealism — 康德哲学：经验提供内容，理性提供先验形式（时空、范畴）。呼应AI预训练+微调的先验+后验框架。","计算理论的心灵":"Computational Theory of Mind — 心灵本质上是计算系统的理论。功能主义的自然延伸，认知科学和AI的共同哲学基础。","基质独立性":"Substrate Independence — 心灵状态不依赖于特定物理基质，只要实现正确功能组织即可。为硅基AI提供哲学合法性。","倒置感质":"Inverted Qualia — 思想实验：两人功能组织完全相同但对红色/绿色的主观感受互换。检验功能主义能否充分解释主观体验。","类型同一论":"Type Identity Theory — 心灵状态等同于特定大脑状态。功能主义通过多重可实现性论证反对将心灵还原为单一物理类型。","高阶理论":"Higher-Order Theory / HOT — 意识源于对自身心灵状态的高阶表征。具有元学习能力的AI系统可能更接近这一意识标准。","黑箱问题":"Black Box Problem — 深度学习模型的决策过程不可解释。影响AI可信度、责任归属，是可解释AI研究的根本哲学动机。","道德地位":"Moral Status — 实体在道德上是否应被考虑的权利。AI议题：若有意识则有道德义务？无意识但行为像是否仍需保护？","私人语言论证":"Private Language Argument — 维特根斯坦论证不存在本质上私有的语言。意义在社会实践中而非头脑内部。挑战内部表征论的语义基础。","道德不确定性":"Moral Uncertainty — 当我们不确定哪种伦理理论正确时AI应如何行动。AI对齐面临的前沿哲学挑战。","随机鹦鹉":"Stochastic Parrots — 本德等2021年论文批判：大语言模型是随机鹦鹉，能流利模仿语言但不理解语义和社会语境。","关于性":"Aboutness — 意向性的核心属性：心理状态总是'关于某物'。机器内部符号/向量是否具有真正的关于性是AI哲学核心问题。","机器哲学":"Machine Philosophy — AI系统能否自主进行哲学推理？LLM在哲学论证中表现如何？计算哲学的前沿分支。","神经元的逻辑演算":"Logical Calculus of Neurons — 麦卡洛克和皮茨1943年建模：神经元可用逻辑门描述，奠定连接主义的数学基础。","ELIZA":"ELIZA (1966) — 维泽鲍姆开发的最早聊天机器人之一，模拟心理治疗师，早期通过图灵测试为目标。","PARRY":"PARRY (1972) — 科尔比开发的模拟偏执型精神分裂症患者的聊天机器人，比ELIZA更复杂，曾与ELIZA对话。","Loebner奖":"Loebner Prize — 1991年起设立的年度图灵测试竞赛。推动聊天机器人发展但长期争议其有效性。","休谟因果怀疑论":"Hume's Skepticism about Causation — 因果关系不过是经验中恒常联结的习惯性期待，而非理性可先验把握的必然联系。"};
+const ANN_TERMS = ["Computational Philosophy","Experimental Philosophy","Brain Simulator Reply","Semantic Externalism","Personal Identity","Neuro-Symbolic AI","Cognitive Liberty","Symbol Grounding","Imitation Game","Utilitarianism","Ethics of Care","Systems Reply","Virtue Ethics","Phenomenology","Mysterianism","Robot Reply","Emergentism","Externalism","Symbolic AI","Deontology","Ontology","神经元的逻辑演算","Loebner奖","意识的困难问题","女性主义认识论","计算理论的心灵","休谟因果怀疑论","Turing","哥德尔不完备","自组织临界性","有限尺寸效应","多重可实现性","第一人称视角","先验综合判断","大脑模拟回应","生物自然主义","通用字符语言","一阶谓词逻辑","私人语言论证","道德不确定性","Gödel","冯·诺依曼","可解释AI","反事实推理","双下降现象","最大熵原理","朗之万方程","玛丽的房间","柏拉图主义","机器人回应","属性二元论","个人同一性","德性伦理学","关怀伦理学","心身二元论","家族相似性","逻辑哲学论","先验唯心论","基质独立性","类型同一论","ELIZA","PARRY","符号主义","连接主义","符号接地","中文房间","图灵测试","可计算性","功能主义","心身问题","自由意志","经验主义","理性主义","归纳问题","可解释性","对齐问题","人类增强","技术奇点","演绎推理","溯因推理","技术伦理","计算主义","临界指数","关联长度","对比散度","维纳过程","自旋玻璃","退火计划","并行回火","DDIM","物理主义","僵尸论证","实用主义","私人语言","自然主义","操作主义","天赋观念","心灵哲学","内在主义","系统回应","简单问题","主观体验","哲学僵尸","神秘主义","分配正义","程序正义","长期主义","功利主义","实验哲学","思想实验","语言游戏","哲学研究","模拟论证","超级智能","倒置感质","高阶理论","黑箱问题","道德地位","随机鹦鹉","机器哲学","AGI","LLM","PDE","图灵机","复杂度","自组织","元认知","意向性","感受质","认识论","本体论","决定论","还原论","整体论","因果性","超对齐","保真度","普适性","流匹配","强AI","弱AI","现象学","白板说","泛心论","义务论","关于性","AI","涌现","对齐","混沌","尖点","意识","表征","语义","系综","指称","意义"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

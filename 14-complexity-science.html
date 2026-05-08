@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>复杂性科学（Complexity Science）：从局部规则到 AI 的整体行为 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">复杂性科学（Complexity Science）：从局部规则到 AI 的整体行为</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -936,8 +749,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","涌现":"Emergence — 简单组分整体展现出复杂行为的现象，大模型涌现能力是研究热点。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","并行计算":"Parallel Computing — 同时使用多个计算资源执行任务的计算方式。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","Amdahl":"Amdahl's Law — 系统加速比受限于不可并行部分比例的定律。","虚拟内存":"Virtual Memory — 将主存和磁盘统一编址的内存管理机制。","编译器":"Compiler — 将高级语言源码转换为机器可执行代码的系统软件。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","涌现行为":"Emergent Behavior — 系统组分简单但整体展现出不可预测的复杂行为模式。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","遗传算法":"Genetic Algorithm — 模拟基因重组和突变的进化算法，广泛应用于优化问题。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","云计算":"Cloud Computing — 通过网络提供按需计算资源（服务器、存储、数据库等）的模式。","边缘计算":"Edge Computing — 在网络边缘侧（靠近数据源）进行数据处理和分析的计算范式。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","剪枝":"Pruning — 移除神经网络中不重要的连接或参数以减小模型大小的技术。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","流水线并行":"Pipeline Parallelism — 模型按层分段、数据以流水线方式通过各段的并行策略。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","SAC":"Soft Actor-Critic — 引入熵正则化最大化探索的深度RL算法。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。"};
-const ANN_TERMS = ["Vision Transformer","Kalman滤波","Boosting","Bagging","Amdahl","强化学习之父","批量归一化","自动编码器","冯·诺依曼","可解释AI","交叉注意力","启发式算法","大模型幻觉","思维链提示","Top-k","Top-p","循环一致性","自监督学习","多任务学习","小样本学习","零样本学习","流水线并行","强化学习","迁移学习","层归一化","NP完全","并行计算","虚拟内存","涌现行为","遗传算法","可解释性","边缘计算","消融实验","基准测试","分布漂移","批归一化","NP问题","提示工程","温度参数","集束搜索","异常检测","多智能体","图灵完备","AGI","欠拟合","规模律","思维树","控制论","λ演算","复杂度","稳定性","编译器","自组织","大数据","云计算","正交化","P问题","NP难","保真度","Q学习","注意力","感知机","卷积层","池化层","SAC","AI","涌现","算法","反馈","混沌","剪枝"];
+const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","Kalman滤波":"Kalman Filter — 利用状态方程和观测数据对系统状态进行最优估计的递归算法。","迁移学习":"Transfer Learning — 将在一个任务上学到的知识迁移到另一个相关任务。","欠拟合":"Underfitting — 模型未能充分学习训练数据模式，表现为训练误差高。","涌现":"Emergence — 简单组分整体展现出复杂行为的现象，大模型涌现能力是研究热点。","规模律":"Scaling Law — 模型性能随参数/数据/计算量增长可预测提升的经验规律。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","层归一化":"Layer Normalization — 对单层所有神经元激活值归一化的技术，Transformer 广泛使用。","批量归一化":"Batch Normalization — 对每个 mini-batch 归一化，加速训练并稳定优化过程。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","λ演算":"Lambda Calculus — Church 提出的形式化计算系统，函数式编程的理论基础。","NP完全":"NP-Complete — 最难的 NP 问题类，能解决一个则所有 NP 问题可有效解决。","自动编码器":"Autoencoder — 通过编码器-解码器学习数据低维表示的无监督方法。","复杂度":"Complexity — 衡量算法所需时间或空间资源的指标，也指系统结构化程度。","稳定性":"Stability — 算法对输入微小变化的敏感程度，数值分析和控制论的核心概念。","并行计算":"Parallel Computing — 同时使用多个计算资源执行任务的计算方式。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","Amdahl":"Amdahl's Law — 系统加速比受限于不可并行部分比例的定律。","虚拟内存":"Virtual Memory — 将主存和磁盘统一编址的内存管理机制。","编译器":"Compiler — 将高级语言源码转换为机器可执行代码的系统软件。","算法":"Algorithm — 解决特定问题的明确定义的计算步骤序列。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","涌现行为":"Emergent Behavior — 系统组分简单但整体展现出不可预测的复杂行为模式。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","混沌":"Chaos — 确定性系统中对初始条件极度敏感的不可预测行为。","遗传算法":"Genetic Algorithm — 模拟基因重组和突变的进化算法，广泛应用于优化问题。","可解释性":"Explainability / XAI — 使 AI 系统的决策过程可被人类理解的性质。","可解释AI":"Explainable AI (XAI) — 旨在使 AI 决策过程透明可理解的 AI 研究分支。","大数据":"Big Data — 规模超出传统工具处理能力的数据集，通常具有 4V 特征（Volume/Velocity/Variety/Value）。","云计算":"Cloud Computing — 通过网络提供按需计算资源（服务器、存储、数据库等）的模式。","边缘计算":"Edge Computing — 在网络边缘侧（靠近数据源）进行数据处理和分析的计算范式。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","正交化":"Orthogonalization — 确保不同调整因素互不干扰的 ML 工程流程设计原则。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","基准测试":"Benchmark — 用于标准化评估和比较 AI 模型性能的测试数据集和任务。","分布漂移":"Distribution Shift — 训练数据和部署数据的分布不一致，导致模型性能下降。","剪枝":"Pruning — 移除神经网络中不重要的连接或参数以减小模型大小的技术。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","批归一化":"Batch Normalization — 在每个 mini-batch 上归一化层输入以加速训练稳定的技术。","P问题":"P (Polynomial Time) — 能在多项式时间内求解的决策问题类。","NP问题":"NP (Nondeterministic Polynomial Time) — 解能在多项式时间内验证的决策问题类。","NP难":"NP-Hard — 至少和任何 NP 问题一样难的问题类，不要求属于 NP。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","保真度":"Fidelity — 系统输出与真实值的一致程度，量子信息中指状态保持度。","Q学习":"Q-Learning — 不依赖环境模型的无模型强化学习算法，学习状态-动作值函数。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","温度参数":"Temperature — Softmax 中的缩放参数，控制 LLM 输出的随机性/确定性。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","Bagging":"Bootstrap Aggregating — 通过自助采样训练多个模型并平均预测来降低方差的集成方法。","Boosting":"顺序训练多个弱学习器、每个新模型聚焦前一个模型错误样本的集成方法。","异常检测":"Anomaly Detection — 识别与大多数数据显著不同的异常样本的任务。","循环一致性":"Cycle Consistency — 正向变换再反向变换应回到原点的约束，用于无监督翻译。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","多任务学习":"Multi-Task Learning — 同时学习多个相关任务，利用任务间共享信息提升总体性能。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","感知机":"Perceptron — 最早的人工神经网络模型，单层线性分类器。","卷积层":"Convolutional Layer — 通过可学习卷积核滑动窗口运算的神经网络层。","池化层":"Pooling Layer — 通过下采样降低特征图空间维度的神经网络层。","流水线并行":"Pipeline Parallelism — 模型按层分段、数据以流水线方式通过各段的并行策略。","Vision Transformer":"ViT — 将图像切分为patch并用Transformer处理的视觉架构。","SAC":"Soft Actor-Critic — 引入熵正则化最大化探索的深度RL算法。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","图灵完备":"Turing Complete — 系统能模拟任意图灵机的性质。","CAS":"Complex Adaptive Systems — 复杂适应系统。多智能体系统、人类反馈训练闭环和开放式Agent生态都属于CAS的现代AI例。","Complex Adaptive Systems":"复杂适应系统(CAS) — 由大量可学习和相互适应的个体构成的动态系统，个体策略、环境和整体行为共同演化。","cellular automata":"元胞自动机 — 在规则网格上每个元胞根据自身及邻居状态同步更新的离散计算模型，von Neumann和Conway奠基。","power law":"幂律分布 — 大量小事件和少数极端大事件并存的重尾分布，在复杂系统中描述节点度、地震规模等。","scale-free network":"无标度网络 — 度分布服从幂律的真实网络模型，由优先连接(rich-get-richer)机制驱动。互联网、引文网络等呈现此特征。","small-world network":"小世界网络 — 平均路径短且局部聚类高的网络拓扑，Watts-Strogatz模型通过少量随机重连在规则和随机之间插值生成。","临界性":"criticality — 系统参数接近相变阈值时出现的特殊状态，此时小扰动可能被放大为全局效应。大模型涌现能力被认为与临界现象类似。","元胞自动机":"cellular automata — 由离散单元网格按局部规则同步更新状态的计算系统。Game of Life(Conway,1970)是最著名例子。","复杂适应系统":"Complex Adaptive Systems (CAS) — 由大量能学习、能调整策略的自适应主体组成的系统。主体行为改变环境，环境又反过来影响主体，系统动力学本身也在演化。","小世界网络":"small-world network — Watts & Strogatz(1998)提出的网络模型，兼具高聚类系数和短平均路径长度。社交网络、神经网络等大量真实网络都近似小世界。","幂律":"power law — 服从P(x)=Cx^{-α}形式的概率分布，在复杂系统中广泛出现(节点度、事件规模、误差幅度)。α控制尾部衰减速度。","无标度网络":"scale-free network — Barabási & Albert(1999)提出的网络模型，连接度分布服从幂律P(k)∝k⁻γ。少数\"枢纽节点\"高度连接，对随机攻击鲁棒、针对攻击脆弱。","生命游戏":"Game of Life — Conway(1970)设计的元胞自动机，简单规则(B3/S23)产生惊人复杂模式，证明局部规则可产生涌现行为。","系统论":"General System Theory — Bertalanffy 提出开放系统、层级结构和整体性的系统科学。","Bertalanffy":"路德维希·冯·贝塔朗菲 — 一般系统论提出者，强调开放系统与整体性。","Ashby":"W. Ross Ashby — 必要多样性定律提出者，控制论和系统科学先驱。","必要多样性定律":"Law of Requisite Variety — Ashby 提出只有多样性才能吸收多样性，控制论核心定律。","Herbert Simon":"赫伯特·西蒙 — 近可分解层级结构提出者，诺贝尔奖得主，AI 先驱。","近可分解性":"Near-Decomposability — Simon 提出复杂系统各层级间耦合松而层内耦合紧的结构特性。","John Conway":"约翰·康威 — 生命游戏发明者，数学家和博弈论学者。","多即不同":"More Is Different — Anderson 1972 年论文标题，挑战朴素还原论。","Philip Anderson":"菲利普·安德森 — 凝聚态物理诺奖得主，强调复杂度层级出现新性质。","SFI":"Santa Fe Institute — 1984 年建立的复杂性科学跨学科研究中心。","圣塔菲研究所":"Santa Fe Institute — 将复杂性科学推向跨学科中心位置的研究机构。","John Holland":"约翰·霍兰德 — 遗传算法和复杂适应系统提出者。","Stuart Kauffman":"斯图尔特·考夫曼 — 自组织理论在生命复杂性中的应用研究者。","Murray Gell-Mann":"默里·盖尔曼 — 夸克提出者，复杂系统描述层级研究者。","W.Brian Arthur":"W·布赖恩·阿瑟 — 复杂经济系统与路径依赖研究者。","Watts":"Duncan Watts — 小世界网络模型的共同提出者。","Strogatz":"Steven Strogatz — 小世界网络模型的共同提出者。","Barabasi":"Albert-László Barabási — 无标度网络模型的提出者，网络科学先驱。","Neural Scaling Laws":"Neural Scaling Laws — Kaplan 等 2020 年展示模型性能与规模的幂律关系。","涌现能力":"Emergent Abilities — Wei 等 2022 年大模型随规模增大突然获得新能力的现象。","幂律分布":"Power Law Distribution — P(x)∝x^(-α) 形式的重尾分布，节点度和事件规模常见。","重尾":"Heavy Tail — 分布尾部缓慢衰减、极端事件概率不可忽略的特征。","ScalingLaw性能曲线":"Scaling Performance Curve — 系统性能随规模呈 S 形跃迁的相变现象经验描述。","复杂度层级":"Complexity Hierarchy — 系统在不同组织层级出现不同性质和描述语言的层次结构。","反馈放大":"Feedback Amplification — 系统输出回馈输入后信号被持续增强的不稳定现象。","长链路错误传播":"Long-Chain Error Propagation — 多步系统中每个步骤的误差累积放大问题。","协同失控":"Runaway Synergy — 系统组件协同导致失控的正反馈循环现象。","必要多样性":"Requisite Variety — 控制系统的多样性必须等于或大于被控系统的多样性。","网络科学":"Network Science — 研究复杂网络结构和动力学的新兴交叉学科。","复杂性科学":"Complexity Science — 研究大量组件耦合交互为何产生不可还原为局部的整体行为的跨学科领域。","集体现象":"Collective Phenomena — 大量个体交互产生的系统级行为模式，如涌现、同步和群体决策。","整体行为":"Global / Collective Behavior — 复杂系统在宏观层面展现的、不能直接归因于单个组件的总体表现。","一般系统论":"General System Theory — Bertalanffy(1968)提出，研究开放系统的结构、功能和整体性法则的通用框架。","开放系统":"Open System — 与外界持续交换物质、能量和信息的系统，Bertalanffy一般系统论的核心概念。","层级结构":"Hierarchical Structure — Simon(1962)提出的近可分解组织原则，每层可独立研究而高层性质不可还原。","人工生命":"Artificial Life — 研究生命本质特征的人造系统，元胞自动机和遗传算法是核心工具。","自复制自动机":"Self-Replicating Automaton — von Neumann设计的能自我复制和构造的抽象计算系统。","局部规则":"Local Rule — 元胞自动机中每个元胞仅依赖自身和邻居状态同步更新的确定性规则。","朴素还原论":"Naive Reductionism — 认为整体行为可完全还原为微观规律之和、无需新描述语言的简化立场。","路径依赖":"Path Dependence — W. Brian Arthur提出，系统当前状态和发展轨迹严重依赖历史选择的性质。","优先连接":"Preferential Attachment — Barabási-Albert模型中新节点更倾向连接高度数节点的增长机制，即富者越富(rich-get-richer)。","小世界性":"Small-World Property — 网络同时具有短平均路径长度和高聚类系数的拓扑特征。","高聚类系数":"High Clustering Coefficient — 网络节点邻居之间也彼此相连的概率高的局部稠密度量。","平均路径长度":"Average Path Length — 网络中任意两节点间最短路径长度的均值，小世界网络的关键指标。","临界规模":"Critical Scale — 系统规模达到某一阈值后行为发生质变的规模点，大模型涌现能力与此相关。","非线性跃迁":"Nonlinear Transition — 系统性能或行为随规模或参数变化不是平滑线性增长而是突变。","评测阈值效应":"Evaluation Threshold Effect — 涌现可能源于评测指标不连续放大而非内部机制突变的假象假说。","中层语言":"Mid-Level Language — 介于纯工程搭建和纯哲学定义之间、用可观察结构和动力学分析整体行为的框架。","反馈回路":"Feedback Loop — 系统输出回馈到输入形成循环因果关系，正反馈放大变化、负反馈维持稳定。","自激反馈":"Self-Exciting Feedback — 系统输出持续放大自身输入的正反馈过程，可导致运行失控。","偏置放大":"Bias Amplification — 系统中初始微小偏差通过反馈循环被持续放大、最终显著偏离预期。","共适应":"Co-adaptation — CAS中多个主体同时调整自身策略、彼此相互塑造从而共同演化的过程。","功能分化":"Functional Differentiation — 系统组件在训练或演化中自动发展出不同专业功能的现象。","角色漂移":"Role Drift — 多智能体系统中各Agent的角色随交互逐渐偏离初始设计的现象。","非预期联盟":"Unexpected Alliance — 多智能体系统中出现事先未设计的、自发的跨主体协作关系。","突发失稳":"Sudden Instability — 复杂系统因临界点附近小扰动被放大而迅速失去稳定性的现象。","指令遵循":"Instruction Following — 模型理解和执行自然语言指令的能力，大模型涌现的关键行为之一。","多步推理":"Multi-step Reasoning — 模型进行多步逻辑推导的推理能力，大模型涌现能力之一。","长程上下文整合":"Long-context Integration — 模型在长序列中保持一致性和利用远端信息的综合能力。","Melanie Mitchell":"梅兰妮·米切尔 — 《Complexity: A Guided Tour》(2009)作者，复杂系统与AI交叉研究学者。","Jason Wei":"Jason Wei — 大模型涌现能力论文(Emergent Abilities, 2022)第一作者，CoT提示提出者之一。","Reka Albert":"瑞卡·阿尔伯特 — Barabási-Albert无标度网络模型共同提出者(1999, Science)。","Iyad Rahwan":"伊亚德·拉万 — 《Machine Behaviour》论文(2019, Nature)作者，将AI系统行为作为研究新物种的倡导者。","Rishi Bommasani":"Rishi Bommasani — Foundation Models综述(2021, arXiv:2108.07258)第一作者。"};
+const ANN_TERMS = ["Complex Adaptive Systems","small-world network","Neural Scaling Laws","Vision Transformer","scale-free network","cellular automata","Murray Gell-Mann","Melanie Mitchell","Philip Anderson","Stuart Kauffman","Rishi Bommasani","W.Brian Arthur","ScalingLaw性能曲线","Herbert Simon","John Holland","Bertalanffy","John Conway","Reka Albert","Iyad Rahwan","power law","Jason Wei","Kalman滤波","Boosting","Strogatz","Barabasi","Bagging","必要多样性定律","长链路错误传播","长程上下文整合","Amdahl","强化学习之父","复杂适应系统","圣塔菲研究所","自复制自动机","平均路径长度","评测阈值效应","批量归一化","自动编码器","冯·诺依曼","可解释AI","交叉注意力","启发式算法","大模型幻觉","思维链提示","Top-k","Top-p","循环一致性","自监督学习","多任务学习","小样本学习","零样本学习","流水线并行","元胞自动机","小世界网络","无标度网络","Ashby","近可分解性","Watts","复杂度层级","必要多样性","复杂性科学","一般系统论","朴素还原论","高聚类系数","非线性跃迁","非预期联盟","强化学习","迁移学习","层归一化","NP完全","并行计算","虚拟内存","涌现行为","遗传算法","可解释性","边缘计算","消融实验","基准测试","分布漂移","批归一化","NP问题","提示工程","温度参数","集束搜索","异常检测","多智能体","图灵完备","生命游戏","多即不同","涌现能力","幂律分布","反馈放大","协同失控","网络科学","集体现象","整体行为","开放系统","层级结构","人工生命","局部规则","路径依赖","优先连接","小世界性","临界规模","中层语言","反馈回路","自激反馈","偏置放大","功能分化","角色漂移","突发失稳","指令遵循","多步推理","AGI","欠拟合","规模律","思维树","控制论","λ演算","复杂度","稳定性","编译器","自组织","大数据","云计算","正交化","P问题","NP难","保真度","Q学习","注意力","感知机","卷积层","池化层","SAC","CAS","临界性","系统论","SFI","共适应","AI","涌现","算法","反馈","混沌","剪枝","幂律","重尾"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

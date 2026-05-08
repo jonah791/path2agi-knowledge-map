@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>运筹学与决策科学（Operations Research and Decision Science）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">运筹学与决策科学（Operations Research and Decision Science）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1066,8 +879,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","MDP":"Markov Decision Process — 马尔可夫决策过程，强化学习中描述智能体决策的数学框架。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","AlphaGo":"DeepMind 围棋 AI，2016 击败李世石，结合深度学习和蒙特卡洛树搜索。","Bellman":"理查德·贝尔曼 — 动态规划之父，贝尔曼方程提出者，强化学习的理论基础。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","动态规划":"Dynamic Programming — 问题分解为重叠子问题并缓存结果避免重复计算的算法策略。","整数规划":"Integer Programming — 变量限制为整数的规划问题，通常比线性规划更难。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","零和博弈":"Zero-Sum Game — 一方所得等于另一方所失的博弈类型。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","蒙特卡洛树搜索":"Monte Carlo Tree Search (MCTS) — 结合树搜索和随机模拟的决策算法，AlphaGo 核心技术。","马尔可夫决策":"Markov Decision Process (MDP) — 强化学习的数学框架，〈S,A,P,R,γ〉元组表示。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","探索-利用":"Exploration-Exploitation Dilemma — 在探索未知和利用已知之间权衡的核心决策问题。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","策略迭代":"Policy Iteration — 交替执行策略评估和策略改进的RL算法。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。"};
-const ANN_TERMS = ["Softmax策略","AlphaGo","Bellman","蒙特卡洛树搜索","马尔可夫决策","冯·诺依曼","帕累托最优","启发式算法","贝尔曼方程","探索-利用","强化学习","协同过滤","行为主义","动态规划","整数规划","纳什均衡","零和博弈","逆向选择","公地悲剧","策略迭代","多智能体","LLM","MDP","博弈论","运筹学","外部性","AI","RL","反馈","效用"];
+const ANN = {"LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","MDP":"Markov Decision Process — 马尔可夫决策过程，强化学习中描述智能体决策的数学框架。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","AlphaGo":"DeepMind 围棋 AI，2016 击败李世石，结合深度学习和蒙特卡洛树搜索。","Bellman":"理查德·贝尔曼 — 动态规划之父，贝尔曼方程提出者，强化学习的理论基础。","协同过滤":"Collaborative Filtering — 根据用户行为相似性进行推荐的算法。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","博弈论":"Game Theory — 研究多主体策略交互的数学理论，von Neumann 和 Morgenstern 奠基。","运筹学":"Operations Research — 运用数学方法优化决策的学科，涵盖线性规划、整数规划等。","动态规划":"Dynamic Programming — 问题分解为重叠子问题并缓存结果避免重复计算的算法策略。","整数规划":"Integer Programming — 变量限制为整数的规划问题，通常比线性规划更难。","冯·诺依曼":"John von Neumann — 存储程序计算机架构提出者，博弈论和量子力学贡献者。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","纳什均衡":"Nash Equilibrium — 没有玩家能通过单方面改变策略获益的稳定状态。","帕累托最优":"Pareto Optimality — 无法在不损害至少一个主体的情况下改善任何主体的资源配置状态。","零和博弈":"Zero-Sum Game — 一方所得等于另一方所失的博弈类型。","逆向选择":"Adverse Selection — 信息不对称导致劣质品驱逐优质品的市场现象。","效用":"Utility — 消费者从消费中获得的满足感的量化度量。","外部性":"Externality — 一个人的行为对他人产生的未被市场交易反映的影响，分正外部性和负外部性。","公地悲剧":"Tragedy of the Commons — 共享资源因个体自利行为被过度消耗的社会困境。","启发式算法":"Heuristic Algorithm — 基于经验法则在合理时间内找到近似解的问题求解策略。","蒙特卡洛树搜索":"Monte Carlo Tree Search (MCTS) — 结合树搜索和随机模拟的决策算法，AlphaGo 核心技术。","马尔可夫决策":"Markov Decision Process (MDP) — 强化学习的数学框架，〈S,A,P,R,γ〉元组表示。","贝尔曼方程":"Bellman Equation — 将最优价值函数表示为立即奖励加后续最优值的递归方程。","探索-利用":"Exploration-Exploitation Dilemma — 在探索未知和利用已知之间权衡的核心决策问题。","Softmax策略":"Softmax Policy — 基于动作价值选择概率的策略，按指数加权选择动作。","策略迭代":"Policy Iteration — 交替执行策略评估和策略改进的RL算法。","多智能体":"Multi-Agent — 多个自主智能体在同一环境中交互协作或竞争的RL场景。","内在动机":"Intrinsic Motivation — 以好奇心、信息增益等内在奖励驱动探索的RL机制。","Ronald Howard":"Ronald Howard — 系统化MDP理论，提出策略迭代算法与值迭代形成互补。","值迭代":"Value Iteration — 反复应用Bellman最优方程直到值函数收敛的动态规划算法。","策略评估":"Policy Evaluation — 计算给定策略下值函数的动态规划步骤。","策略改进":"Policy Improvement — 基于当前值函数贪心更新策略的动态规划步骤。","值函数":"Value Function — 从某状态出发的期望累积折扣奖励，RL的核心概念之一。","动作值函数":"Action-Value Function (Q-function) — 从某状态执行某动作出发的期望累积折扣奖励。","优势函数":"Advantage Function — 动作值函数减去状态值函数，衡量动作相对平均水平的优势。","折扣因子":"Discount Factor γ — 决定未来奖励当前价值的衰减因子，平衡即时与长期回报。","状态空间":"State Space — MDP中所有可能状态的集合，其大小决定问题复杂性。","动作空间":"Action Space — MDP中所有可能动作的集合，可分离散和连续两大类。","维数灾难":"Curse of Dimensionality (Bellman) — 状态空间维度增加导致计算量指数增长的困难。","离策略":"Off-Policy — 行为策略与目标策略可不同的RL学习范式，Q-Learning是代表。","在策略":"On-Policy — 使用当前策略生成的数据来改进该策略的RL学习范式。","经验回放":"Experience Replay (Mnih et al., 2015) — 存储交互历史、随机采样训练以打破数据相关性的DQN关键技术。","目标网络":"Target Network — DQN中固定参数计算TD目标的旧网络，定期同步以稳定训练。","TD误差":"Temporal Difference Error — 当前值估计与TD目标之间的差值，驱动所有TD方法学习。","多臂老虎机":"Multi-Armed Bandit — 单步决策中在多个选项间平衡探索与利用的经典问题。","离线强化学习":"Offline Reinforcement Learning — 从固定数据集学习策略，无需与环境的在线交互。","模型基础强化学习":"Model-Based Reinforcement Learning — 学习环境模型并用之进行规划或模拟的RL范式。","层次化强化学习":"Hierarchical Reinforcement Learning — 将决策分层为高层目标设定和低层动作执行的RL框架。","约束马尔可夫决策过程":"Constrained MDP (CMDP) — 在满足安全约束条件下最大化奖励的MDP扩展。","部分可观测马尔可夫决策过程":"Partially Observable MDP (POMDP) — 智能体不能完全观测系统状态的MDP扩展。","随机博弈":"Stochastic Game — 多智能体MDP，每个智能体的奖励和状态转移取决于所有智能体的联合动作。","序贯决策":"Sequential Decision-Making — 一系列相互依赖的决策过程，MDP是其数学框架。","Viterbi算法":"Viterbi Algorithm (1967) — 用动态规划求解HMM中最优状态序列的经典算法。","Watkins":"Chris Watkins — Q-Learning算法(1989)提出者，无模型off-policy RL先驱。","Mnih":"Volodymyr Mnih — DQN(2015)第一作者，深度强化学习的开创者。","Schulman":"John Schulman — TRPO(2015)和PPO(2017)提出者，稳定策略梯度方法的权威。","Bertsekas":"Dimitri Bertsekas — 《Neuro-Dynamic Programming》(1996)作者，强化学习理论奠基人之一。","Howard":"Ronald Howard — 系统化MDP理论提出策略迭代的动态规划学者","Tesauro":"Gerald Tesauro — 开发TD-Gammon神经网络的AI研究者","Tsitsiklis":"John Tsitsiklis — 与Bertsekas合著Neuro-Dynamic Programming的学者","车辆路径问题":"Vehicle Routing Problem (VRP) — 经典组合优化问题","旅行商问题":"Traveling Salesman Problem (TSP) — 经典NP-hard组合优化问题","转移概率":"Transition probability — MDP中状态间转移的概率","确定性策略":"Deterministic policy — 状态到动作的一一映射策略","随机策略":"Stochastic policy — 状态到动作概率分布的映射策略","最优性原理":"Principle of optimality — 最优策略的子策略也最优的Bellman原理","状态值函数":"State-value function — 从状态s出发在策略π下的期望累积奖励","TD学习":"Temporal Difference Learning — 用时间差分误差驱动的增量学习算法","TRPO":"Trust Region Policy Optimization — 用KL约束保证策略单调改进的算法","Actor-Critic":"Actor-Critic — 同时学习策略Actor和值函数Critic的RL框架","REINFORCE":"REINFORCE — 用完整episode回报估计策略梯度的蒙特卡洛方法","A2C":"Advantage Actor-Critic — 同步多进程版Actor-Critic","A3C":"Asynchronous Advantage Actor-Critic — 异步多进程版Actor-Critic","DDPG":"Deep Deterministic Policy Gradient — 处理连续动作空间的Actor-Critic算法","概率比":"Probability ratio — PPO中新旧策略在动作上的概率比值","裁剪":"Clipping — PPO限制概率比范围的稳定性技术","On-policy":"On-policy learning — 行为策略和目标策略相同的RL学习方式","Off-policy":"Off-policy learning — 行为策略和目标策略可以不同的RL学习方式","MCTS":"Monte Carlo Tree Search — 结合树搜索和蒙特卡洛模拟的决策算法","Pointer Network":"Pointer Network — 用注意力机制求解变长组合优化问题的网络","选项框架":"Options framework — Sutton提出的时序抽象和子目标表示的RL框架","时序抽象":"Temporal abstraction — 在不同时间粒度上表示和规划决策行为","基于模型的RL":"Model-based RL — 学习环境模型并在模型中规划决策的RL方法","约束MDP":"Constrained MDP (CMDP) — 在满足安全约束条件下最大化奖励的MDP扩展","部分可观测MDP":"Partially Observable MDP (POMDP) — 智能体不能完全观测状态的MDP扩展","多智能体RL":"Multi-Agent Reinforcement Learning (MARL) — 多智能体环境中的强化学习","MAPPO":"MAPPO — 将PPO扩展到多智能体场景的算法","安全探索":"Safe exploration — 学习过程中避免灾难性错误的RL方法","MuZero":"MuZero — DeepMind不需要环境模型即可规划的无模型搜索算法","DreamerV3":"DreamerV3 — Hafner提出的基于世界模型进行隐式规划的RL算法","AlphaZero":"AlphaZero — 从零学习围棋/国际象棋/将棋的通用RL系统","TD-Gammon":"TD-Gammon — Tesauro用TD学习训练达到世界级水平的西洋双陆棋AI","Robbins-Monro条件":"Robbins-Monro conditions — 随机近似算法收敛所需的学习率条件","CQL":"Conservative Q-Learning — 保守估计OOD动作值的离线RL算法","IQL":"Implicit Q-Learning — 通过期望回归实现离线RL的算法","Sutton":"Richard Sutton — 与Barto合著强化学习经典教材，RL领域奠基人","David Silver":"David Silver — AlphaGo和AlphaZero的DeepMind首席研究员","Samuel":"Arthur Samuel — 开发西洋跳棋自我对弈程序，RL最早实践者","Silver":"David Silver — AlphaGo和AlphaZero核心开发者的DeepMind研究员","Lowe":"Ryan Lowe — 提出MADDPG多智能体算法的研究者","Rashid":"Tabish Rashid — 提出QMIX合作MARL算法的研究者","Wellman":"Michael Wellman — 与Hu合作提出Nash-Q的博弈论AI学者","Shepard":"Roger Shepard — 提出心理旋转实验的认知心理学家","时序差分":"Temporal difference (TD) — 用当前奖励加下状态值减去当前值的误差驱动学习","决策科学":"Decision Science — 研究如何有效制定决策的理论与方法论学科，运筹学的姊妹领域。","线性规划松弛":"Linear Programming Relaxation — 将整数规划去掉整数约束转为线性规划近似求解的技术。","组合优化":"Combinatorial Optimization — 从有限离散集合中寻找最优解的优化问题类别，TSP和VRP为代表。","资源分配":"Resource Allocation — 在约束条件下将有限资源分配到需求上的运筹学决策问题。","深度强化学习":"Deep Reinforcement Learning — 用深度神经网络进行值函数或策略近似的强化学习范式。","梯度上升":"Gradient Ascent — 沿梯度方向迭代最大化目标函数的优化方法，策略梯度的学习机制。","ε-greedy":"Epsilon-Greedy Policy — 以概率ε随机探索、1-ε贪心利用的RL平衡探索与利用策略。","奖励函数":"Reward Function R(s,a,s') — MDP中量化智能体动作即时好坏的函数，RL优化的直接目标。","最优策略":"Optimal Policy π* — 在所有策略中最大化期望累积折扣奖励的策略，RL的求解目标。","策略":"Policy π — 从状态到动作的映射规则，决定智能体在每个状态下如何行动。","策略梯度定理":"Policy Gradient Theorem — 参数化策略梯度∇J=E[∇logπ·A]的理论基础公式。","贝尔曼期望方程":"Bellman Expectation Equation — 给定策略下值函数满足的递归关系式 V=∑π∑P[R+γV']。","贝尔曼最优方程":"Bellman Optimality Equation — 最优值函数满足的递归关系式 V*=max∑P[R+γV*']。","TD目标":"TD Target — r+γV(s')或r+γmaxQ(s',a')，时序差分学习中的更新标杆。","回溯指针":"Backpointer ψ_t(j) — Viterbi算法中记录到达当前状态最优路径前驱的数组。","Trellis":"Trellis Grid / Viterbi网格 — 列时间步行隐状态的DP图表，Viterbi算法的计算结构。","Viterbi变量":"Viterbi Variable δ_t(j) — 时刻t到达状态j的最优路径概率值，Viterbi递推核心。","样本效率":"Sample Efficiency — RL算法用尽可能少的交互数据学习有效策略的能力度量。","非平稳环境":"Non-stationary Environment — 转移概率或奖励函数随时间动态变化的环境类型。","连续状态-动作空间":"Continuous State-Action Space — 状态或动作为连续值的问题空间，需函数逼近处理。","奖励建模":"Reward Modeling — RLHF中从人类偏好数据学习奖励函数的关键技术步骤。","不动点":"Fixed Point — 满足T(V)=V的V值，Bellman最优算子的压缩映射收敛于此。","Long Ouyang":"Long Ouyang（欧阳龙）— InstructGPT/ChatGPT的RLHF论文(2022)第一作者。","AlphaFold":"AlphaFold — DeepMind(2020)蛋白质结构预测AI，将折叠建模为组合优化问题。","OpenAI Five":"OpenAI Five — OpenAI(2019)Dota 2五人AI团队，用PPO+自我对弈击败世界冠军。","行为策略":"Behavior Policy — Off-policy RL中实际与环境交互并生成训练数据的策略。","目标策略":"Target Policy — Off-policy RL中被学习和优化的策略，可与行为策略不同。","SARSA":"SARSA Algorithm — On-policy TD控制算法，用(s,a,r,s',a')更新Q值。","表格RL":"Tabular RL — 用表格存储每个(s,a)对Q值或V值的经典强化学习方法。","规划":"Planning — 基于已知环境模型预先推演并计算最优决策序列的过程。","智能体":"Agent — 通过感知环境、制定决策、执行动作与环境交互的自主实体。","贝叶斯强化学习":"Bayesian Reinforcement Learning — MDP中引入贝叶斯先验处理建模不确定性的RL分支。","强化信号":"Reinforcement Signal — 环境给予智能体的评价反馈，RL中判断动作好坏的信息。","收敛速度":"Convergence Rate — 迭代逼近极限解的速率，值迭代的收敛速度为O(γ^k)。","期望累积折扣奖励":"Expected Cumulative Discounted Reward — 考虑折扣因子后的未来奖励期望总和，RL优化目标。"};
+const ANN_TERMS = ["Pointer Network","Robbins-Monro条件","Ronald Howard","部分可观测马尔可夫决策过程","Actor-Critic","David Silver","Long Ouyang","OpenAI Five","约束马尔可夫决策过程","Tsitsiklis","Off-policy","Softmax策略","Viterbi算法","Bertsekas","REINFORCE","On-policy","DreamerV3","AlphaZero","TD-Gammon","Viterbi变量","连续状态-动作空间","AlphaFold","模型基础强化学习","Schulman","部分可观测MDP","ε-greedy","期望累积折扣奖励","AlphaGo","Bellman","蒙特卡洛树搜索","层次化强化学习","Watkins","Tesauro","基于模型的RL","Wellman","Shepard","贝尔曼期望方程","贝尔曼最优方程","Trellis","贝叶斯强化学习","马尔可夫决策","离线强化学习","Howard","车辆路径问题","多智能体RL","MuZero","Sutton","Samuel","Silver","Rashid","线性规划松弛","深度强化学习","策略梯度定理","冯·诺依曼","帕累托最优","启发式算法","贝尔曼方程","探索-利用","动作值函数","多臂老虎机","旅行商问题","确定性策略","最优性原理","状态值函数","约束MDP","MAPPO","非平稳环境","SARSA","强化学习","协同过滤","行为主义","动态规划","整数规划","纳什均衡","零和博弈","逆向选择","公地悲剧","策略迭代","多智能体","内在动机","策略评估","策略改进","优势函数","折扣因子","状态空间","动作空间","维数灾难","经验回放","目标网络","TD误差","随机博弈","序贯决策","Mnih","转移概率","随机策略","TD学习","TRPO","DDPG","MCTS","选项框架","时序抽象","安全探索","Lowe","时序差分","决策科学","组合优化","资源分配","梯度上升","奖励函数","最优策略","TD目标","回溯指针","样本效率","奖励建模","行为策略","目标策略","表格RL","强化信号","收敛速度","LLM","MDP","博弈论","运筹学","外部性","值迭代","值函数","离策略","在策略","A2C","A3C","概率比","CQL","IQL","不动点","智能体","AI","RL","反馈","效用","裁剪","策略","规划"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;

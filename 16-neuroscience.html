@@ -5,278 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>神经科学（Neuroscience）：从起源到 AI 的完整脉络 — Path2AGI</title>
 <style>
-  :root {
-    --bg: #080816; --bg2: #0d0d24;
-    --surface: rgba(255,255,255,0.04); --surface2: rgba(255,255,255,0.07);
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.12);
-    --text: #c8c8d4; --text-dim: #8888a0; --text-dimmer: #666680;
-    --heading: #f0f0f8;
-    --accent1: #6c63ff; --accent2: #00d4ff; --accent-pink: #ff6b9d;
-    --accent-green: #6bcb77; --accent-yellow: #ffd93d; --accent-orange: #ff8c42;
-    --radius: 10px; --sidebar-w: 240px; --toc-w: 200px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  a { color: var(--accent2); text-decoration: none; transition: .2s; }
-  a:hover { color: #fff; }
-
-  /* Reading progress */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    z-index: 1000; transition: width .1s; width: 0;
-  }
-
-  /* Top bar */
-  .top-bar {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px; height: 48px;
-    background: rgba(8,8,22,0.88); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-bar a { font-size: 13px; color: var(--text-dim); white-space: nowrap; }
-  .top-bar a:hover { color: var(--accent2); }
-  .top-bar .title { font-size: 13px; font-weight: 600; color: var(--heading); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .top-bar .nav-btn {
-    background: none; border: 1px solid var(--border); color: var(--text-dim);
-    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 16px;
-    transition: .2s; display: none;
-  }
-  .top-bar .nav-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .top-nav { display: flex; align-items: center; gap: 8px; }
-  .top-nav a, .top-nav span {
-    font-size: 12px; color: var(--text-dim); padding: 3px 10px;
-    border-radius: 5px; transition: .2s;
-  }
-  .top-nav a:hover { background: var(--surface); color: var(--accent2); }
-  .top-nav .sep { color: var(--text-dimmer); padding: 0; }
-
-  /* Layout */
-  .layout { display: flex; flex: 1; position: relative; min-width: 0; }
-
-  /* Sidebar nav */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0; align-self: flex-start;
-    border-right: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-    padding: 12px 0;
-  }
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .sidebar-group { margin-bottom: 4px; }
-  .sidebar-group-header {
-    padding: 6px 14px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .sidebar-group-header .arrow { font-size: 8px; transition: .2s; color: var(--text-dimmer); }
-  .sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
-  .sidebar-group-header .g-dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px 5px 28px; font-size: 12.5px;
-    color: var(--text-dim); cursor: pointer; transition: .1s;
-    border-left: 2px solid transparent;
-  }
-  .sidebar-item:hover { background: var(--surface); color: var(--text); }
-  .sidebar-item.active {
-    color: var(--heading); background: rgba(108,99,255,0.08);
-    border-left-color: var(--accent1);
-  }
-  .sidebar-item .sn { font-size: 10px; color: var(--text-dimmer); width: 20px; text-align: right; flex-shrink:0; }
-  .sidebar-item.active .sn { color: var(--accent2); }
-  .sidebar-item a { color: inherit; display: flex; gap: 6px; flex:1; }
-  .sidebar-item a:hover { color: inherit; }
-
-  /* Main content */
-  .main { flex: 1; min-width: 0; padding: 32px 40px; max-width: 860px; }
-  .content { font-size: 0.95rem; }
-  .content h1 { font-size: 1.8rem; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
-  .content .topic-meta {
-    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
-    padding-bottom: 16px; border-bottom: 1px solid var(--border);
-    display: flex; gap: 16px; flex-wrap: wrap;
-  }
-  .content .topic-meta span { display: flex; align-items: center; gap: 4px; }
-  .content .topic-meta .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .content h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content h3 { font-size: 1.08rem; font-weight: 600; color: var(--heading); margin: 28px 0 10px; }
-  .content h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
-  .content p { margin-bottom: 14px; }
-  .content blockquote {
-    border-left: 3px solid var(--accent1); padding: 14px 20px; margin: 16px 0;
-    background: rgba(108,99,255,0.05); border-radius: 0 8px 8px 0;
-    color: var(--text-dim); font-style: italic;
-  }
-  .content pre {
-    background: rgba(0,0,0,0.35); padding: 18px; border-radius: 8px;
-    overflow-x: auto; font-size: 13px; line-height: 1.6;
-    margin: 16px 0; border: 1px solid var(--border);
-  }
-  .content code { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.85em; }
-  .content p code, .content li code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; }
-  .content ul, .content ol { padding-left: 22px; margin-bottom: 14px; }
-  .content li { margin-bottom: 5px; }
-  .content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
-  .content th, .content td { padding: 9px 14px; border: 1px solid var(--border); text-align: left; }
-  .content th { background: rgba(255,255,255,0.04); color: var(--heading); font-weight: 600; }
-  .content strong { color: var(--heading); }
-  .content hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .content img { max-width: 100%; border-radius: 8px; margin: 12px 0; }
-  .content a[href^="http"]:not(.toc-link)::after { content: " \2197"; font-size: 12px; }
-
-  /* Related topics */
-  .related-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
-  .related-section h3 { font-size: 1rem; color: var(--heading); margin-bottom: 14px; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-  .related-item {
-    padding: 10px 14px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s;
-  }
-  .related-item:hover { background: var(--surface2); border-color: var(--border2); }
-  .related-item .r-num { font-size: 10px; color: var(--text-dimmer); }
-  .related-item .r-name { color: var(--text); }
-  .related-item:hover .r-name { color: var(--accent2); }
-
-  /* TOC sidebar */
-  .toc-sidebar {
-    width: var(--toc-w); flex-shrink: 0;
-    border-left: 1px solid var(--border);
-    padding: 16px 10px; font-size: 12px;
-    overflow-y: auto; height: calc(100vh - 48px); position: sticky; top: 48px;
-    overscroll-behavior: contain;
-  }
-  .content .katex { font-size: 1.05em; }
-  .content .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 12px 0; }
-  /* Annotation popup */
-  .annt {
-    color: var(--accent2); cursor: pointer;
-    border-bottom: 1px dashed var(--accent2);
-    transition: .15s; position: relative;
-  }
-  .annt:hover { color: #fff; border-bottom-color: #fff; }
-  .annt-popup {
-    display: none;
-    position: fixed;
-    max-width: 420px;
-    background: #1a1a2e;
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    pointer-events: auto;
-  }
-  .annt-popup.visible { display: block; }
-  .annt-popup .annt-close {
-    float: right; cursor: pointer; color: var(--text-dimmer);
-    font-size: 16px; margin-left: 8px;
-  }
-  .annt-popup .annt-close:hover { color: #fff; }
-  .toc-sidebar::-webkit-scrollbar { width: 3px; }
-  .toc-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .toc-label { font-size: 10px; font-weight: 600; color: var(--text-dimmer); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
-  .toc-link { display: block; padding: 3px 8px; border-radius: 4px; color: var(--text-dim); margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toc-link:hover { background: var(--surface); color: var(--text); }
-  .toc-link.active { color: var(--accent2); background: rgba(0,212,255,0.06); }
-  .toc-link.h2 { padding-left: 8px; }
-  .toc-link.h3 { padding-left: 18px; font-size: 11px; }
-
-  /* Nav buttons */
-  .bottom-nav {
-    display: flex; justify-content: space-between; gap: 12px;
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-  }
-  .bottom-nav a {
-    padding: 10px 18px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    font-size: 13px; transition: .2s; flex: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .bottom-nav a:first-child { text-align: left; }
-  .bottom-nav a:last-child { text-align: right; }
-  .bottom-nav a:hover { background: var(--surface2); border-color: var(--accent2); }
-  .bottom-nav .dir { font-size: 11px; color: var(--text-dimmer); }
-  .bottom-nav .name { color: var(--text); font-weight: 500; }
-  .bottom-nav a:hover .name { color: var(--accent2); }
-
-  /* Loading / Error */
-  .loading { text-align: center; padding: 80px 20px; color: var(--text-dim); }
-  .loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error { text-align: center; padding: 80px 20px; }
-  .error h2 { font-size: 1.2rem; color: var(--accent-pink); margin-bottom: 6px; }
-  .error p { color: var(--text-dim); font-size: 14px; }
-
-  /* Mobile */
-  .sidebar-overlay { display: none; }
-  @media (max-width: 1200px) {
-    .toc-sidebar { display: none; }
-    .main { padding: 24px 20px; max-width: 100%; }
-  }
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .sidebar.open { display: block; position: fixed; top: 48px; left: 0; height: calc(100vh - 48px); z-index: 200; width: 280px; background: var(--bg); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
-    .sidebar-overlay.open { display: block; }
-    .top-bar .nav-btn { display: inline-flex; align-items: center; }
-    .main { padding: 16px; }
-    .content h1 { font-size: 1.4rem; }
-    .content .topic-meta { gap: 8px; font-size: 12px; }
-    .top-nav { gap: 4px; }
-    .top-nav a, .top-nav span { font-size: 11px; padding: 2px 6px; }
-    .related-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .related-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Back to top */
-  .back-top {
-    position: fixed; bottom: 24px; right: 20px; z-index: 50;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(108,99,255,0.15); border: 1px solid rgba(108,99,255,0.3);
-    color: var(--accent2); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: .3s;
-    opacity: 0; pointer-events: none;
-  }
-  .back-top.visible { opacity: 1; pointer-events: auto; }
-  .back-top:hover { background: rgba(108,99,255,0.3); transform: translateY(-3px); }
-
-  /* Mobile TOC toggle */
-  .toc-toggle {
-    display: none; position: fixed; bottom: 24px; right: 72px; z-index: 50;
-    padding: 8px 16px; border-radius: 20px;
-    background: rgba(8,8,22,0.9); border: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12px; cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  .toc-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-  .toc-drawer {
-    display: none; position: fixed; bottom: 72px; right: 16px; z-index: 51;
-    width: 240px; max-height: 50vh; overflow-y: auto;
-    background: rgba(8,8,22,0.95); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; backdrop-filter: blur(12px);
-    font-size: 13px;
-  }
-  .toc-drawer.open { display: block; }
-  .toc-drawer .toc-link { padding: 4px 8px; }
-  @media (max-width: 1200px) {
-    .toc-toggle { display: inline-flex; align-items: center; }
-  }
+:root {
+  --bg: #1a1b26; --bg2: #1f2133; --bg3: #25273c; --bg4: #2d2f44;
+  --text: #c9d1d9; --text-dim: #8b949e; --text-dimmer: #5d6470;
+  --accent: #8b7aff; --accent2: #00d4ff; --border: #303245; --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.layout { display: flex; max-width: 1600px; margin: 0 auto; min-height: 100vh; }
+/* Sidebar */
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
+.sidebar-group { margin-bottom: 4px; }
+.sidebar-group-header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
+.sidebar-group-header:hover { background: var(--bg3); }
+.sidebar-group-header .arrow { font-size: 8px; transition: transform 0.2s; }
+.sidebar-group-header.collapsed .arrow { transform: rotate(-90deg); }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 32px; font-size: 13px; }
+.sidebar-item:hover { background: var(--bg3); }
+.sidebar-item.active { background: var(--bg4); border-left: 2px solid var(--accent); }
+.sidebar-item a { color: var(--text-dim); text-decoration: none; }
+.sidebar-item.active a { color: var(--text); }
+.sn { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 11px; width: 20px; text-align: right; flex-shrink: 0; }
+.g-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+/* Main content */
+.main { flex: 1; padding: 0; min-width: 0; }
+.content { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+/* Topic meta */
+.topic-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 12px; color: var(--text-dimmer); }
+.topic-meta span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+/* Typography */
+h1 { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
+h2 { font-size: 20px; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 16px; margin-top: 28px; margin-bottom: 8px; }
+p { margin-bottom: 16px; }
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 4px; }
+code { font-family: var(--font-mono); background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+pre { background: var(--bg3); padding: 16px; border-radius: var(--radius); overflow-x: auto; margin-bottom: 16px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 16px 0; background: var(--bg3); border-radius: 0 var(--radius) var(--radius) 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--bg3); font-weight: 600; }
+strong { color: #e6edf3; }
+img { max-width: 100%; border-radius: var(--radius); }
+/* Annotations */
+.annt { cursor: help; border-bottom: 1px dashed var(--accent); color: var(--accent); }
+.annt-popup { position: fixed; z-index: 1000; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); font-size: 13px; line-height: 1.5; color: var(--text); }
+.annt-popup strong { color: var(--accent); display: block; margin-bottom: 4px; }
+.annt-close { float: right; cursor: pointer; color: var(--text-dimmer); font-size: 14px; }
+/* TOC sidebar */
+.toc-sidebar { width: 200px; padding: 48px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; display: block; }
+.toc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 12px; }
+.toc-link { display: block; font-size: 12px; color: var(--text-dimmer); padding: 3px 0; text-decoration: none; border-left: 2px solid transparent; padding-left: 8px; }
+.toc-link.h3 { padding-left: 20px; }
+.toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+/* Bottom nav */
+.bottom-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.bottom-nav a { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: var(--radius); background: var(--bg3); max-width: 45%; }
+.bottom-nav a:hover { background: var(--bg4); text-decoration: none; }
+.dir { font-size: 11px; color: var(--text-dimmer); }
+.name { font-size: 13px; color: var(--text); }
+/* Related topics */
+.related-section { margin-top: 40px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+.related-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg3); border-radius: var(--radius); font-size: 13px; }
+.related-item:hover { background: var(--bg4); text-decoration: none; }
+.r-num { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); }
+/* Back to top */
+.back-top { position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 18px; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 100; }
+.back-top.visible { opacity: 0.8; }
+.back-top:hover { opacity: 1; }
+/* TOC toggle (mobile) */
+.toc-toggle { display: none; }
+.toc-drawer { display: none; }
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 999; width: 0; transition: width 0.1s; }
+/* Responsive */
+@media (max-width: 1200px) {
+  .toc-sidebar { display: none; }
+  .sidebar { display: none; }
+  .sidebar.open { display: block; position: fixed; z-index: 500; width: 280px; }
+  .sidebar-overlay.open { display: block; }
+  .content { padding: 32px 20px 60px; }
+  .toc-toggle { display: block; position: fixed; bottom: 72px; right: 24px; z-index: 99; background: var(--bg4); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+  .toc-drawer.open { display: block; position: fixed; bottom: 0; left: 0; right: 0; max-height: 60vh; background: var(--bg2); border-top: 1px solid var(--border); z-index: 200; padding: 16px 20px; overflow-y: auto; border-radius: 12px 12px 0 0; }
+}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 499; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -284,17 +103,11 @@
 </head>
 <body>
 
-
 <div id="progress-bar"></div>
-
-<!-- Top bar -->
-<div class="top-bar">
-  <button class="nav-btn" id="menuBtn" aria-label="Toggle sidebar">&#x2630;</button>
-  <a href="index.html">&larr; 知识地图</a>
-  <div class="top-nav" id="topNav"></div>
-  <span class="title" id="pageTitle">神经科学（Neuroscience）：从起源到 AI 的完整脉络</span>
-</div>
-
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+</nav>
+<button id="menuBtn" style="display:none">☰</button>
 
 <nav class="sidebar" id="sidebar">
   
@@ -1259,8 +1072,8 @@ document.addEventListener('click', function(e) {
 </script>
 <script>
 // Term annotations
-const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","神经元":"Neuron — 神经系统的结构和功能单元，人工神经元是其计算模型。","突触":"Synapse — 神经元之间的连接结构，在人工神经网络中对应权重参数。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","可塑性":"Plasticity — 神经系统根据经验改变结构和功能的能力，是学习和记忆的基础。","工作记忆":"Working Memory — 临时存储和操作信息的有限容量认知系统。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","镜像神经元":"Mirror Neuron — 执行动作和观察他人执行相同动作时都激活的神经元。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","时序差分学习":"Temporal-Difference Learning — 结合蒙特卡洛和动态规划的强化学习方法。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","门控机制":"Gating Mechanism — 通过可学习门控信号控制信息流的神经网络机制。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","逆强化学习":"Inverse RL — 从专家演示中推断底层奖励函数的RL方法。","模仿学习":"Imitation Learning — 通过模仿专家示范来学习策略的范式。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。"};
-const ANN_TERMS = ["Hebbian","强化学习之父","时序差分学习","镜像神经元","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","自监督学习","小样本学习","零样本学习","回音室效应","逆强化学习","神经网络","LSTM","强化学习","连接主义","行为主义","符号接地","工作记忆","长时记忆","心身问题","形式语法","遗传漂变","自由意志","人类增强","消融实验","溯因推理","提示工程","集束搜索","门控机制","语言模型","模仿学习","AGI","LLM","RNN","CNN","解码器","思维树","控制论","自组织","神经元","可塑性","格式塔","感受质","整体论","注意力","AI","RL","反馈","突触","意识","共现","表征","语义"];
+const ANN = {"AGI":"Artificial General Intelligence — 通用人工智能。指能完成任何智力任务的 AI，不局限于特定领域。","LLM":"Large Language Model — 大语言模型。基于海量文本训练的语言模型，如 GPT、Claude 等。","AI":"Artificial Intelligence — 人工智能。使计算机模拟人类智能行为的技术与科学领域。","神经网络":"Neural Network — 受生物神经启发、由多层人工神经元组成的计算模型，深度学习的基础架构。","RNN":"Recurrent Neural Network — 循环神经网络，通过隐状态记忆处理序列数据的网络结构。","LSTM":"Long Short-Term Memory — 长短期记忆网络，通过门控机制解决长期依赖问题的特殊 RNN。","CNN":"Convolutional Neural Network — 卷积神经网络，利用卷积提取局部特征的网络结构。","RL":"Reinforcement Learning — 强化学习，智能体通过交互和奖励学习最优策略的范式。","强化学习":"Reinforcement Learning (RL) — 智能体与环境交互、最大化累积奖励来学习决策策略的范式。","解码器":"Decoder — 从隐表示生成输出数据的神经网络模块，与编码器配合使用。","思维树":"Tree-of-Thought (ToT) — 在思维链基础上扩展为树状搜索的多路径推理结构。","连接主义":"Connectionism — 通过神经网络连接模拟智能的 AI 范式，现代深度学习的基础。","行为主义":"Behaviorism — 仅关注可观察行为的心理学流派，强化学习受其影响。","符号接地":"Symbol Grounding — 符号与真实世界意义的连接问题，AI 哲学核心问题之一。","控制论":"Cybernetics — Wiener 创立的通信和反馈控制理论，AI 理论来源之一。","反馈":"Feedback — 系统输出回送到输入端影响后续行为的机制，控制论的核心概念。","自组织":"Self-Organization — 系统内部自发形成有序结构的过程。","神经元":"Neuron — 神经系统的结构和功能单元，人工神经元是其计算模型。","突触":"Synapse — 神经元之间的连接结构，在人工神经网络中对应权重参数。","Hebbian":"Hebbian Learning — '一起激发的神经元连接在一起'的突触可塑性学习规则。","可塑性":"Plasticity — 神经系统根据经验改变结构和功能的能力，是学习和记忆的基础。","工作记忆":"Working Memory — 临时存储和操作信息的有限容量认知系统。","长时记忆":"Long-Term Memory — 持久存储知识和经验的大容量记忆系统。","镜像神经元":"Mirror Neuron — 执行动作和观察他人执行相同动作时都激活的神经元。","分布式认知":"Distributed Cognition — 认知跨越个体、工具和环境的认知科学视角。","格式塔":"Gestalt — 整体大于部分之和的知觉组织原则，强调感知结构的整体性。","意识":"Consciousness — 主观体验和自我觉察的能力，AI 是否能有意识是哲学核心争议。","心身问题":"Mind-Body Problem — 意识和物理世界之间关系的哲学问题。","感受质":"Qualia — 主观体验的原始感受性质，如红色的'感觉'。","形式语法":"Formal Grammar — Chomsky 提出的语言结构的形式化描述系统。","分布语义学":"Distributional Semantics — '词的意义由它的上下文决定'的语义理论。","遗传漂变":"Genetic Drift — 随机的基因频率变化，在小种群中尤为显著。","自由意志":"Free Will — 主体自主做出选择的能力，与决定论形成哲学张力。","整体论":"Holism — 整体不能仅通过其组成部分来理解的哲学立场。","人类增强":"Human Enhancement — 利用技术扩展人类身体或认知能力的概念。","强化学习之父":"Richard Sutton — 强化学习领域先驱，提出时序差分学习，著有《Reinforcement Learning: An Introduction》。","消融实验":"Ablation Study — 通过移除系统组件来评估其贡献的实验方法。","交叉注意力":"Cross-Attention — 一个序列关注另一个序列的注意力机制，在编码器-解码器模型中常见。","溯因推理":"Abductive Reasoning — 根据观测结果推断最佳解释的推理方式，与因果推断密切相关。","时序差分学习":"Temporal-Difference Learning — 结合蒙特卡洛和动态规划的强化学习方法。","注意力":"Attention — 认知和计算中选择性聚焦于部分信息的能力，Transformer 的核心机制。","大模型幻觉":"Hallucination — 大语言模型生成看似合理但事实上不正确的内容的倾向。","思维链提示":"Chain-of-Thought Prompting — 在提示中包含中间推理步骤引导 LLM 进行复杂推理的技术。","提示工程":"Prompt Engineering — 设计和优化输入提示以引导 LLM 产生期望输出的实践。","Top-k":"Top-k Sampling — LLM 解码时从概率最高的 k 个词中采样的策略。","Top-p":"Top-p (Nucleus) Sampling — LLM 解码时从累积概率达 p 的词集合中采样的策略。","集束搜索":"Beam Search — 每一步保留 top-k 个候选路径的序列解码策略。","共现":"Co-occurrence — 两个词在语料库中同时出现的频率，分布语义学的基础。","自监督学习":"Self-Supervised Learning — 从数据自身结构构造监督信号进行预训练的范式。","小样本学习":"Few-Shot Learning — 仅用少量标注样本即可学习新概念的机器学习范式。","零样本学习":"Zero-Shot Learning — 训练时未见该类样本但能通过语义辅助信息识别新类别的范式。","回音室效应":"Echo Chamber Effect — 在封闭系统中观点被不断强化和复述的社会心理现象。","门控机制":"Gating Mechanism — 通过可学习门控信号控制信息流的神经网络机制。","语言模型":"Language Model — 建模自然语言序列概率分布的模型。","逆强化学习":"Inverse RL — 从专家演示中推断底层奖励函数的RL方法。","模仿学习":"Imitation Learning — 通过模仿专家示范来学习策略的范式。","表征":"Representation — 系统内部用于指代外部事物的符号或状态。","语义":"Semantics — 语言符号或表示形式所承载的意义内容。","BCI":"Brain-Computer Interface — 脑机接口，直接从大脑信号解码意图并控制外部设备的技术通道。","Complementary Learning Systems":"互补学习系统(CLS) — 海马体负责快速新记忆编码、新皮层负责长期知识缓慢整合的双系统记忆理论，为持续学习提供生物学参照。","EWC":"Elastic Weight Consolidation — 弹性权重巩固，用Fisher信息矩阵度量参数重要性的持续学习方法，减少灾难性遗忘。","Global Workspace Theory":"全局工作空间理论(GWT) — 意识的计算模型：信息进入全局工作空间并被广泛传播到各处理模块时成为意识内容。","Hodgkin-Huxley model":"Hodgkin-Huxley模型 — 用四维微分方程精确描述神经元动作电位产生机制的模型，计算神经科学的奠基之作。","Hodgkin-Huxley模型":"Hodgkin-Huxley model — Hodgkin & Huxley(1952)建立的动作电位数学模型 C_m dV/dt = -g_{Na}m³h(V-E_{Na}) - g_Kn⁴(V-E_K) - g_L(V-E_L) + I_ext。获1963年诺贝尔奖。","IIT":"Integrated Information Theory — 整合信息理论，用Φ值量化系统整合信息的能力作为意识度量。","LTD":"Long-Term Depression — 长时程抑制，低频刺激引起突触效率持久的降低的神经可塑性现象。","LTP":"Long-Term Potentiation — 长时程增强，高频刺激后突触传递效率持久增强的神经可塑性现象，Hebb规则的实验证据。","Neocognitron":"Fukushima(1980)受Hubel-Wiesel视觉层级启发设计的第一代卷积式神经网络，包含S-cells(简单细胞)和C-cells(复杂细胞)，是CNN的生物学起源先驱。","Reward Prediction Error":"奖励预测误差(RPE) — 多巴胺神经元编码的\"实际奖励减预期奖励\"信号，是强化学习中TD误差的生物对应。","SNN":"Spiking Neural Networks — 脉冲神经网络，利用离散时间脉冲编码信息的神经网络模型，适合事件驱动和低功耗硬件实现。","acetylcholine":"乙酰胆碱(ACh) — Loewi(1921)发现的首个神经递质，在肌肉收缩、记忆和注意力的神经传递中起关键作用。","action potential":"动作电位 — 神经元膜电位的快速去极化和再极化的全或无脉冲，是神经系统传递信息的基本电信号。","catastrophic forgetting":"灾难性遗忘 — 神经网络在新任务训练后丧失旧任务能力的现象，持续学习和增量学习试图解决的核心问题。","complex cells":"复杂细胞 — V1皮层中检测方向但允许位置变化的神经元，其平移不变特性启发了CNN中的池化操作。","distributed representation":"分布式表征 — 信息分散在多维空间各维度的组合表示方式，词向量和深度网络隐层是其计算模型。","fMRI":"functional MRI — 功能性磁共振成像，检测血氧水平依赖信号间接反映神经活动的高空间分辨率脑功能成像方法。","grid cells":"网格细胞 — 内嗅皮层中以规则六角网格模式放电的神经元，与位置细胞共同提供空间导航的神经架构。","memory replay":"记忆重放 — 睡眠/休息时海马体以加快约5-20倍速度重放经验序列用于记忆巩固的神经机制，经验回放的人工对应。","neuron doctrine":"神经元学说 — Cajal提出的神经组织由独立离散细胞构成的基本学说，驳斥了Golgi的网状理论，是神经科学和人工神经元的概念基础。","place cells":"位置细胞 — 海马体中对特定空间位置选择性响应的神经元，构成环境空间表征的基本单元。","receptive field":"感受野 — 神经元能感受到输入刺激的局部空间范围。视觉皮层感受野逐层增大，从局部边缘到全局物体，CNN的层级特征继承此性质。","reward shaping":"奖励塑形 — 通过额外奖励函数改变奖励结构以加速强化学习收敛的方法，需注意避免改变最优策略。","simple cells":"简单细胞 — 初级视觉皮层中对特定方向和位置边缘选择性响应的神经元，对应CNN中的卷积层特征检测功能。","sparse coding":"稀疏编码 — 用少量基函数线性组合表示信号并最小化活跃编码数的策略，自然图像稀疏编码自动学到类似V1感受野的基函数。","synaptic plasticity":"突触可塑性 — 突触连接强度根据使用模式动态变化的性质，Hebb规则和STDP是其核心描述模型。","乙酰胆碱":"acetylcholine (ACh) — Loewi(1921)通过蛙心实验验证的第一个神经递质。在神经系统和神经肌肉接头的信号传递中发挥关键作用。","互补学习系统":"Complementary Learning Systems (CLS) — 海马体快速编码新经验+新皮层缓慢整合长期知识的记忆系统理论。启发了弹性权重巩固(EWC)和记忆回放等持续学习方法。","位置细胞":"place cells — O'Keefe(1971)在海马体发现的神经元，在动物处于特定空间位置时选择性放电。共同构成大脑的认知地图。获2014年诺贝尔奖。","全局工作空间理论":"Global Workspace Theory (GWT) — Baars(1988)的意识理论：当局部模块的信息被\"全局广播\"到整个大脑时产生意识。是目前最具影响力的意识计算理论之一。","分布式表征":"distributed representation — 概念不是由单个神经元表示，而是由神经元群体的活动模式表示。这是深度学习表征学习的核心前提。","功能性磁共振成像":"functional MRI (fMRI) — 通过BOLD(血氧水平依赖)信号间接测量脑区神经活动的无创脑成像技术，广泛应用于认知神经科学。","动作电位":"action potential — 神经元轴突上的瞬时电脉冲信号，生物信息传递的基本单位。阈值触发、全或无、沿轴突不衰减传播。","复杂细胞":"complex cells — Hubel & Wiesel发现的视觉V1皮层细胞，对特定方向敏感但对精确位置不敏感(平移不变性)。CNN池化层的功能灵感来源。","奖励塑形":"reward shaping — 通过设计辅助奖励信号引导探索过程的技术。受多巴胺奖励系统启发，将稀疏的真实奖励替换为更密集的引导信号。","奖励预测误差":"Reward Prediction Error (RPE) — Schultz(1997)发现的多巴胺信号：意外奖励→放电增加，预期奖励→无反应，奖励缺失→放电抑制。与TD学习误差δ_t在功能上相似。","弹性权重巩固":"Elastic Weight Consolidation (EWC) — Kirkpatrick et al.(2017)提出的持续学习方法，保护对旧任务重要的权重在学新任务时不被大幅改变，避免灾难性遗忘。","感受野":"receptive field — 影响单个神经元活动的感觉空间区域。V1简单细胞的感受野呈条状，对特定方向边缘敏感。CNN中每个神经元也有对应的有效感受野。","整合信息理论":"Integrated Information Theory (IIT) — Tononi(2004)提出的意识理论：意识程度由系统的整合信息量Φ值决定。高Φ=高意识程度。","灾难性遗忘":"catastrophic forgetting — 神经网络在学习新任务时覆盖旧任务权重的现象。与生物大脑的持续学习能力形成鲜明对比，是AI的核心挑战之一。","神经元学说":"neuron doctrine — Ramón y Cajal(1890s)系统阐述的神经科学基石理论：神经系统由离散的神经元通过突触间隙信号传递组成，并非连续网络。","突触可塑性":"synaptic plasticity — 神经突触根据活动经验调整传递效率的能力。LTP(增强)和LTD(减弱)构成双向可塑性，是学习与记忆的细胞基础。","简单细胞":"simple cells — Hubel & Wiesel(1962)发现的视觉V1皮层细胞，对特定方向、特定位置的边缘敏感，有明确兴奋/抑制区分区。CNN卷积层的功能灵感来源。","网格细胞":"grid cells — Moser & Moser(2005)在内嗅皮层发现的神经元，以六角网格模式放电，提供空间度量的度量体系。","脉冲神经网络":"Spiking Neural Networks (SNN) — 使用离散脉冲(而非连续值)通信的第三代神经网络，更接近生物神经元的工作方式。在神经形态芯片上有极低功耗优势。","脑机接口":"Brain-Computer Interface (BCI) — 将大脑神经信号直接转化为计算机指令的技术，是神经科学、信号处理和AI融合的前沿应用。","记忆重放":"memory replay — 海马体在休息和睡眠期间快速重放经验序列的现象(尖波涟漪)，用于巩固长时记忆。DQN的经验回放池在功能上模仿了这一机制。","长时程增强":"Long-Term Potentiation (LTP) — Bliss & Lømo(1973)在兔海马体发现的高频刺激引发突触持续增强的现象，广泛被认为是学习和记忆的细胞机制。","长时程抑制":"Long-Term Depression (LTD) — 低频刺激导致突触效率持久的降低机制。LTP和LTD构成双向突触可塑性，是学习和遗忘的细胞基础。","Camillo Golgi":"卡米洛·高尔基 — 银染色法发明者，支持神经网的网状理论，诺贝尔奖得主。","Golgi染色法":"Golgi Staining — 1873 年发明的选择性标记单个神经元的银染色技术。","Santiago Ramon y Cajal":"圣地亚哥·拉蒙·卡哈尔 — 神经元学说系统阐述者，现代神经科学之父。","Charles Sherrington":"查尔斯·谢林顿 — 突触概念提出者，确立突触传递为神经信号传导基本机制。","Otto Loewi":"奥托·勒维 — 蛙心实验证明化学突触传递，发现乙酰胆碱。","Alan Hodgkin":"艾伦·霍奇金 — Hodgkin-Huxley 模型提出者，动作电位数学描述奠基人。","Andrew Huxley":"安德鲁·赫胥黎 — Hodgkin-Huxley 模型共同提出者。","膜电位":"Membrane Potential — 细胞膜内外的电位差，神经元电活动的核心变量。","树突":"Dendrites — 神经元接收输入信号的树状分支结构。","胞体":"Soma — 神经元细胞体，整合输入信号决定是否激发。","轴突":"Axon — 神经元输出信号的长纤维，将动作电位传递给其他细胞。","Tim Bliss":"蒂姆·布利斯 — 长时程增强(LTP)的共同发现者。","Terje Lomo":"泰耶·勒莫 — 长时程增强(LTP)的共同发现者。","Wolfram Schultz":"沃尔弗拉姆·舒尔茨 — 发现多巴胺神经元编码奖励预测误差的关键实验者。","RPE":"Reward Prediction Error — 多巴胺神经元编码的奖励预期误差信号。","Giacomo Rizzolatti":"贾科莫·里佐拉蒂 — 镜像神经元的发现者。","David Hubel":"大卫·胡贝尔 — 视觉皮层简单细胞和复杂细胞发现者，诺贝尔奖得主。","Torsten Wiesel":"托斯坦·维瑟尔 — 视觉皮层层级结构共同发现者。","超复杂细胞":"Hypercomplex Cell — V1 中对边缘长度也敏感的端点抑制细胞。","Oja规则":"Oja's Rule — 加入权重归一化的 Hebb 学习改进规则，防止权重无限增长。","BCM规则":"BCM Rule — Bienenstock-Cooper-Munro 规则，引入滑动阈值实现双向突触调节。","NMDA受体":"NMDA Receptor — N-甲基-D-天冬氨酸受体，与突触可塑性和学习记忆密切相关。","海马体":"Hippocampus — 大脑中负责情景记忆编码和空间导航的关键结构。","情景记忆":"Episodic Memory — 个人经历事件的有意识回忆记忆类型。","John O'Keefe":"约翰·奥基夫 — 海马体位置细胞发现者，2014 年诺贝尔奖得主。","May-Britt Moser":"梅-布里特·莫泽 — 网格细胞共同发现者。","Edvard Moser":"爱德华·莫泽 — 网格细胞共同发现者。","尖波涟漪":"Sharp-Wave Ripples — 海马体休息睡眠时的高频振荡，伴随记忆重放。","优先经验回放":"Prioritized Experience Replay — 优先回放 TD 误差大的经验以加速学习。","注意力神经机制":"Neural Attention Mechanism — 自下而上(显著性驱动)和自上而下(目标驱动)的注意力调控。","增益调制":"Gain Modulation — 注意力通过增强目标神经元响应增益而非改变选择性的机制。","神经同步":"Neural Synchrony — 被注意刺激在 gamma 频段(30-80Hz)的神经同步增强现象。","竞争性选择":"Competitive Selection — 多刺激在视觉皮层竞争神经表征、注意力偏向胜者的机制。","GWT":"Global Workspace Theory — 全局工作空间理论，意识的信息整合广播模型。","CLS":"Complementary Learning Systems — 互补学习系统，解释人类持续学习不遗忘的理论。","BOLD信号":"Blood-Oxygen-Level-Dependent — fMRI 中测量血氧变化间接反映神经活动的信号。","MVPA":"Multi-Voxel Pattern Analysis — 用机器学习解码 fMRI 中神经活动模式的脑成像分析方法。","Human Connectome Project":"人类连接组计划 — 2009 年起绘制人类大脑完整连接图谱的大型项目。","连接组学":"Connectomics — 绘制和研究大脑完整连接图谱的学科。","类脑计算":"Neuromorphic Computing — 在硬件层面模拟神经元和突触行为的低功耗计算范式。","Intel Loihi":"Intel Loihi — Intel 开发的神经形态芯片，硬件模拟神经元突触。","IBM TrueNorth":"IBM TrueNorth — IBM 开发的神经形态芯片，事件驱动超低功耗。","David Marr":"大卫·马尔 — 计算神经科学先驱，三级分析(计算/算法/实现)框架提出者。","三层次分析":"Three-Level Analysis — Marr 提出的计算理论、算法表征和硬件实现的认知分析框架。","Demis Hassabis":"德米斯·哈萨比斯 — DeepMind 创始人，神经科学启发的 AI 研究倡导者。","Fukushima":"Kunihiko Fukushima — Neocognitron 提出者，层级视觉网络的先驱。","John Hopfield":"约翰·霍普菲尔德 — Hopfield 网络提出者，物理学家，2024 年诺贝尔物理学奖得主。","SOM":"Self-Organizing Map — Kohonen 1982 年基于竞争性 Hebb 学习的自组织映射。","Kohonen":"Teuvo Kohonen — 自组织映射(SOM)提出者。","编码模型":"Encoding Model — 用 AI 模型隐藏层激活预测 fMRI/EEG 信号的神经表征分析方法。","Olshausen":"Bruno Olshausen — 稀疏编码在自然图像中的开创性研究者。","Field":"David Field — 稀疏编码与自然图像统计的共同研究者。","Banino":"Andrea Banino — DeepMind 发现导航 RNN 自发产生网格细胞表征的研究者。","Hassabis":"Demis Hassabis — DeepMind 创始人，倡导神经科学启发的 AI 研究。","Schrimpf":"Martin Schrimpf — 大语言模型内部表征与大脑语言处理活动相关性的研究者。","Jeff Hawkins":"杰夫·霍金斯 — 《On Intelligence》作者，基于皮质柱理论的 AI 方法倡导者。","Donald Hebb":"Donald Hebb — 唐纳德·赫布。1949年提出Hebb学习规则(\"一起放电的神经元连接在一起\")，开创突触可塑性的生物学基础理论。","Frank Rosenblatt":"Frank Rosenblatt — 弗兰克·罗森布拉特。1958年发明感知机(Perceptron)，首个带权重学习算法的人工神经网络。","Richard Sutton":"Richard Sutton — 理查德·萨顿。时序差分学习(TD Learning)提出者，强化学习领域奠基人之一，《Reinforcement Learning》合著者。","Andrew Barto":"Andrew Barto — 安德鲁·巴托。强化学习先驱，与Sutton合著经典教材《Reinforcement Learning: An Introduction》。","Bernard Baars":"Bernard Baars — 伯纳德·巴尔斯。1988年提出全局工作空间理论(GWT)，将意识描述为信息在大脑中的全局广播模型。","Giulio Tononi":"Giulio Tononi — 朱利奥·托诺尼。2004年提出整合信息理论(IIT)，用Φ值量化系统整合信息的能力作为意识度量。","并行分布式处理":"Parallel Distributed Processing (PDP) — 信息由大规模并行分布的神经元群体联合处理的计算模式，连接主义学派的核心思想，非冯·诺依曼架构。","计算神经科学":"Computational Neuroscience — 用数学模型和计算理论分析神经系统信息处理机制的交叉学科，Hodgkin-Huxley模型为其奠基工作。","神经递质":"Neurotransmitter — 在突触间隙中传递信号的化学物质(如乙酰胆碱、多巴胺)，是化学突触传递的分子基础。","多巴胺":"Dopamine — 中脑多巴胺神经元分泌的关键神经递质，编码奖励预测误差信号，是强化学习中TD误差的生物对应。","神经调制":"Neuromodulation — 神经调质(多巴胺、血清素等)通过弥漫性释放改变神经元群体兴奋性、增益和同步性的调控方式。","皮层柱":"Cortical Column — 大脑皮层中垂直排列的功能单元(约0.5mm宽)，由不同层级的神经元组成，是皮层信息处理的基本模块。","前额叶皮层":"Prefrontal Cortex (PFC) — 大脑前端的高级认知中枢，负责工作记忆、决策制定和自上而下注意力的调控信号产生。","纹状体":"Striatum — 基底核主要输入结构，接收多巴胺投射，参与动作选择和习惯学习的奖赏通路关键脑区。","腹侧被盖区":"Ventral Tegmental Area (VTA) — 中脑多巴胺神经元的主要聚集区域之一，投射到纹状体和前额叶皮层，编码奖励预测误差。","黑质致密部":"Substantia Nigra pars compacta (SNc) — 中脑多巴胺神经元的另一主要聚集区，与运动控制和奖励学习密切相关。","内嗅皮层":"Entorhinal Cortex — 位于内侧颞叶的皮层区域，网格细胞发现地，海马体与大脑皮层之间信息传输的核心中继站。","新皮层":"Neocortex — 大脑最外层、进化最新的大脑皮层(六层结构)，负责高级认知功能，互补学习系统中长期知识的缓慢整合存储区。","外侧膝状体":"Lateral Geniculate Nucleus (LGN) — 丘脑中的视觉信息中继核团，接收视网膜输入并投射至初级视觉皮层(V1)，具有中心-周围感受野结构。","下颞叶皮层":"Inferotemporal Cortex (IT) — 腹侧视觉通路末端的高级视觉皮层，负责物体识别和面孔识别等高层次视觉加工。","认知地图":"Cognitive Map — 大脑通过位置细胞和网格细胞构建的环境空间心智表征，支持空间导航和情景记忆组织。","记忆巩固":"Memory Consolidation — 新形成的记忆从海马体逐步转移到新皮层进行长期存储的稳定化过程，睡眠期间通过记忆重放完成。","正向重放":"Forward Replay — 海马体在休息/睡眠时按实际经历顺序(从起点到终点)快速回放经验序列的记忆重放模式。","反向重放":"Reverse Replay — 海马体从目标位置回溯到起点(逆序)快速回放经验序列的记忆重放模式，有助于强化价值函数评估。","群体编码":"Population Coding — 大脑中的信息由大量神经元群体的联合放电模式编码，而非单个神经元独立代表复杂信息。","突触修剪":"Synaptic Pruning — 发育和学习过程中突触连接数量竞争性削减的神经机制，与Dropout随机丢弃神经元的正则化策略有松散的功能类比。","双向突触可塑性":"Bidirectional Synaptic Plasticity — 突触连接强度既能增强(LTP)也能减弱(LTD)的双向调节能力，是学习与记忆的细胞机制基础。","事件驱动计算":"Event-Driven Computing — 仅在输入脉冲事件发生时才触发计算的异步处理模式，SNN和神经形态芯片的低功耗核心设计原则。","视网膜":"Retina — 眼球后壁的光感受器神经元层，将光信号转换为神经电信号，经预处理后通过视神经传向外侧膝状体和视觉皮层。","胶囊网络":"Capsule Network (CapsNet) — Hinton提出的新型神经网络架构，用胶囊(向量神经元)编码实体姿态信息，探索性受皮层柱功能组织启发。","膜电容":"Membrane Capacitance — 神经元细胞膜的电容性质(C_m)，在Hodgkin-Huxley方程中描述膜电位变化率与电流的关系，决定动作电位时间常数。","平衡电位":"Equilibrium Potential — 特定离子(如Na⁺、K⁺)在细胞膜内外的电化学平衡电位(E_Na、E_K)，由Nernst方程计算，Hodgkin-Huxley模型关键参数。"};
+const ANN_TERMS = ["Complementary Learning Systems","distributed representation","Human Connectome Project","Global Workspace Theory","Reward Prediction Error","catastrophic forgetting","Santiago Ramon y Cajal","Hodgkin-Huxley model","synaptic plasticity","Charles Sherrington","Giacomo Rizzolatti","Hodgkin-Huxley模型","action potential","Frank Rosenblatt","neuron doctrine","receptive field","Wolfram Schultz","May-Britt Moser","reward shaping","Torsten Wiesel","Demis Hassabis","Richard Sutton","acetylcholine","complex cells","memory replay","sparse coding","Camillo Golgi","Andrew Huxley","IBM TrueNorth","John Hopfield","Bernard Baars","Giulio Tononi","Neocognitron","simple cells","Alan Hodgkin","John O'Keefe","Edvard Moser","Jeff Hawkins","Andrew Barto","place cells","David Hubel","Intel Loihi","Donald Hebb","grid cells","Otto Loewi","Terje Lomo","David Marr","Tim Bliss","Fukushima","Olshausen","全局工作空间理论","功能性磁共振成像","Golgi染色法","Hassabis","Schrimpf","Hebbian","注意力神经机制","Kohonen","并行分布式处理","双向突触可塑性","强化学习之父","时序差分学习","互补学习系统","奖励预测误差","弹性权重巩固","整合信息理论","脉冲神经网络","NMDA受体","优先经验回放","BOLD信号","Banino","计算神经科学","事件驱动计算","镜像神经元","分布式认知","分布语义学","交叉注意力","大模型幻觉","思维链提示","Top-k","Top-p","自监督学习","小样本学习","零样本学习","回音室效应","逆强化学习","分布式表征","灾难性遗忘","神经元学说","突触可塑性","长时程增强","长时程抑制","超复杂细胞","Oja规则","BCM规则","竞争性选择","三层次分析","Field","前额叶皮层","腹侧被盖区","黑质致密部","外侧膝状体","下颞叶皮层","神经网络","LSTM","强化学习","连接主义","行为主义","符号接地","工作记忆","长时记忆","心身问题","形式语法","遗传漂变","自由意志","人类增强","消融实验","溯因推理","提示工程","集束搜索","门控机制","语言模型","模仿学习","fMRI","乙酰胆碱","位置细胞","动作电位","复杂细胞","奖励塑形","简单细胞","网格细胞","脑机接口","记忆重放","情景记忆","尖波涟漪","增益调制","神经同步","MVPA","连接组学","类脑计算","编码模型","神经递质","神经调制","内嗅皮层","认知地图","记忆巩固","正向重放","反向重放","群体编码","突触修剪","胶囊网络","平衡电位","AGI","LLM","RNN","CNN","解码器","思维树","控制论","自组织","神经元","可塑性","格式塔","感受质","整体论","注意力","BCI","EWC","IIT","LTD","LTP","SNN","感受野","膜电位","RPE","海马体","GWT","CLS","SOM","多巴胺","皮层柱","纹状体","新皮层","视网膜","膜电容","AI","RL","反馈","突触","意识","共现","表征","语义","树突","胞体","轴突"];
 (function() {
   function annotateNode(textNode) {
     const text = textNode.textContent;
